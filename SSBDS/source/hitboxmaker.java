@@ -27,7 +27,7 @@
        public hitboxmaker()
       {
          charname = JOptionPane.showInputDialog("What character?");
-         String imgloc = "gfx/images/" + charname + "/" + charname + ".gif";
+         String imgloc = "gfx/images/characters/" + charname + "/" + charname + ".gif";
          img = new ImageIcon(imgloc);
 			while(!atkdef.equals("atk") && !atkdef.equals("def"))
 			{
