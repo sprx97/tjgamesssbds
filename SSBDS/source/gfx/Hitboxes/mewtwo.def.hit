@@ -1,0 +1,754 @@
+				if(frame == 0) {
+					tempbox.addCircle(Circle(25.0, 54%64, 3.5355339059327378));
+					tempbox.addCircle(Circle(30.0, 45%64, 9.219544457292887));
+					tempbox.addCircle(Circle(34.5, 32%64, 7.3824115301167));
+					tempbox.addCircle(Circle(39.5, 54%64, 4.123105625617661));
+				}
+				if(frame == 1) {
+					tempbox.addCircle(Circle(24.0, 116%64, 5.0990195135927845));
+					tempbox.addCircle(Circle(29.5, 105%64, 9.5524865872714));
+					tempbox.addCircle(Circle(33.5, 91%64, 7.0));
+					tempbox.addCircle(Circle(38.0, 117%64, 4.527692569068709));
+				}
+				if(frame == 2) {
+					tempbox.addCircle(Circle(26.0, 179%64, 5.220153254455275));
+					tempbox.addCircle(Circle(31.5, 168%64, 9.513148795220223));
+					tempbox.addCircle(Circle(33.5, 156%64, 7.280109889280518));
+					tempbox.addCircle(Circle(36.5, 180%64, 4.527692569068709));
+				}
+				if(frame == 3) {
+					tempbox.addCircle(Circle(24.5, 244%64, 4.527692569068709));
+					tempbox.addCircle(Circle(30.5, 232%64, 9.5));
+					tempbox.addCircle(Circle(33.0, 217%64, 6.576473218982953));
+					tempbox.addCircle(Circle(36.5, 244%64, 4.527692569068709));
+				}
+				if(frame == 4) {
+					tempbox.addCircle(Circle(22.0, 307%64, 4.5));
+					tempbox.addCircle(Circle(28.5, 294%64, 9.219544457292887));
+					tempbox.addCircle(Circle(32.0, 279%64, 6.5));
+					tempbox.addCircle(Circle(32.5, 307%64, 4.5));
+				}
+				if(frame == 5) {
+					tempbox.addCircle(Circle(23.0, 372%64, 4.527692569068709));
+					tempbox.addCircle(Circle(30.0, 360%64, 9.5524865872714));
+					tempbox.addCircle(Circle(33.5, 347%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(34.0, 373%64, 4.5));
+				}
+				if(frame == 6) {
+					tempbox.addCircle(Circle(22.5, 436%64, 4.0));
+					tempbox.addCircle(Circle(27.0, 424%64, 10.0));
+					tempbox.addCircle(Circle(31.0, 410%64, 7.762087348130012));
+					tempbox.addCircle(Circle(34.5, 436%64, 4.5));
+				}
+				if(frame == 7) {
+					tempbox.addCircle(Circle(28.5, 493%64, 10.0));
+					tempbox.addCircle(Circle(32.0, 481%64, 9.5524865872714));
+					tempbox.addCircle(Circle(36.5, 467%64, 7.0710678118654755));
+				}
+				if(frame == 8) {
+					tempbox.addCircle(Circle(30.5, 559%64, 8.381527307120106));
+					tempbox.addCircle(Circle(35.0, 546%64, 9.617692030835672));
+					tempbox.addCircle(Circle(38.0, 531%64, 7.5));
+				}
+				if(frame == 9) {
+					tempbox.addCircle(Circle(31.0, 621%64, 8.54400374531753));
+					tempbox.addCircle(Circle(33.5, 610%64, 9.055385138137417));
+					tempbox.addCircle(Circle(37.5, 595%64, 7.0178344238090995));
+				}
+				if(frame == 10) {
+					tempbox.addCircle(Circle(29.5, 686%64, 8.077747210701755));
+					tempbox.addCircle(Circle(32.5, 674%64, 9.5524865872714));
+					tempbox.addCircle(Circle(37.5, 659%64, 6.800735254367722));
+				}
+				if(frame == 11) {
+					tempbox.addCircle(Circle(30.5, 749%64, 8.54400374531753));
+					tempbox.addCircle(Circle(34.5, 738%64, 9.5524865872714));
+					tempbox.addCircle(Circle(37.5, 723%64, 6.0));
+				}
+				if(frame == 12) {
+					tempbox.addCircle(Circle(29.5, 814%64, 9.5524865872714));
+					tempbox.addCircle(Circle(33.0, 801%64, 10.04987562112089));
+					tempbox.addCircle(Circle(37.5, 787%64, 7.0710678118654755));
+				}
+				if(frame == 13) {
+					tempbox.addCircle(Circle(39.5, 874%64, 6.670832032063167));
+					tempbox.addCircle(Circle(44.0, 862%64, 10.51189802081432));
+					tempbox.addCircle(Circle(48.5, 847%64, 7.0));
+				}
+				if(frame == 14) {
+					tempbox.addCircle(Circle(38.5, 938%64, 8.54400374531753));
+					tempbox.addCircle(Circle(43.5, 924%64, 8.514693182963201));
+					tempbox.addCircle(Circle(46.0, 910%64, 7.0178344238090995));
+				}
+				if(frame == 15) {
+					tempbox.addCircle(Circle(38.0, 1001%64, 7.566372975210778));
+					tempbox.addCircle(Circle(43.5, 989%64, 9.513148795220223));
+					tempbox.addCircle(Circle(46.0, 975%64, 7.516648189186454));
+				}
+				if(frame == 16) {
+					tempbox.addCircle(Circle(37.0, 1066%64, 8.514693182963201));
+					tempbox.addCircle(Circle(43.5, 1054%64, 10.062305898749054));
+					tempbox.addCircle(Circle(47.0, 1039%64, 7.158910531638177));
+				}
+				if(frame == 17) {
+					tempbox.addCircle(Circle(38.5, 1129%64, 8.558621384311845));
+					tempbox.addCircle(Circle(43.5, 1117%64, 10.111874208078342));
+					tempbox.addCircle(Circle(47.0, 1103%64, 7.0710678118654755));
+				}
+				if(frame == 18) {
+					tempbox.addCircle(Circle(37.5, 1194%64, 8.0156097709407));
+					tempbox.addCircle(Circle(44.0, 1179%64, 8.631338250816034));
+					tempbox.addCircle(Circle(46.5, 1166%64, 6.5));
+				}
+				if(frame == 19) {
+					tempbox.addCircle(Circle(38.0, 1258%64, 8.246211251235321));
+					tempbox.addCircle(Circle(43.5, 1245%64, 10.0));
+					tempbox.addCircle(Circle(46.5, 1231%64, 7.566372975210778));
+				}
+				if(frame == 20) {
+					tempbox.addCircle(Circle(37.5, 1322%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(43.5, 1308%64, 10.0));
+					tempbox.addCircle(Circle(47.0, 1296%64, 7.0710678118654755));
+				}
+				if(frame == 21) {
+					tempbox.addCircle(Circle(35.0, 1385%64, 8.06225774829855));
+					tempbox.addCircle(Circle(40.0, 1373%64, 9.013878188659973));
+					tempbox.addCircle(Circle(43.5, 1359%64, 7.0710678118654755));
+				}
+				if(frame == 28) {
+					tempbox.addCircle(Circle(28.5, 1839%64, 8.514693182963201));
+					tempbox.addCircle(Circle(34.5, 1826%64, 9.513148795220223));
+					tempbox.addCircle(Circle(37.5, 1812%64, 7.0178344238090995));
+				}
+				if(frame == 30) {
+					tempbox.addCircle(Circle(21.0, 1971%64, 5.522680508593631));
+					tempbox.addCircle(Circle(27.5, 1961%64, 9.0));
+					tempbox.addCircle(Circle(30.5, 1946%64, 8.06225774829855));
+					tempbox.addCircle(Circle(34.0, 1971%64, 4.527692569068709));
+				}
+				if(frame == 31) {
+					tempbox.addCircle(Circle(21.5, 2035%64, 4.527692569068709));
+					tempbox.addCircle(Circle(27.5, 2022%64, 9.5524865872714));
+					tempbox.addCircle(Circle(30.0, 2009%64, 6.576473218982953));
+					tempbox.addCircle(Circle(33.0, 2033%64, 4.5));
+				}
+				if(frame == 32) {
+					tempbox.addCircle(Circle(21.0, 2100%64, 4.5));
+					tempbox.addCircle(Circle(26.5, 2089%64, 10.012492197250394));
+					tempbox.addCircle(Circle(29.5, 2074%64, 6.576473218982953));
+					tempbox.addCircle(Circle(33.0, 2099%64, 4.0));
+				}
+				if(frame == 33) {
+					tempbox.addCircle(Circle(22.0, 2161%64, 5.0990195135927845));
+					tempbox.addCircle(Circle(28.0, 2150%64, 10.012492197250394));
+					tempbox.addCircle(Circle(30.5, 2137%64, 6.519202405202649));
+					tempbox.addCircle(Circle(34.5, 2161%64, 5.0));
+				}
+				if(frame == 34) {
+					tempbox.addCircle(Circle(28.5, 2223%64, 8.0156097709407));
+					tempbox.addCircle(Circle(33.0, 2211%64, 9.394147114027968));
+					tempbox.addCircle(Circle(36.5, 2197%64, 8.06225774829855));
+				}
+				if(frame == 35) {
+					tempbox.addCircle(Circle(25.0, 2286%64, 7.762087348130012));
+					tempbox.addCircle(Circle(30.5, 2275%64, 9.055385138137417));
+					tempbox.addCircle(Circle(34.5, 2260%64, 7.0178344238090995));
+				}
+				if(frame == 36) {
+					tempbox.addCircle(Circle(23.0, 2351%64, 8.0156097709407));
+					tempbox.addCircle(Circle(30.0, 2339%64, 9.5524865872714));
+					tempbox.addCircle(Circle(35.0, 2325%64, 6.519202405202649));
+				}
+				if(frame == 37) {
+					tempbox.addCircle(Circle(26.0, 2414%64, 8.381527307120106));
+					tempbox.addCircle(Circle(30.5, 2402%64, 8.5));
+					tempbox.addCircle(Circle(36.5, 2388%64, 7.516648189186454));
+				}
+				if(frame == 38) {
+					tempbox.addCircle(Circle(24.0, 2480%64, 7.905694150420948));
+					tempbox.addCircle(Circle(31.0, 2470%64, 10.124228365658293));
+					tempbox.addCircle(Circle(34.5, 2454%64, 7.0));
+				}
+				if(frame == 39) {
+					tempbox.addCircle(Circle(22.0, 2546%64, 5.0));
+					tempbox.addCircle(Circle(28.0, 2534%64, 9.013878188659973));
+					tempbox.addCircle(Circle(31.5, 2520%64, 6.5));
+					tempbox.addCircle(Circle(33.5, 2546%64, 5.0990195135927845));
+				}
+				if(frame == 40) {
+					tempbox.addCircle(Circle(22.5, 2612%64, 4.924428900898052));
+					tempbox.addCircle(Circle(27.5, 2599%64, 9.5524865872714));
+					tempbox.addCircle(Circle(31.5, 2586%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(33.0, 2611%64, 5.385164807134504));
+				}
+				if(frame == 41) {
+					tempbox.addCircle(Circle(21.0, 2676%64, 4.527692569068709));
+					tempbox.addCircle(Circle(27.5, 2664%64, 9.513148795220223));
+					tempbox.addCircle(Circle(31.5, 2650%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(33.0, 2676%64, 5.0990195135927845));
+				}
+				if(frame == 42) {
+					tempbox.addCircle(Circle(22.0, 2741%64, 4.031128874149275));
+					tempbox.addCircle(Circle(28.0, 2729%64, 9.513148795220223));
+					tempbox.addCircle(Circle(30.5, 2715%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(34.0, 2741%64, 4.527692569068709));
+				}
+				if(frame == 43) {
+					tempbox.addCircle(Circle(21.0, 2803%64, 5.0));
+					tempbox.addCircle(Circle(29.0, 2792%64, 9.219544457292887));
+					tempbox.addCircle(Circle(31.5, 2777%64, 6.576473218982953));
+					tempbox.addCircle(Circle(34.0, 2803%64, 5.024937810560445));
+				}
+				if(frame == 44) {
+					tempbox.addCircle(Circle(22.0, 2867%64, 4.031128874149275));
+					tempbox.addCircle(Circle(29.5, 2854%64, 9.617692030835672));
+					tempbox.addCircle(Circle(32.0, 2841%64, 7.762087348130012));
+					tempbox.addCircle(Circle(35.0, 2866%64, 5.024937810560445));
+				}
+				if(frame == 45) {
+					tempbox.addCircle(Circle(20.5, 2930%64, 4.5));
+					tempbox.addCircle(Circle(28.0, 2919%64, 10.04987562112089));
+					tempbox.addCircle(Circle(30.5, 2905%64, 7.158910531638177));
+					tempbox.addCircle(Circle(34.0, 2931%64, 4.527692569068709));
+				}
+				if(frame == 46) {
+					tempbox.addCircle(Circle(19.5, 2996%64, 4.5));
+					tempbox.addCircle(Circle(27.0, 2984%64, 9.5524865872714));
+					tempbox.addCircle(Circle(30.0, 2969%64, 7.0));
+					tempbox.addCircle(Circle(32.5, 2995%64, 5.024937810560445));
+				}
+				if(frame == 47) {
+					tempbox.addCircle(Circle(24.5, 3061%64, 4.123105625617661));
+					tempbox.addCircle(Circle(30.5, 3050%64, 9.5));
+					tempbox.addCircle(Circle(34.5, 3036%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(37.5, 3062%64, 4.031128874149275));
+				}
+				if(frame == 48) {
+					tempbox.addCircle(Circle(25.0, 3125%64, 4.5));
+					tempbox.addCircle(Circle(31.0, 3114%64, 9.513148795220223));
+					tempbox.addCircle(Circle(34.5, 3100%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(38.0, 3125%64, 4.0));
+				}
+				if(frame == 49) {
+					tempbox.addCircle(Circle(25.0, 3187%64, 5.522680508593631));
+					tempbox.addCircle(Circle(31.0, 3177%64, 8.631338250816034));
+					tempbox.addCircle(Circle(34.0, 3163%64, 6.5));
+					tempbox.addCircle(Circle(38.0, 3188%64, 4.5));
+				}
+				if(frame == 50) {
+					tempbox.addCircle(Circle(25.0, 3253%64, 5.0));
+					tempbox.addCircle(Circle(32.0, 3241%64, 9.656603957913983));
+					tempbox.addCircle(Circle(34.0, 3229%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(38.0, 3254%64, 4.031128874149275));
+				}
+				if(frame == 51) {
+					tempbox.addCircle(Circle(25.0, 3316%64, 4.0));
+					tempbox.addCircle(Circle(30.5, 3305%64, 9.055385138137417));
+					tempbox.addCircle(Circle(34.0, 3291%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(37.5, 3316%64, 4.0));
+				}
+				if(frame == 52) {
+					tempbox.addCircle(Circle(23.0, 3382%64, 5.0));
+					tempbox.addCircle(Circle(29.0, 3371%64, 9.013878188659973));
+					tempbox.addCircle(Circle(30.0, 3355%64, 6.5));
+					tempbox.addCircle(Circle(35.5, 3383%64, 4.5));
+				}
+				if(frame == 53) {
+					tempbox.addCircle(Circle(22.5, 3446%64, 4.5));
+					tempbox.addCircle(Circle(28.5, 3420%64, 6.5));
+					tempbox.addCircle(Circle(30.0, 3433%64, 9.5));
+					tempbox.addCircle(Circle(35.5, 3446%64, 4.5));
+				}
+				if(frame == 54) {
+					tempbox.addCircle(Circle(24.0, 3509%64, 4.527692569068709));
+					tempbox.addCircle(Circle(29.5, 3483%64, 6.0));
+					tempbox.addCircle(Circle(30.5, 3498%64, 10.04987562112089));
+					tempbox.addCircle(Circle(37.0, 3509%64, 4.0));
+				}
+				if(frame == 55) {
+					tempbox.addCircle(Circle(24.0, 3574%64, 4.5));
+					tempbox.addCircle(Circle(30.5, 3547%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(31.0, 3563%64, 9.7082439194738));
+					tempbox.addCircle(Circle(38.0, 3573%64, 4.0));
+				}
+				if(frame == 56) {
+					tempbox.addCircle(Circle(25.0, 3639%64, 4.031128874149275));
+					tempbox.addCircle(Circle(30.5, 3627%64, 9.013878188659973));
+					tempbox.addCircle(Circle(33.5, 3613%64, 6.519202405202649));
+					tempbox.addCircle(Circle(36.5, 3637%64, 5.0990195135927845));
+				}
+				if(frame == 57) {
+					tempbox.addCircle(Circle(24.5, 3700%64, 5.0990195135927845));
+					tempbox.addCircle(Circle(31.0, 3688%64, 9.513148795220223));
+					tempbox.addCircle(Circle(33.5, 3676%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(37.5, 3700%64, 4.031128874149275));
+				}
+				if(frame == 58) {
+					tempbox.addCircle(Circle(23.0, 3762%64, 4.743416490252569));
+					tempbox.addCircle(Circle(28.5, 3749%64, 10.0));
+					tempbox.addCircle(Circle(31.5, 3736%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(34.5, 3762%64, 4.123105625617661));
+				}
+				if(frame == 59) {
+					tempbox.addCircle(Circle(22.5, 3828%64, 4.5));
+					tempbox.addCircle(Circle(28.0, 3814%64, 10.5));
+					tempbox.addCircle(Circle(32.0, 3803%64, 7.158910531638177));
+					tempbox.addCircle(Circle(35.0, 3827%64, 4.924428900898052));
+				}
+				if(frame == 60) {
+					tempbox.addCircle(Circle(23.0, 3892%64, 4.527692569068709));
+					tempbox.addCircle(Circle(29.0, 3880%64, 9.12414379544733));
+					tempbox.addCircle(Circle(31.5, 3866%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(35.5, 3891%64, 4.6097722286464435));
+				}
+				if(frame == 61) {
+					tempbox.addCircle(Circle(22.0, 3957%64, 4.272001872658765));
+					tempbox.addCircle(Circle(28.0, 3944%64, 10.547511554864494));
+					tempbox.addCircle(Circle(32.5, 3930%64, 7.5));
+					tempbox.addCircle(Circle(34.0, 3955%64, 4.527692569068709));
+				}
+				if(frame == 62) {
+					tempbox.addCircle(Circle(22.5, 4021%64, 5.0));
+					tempbox.addCircle(Circle(28.5, 4008%64, 11.280514172678478));
+					tempbox.addCircle(Circle(32.0, 3994%64, 7.5));
+					tempbox.addCircle(Circle(35.5, 4021%64, 4.031128874149275));
+				}
+				if(frame == 63) {
+					tempbox.addCircle(Circle(21.5, 4084%64, 4.527692569068709));
+					tempbox.addCircle(Circle(28.0, 4073%64, 9.5));
+					tempbox.addCircle(Circle(32.0, 4059%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(33.0, 4085%64, 4.0));
+				}
+				if(frame == 64) {
+					tempbox.addCircle(Circle(20.5, 4148%64, 4.527692569068709));
+					tempbox.addCircle(Circle(27.5, 4135%64, 9.513148795220223));
+					tempbox.addCircle(Circle(30.0, 4120%64, 7.5));
+					tempbox.addCircle(Circle(32.0, 4148%64, 4.527692569068709));
+				}
+				if(frame == 65) {
+					tempbox.addCircle(Circle(23.5, 4212%64, 4.0));
+					tempbox.addCircle(Circle(30.5, 4198%64, 10.5));
+					tempbox.addCircle(Circle(34.0, 4186%64, 6.576473218982953));
+					tempbox.addCircle(Circle(36.5, 4212%64, 4.5));
+				}
+				if(frame == 66) {
+					tempbox.addCircle(Circle(20.5, 4277%64, 4.0));
+					tempbox.addCircle(Circle(28.0, 4266%64, 9.013878188659973));
+					tempbox.addCircle(Circle(30.5, 4254%64, 7.0));
+					tempbox.addCircle(Circle(33.0, 4275%64, 4.031128874149275));
+				}
+				if(frame == 67) {
+					tempbox.addCircle(Circle(22.0, 4339%64, 4.5));
+					tempbox.addCircle(Circle(25.5, 4318%64, 7.0));
+					tempbox.addCircle(Circle(29.0, 4330%64, 8.0156097709407));
+					tempbox.addCircle(Circle(33.5, 4340%64, 4.6097722286464435));
+				}
+				if(frame == 68) {
+					tempbox.addCircle(Circle(21.0, 4404%64, 4.031128874149275));
+					tempbox.addCircle(Circle(25.0, 4382%64, 7.0));
+					tempbox.addCircle(Circle(28.5, 4394%64, 8.5));
+					tempbox.addCircle(Circle(30.0, 4406%64, 0.0));
+					tempbox.addCircle(Circle(34.5, 4404%64, 4.0));
+				}
+				if(frame == 69) {
+					tempbox.addCircle(Circle(26.0, 4468%64, 4.031128874149275));
+					tempbox.addCircle(Circle(29.0, 4446%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(32.0, 4459%64, 9.219544457292887));
+					tempbox.addCircle(Circle(38.0, 4468%64, 4.0));
+				}
+				if(frame == 70) {
+					tempbox.addCircle(Circle(26.5, 4532%64, 4.47213595499958));
+					tempbox.addCircle(Circle(32.5, 4522%64, 8.558621384311845));
+					tempbox.addCircle(Circle(35.0, 4510%64, 7.0));
+					tempbox.addCircle(Circle(39.0, 4532%64, 4.6097722286464435));
+				}
+				if(frame == 71) {
+					tempbox.addCircle(Circle(21.0, 4598%64, 4.0));
+					tempbox.addCircle(Circle(27.5, 4588%64, 9.013878188659973));
+					tempbox.addCircle(Circle(31.5, 4576%64, 7.0));
+					tempbox.addCircle(Circle(35.5, 4598%64, 4.5));
+				}
+				if(frame == 72) {
+					tempbox.addCircle(Circle(32.5, 4656%64, 4.123105625617661));
+					tempbox.addCircle(Circle(37.5, 4643%64, 9.5));
+					tempbox.addCircle(Circle(42.0, 4628%64, 8.0));
+					tempbox.addCircle(Circle(45.5, 4655%64, 4.031128874149275));
+				}
+				if(frame == 73) {
+					tempbox.addCircle(Circle(31.5, 4721%64, 4.743416490252569));
+					tempbox.addCircle(Circle(36.5, 4709%64, 11.543396380615196));
+					tempbox.addCircle(Circle(39.5, 4695%64, 8.0156097709407));
+					tempbox.addCircle(Circle(45.0, 4720%64, 4.0));
+				}
+				if(frame == 74) {
+					tempbox.addCircle(Circle(34.5, 4783%64, 5.0990195135927845));
+					tempbox.addCircle(Circle(39.5, 4771%64, 10.012492197250394));
+					tempbox.addCircle(Circle(42.5, 4757%64, 7.5));
+					tempbox.addCircle(Circle(45.0, 4782%64, 4.5));
+				}
+				if(frame == 75) {
+					tempbox.addCircle(Circle(31.0, 4847%64, 4.0));
+					tempbox.addCircle(Circle(37.0, 4835%64, 9.5524865872714));
+					tempbox.addCircle(Circle(41.0, 4820%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(43.5, 4847%64, 4.743416490252569));
+				}
+				if(frame == 76) {
+					tempbox.addCircle(Circle(33.5, 4911%64, 4.5));
+					tempbox.addCircle(Circle(39.5, 4899%64, 10.012492197250394));
+					tempbox.addCircle(Circle(42.5, 4885%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(45.5, 4911%64, 4.031128874149275));
+				}
+				if(frame == 77) {
+					tempbox.addCircle(Circle(32.0, 4975%64, 4.0));
+					tempbox.addCircle(Circle(38.5, 4964%64, 9.513148795220223));
+					tempbox.addCircle(Circle(40.0, 4951%64, 7.0));
+					tempbox.addCircle(Circle(45.0, 4975%64, 4.527692569068709));
+				}
+				if(frame == 78) {
+					tempbox.addCircle(Circle(27.0, 5038%64, 5.522680508593631));
+					tempbox.addCircle(Circle(34.0, 5025%64, 9.055385138137417));
+					tempbox.addCircle(Circle(37.5, 5010%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(39.0, 5037%64, 5.024937810560445));
+				}
+				if(frame == 79) {
+					tempbox.addCircle(Circle(31.0, 5100%64, 4.5));
+					tempbox.addCircle(Circle(37.5, 5087%64, 10.5));
+					tempbox.addCircle(Circle(41.5, 5072%64, 6.519202405202649));
+					tempbox.addCircle(Circle(42.5, 5100%64, 4.5));
+				}
+				if(frame == 80) {
+					tempbox.addCircle(Circle(33.0, 5164%64, 4.5));
+					tempbox.addCircle(Circle(43.5, 5164%64, 4.527692569068709));
+					tempbox.addCircle(Circle(44.0, 5151%64, 11.510864433221338));
+					tempbox.addCircle(Circle(47.5, 5136%64, 7.0178344238090995));
+				}
+				if(frame == 81) {
+					tempbox.addCircle(Circle(30.0, 5227%64, 5.0));
+					tempbox.addCircle(Circle(40.0, 5215%64, 9.513148795220223));
+					tempbox.addCircle(Circle(40.5, 5229%64, 4.6097722286464435));
+					tempbox.addCircle(Circle(44.0, 5199%64, 7.5));
+				}
+				if(frame == 82) {
+					tempbox.addCircle(Circle(33.0, 5294%64, 4.527692569068709));
+					tempbox.addCircle(Circle(42.0, 5271%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(42.5, 5285%64, 8.514693182963201));
+				}
+				if(frame == 83) {
+					tempbox.addCircle(Circle(32.5, 5360%64, 4.6097722286464435));
+					tempbox.addCircle(Circle(41.5, 5338%64, 7.0));
+					tempbox.addCircle(Circle(42.0, 5350%64, 9.82344135219425));
+				}
+				if(frame == 84) {
+					tempbox.addCircle(Circle(31.5, 5424%64, 4.743416490252569));
+					tempbox.addCircle(Circle(41.0, 5401%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(41.0, 5414%64, 9.513148795220223));
+				}
+				if(frame == 85) {
+					tempbox.addCircle(Circle(32.0, 5488%64, 4.0));
+					tempbox.addCircle(Circle(41.5, 5480%64, 9.5524865872714));
+					tempbox.addCircle(Circle(42.5, 5464%64, 7.0178344238090995));
+				}
+				if(frame == 87) {
+					tempbox.addCircle(Circle(37.5, 5611%64, 5.0));
+					tempbox.addCircle(Circle(45.0, 5583%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(47.0, 5597%64, 10.04987562112089));
+					tempbox.addCircle(Circle(48.0, 5612%64, 5.0));
+				}
+				if(frame == 88) {
+					tempbox.addCircle(Circle(37.0, 5677%64, 4.5));
+					tempbox.addCircle(Circle(43.5, 5648%64, 7.5));
+					tempbox.addCircle(Circle(46.5, 5678%64, 4.527692569068709));
+					tempbox.addCircle(Circle(47.0, 5664%64, 9.513148795220223));
+				}
+				if(frame == 89) {
+					tempbox.addCircle(Circle(41.0, 5743%64, 5.220153254455275));
+					tempbox.addCircle(Circle(48.5, 5713%64, 7.0));
+					tempbox.addCircle(Circle(50.5, 5728%64, 9.055385138137417));
+					tempbox.addCircle(Circle(51.0, 5743%64, 4.527692569068709));
+				}
+				if(frame == 90) {
+					tempbox.addCircle(Circle(39.0, 5804%64, 5.0));
+					tempbox.addCircle(Circle(46.5, 5777%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(48.5, 5791%64, 9.513148795220223));
+					tempbox.addCircle(Circle(49.5, 5804%64, 4.6097722286464435));
+				}
+				if(frame == 91) {
+					tempbox.addCircle(Circle(37.0, 5869%64, 4.5));
+					tempbox.addCircle(Circle(45.5, 5840%64, 8.0));
+					tempbox.addCircle(Circle(46.5, 5856%64, 9.513148795220223));
+					tempbox.addCircle(Circle(47.5, 5869%64, 5.0));
+				}
+				if(frame == 92) {
+					tempbox.addCircle(Circle(36.5, 5933%64, 5.0));
+					tempbox.addCircle(Circle(44.5, 5905%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(46.0, 5933%64, 4.0));
+					tempbox.addCircle(Circle(46.5, 5920%64, 10.0));
+				}
+				if(frame == 93) {
+					tempbox.addCircle(Circle(29.5, 5996%64, 4.5));
+					tempbox.addCircle(Circle(39.5, 5985%64, 10.0));
+					tempbox.addCircle(Circle(40.0, 5973%64, 7.0));
+				}
+				if(frame == 94) {
+					tempbox.addCircle(Circle(42.0, 6052%64, 10.51189802081432));
+					tempbox.addCircle(Circle(42.5, 6039%64, 7.433034373659253));
+				}
+				if(frame == 95) {
+					tempbox.addCircle(Circle(33.5, 6124%64, 3.5));
+					tempbox.addCircle(Circle(43.0, 6115%64, 10.0));
+					tempbox.addCircle(Circle(44.0, 6100%64, 7.5));
+				}
+				if(frame == 96) {
+					tempbox.addCircle(Circle(36.0, 6187%64, 4.0));
+					tempbox.addCircle(Circle(46.5, 6178%64, 9.5));
+					tempbox.addCircle(Circle(47.0, 6164%64, 8.0156097709407));
+				}
+				if(frame == 97) {
+					tempbox.addCircle(Circle(35.5, 6254%64, 4.5));
+					tempbox.addCircle(Circle(45.5, 6244%64, 10.012492197250394));
+					tempbox.addCircle(Circle(46.5, 6230%64, 7.566372975210778));
+				}
+				if(frame == 98) {
+					tempbox.addCircle(Circle(9.5, 6302%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(25.5, 6301%64, 9.5));
+					tempbox.addCircle(Circle(38.5, 6302%64, 4.5));
+				}
+				if(frame == 99) {
+					tempbox.addCircle(Circle(33.0, 6391%64, 7.0));
+					tempbox.addCircle(Circle(37.5, 6362%64, 5.5));
+					tempbox.addCircle(Circle(37.5, 6376%64, 11.0));
+				}
+				if(frame == 100) {
+					tempbox.addCircle(Circle(28.5, 6427%64, 5.70087712549569));
+					tempbox.addCircle(Circle(44.5, 6428%64, 10.547511554864494));
+					tempbox.addCircle(Circle(58.0, 6432%64, 6.020797289396148));
+				}
+				if(frame == 101) {
+					tempbox.addCircle(Circle(26.0, 6495%64, 5.522680508593631));
+					tempbox.addCircle(Circle(39.5, 6496%64, 10.04987562112089));
+					tempbox.addCircle(Circle(56.5, 6499%64, 7.106335201775948));
+				}
+				if(frame == 102) {
+					tempbox.addCircle(Circle(36.0, 6553%64, 11.01135777277262));
+					tempbox.addCircle(Circle(36.0, 6567%64, 6.519202405202649));
+					tempbox.addCircle(Circle(37.5, 6538%64, 8.0));
+				}
+				if(frame == 104) {
+					tempbox.addCircle(Circle(29.0, 6689%64, 10.0));
+					tempbox.addCircle(Circle(30.0, 6704%64, 5.5));
+					tempbox.addCircle(Circle(31.5, 6674%64, 6.576473218982953));
+				}
+				if(frame == 105) {
+					tempbox.addCircle(Circle(32.0, 6753%64, 10.547511554864494));
+					tempbox.addCircle(Circle(32.0, 6768%64, 5.5));
+					tempbox.addCircle(Circle(35.5, 6736%64, 8.0156097709407));
+				}
+				if(frame == 106) {
+					tempbox.addCircle(Circle(27.5, 6817%64, 10.547511554864494));
+					tempbox.addCircle(Circle(27.5, 6831%64, 6.576473218982953));
+					tempbox.addCircle(Circle(30.0, 6805%64, 6.519202405202649));
+				}
+				if(frame == 107) {
+					tempbox.addCircle(Circle(24.0, 6897%64, 4.527692569068709));
+					tempbox.addCircle(Circle(31.0, 6884%64, 9.013878188659973));
+					tempbox.addCircle(Circle(33.5, 6872%64, 6.5));
+					tempbox.addCircle(Circle(35.5, 6898%64, 5.0));
+				}
+				if(frame == 108) {
+					tempbox.addCircle(Circle(25.5, 6966%64, 5.5901699437494745));
+					tempbox.addCircle(Circle(30.5, 6953%64, 10.111874208078342));
+					tempbox.addCircle(Circle(34.0, 6941%64, 6.576473218982953));
+					tempbox.addCircle(Circle(35.0, 6967%64, 4.5));
+				}
+				if(frame == 109) {
+					tempbox.addCircle(Circle(24.5, 7030%64, 4.743416490252569));
+					tempbox.addCircle(Circle(30.5, 7004%64, 7.0));
+					tempbox.addCircle(Circle(30.5, 7018%64, 9.055385138137417));
+					tempbox.addCircle(Circle(35.5, 7030%64, 5.0));
+				}
+				if(frame == 110) {
+					tempbox.addCircle(Circle(23.0, 7091%64, 5.5901699437494745));
+					tempbox.addCircle(Circle(29.0, 7077%64, 9.5524865872714));
+					tempbox.addCircle(Circle(32.0, 7066%64, 7.516648189186454));
+					tempbox.addCircle(Circle(35.5, 7090%64, 5.522680508593631));
+				}
+				if(frame == 111) {
+					tempbox.addCircle(Circle(27.0, 7124%64, 8.0));
+					tempbox.addCircle(Circle(29.5, 7154%64, 9.0));
+					tempbox.addCircle(Circle(31.0, 7141%64, 9.5524865872714));
+				}
+				if(frame == 112) {
+					tempbox.addCircle(Circle(27.0, 7192%64, 7.0));
+					tempbox.addCircle(Circle(29.5, 7208%64, 8.514693182963201));
+					tempbox.addCircle(Circle(29.5, 7219%64, 4.527692569068709));
+					tempbox.addCircle(Circle(38.0, 7217%64, 5.024937810560445));
+				}
+				if(frame == 113) {
+					tempbox.addCircle(Circle(27.5, 7283%64, 5.315072906367325));
+					tempbox.addCircle(Circle(28.0, 7257%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(31.0, 7272%64, 9.513148795220223));
+					tempbox.addCircle(Circle(38.0, 7284%64, 4.527692569068709));
+				}
+				if(frame == 114) {
+					tempbox.addCircle(Circle(24.5, 7348%64, 4.6097722286464435));
+					tempbox.addCircle(Circle(30.0, 7336%64, 10.04987562112089));
+					tempbox.addCircle(Circle(33.5, 7322%64, 6.519202405202649));
+					tempbox.addCircle(Circle(35.0, 7347%64, 4.5));
+				}
+				if(frame == 115) {
+					tempbox.addCircle(Circle(23.5, 7413%64, 4.527692569068709));
+					tempbox.addCircle(Circle(30.5, 7399%64, 10.04987562112089));
+					tempbox.addCircle(Circle(34.5, 7385%64, 6.020797289396148));
+					tempbox.addCircle(Circle(36.0, 7412%64, 4.527692569068709));
+				}
+				if(frame == 116) {
+					tempbox.addCircle(Circle(23.0, 7477%64, 5.0));
+					tempbox.addCircle(Circle(30.0, 7464%64, 9.5));
+					tempbox.addCircle(Circle(32.0, 7478%64, 4.527692569068709));
+					tempbox.addCircle(Circle(34.5, 7449%64, 6.519202405202649));
+				}
+				if(frame == 117) {
+					tempbox.addCircle(Circle(24.0, 7542%64, 4.527692569068709));
+					tempbox.addCircle(Circle(30.5, 7530%64, 9.513148795220223));
+					tempbox.addCircle(Circle(34.0, 7514%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(35.0, 7542%64, 4.5));
+				}
+				if(frame == 118) {
+					tempbox.addCircle(Circle(23.5, 7604%64, 5.0));
+					tempbox.addCircle(Circle(29.0, 7592%64, 9.0));
+					tempbox.addCircle(Circle(32.0, 7579%64, 6.5));
+					tempbox.addCircle(Circle(35.0, 7604%64, 5.024937810560445));
+				}
+				if(frame == 119) {
+					tempbox.addCircle(Circle(33.0, 7658%64, 4.6097722286464435));
+					tempbox.addCircle(Circle(40.5, 7644%64, 9.0));
+					tempbox.addCircle(Circle(42.0, 7658%64, 4.5));
+					tempbox.addCircle(Circle(44.5, 7629%64, 7.0));
+				}
+				if(frame == 125) {
+					tempbox.addCircle(Circle(32.5, 8040%64, 4.0));
+					tempbox.addCircle(Circle(41.5, 8028%64, 9.055385138137417));
+					tempbox.addCircle(Circle(42.5, 8041%64, 4.031128874149275));
+					tempbox.addCircle(Circle(46.0, 8014%64, 7.516648189186454));
+				}
+				if(frame == 126) {
+					tempbox.addCircle(Circle(24.5, 8115%64, 5.024937810560445));
+					tempbox.addCircle(Circle(30.5, 8102%64, 10.04987562112089));
+					tempbox.addCircle(Circle(35.5, 8088%64, 7.5));
+					tempbox.addCircle(Circle(36.0, 8114%64, 4.5));
+				}
+				if(frame == 127) {
+					tempbox.addCircle(Circle(25.5, 8179%64, 4.123105625617661));
+					tempbox.addCircle(Circle(30.5, 8167%64, 10.51189802081432));
+					tempbox.addCircle(Circle(35.0, 8151%64, 6.5));
+					tempbox.addCircle(Circle(35.0, 8179%64, 4.0));
+				}
+				if(frame == 128) {
+					tempbox.addCircle(Circle(25.0, 8243%64, 4.5));
+					tempbox.addCircle(Circle(29.5, 8231%64, 9.5));
+					tempbox.addCircle(Circle(35.0, 8216%64, 7.0));
+					tempbox.addCircle(Circle(36.0, 8243%64, 4.0));
+				}
+				if(frame == 129) {
+					tempbox.addCircle(Circle(24.0, 8308%64, 4.924428900898052));
+					tempbox.addCircle(Circle(29.5, 8296%64, 10.5));
+					tempbox.addCircle(Circle(35.5, 8280%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(36.0, 8307%64, 5.220153254455275));
+				}
+				if(frame == 130) {
+					tempbox.addCircle(Circle(24.0, 8372%64, 4.6097722286464435));
+					tempbox.addCircle(Circle(29.5, 8359%64, 11.01135777277262));
+					tempbox.addCircle(Circle(36.0, 8345%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(37.0, 8371%64, 4.527692569068709));
+				}
+				if(frame == 131) {
+					tempbox.addCircle(Circle(25.0, 8436%64, 3.5355339059327378));
+					tempbox.addCircle(Circle(28.5, 8424%64, 11.0));
+					tempbox.addCircle(Circle(35.5, 8407%64, 7.5));
+					tempbox.addCircle(Circle(36.5, 8435%64, 3.5355339059327378));
+				}
+				if(frame == 132) {
+					tempbox.addCircle(Circle(24.5, 8497%64, 5.024937810560445));
+					tempbox.addCircle(Circle(33.5, 8486%64, 10.111874208078342));
+					tempbox.addCircle(Circle(35.0, 8499%64, 4.527692569068709));
+					tempbox.addCircle(Circle(36.5, 8472%64, 6.670832032063167));
+				}
+				if(frame == 133) {
+					tempbox.addCircle(Circle(26.0, 8560%64, 5.024937810560445));
+					tempbox.addCircle(Circle(32.5, 8550%64, 9.013878188659973));
+					tempbox.addCircle(Circle(36.0, 8562%64, 4.0));
+					tempbox.addCircle(Circle(37.0, 8536%64, 7.5));
+				}
+				if(frame == 134) {
+					tempbox.addCircle(Circle(26.0, 8627%64, 4.527692569068709));
+					tempbox.addCircle(Circle(33.5, 8618%64, 8.5));
+					tempbox.addCircle(Circle(36.0, 8610%64, 6.18465843842649));
+					tempbox.addCircle(Circle(39.0, 8601%64, 7.516648189186454));
+					tempbox.addCircle(Circle(40.0, 8628%64, 4.031128874149275));
+				}
+				if(frame == 135) {
+					tempbox.addCircle(Circle(27.0, 8691%64, 4.5));
+					tempbox.addCircle(Circle(33.0, 8679%64, 9.513148795220223));
+					tempbox.addCircle(Circle(36.5, 8664%64, 7.0));
+					tempbox.addCircle(Circle(38.0, 8691%64, 4.272001872658765));
+				}
+				if(frame == 136) {
+					tempbox.addCircle(Circle(26.5, 8754%64, 4.6097722286464435));
+					tempbox.addCircle(Circle(32.5, 8742%64, 9.013878188659973));
+					tempbox.addCircle(Circle(36.0, 8727%64, 7.0));
+					tempbox.addCircle(Circle(37.0, 8754%64, 4.527692569068709));
+				}
+				if(frame == 137) {
+					tempbox.addCircle(Circle(23.5, 8819%64, 4.5));
+					tempbox.addCircle(Circle(29.5, 8806%64, 10.04987562112089));
+					tempbox.addCircle(Circle(33.0, 8791%64, 6.5));
+					tempbox.addCircle(Circle(35.0, 8818%64, 4.123105625617661));
+				}
+				if(frame == 138) {
+					tempbox.addCircle(Circle(23.0, 8884%64, 4.5));
+					tempbox.addCircle(Circle(29.0, 8872%64, 9.0));
+					tempbox.addCircle(Circle(32.5, 8858%64, 7.0178344238090995));
+					tempbox.addCircle(Circle(34.0, 8885%64, 4.527692569068709));
+				}
+				if(frame == 139) {
+					tempbox.addCircle(Circle(20.5, 8948%64, 4.031128874149275));
+					tempbox.addCircle(Circle(27.0, 8936%64, 10.547511554864494));
+					tempbox.addCircle(Circle(31.0, 8922%64, 7.0));
+					tempbox.addCircle(Circle(33.0, 8948%64, 4.123105625617661));
+				}
+				if(frame == 140) {
+					tempbox.addCircle(Circle(22.5, 9010%64, 5.024937810560445));
+					tempbox.addCircle(Circle(28.0, 8998%64, 9.5));
+					tempbox.addCircle(Circle(32.0, 8983%64, 7.0710678118654755));
+					tempbox.addCircle(Circle(33.5, 9009%64, 4.5));
+				}
+				if(frame == 141) {
+					tempbox.addCircle(Circle(21.0, 9076%64, 4.0));
+					tempbox.addCircle(Circle(27.0, 9064%64, 9.0));
+					tempbox.addCircle(Circle(30.5, 9050%64, 7.516648189186454));
+					tempbox.addCircle(Circle(32.5, 9076%64, 4.301162633521313));
+				}
+				if(frame == 142) {
+					tempbox.addCircle(Circle(28.5, 9132%64, 3.5355339059327378));
+					tempbox.addCircle(Circle(32.5, 9123%64, 9.12414379544733));
+					tempbox.addCircle(Circle(38.0, 9110%64, 6.020797289396148));
+					tempbox.addCircle(Circle(39.5, 9132%64, 4.0));
+				}
+				if(frame == 143) {
+					tempbox.addCircle(Circle(28.0, 9200%64, 4.527692569068709));
+					tempbox.addCircle(Circle(34.5, 9188%64, 9.0));
+					tempbox.addCircle(Circle(37.5, 9174%64, 6.5));
+					tempbox.addCircle(Circle(38.0, 9201%64, 3.5));
+				}
+				if(frame == 144) {
+					tempbox.addCircle(Circle(25.5, 9261%64, 5.024937810560445));
+					tempbox.addCircle(Circle(32.5, 9251%64, 9.013878188659973));
+					tempbox.addCircle(Circle(35.5, 9236%64, 7.0));
+					tempbox.addCircle(Circle(37.0, 9263%64, 4.272001872658765));
+				}
+				if(frame == 145) {
+					tempbox.addCircle(Circle(28.0, 9326%64, 4.6097722286464435));
+					tempbox.addCircle(Circle(33.0, 9316%64, 9.013878188659973));
+					tempbox.addCircle(Circle(36.0, 9303%64, 6.519202405202649));
+					tempbox.addCircle(Circle(39.0, 9327%64, 4.47213595499958));
+				}
