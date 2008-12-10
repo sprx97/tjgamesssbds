@@ -148,13 +148,11 @@ static const int FINALDESTINATION = 1, POKEMONSTADIUM = 2, CASTLESEIGE = 3, CORN
 // stage shortcupts just like character shortcuts
 static const int UPARR = 1, DOWNARR = 2, LEFTARR = 3, RIGHTARR = 4, P1MINI = 5, P2MINI = 6, P3MINI = 7, P4MINI = 8, MINIBOX = 9; 
 // shortcuts for minimap sprites
-/*
 static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, 
 RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15,
 DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22,
 SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31;
 // shortcuts for actions
-*/
 #ifdef SFX_ON
 static const int FX_NONE = -1, FX_WEAKERHIT = 0, FX_WEAKHIT = 1, FX_STRONGHIT = 2, FX_AIRJUMP = 3, FX_DEATH = 4;
 // shortcuts for visual effects
@@ -651,6 +649,9 @@ class Fighter {
 		int momentumtime;
 		int charnum;
 		string name;
+		vector<int> startframes;
+		vector<int> endframes;
+		vector<int> framespeeds;
 	// virtual methods
 		char* toDataString() {
 //			string data = "";
@@ -1135,38 +1136,231 @@ class Fighter {
 		virtual void bneut() {}
 		virtual void initAtkbox() {}
 		virtual void initDefbox() {}
-		virtual void land() {}
-		virtual void shield() {}
-		virtual void roll() {}
-		virtual void dodge() {}
-		virtual void airdodge() {}
-		virtual void crouch() {}
-		virtual void fall() {}
-		virtual void idle() {}
-		virtual void run(int d = 0) {}
-		virtual void shorthop() {}
-		virtual void jump() {}
-		virtual void doubleJump() {}
-		virtual void jab() {}
-		virtual void dashAttack() {}
-		virtual void ftilt() {}
-		virtual void utilt() {}
-		virtual void dtilt() {}
-		virtual void chargeleft() {}
-		virtual void chargeright() {}
-		virtual void chargeup() {}
-		virtual void chargedown() {}
-		virtual void smashleft() {}
-		virtual void smashright() {}
-		virtual void smashup() {}
-		virtual void smashdown() {}
-		virtual void fair() {}
-		virtual void bair() {}
-		virtual void uair() {}
-		virtual void dair() {}
-		virtual void nair() {}
-		virtual void stun() {}
-		virtual void slide() {}
+		virtual void land() {
+			action = "land";
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[LAND], endframes[LAND], framespeeds[LAND], ANIM_LOOP, -1);
+			landinglag = delay;
+			startlag = landinglag;
+		}
+		virtual void shield() {
+			action = "shield";
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHIELD], endframes[SHIELD], framespeeds[SHIELD], ANIM_LOOP, -1);
+		}
+		virtual void roll() {
+			action = "roll";
+			setDirection();
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[ROLL], endframes[ROLL], framespeeds[ROLL], ANIM_LOOP, -1);
+			delay = 60/framespeeds[ROLL] * (endframes[ROLL]-startframes[ROLL]+1);
+			if(Pad.Held.Left) dx = -2;
+			if(Pad.Held.Right) dx = 2;
+		}
+		virtual void dodge() {
+			action = "dodge";
+			setDirection();
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DODGE], endframes[DODGE], framespeeds[DODGE], ANIM_LOOP, -1);
+			delay = 60/framespeeds[DODGE] * (endframes[DODGE]-startframes[DODGE]+1);
+		}
+		virtual void airdodge() {
+			action = "airdodge";
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[AIRDODGE], endframes[AIRDODGE], framespeeds[AIRDODGE], ANIM_LOOP, -1);
+			delay = 60/framespeeds[AIRDODGE] * (endframes[AIRDODGE]-startframes[AIRDODGE]+1);
+			if(Pad.Held.Up) dy = -gravity -2;
+			else if (Pad.Held.Down) dy = -gravity + 2;
+			if(Pad.Held.Right) dx = 2;
+			else if(Pad.Held.Left) dx = -2;
+			if(!Pad.Held.Up && !Pad.Held.Down && !Pad.Held.Right && !Pad.Held.Left) {
+				dx = 0;
+				dy = -gravity;
+			}
+			if(!Pad.Held.Up && !Pad.Held.Down) dy = -gravity;
+			fastfall = 0;
+			DI = 0;
+		}
+		virtual void crouch() {
+			action = "crouch";
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CROUCH], endframes[CROUCH], framespeeds[CROUCH], ANIM_LOOP, -1);
+		}
+		virtual void fall() {
+			aerial = true;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FALL], endframes[FALL], framespeeds[FALL], ANIM_LOOP, -1);
+			directionalInfluence();
+			dy = 0;
+			dx = 0;
+			action = "fall";
+		}
+		virtual void idle() {
+			if(action != "idle") PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[IDLE], endframes[IDLE], framespeeds[IDLE], ANIM_LOOP, -1);
+			dx = 0;
+			dy = 0;
+			action = "idle";
+		}
+		virtual void run(int d = 0) {
+			if(action != "run") PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[RUN], endframes[RUN], framespeeds[RUN], ANIM_LOOP, -1);
+			if(d == 0) {
+				if(Pad.Held.Left) dx = -4;
+				if(Pad.Held.Right) dx = 4;
+				setDirection();
+			}
+			else {
+				dx = 4*d;
+				if(d > 0) setDirection("right");
+				if(d < 0) setDirection("left");
+			}
+			action = "run";
+		}
+		virtual void shorthop() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHORTHOP], endframes[SHORTHOP], framespeeds[SHORTHOP], ANIM_LOOP, -1);
+			dy = -4;
+			fastfall = 0;
+			dx = 0;
+			delay = 60/framespeeds[SHORTHOP] * (endframes[SHORTHOP] - startframes[SHORTHOP] + 1);
+			action = "jump";
+			aerial = true;
+			jumpcount++;
+		}
+		virtual void jump() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JUMP], endframes[JUMP], framespeeds[JUMP], ANIM_LOOP, -1);
+			dy = -6;
+			fastfall = 0;
+			dx = 0;
+			delay = 60/framespeeds[JUMP] * (endframes[JUMP] - startframes[JUMP] + 1);
+			action = "jump";
+			aerial = true;
+			jumpcount++;
+		}
+		virtual void doubleJump() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DOUBLEJUMP], endframes[DOUBLEJUMP], framespeeds[DOUBLEJUMP], ANIM_LOOP, -1);
+			action = "doublejump";
+			dy = -3.5 - .5 * (jumpmax-jumpcount);
+			fastfall = 0;
+			delay = 60/framespeeds[DOUBLEJUMP] * (endframes[DOUBLEJUMP] - startframes[DOUBLEJUMP] + 1);
+			jumpcount++;
+			aerial = true;
+			setDirection();
+		}
+		virtual void jab() {
+			action = "jab";
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
+			delay = 60/framespeeds[JAB] * (endframes[JAB]-startframes[JAB]+1);
+		}
+		virtual void dashAttack() {
+			if(Pad.Held.Left) dx = -1.5;
+			if(Pad.Held.Right) dx = 1.5;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DASHATTACK], endframes[DASHATTACK], framespeeds[DASHATTACK], ANIM_LOOP, -1);
+			delay = 60/framespeeds[DASHATTACK] * (endframes[DASHATTACK]-startframes[DASHATTACK]+1);
+		}
+		virtual void ftilt() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FTILT], endframes[FTILT], framespeeds[FTILT], ANIM_LOOP, -1);
+			action = "attack";
+			delay = 60/framespeeds[FTILT] * (endframes[FTILT]-startframes[FTILT]+1);
+			setDirection();
+		}
+		virtual void utilt() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[UTILT], endframes[UTILT], framespeeds[UTILT], ANIM_LOOP, -1);
+			action = "attack";
+			delay = 60/framespeeds[UTILT] * (endframes[UTILT]-startframes[UTILT]+1);		
+		}
+		virtual void dtilt() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DTILT], endframes[DTILT], framespeeds[DTILT], ANIM_LOOP, -1);
+			action = "attack";
+			delay = 60/framespeeds[DTILT] * (endframes[DTILT]-startframes[DTILT]+1);		
+		}
+		virtual void chargeleft() {
+			chargecount = 0;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGELEFT], endframes[CHARGELEFT], framespeeds[CHARGELEFT], ANIM_LOOP, -1);
+			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
+			action = "chargeleft";
+			direction = "left";
+			dx = 0;
+			delay = 60/framespeeds[CHARGELEFT] * (endframes[CHARGELEFT]-startframes[CHARGELEFT]+1) * 15;
+		}
+		virtual void chargeright() {
+			chargecount = 0;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGERIGHT], endframes[CHARGERIGHT], framespeeds[CHARGERIGHT], ANIM_LOOP, -1);
+			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
+			action = "chargeright";
+			direction = "right";
+			dx = 0;
+			delay = 60/framespeeds[CHARGERIGHT] * (endframes[CHARGERIGHT]-startframes[CHARGERIGHT]+1) * 15;
+		}
+		virtual void chargeup() {
+			chargecount = 0;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGEUP], endframes[CHARGEUP], framespeeds[CHARGEUP], ANIM_LOOP, -1);
+			action = "chargeup";
+			delay = 60/framespeeds[CHARGEUP] * (endframes[CHARGEUP]-startframes[CHARGEUP]+1) * 15;
+		}
+		virtual void chargedown() {
+			chargecount = 0;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGEDOWN], endframes[CHARGEDOWN], framespeeds[CHARGEDOWN], ANIM_LOOP, -1);
+			action = "chargedown";
+			dx = 0;
+			delay = 60/framespeeds[CHARGEDOWN] * (endframes[CHARGEDOWN]-startframes[CHARGEDOWN]+1) * 15;
+		}
+		virtual void smashleft() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHLEFT], endframes[SMASHLEFT], framespeeds[SMASHLEFT], ANIM_LOOP, -1);
+			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
+			action = "attack";
+			direction = "left";
+			delay = 60/framespeeds[SMASHLEFT] * (endframes[SMASHLEFT]-startframes[SMASHLEFT]+1);
+		}
+		virtual void smashright() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHRIGHT], endframes[SMASHRIGHT], framespeeds[SMASHRIGHT], ANIM_LOOP, -1);
+			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
+			action = "attack";
+			direction = "right";
+			delay = 60/framespeeds[SMASHRIGHT] * (endframes[SMASHRIGHT]-startframes[SMASHRIGHT]+1);
+		}
+		virtual void smashup() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHUP], endframes[SMASHUP], framespeeds[SMASHUP], ANIM_LOOP, -1);
+			action = "attack";
+			delay = 60/framespeeds[SMASHUP] * (endframes[SMASHUP]-startframes[SMASHUP]+1);
+		}
+		virtual void smashdown() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHDOWN], endframes[SMASHDOWN], framespeeds[SMASHDOWN], ANIM_LOOP, -1);
+			action = "attack";
+			delay = 60/framespeeds[SMASHDOWN] * (endframes[SMASHDOWN]-startframes[SMASHDOWN]+1);
+		}
+		virtual void fair() {
+			action = "airattack";
+			dy = 0;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FAIR], endframes[FAIR], framespeeds[FAIR], ANIM_LOOP, -1);
+			delay = 60/framespeeds[FAIR] * (endframes[FAIR] - startframes[FAIR] + 1);
+		}
+		virtual void bair() {
+			action = "airattack";
+			dy = 0;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[BAIR], endframes[BAIR], framespeeds[BAIR], ANIM_LOOP, -1);
+			delay = 60/framespeeds[BAIR] * (endframes[BAIR] - startframes[BAIR] + 1);
+			if(Pad.Held.Left) PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
+			if(Pad.Held.Right) PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
+		}
+		virtual void uair() {
+			action = "airattack";
+			dy = 0;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[UAIR], endframes[UAIR], framespeeds[UAIR], ANIM_LOOP, -1);
+			delay = 60/framespeeds[UAIR] * (endframes[UAIR] - startframes[UAIR] + 1);
+		}
+		virtual void dair() {
+			action = "airattack";
+			dy = 0;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DAIR], endframes[DAIR], framespeeds[DAIR], ANIM_LOOP, -1);
+			delay = 60/framespeeds[DAIR] * (endframes[DAIR] - startframes[DAIR] + 1);
+		}
+		virtual void nair() {
+			action = "airattack";
+			dy = 0;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[NAIR], endframes[NAIR], framespeeds[NAIR], ANIM_LOOP, -1);
+			delay = 60/framespeeds[NAIR] * (endframes[NAIR] - startframes[NAIR] + 1);
+		}
+		virtual void stun() {
+			action = "hitstun";
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[STUN], endframes[STUN], framespeeds[STUN], ANIM_LOOP, -1);
+		}
+		virtual void slide() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SLIDE], endframes[SLIDE], framespeeds[SLIDE], ANIM_LOOP, -1);
+			action = "slide";
+			delay = 5;
+		}
 	// constant methods
 		void setStage(Stage s) { 
 			stage = s; 
