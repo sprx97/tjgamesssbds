@@ -1173,14 +1173,14 @@ class Fighter {
 		}
 		void actGround() {
 			if(tiltlag <= 0) {
-				if(keyCount() == 0) idle();
 				if(Pad.Newpress.Down) crouch();
-				if(Stylus.Newpress) smashAttack();
-				if((Pad.Newpress.R || Pad.Newpress.L)) shield();
-				if(Pad.Held.Right || Pad.Held.Left || Pad.Newpress.Up || Pad.Newpress.A || Pad.Newpress.B || Pad.Newpress.X || Pad.Newpress.Y) {
+				else if(Stylus.Newpress) smashAttack();
+				else if((Pad.Newpress.R || Pad.Newpress.L)) shield();
+				else if(Pad.Held.Right || Pad.Held.Left || Pad.Newpress.Up || Pad.Newpress.A || Pad.Newpress.B || Pad.Newpress.X || Pad.Newpress.Y) {
 					action = "tiltlag";
 					tiltlag = 5;
 				}
+				else idle();
 			}
 		} // acts on the ground based on key presses	
 		virtual void bside() {}
@@ -1619,20 +1619,6 @@ class Fighter {
 				if(direction == "left") PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 			}
 		} // flips the direction of the sprite if necessary
-		int keyCount() {
-			int count = 0;
-			if(Pad.Held.A) count++;
-			if(Pad.Held.B) count++;
-			if(Pad.Held.X) count++;
-			if(Pad.Held.Y) count++;
-			if(Pad.Held.L) count++;
-			if(Pad.Held.R) count++;
-			if(Pad.Held.Up) count++;
-			if(Pad.Held.Down) count++;
-			if(Pad.Held.Left) count++;
-			if(Pad.Held.Right) count++;
-			return count;
-		} // counts how many buttons (excluding start, select, and touch screen) are pressed
 		virtual void directionalInfluence(int dx = 0) {
 			if(dx != 0) {
 				DI = dx;
@@ -1755,14 +1741,6 @@ class Fighter {
 				}
 			}
 			return false;
-		}
-		void setX(double newx) {
-			x = newx;
-			PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x, (int)y); // repositions the sprite
-		}
-		void setY(double newy) {
-			y = newy;
-			PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x, (int)y); // repositions the sprite		
 		}
 		void scroll(double scrollx, double scrolly) {
 			if(x - scrollx > 256 || x - scrollx < 0-64 || y - scrolly > 192 || y - scrolly < 0-64) {
