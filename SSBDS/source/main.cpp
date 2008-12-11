@@ -39,6 +39,7 @@
 
 #define SFX_ON
 #define PROJECTILES_ON
+//#define SANDBAG_ON
 //#define SHADOW_ON
 //#define SLOPEDSTAGES_ON // Castle Seige and Corneria
 //#define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
@@ -148,10 +149,7 @@ static const int FINALDESTINATION = 1, POKEMONSTADIUM = 2, CASTLESEIGE = 3, CORN
 // stage shortcupts just like character shortcuts
 static const int UPARR = 1, DOWNARR = 2, LEFTARR = 3, RIGHTARR = 4, P1MINI = 5, P2MINI = 6, P3MINI = 7, P4MINI = 8, MINIBOX = 9; 
 // shortcuts for minimap sprites
-static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, 
-RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15,
-DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22,
-SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31;
+static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15, DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22, SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31;
 // shortcuts for actions
 #ifdef SFX_ON
 static const int FX_NONE = -1, FX_WEAKERHIT = 0, FX_WEAKHIT = 1, FX_STRONGHIT = 2, FX_AIRJUMP = 3, FX_DEATH = 4;
@@ -1141,10 +1139,12 @@ class Fighter {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[LAND], endframes[LAND], framespeeds[LAND], ANIM_LOOP, -1);
 			landinglag = delay;
 			startlag = landinglag;
+			playsound(LAND);
 		}
 		virtual void shield() {
 			action = "shield";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHIELD], endframes[SHIELD], framespeeds[SHIELD], ANIM_LOOP, -1);
+			playsound(SHIELD);	
 		}
 		virtual void roll() {
 			action = "roll";
@@ -1153,12 +1153,14 @@ class Fighter {
 			delay = 60/framespeeds[ROLL] * (endframes[ROLL]-startframes[ROLL]+1);
 			if(Pad.Held.Left) dx = -2;
 			if(Pad.Held.Right) dx = 2;
+			playsound(ROLL);
 		}
 		virtual void dodge() {
 			action = "dodge";
 			setDirection();
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DODGE], endframes[DODGE], framespeeds[DODGE], ANIM_LOOP, -1);
 			delay = 60/framespeeds[DODGE] * (endframes[DODGE]-startframes[DODGE]+1);
+			playsound(DODGE);
 		}
 		virtual void airdodge() {
 			action = "airdodge";
@@ -1175,10 +1177,12 @@ class Fighter {
 			if(!Pad.Held.Up && !Pad.Held.Down) dy = -gravity;
 			fastfall = 0;
 			DI = 0;
+			playsound(AIRDODGE);
 		}
 		virtual void crouch() {
 			action = "crouch";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CROUCH], endframes[CROUCH], framespeeds[CROUCH], ANIM_LOOP, -1);
+			playsound(CROUCH);
 		}
 		virtual void fall() {
 			aerial = true;
@@ -1187,12 +1191,14 @@ class Fighter {
 			dy = 0;
 			dx = 0;
 			action = "fall";
+			playsound(FALL);
 		}
 		virtual void idle() {
 			if(action != "idle") PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[IDLE], endframes[IDLE], framespeeds[IDLE], ANIM_LOOP, -1);
 			dx = 0;
 			dy = 0;
 			action = "idle";
+			playsound(IDLE);
 		}
 		virtual void run(int d = 0) {
 			if(action != "run") PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[RUN], endframes[RUN], framespeeds[RUN], ANIM_LOOP, -1);
@@ -1207,6 +1213,7 @@ class Fighter {
 				if(d < 0) setDirection("left");
 			}
 			action = "run";
+			playsound(RUN);
 		}
 		virtual void shorthop() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHORTHOP], endframes[SHORTHOP], framespeeds[SHORTHOP], ANIM_LOOP, -1);
@@ -1217,6 +1224,7 @@ class Fighter {
 			action = "jump";
 			aerial = true;
 			jumpcount++;
+			playsound(SHORTHOP);
 		}
 		virtual void jump() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JUMP], endframes[JUMP], framespeeds[JUMP], ANIM_LOOP, -1);
@@ -1227,6 +1235,7 @@ class Fighter {
 			action = "jump";
 			aerial = true;
 			jumpcount++;
+			playsound(JUMP);
 		}
 		virtual void doubleJump() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DOUBLEJUMP], endframes[DOUBLEJUMP], framespeeds[DOUBLEJUMP], ANIM_LOOP, -1);
@@ -1237,33 +1246,39 @@ class Fighter {
 			jumpcount++;
 			aerial = true;
 			setDirection();
+			playsound(DOUBLEJUMP);
 		}
 		virtual void jab() {
 			action = "jab";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
 			delay = 60/framespeeds[JAB] * (endframes[JAB]-startframes[JAB]+1);
+			playsound(JAB);
 		}
 		virtual void dashAttack() {
 			if(Pad.Held.Left) dx = -1.5;
 			if(Pad.Held.Right) dx = 1.5;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DASHATTACK], endframes[DASHATTACK], framespeeds[DASHATTACK], ANIM_LOOP, -1);
 			delay = 60/framespeeds[DASHATTACK] * (endframes[DASHATTACK]-startframes[DASHATTACK]+1);
+			playsound(DASHATTACK);
 		}
 		virtual void ftilt() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FTILT], endframes[FTILT], framespeeds[FTILT], ANIM_LOOP, -1);
 			action = "attack";
 			delay = 60/framespeeds[FTILT] * (endframes[FTILT]-startframes[FTILT]+1);
 			setDirection();
+			playsound(FTILT);
 		}
 		virtual void utilt() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[UTILT], endframes[UTILT], framespeeds[UTILT], ANIM_LOOP, -1);
 			action = "attack";
 			delay = 60/framespeeds[UTILT] * (endframes[UTILT]-startframes[UTILT]+1);		
+			playsound(UTILT);
 		}
 		virtual void dtilt() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DTILT], endframes[DTILT], framespeeds[DTILT], ANIM_LOOP, -1);
 			action = "attack";
 			delay = 60/framespeeds[DTILT] * (endframes[DTILT]-startframes[DTILT]+1);		
+			playsound(DTILT);		
 		}
 		virtual void chargeleft() {
 			chargecount = 0;
@@ -1273,6 +1288,7 @@ class Fighter {
 			direction = "left";
 			dx = 0;
 			delay = 60/framespeeds[CHARGELEFT] * (endframes[CHARGELEFT]-startframes[CHARGELEFT]+1) * 15;
+			playsound(CHARGELEFT);
 		}
 		virtual void chargeright() {
 			chargecount = 0;
@@ -1282,12 +1298,14 @@ class Fighter {
 			direction = "right";
 			dx = 0;
 			delay = 60/framespeeds[CHARGERIGHT] * (endframes[CHARGERIGHT]-startframes[CHARGERIGHT]+1) * 15;
+			playsound(CHARGERIGHT);
 		}
 		virtual void chargeup() {
 			chargecount = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGEUP], endframes[CHARGEUP], framespeeds[CHARGEUP], ANIM_LOOP, -1);
 			action = "chargeup";
 			delay = 60/framespeeds[CHARGEUP] * (endframes[CHARGEUP]-startframes[CHARGEUP]+1) * 15;
+			playsound(CHARGEUP);
 		}
 		virtual void chargedown() {
 			chargecount = 0;
@@ -1295,6 +1313,7 @@ class Fighter {
 			action = "chargedown";
 			dx = 0;
 			delay = 60/framespeeds[CHARGEDOWN] * (endframes[CHARGEDOWN]-startframes[CHARGEDOWN]+1) * 15;
+			playsound(CHARGEDOWN);
 		}
 		virtual void smashleft() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHLEFT], endframes[SMASHLEFT], framespeeds[SMASHLEFT], ANIM_LOOP, -1);
@@ -1302,6 +1321,7 @@ class Fighter {
 			action = "attack";
 			direction = "left";
 			delay = 60/framespeeds[SMASHLEFT] * (endframes[SMASHLEFT]-startframes[SMASHLEFT]+1);
+			playsound(SMASHLEFT);
 		}
 		virtual void smashright() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHRIGHT], endframes[SMASHRIGHT], framespeeds[SMASHRIGHT], ANIM_LOOP, -1);
@@ -1309,22 +1329,26 @@ class Fighter {
 			action = "attack";
 			direction = "right";
 			delay = 60/framespeeds[SMASHRIGHT] * (endframes[SMASHRIGHT]-startframes[SMASHRIGHT]+1);
+			playsound(SMASHRIGHT);
 		}
 		virtual void smashup() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHUP], endframes[SMASHUP], framespeeds[SMASHUP], ANIM_LOOP, -1);
 			action = "attack";
 			delay = 60/framespeeds[SMASHUP] * (endframes[SMASHUP]-startframes[SMASHUP]+1);
+			playsound(SMASHUP);
 		}
 		virtual void smashdown() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHDOWN], endframes[SMASHDOWN], framespeeds[SMASHDOWN], ANIM_LOOP, -1);
 			action = "attack";
 			delay = 60/framespeeds[SMASHDOWN] * (endframes[SMASHDOWN]-startframes[SMASHDOWN]+1);
+			playsound(SMASHDOWN);
 		}
 		virtual void fair() {
 			action = "airattack";
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FAIR], endframes[FAIR], framespeeds[FAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[FAIR] * (endframes[FAIR] - startframes[FAIR] + 1);
+			playsound(FAIR);
 		}
 		virtual void bair() {
 			action = "airattack";
@@ -1333,34 +1357,42 @@ class Fighter {
 			delay = 60/framespeeds[BAIR] * (endframes[BAIR] - startframes[BAIR] + 1);
 			if(Pad.Held.Left) PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
 			if(Pad.Held.Right) PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
+			playsound(BAIR);
 		}
 		virtual void uair() {
 			action = "airattack";
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[UAIR], endframes[UAIR], framespeeds[UAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[UAIR] * (endframes[UAIR] - startframes[UAIR] + 1);
+			playsound(UAIR);
 		}
 		virtual void dair() {
 			action = "airattack";
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DAIR], endframes[DAIR], framespeeds[DAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[DAIR] * (endframes[DAIR] - startframes[DAIR] + 1);
+			playsound(DAIR);
 		}
 		virtual void nair() {
 			action = "airattack";
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[NAIR], endframes[NAIR], framespeeds[NAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[NAIR] * (endframes[NAIR] - startframes[NAIR] + 1);
+			playsound(NAIR);
 		}
 		virtual void stun() {
 			action = "hitstun";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[STUN], endframes[STUN], framespeeds[STUN], ANIM_LOOP, -1);
+			playsound(STUN);
 		}
 		virtual void slide() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SLIDE], endframes[SLIDE], framespeeds[SLIDE], ANIM_LOOP, -1);
 			action = "slide";
 			delay = 5;
+			playsound(SLIDE);
 		}
+	// Sound playing
+		virtual void playsound(int sndnum) {}
 	// constant methods
 		void setStage(Stage s) { 
 			stage = s; 
@@ -1790,7 +1822,7 @@ class Projectile {
 		}
 };
 #endif
-/*
+#ifdef SANDBAG_ON
 class Sandbag: public Fighter {
 	public:
 		Sandbag(int xpos, int ypos, int num) {
@@ -1947,7 +1979,7 @@ class Sandbag: public Fighter {
 		}
 		void jaywalk() {}
 };
-*/
+#endif
 class Kirby: public Fighter {
 	int rockcount;
 	public:	// constructor
@@ -1983,10 +2015,172 @@ class Kirby: public Fighter {
 			initAtkbox();
 			initDefbox();
 			initSprite();
+			initFrames();
 			if(x > stage.width/2) setDirection("right");
 			else setDirection("left");
 		} // initializes all of the variables
 	// initializers
+		void initFrames() {
+			//LAND
+			startframes.push_back(0);
+			endframes.push_back(0);
+			framespeeds.push_back(10);
+
+			// SHIELD
+			startframes.push_back(26);
+			endframes.push_back(26);
+			framespeeds.push_back(20);
+
+			// ROLL
+			startframes.push_back(27);
+			endframes.push_back(37);
+			framespeeds.push_back(20);
+
+			// DODGE
+			startframes.push_back(38);
+			endframes.push_back(45);
+			framespeeds.push_back(20);
+
+			// AIRDODGE
+			startframes.push_back(46);
+			endframes.push_back(53);
+			framespeeds.push_back(20);
+
+			// CROUCH
+			startframes.push_back(0);
+			endframes.push_back(0);
+			framespeeds.push_back(20);
+
+			// FALL
+			startframes.push_back(25);
+			endframes.push_back(25);
+			framespeeds.push_back(20);
+
+			// IDLE
+			startframes.push_back(1);
+			endframes.push_back(4);
+			framespeeds.push_back(10);
+
+			// RUN
+			startframes.push_back(5);
+			endframes.push_back(12);
+			framespeeds.push_back(20);
+
+			// SHORTHOP
+			startframes.push_back(13);
+			endframes.push_back(19);
+			framespeeds.push_back(20);
+
+			// JUMP
+			startframes.push_back(13);
+			endframes.push_back(19);
+			framespeeds.push_back(20);
+
+			// DOUBLEJUMP
+			startframes.push_back(20);
+			endframes.push_back(24);
+			framespeeds.push_back(12);
+
+			// JAB
+			startframes.push_back(60);
+			endframes.push_back(65);
+			framespeeds.push_back(20);
+
+			// DASHATTACK
+			startframes.push_back(157);
+			endframes.push_back(163);
+			framespeeds.push_back(20);
+
+			// FTILT
+			startframes.push_back(66);
+			endframes.push_back(73);
+			framespeeds.push_back(20);
+
+			// UTILT
+			startframes.push_back(84);
+			endframes.push_back(88);
+			framespeeds.push_back(20);
+
+			// DTILT
+			startframes.push_back(99);
+			endframes.push_back(102);
+			framespeeds.push_back(20);
+
+			// CHARGELEFT
+			startframes.push_back(74);
+			endframes.push_back(75);
+			framespeeds.push_back(20);
+
+			// CHARGERIGHT
+			startframes.push_back(74);
+			endframes.push_back(75);
+			framespeeds.push_back(20);
+
+			// CHARGEUP
+			startframes.push_back(89);
+			endframes.push_back(90);
+			framespeeds.push_back(20);
+
+			// CHARGEDOWN
+			startframes.push_back(103);
+			endframes.push_back(104);
+			framespeeds.push_back(20);
+
+			// SMASHLEFT
+			startframes.push_back(76);
+			endframes.push_back(83);
+			framespeeds.push_back(12);
+
+			// SMASHRIGHT
+			startframes.push_back(76);
+			endframes.push_back(83);
+			framespeeds.push_back(12);
+
+			// SMASHUP
+			startframes.push_back(91);
+			endframes.push_back(98);
+			framespeeds.push_back(20);
+
+			// SMASHDOWN
+			startframes.push_back(105);
+			endframes.push_back(116);
+			framespeeds.push_back(20);
+
+			// FAIR
+			startframes.push_back(124);
+			endframes.push_back(131);
+			framespeeds.push_back(20);
+
+			// BAIR
+			startframes.push_back(132);
+			endframes.push_back(141);
+			framespeeds.push_back(20);
+
+			// UAIR
+			startframes.push_back(142);
+			endframes.push_back(146);
+			framespeeds.push_back(20);
+
+			// DAIR
+			startframes.push_back(147);
+			endframes.push_back(156);
+			framespeeds.push_back(20);
+
+			// NAIR
+			startframes.push_back(117);
+			endframes.push_back(123);
+			framespeeds.push_back(20);
+
+			// STUN
+			startframes.push_back(164);
+			endframes.push_back(171);
+			framespeeds.push_back(20);
+
+			// SLIDE
+			startframes.push_back(0);
+			endframes.push_back(0);
+			framespeeds.push_back(20);
+		}
 		void initDefbox() {
 			for(int n = 0; n < 205; n++) {
 				Hitbox h;
@@ -2237,7 +2431,17 @@ class Kirby: public Fighter {
 				allatkbox.push_back(tempbox);
 			}
 		}
+	// sounds
+		void playsound(int sndnum) {
+			if(sndnum == DOUBLEJUMP) AS_SoundQuickPlay(kirbydoublejump);
+			if(sndnum == SMASHDOWN) AS_SoundQuickPlay(kirbydsmash);
+			if(sndnum == SMASHLEFT || sndnum == SMASHRIGHT) AS_SoundQuickPlay(kirbyfsmash);
+			if(sndnum == FTILT) AS_SoundQuickPlay(kirbyftilt);
+			if(sndnum == JUMP) AS_SoundQuickPlay(kirbyjump);
+			if(sndnum == SMASHUP) AS_SoundQuickPlay(kirbyusmash);
+		}
 	// actions
+/*
 		void land() {
 			action = "land";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 0, 0, 10, ANIM_LOOP, -1);
@@ -2490,6 +2694,7 @@ class Kirby: public Fighter {
 			action = "slide";
 			delay = 5;
 		}
+*/
 		void bside() {
 			if(action != "bside") {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 178, 186, 15, ANIM_ONESHOT);
@@ -2666,10 +2871,173 @@ class Mewtwo: public Fighter {
 			initSprite();
 			initDefbox();
 			initAtkbox();
+			initFrames();
 			if(x > stage.width/2) setDirection("right");
 			else setDirection("left");
 		} // initializes all of the variables
 	// initializers
+		void playsound(int sndnum) {}
+		void initFrames() {
+			// LAND
+			startframes.push_back(0);
+			endframes.push_back(0);
+			framespeeds.push_back(10);
+
+			// SHIELD
+			startframes.push_back(114);
+			endframes.push_back(114);
+			framespeeds.push_back(20);
+
+			// ROLL
+			startframes.push_back(110);
+			endframes.push_back(113);
+			framespeeds.push_back(20);
+
+			// DODGE
+			startframes.push_back(114);
+			endframes.push_back(118);
+			framespeeds.push_back(10);
+
+			// AIRDODGE
+			startframes.push_back(119);
+			endframes.push_back(125);
+			framespeeds.push_back(30);
+
+			// CROUCH
+			startframes.push_back(0);
+			endframes.push_back(0);
+			framespeeds.push_back(20);
+
+			// FALL
+			startframes.push_back(28);
+			endframes.push_back(28);
+			framespeeds.push_back(20);
+
+			// IDLE
+			startframes.push_back(1);
+			endframes.push_back(6);
+			framespeeds.push_back(5);
+
+			// RUN
+			startframes.push_back(7);
+			endframes.push_back(12);
+			framespeeds.push_back(20);
+
+			// SHORTHOP
+			startframes.push_back(13);
+			endframes.push_back(20);
+			framespeeds.push_back(20);
+
+			// JUMP
+			startframes.push_back(13);
+			endframes.push_back(20);
+			framespeeds.push_back(20);
+
+			// DOUBLEJUMP
+			startframes.push_back(21);
+			endframes.push_back(21);
+			framespeeds.push_back(3);
+
+			// JAB
+			startframes.push_back(30);
+			endframes.push_back(33);
+			framespeeds.push_back(10);
+
+			// DASHATTACK
+			startframes.push_back(34);
+			endframes.push_back(38);
+			framespeeds.push_back(10);
+
+			// FTILT
+			startframes.push_back(107);
+			endframes.push_back(109);
+			framespeeds.push_back(6);
+
+			// UTILT
+			startframes.push_back(104);
+			endframes.push_back(107);
+			framespeeds.push_back(6);
+
+			// DTILT
+			startframes.push_back(66);
+			endframes.push_back(71);
+			framespeeds.push_back(10);
+
+			// CHARGELEFT
+			startframes.push_back(39);
+			endframes.push_back(40);
+			framespeeds.push_back(20);
+
+			// CHARGERIGHT
+			startframes.push_back(39);
+			endframes.push_back(40);
+			framespeeds.push_back(20);
+
+			// CHARGEUP
+			startframes.push_back(47);
+			endframes.push_back(48);
+			framespeeds.push_back(20);
+
+			// CHARGEDOWN
+			startframes.push_back(58);
+			endframes.push_back(59);
+			framespeeds.push_back(20);
+
+			// SMASHLEFT
+			startframes.push_back(41);
+			endframes.push_back(46);
+			framespeeds.push_back(20);
+
+			// SMASHRIGHT
+			startframes.push_back(41);
+			endframes.push_back(46);
+			framespeeds.push_back(20);
+
+			// SMASHUP
+			startframes.push_back(49);
+			endframes.push_back(57);
+			framespeeds.push_back(12);
+
+			// SMASHDOWN
+			startframes.push_back(60);
+			endframes.push_back(65);
+			framespeeds.push_back(10);
+
+			// FAIR
+			startframes.push_back(80);
+			endframes.push_back(85);
+			framespeeds.push_back(10);
+
+			// BAIR
+			startframes.push_back(87);
+			endframes.push_back(92);
+			framespeeds.push_back(10);
+
+			// UAIR
+			startframes.push_back(98);
+			endframes.push_back(102);
+			framespeeds.push_back(10);
+
+			// DAIR
+			startframes.push_back(93);
+			endframes.push_back(97);
+			framespeeds.push_back(10);
+
+			// NAIR
+			startframes.push_back(72);
+			endframes.push_back(79);
+			framespeeds.push_back(10);
+
+			// STUN
+			startframes.push_back(116);
+			endframes.push_back(116);
+			framespeeds.push_back(20);
+
+			// SLIDE
+			startframes.push_back(0);
+			endframes.push_back(0);
+			framespeeds.push_back(20);
+		}
 		void initDefbox() {
 			for(int n = 0; n < 155; n++) {
 				Hitbox h;
@@ -2873,6 +3241,7 @@ class Mewtwo: public Fighter {
 			}
 		}
 	// actions
+/*
 		void land() { 
 			action = "land";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 0, 0, 10, ANIM_LOOP, -1);
@@ -3106,6 +3475,7 @@ class Mewtwo: public Fighter {
 			action = "slide";
 			delay = 5;
 		}
+*/
 		void bside() {
 			if(action != "bside") {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 135, 136, 10, ANIM_LOOP, -1);
@@ -3252,7 +3622,7 @@ class Mewtwo: public Fighter {
 		void jaywalk() {}
 };
 class Mario: public Fighter {
-	int jabnum;
+//	int jabnum;
 	int fluddcharge;
 	public:
 	// constructor
@@ -3260,7 +3630,7 @@ class Mario: public Fighter {
 			fluddcharge = 0;
 			CAPE = false;
 			COUNTER = false;
-			jabnum = 0;
+//			jabnum = 0;
 			effectwait = 0;
 			MYCHAR = MARIO;
 			chargecount = 0;
@@ -3288,11 +3658,182 @@ class Mario: public Fighter {
 			name = "mario";
 			initAtkbox();
 			initDefbox();
+			initFrames();
 			initSprite();
 			if(x > stage.width/2) setDirection("right");
 			else setDirection("left");
 		} // initializes all of the variables
 	// initializers
+		void playsound(int sndnum) {
+			if(sndnum == JUMP) AS_SoundQuickPlay(mariojump);
+			if(sndnum == DOUBLEJUMP) AS_SoundQuickPlay(mariodoublejump);
+			if(sndnum == UTILT) AS_SoundQuickPlay(marioutilt);
+			if(sndnum == DASHATTACK) AS_SoundQuickPlay(mariodashattack);
+			if(sndnum == SMASHDOWN) AS_SoundQuickPlay(mariodsmash);
+			if(sndnum == SMASHUP) AS_SoundQuickPlay(mariousmash);
+		}
+		void initFrames() {
+			// LAND
+			startframes.push_back(0);
+			endframes.push_back(0);
+			framespeeds.push_back(10);
+
+			// SHIELD
+			startframes.push_back(31);
+			endframes.push_back(31);
+			framespeeds.push_back(20);
+
+			// ROLL
+			startframes.push_back(25);
+			endframes.push_back(30);
+			framespeeds.push_back(15);
+
+			// DODGE
+			startframes.push_back(84);
+			endframes.push_back(86);
+			framespeeds.push_back(3);
+			// should be updown. fix in sprite
+
+			// AIRDODGE
+			startframes.push_back(128);
+			endframes.push_back(131);
+			framespeeds.push_back(12);
+
+			// CROUCH
+			startframes.push_back(0);
+			endframes.push_back(0);
+			framespeeds.push_back(20);
+
+			// FALL
+			startframes.push_back(14);
+			endframes.push_back(14);
+			framespeeds.push_back(20);
+
+			// IDLE
+			startframes.push_back(1);
+			endframes.push_back(4);
+			framespeeds.push_back(10);
+
+			// RUN
+			startframes.push_back(5);
+			endframes.push_back(8);
+			framespeeds.push_back(15);
+
+			// SHORTHOP
+			startframes.push_back(10);
+			endframes.push_back(14);
+			framespeeds.push_back(12);
+
+			// JUMP
+			startframes.push_back(10);
+			endframes.push_back(14);
+			framespeeds.push_back(12);
+
+			// DOUBLEJUMP
+			startframes.push_back(16);
+			endframes.push_back(23);
+			framespeeds.push_back(20);
+
+			// JAB
+			startframes.push_back(35);
+			endframes.push_back(46);
+			framespeeds.push_back(12);
+
+			// DASHATTACK
+			startframes.push_back(64);
+			endframes.push_back(64);
+			framespeeds.push_back(4);
+
+			// FTILT
+			startframes.push_back(47);
+			endframes.push_back(51);
+			framespeeds.push_back(10);
+
+			// UTILT
+			startframes.push_back(58);
+			endframes.push_back(62);
+			framespeeds.push_back(10);
+
+			// DTILT
+			startframes.push_back(52);
+			endframes.push_back(57);
+			framespeeds.push_back(10);
+
+			// CHARGELEFT
+			startframes.push_back(94);
+			endframes.push_back(95);
+			framespeeds.push_back(20);
+
+			// CHARGERIGHT
+			startframes.push_back(94);
+			endframes.push_back(95);
+			framespeeds.push_back(20);
+
+			// CHARGEUP
+			startframes.push_back(102);
+			endframes.push_back(102);
+			framespeeds.push_back(20);
+
+			// CHARGEDOWN
+			startframes.push_back(111);
+			endframes.push_back(112);
+			framespeeds.push_back(20);
+
+			// SMASHLEFT
+			startframes.push_back(96);
+			endframes.push_back(101);
+			framespeeds.push_back(15);
+
+			// SMASHRIGHT
+			startframes.push_back(96);
+			endframes.push_back(101);
+			framespeeds.push_back(15);
+
+			// SMASHUP
+			startframes.push_back(104);
+			endframes.push_back(110);
+			framespeeds.push_back(15);
+
+			// SMASHDOWN
+			startframes.push_back(113);
+			endframes.push_back(120);
+			framespeeds.push_back(15);
+
+			// FAIR
+			startframes.push_back(75);
+			endframes.push_back(83);
+			framespeeds.push_back(10);
+
+			// BAIR
+			startframes.push_back(71);
+			endframes.push_back(75);
+			framespeeds.push_back(12);
+
+			// UAIR
+			startframes.push_back(67);
+			endframes.push_back(71);
+			framespeeds.push_back(15);
+
+			// DAIR
+			startframes.push_back(84);
+			endframes.push_back(93);
+			framespeeds.push_back(15);
+
+			// NAIR
+			startframes.push_back(66);
+			endframes.push_back(66);
+			framespeeds.push_back(4);
+
+			// STUN
+			startframes.push_back(121);
+			endframes.push_back(126);
+			framespeeds.push_back(20);
+
+			// SLIDE
+			startframes.push_back(10);
+			endframes.push_back(10);
+			framespeeds.push_back(20);
+		}
 		void initDefbox() {
 			for(int n = 0; n < 155; n++) {
 				Hitbox h;
@@ -3409,6 +3950,7 @@ class Mario: public Fighter {
 			}
 		}
 	// actions
+/*
 		void land() {
 			action = "land";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 0, 0, 10, ANIM_LOOP, -1);
@@ -3676,6 +4218,7 @@ class Mario: public Fighter {
 			action = "slide";
 			delay = 5;
 		}
+*/
 		void bside() {
 			if(action != "bside") {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 148, 10, ANIM_ONESHOT);
@@ -3835,11 +4378,183 @@ class Ike: public Fighter {
 			name = "ike";
 			initAtkbox();
 			initDefbox();
+			initFrames();
 			initSprite();
 			if(x > stage.width/2) setDirection("right");
 			else setDirection("left");
 		} // initializes all of the variables
 	// initializers
+		void playsound(int sndnum) {
+			if(sndnum == BAIR) AS_SoundQuickPlay(ikebair);
+			if(sndnum == DASHATTACK) AS_SoundQuickPlay(ikedashattack);
+			if(sndnum == FAIR) AS_SoundQuickPlay(ikefair);
+			if(sndnum == SMASHLEFT || sndnum == SMASHRIGHT) AS_SoundQuickPlay(ikefsmash);
+			if(sndnum == FTILT) AS_SoundQuickPlay(ikeftilt);
+			if(sndnum == JUMP) AS_SoundQuickPlay(ikejump);
+			if(sndnum == UTILT) AS_SoundQuickPlay(ikeutilt);
+		}
+		void initFrames() {
+			// LAND
+			startframes.push_back(80);
+			endframes.push_back(80);
+			framespeeds.push_back(10);
+
+			// SHIELD
+			startframes.push_back(142);
+			endframes.push_back(142);
+			framespeeds.push_back(20);
+
+			// ROLL
+			startframes.push_back(130);
+			endframes.push_back(134);
+			framespeeds.push_back(12);
+
+			// DODGE
+			startframes.push_back(115);
+			endframes.push_back(118);
+			framespeeds.push_back(6);
+			// should be updown
+
+			// AIRDODGE
+			startframes.push_back(13);
+			endframes.push_back(13);
+			framespeeds.push_back(3);
+
+			// CROUCH
+			startframes.push_back(7);
+			endframes.push_back(7);
+			framespeeds.push_back(20);
+
+			// FALL
+			startframes.push_back(12);
+			endframes.push_back(12);
+			framespeeds.push_back(20);
+
+			// IDLE
+			startframes.push_back(0);
+			endframes.push_back(6);
+			framespeeds.push_back(10);
+
+			// RUN
+			startframes.push_back(14);
+			endframes.push_back(17);
+			framespeeds.push_back(10);
+
+			// SHORTHOP
+			startframes.push_back(8);
+			endframes.push_back(11);
+			framespeeds.push_back(10);
+
+			// JUMP
+			startframes.push_back(8);
+			endframes.push_back(11);
+			framespeeds.push_back(10);
+
+			// DOUBLEJUMP
+			startframes.push_back(130);
+			endframes.push_back(134);
+			framespeeds.push_back(15);
+
+			// JAB
+			startframes.push_back(18);
+			endframes.push_back(21);
+			framespeeds.push_back(12);
+
+			// DASHATTACK
+			startframes.push_back(32);
+			endframes.push_back(35);
+			framespeeds.push_back(15);
+
+			// FTILT
+			startframes.push_back(143);
+			endframes.push_back(146);
+			framespeeds.push_back(10);
+
+			// UTILT
+			startframes.push_back(36);
+			endframes.push_back(40);
+			framespeeds.push_back(10);
+
+			// DTILT
+			startframes.push_back(41);
+			endframes.push_back(46);
+			framespeeds.push_back(10);
+
+			// CHARGELEFT
+			startframes.push_back(22);
+			endframes.push_back(23);
+			framespeeds.push_back(20);
+
+			// CHARGERIGHT
+			startframes.push_back(22);
+			endframes.push_back(23);
+			framespeeds.push_back(20);
+
+			// CHARGEUP
+			startframes.push_back(90);
+			endframes.push_back(91);
+			framespeeds.push_back(20);
+
+			// CHARGEDOWN
+			startframes.push_back(80);
+			endframes.push_back(81);
+			framespeeds.push_back(20);
+
+			// SMASHLEFT
+			startframes.push_back(24);
+			endframes.push_back(30);
+			framespeeds.push_back(15);
+
+			// SMASHRIGHT
+			startframes.push_back(24);
+			endframes.push_back(30);
+			framespeeds.push_back(15);
+
+			// SMASHUP
+			startframes.push_back(92);
+			endframes.push_back(97);
+			framespeeds.push_back(15);
+
+			// SMASHDOWN
+			startframes.push_back(82);
+			endframes.push_back(89);
+			framespeeds.push_back(15);
+
+			// FAIR
+			startframes.push_back(56);
+			endframes.push_back(60);
+			framespeeds.push_back(10);
+
+			// BAIR
+			startframes.push_back(74);
+			endframes.push_back(78);
+			framespeeds.push_back(10);
+
+			// UAIR
+			startframes.push_back(61);
+			endframes.push_back(67);
+			framespeeds.push_back(15);
+
+			// DAIR
+			startframes.push_back(67);
+			endframes.push_back(74);
+			framespeeds.push_back(15);
+
+			// NAIR
+			startframes.push_back(47);
+			endframes.push_back(56);
+			framespeeds.push_back(15);
+
+			// STUN
+			startframes.push_back(55);
+			endframes.push_back(55);
+			framespeeds.push_back(20);
+
+			// SLIDE
+			startframes.push_back(7);
+			endframes.push_back(7);
+			framespeeds.push_back(20);
+		}
 		void initDefbox() {
 			for(int n = 0; n < 155; n++) {
 				Hitbox h;
@@ -4025,6 +4740,7 @@ class Ike: public Fighter {
 			}
 		}
 	// actions
+/*
 		void land() {
 			action = "land";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 80, 80, 10, ANIM_LOOP, -1);
@@ -4262,7 +4978,7 @@ class Ike: public Fighter {
 		void bair() {
 			action = "airattack";
 			dy = 0;
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 74, 78, 12, ANIM_ONESHOT);
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 74, 78, 10, ANIM_ONESHOT);
 #ifdef SFX_ON
 			AS_SoundQuickPlay(ikebair);
 #endif					
@@ -4285,6 +5001,7 @@ class Ike: public Fighter {
 			action = "slide";
 			delay = 5;
 		}
+*/
 		void bside() {
 			if(action != "bside") {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 108, 108, 12, ANIM_LOOP, -1);
