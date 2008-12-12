@@ -15,14 +15,11 @@
 	- and better damage icons
 - MP3s
 - LAN
+- remove excess sprites from stips (decrease size)
 - Sloped stage floors (and walls and ceilings)
 - Fix stage collisions ... make more accurate stage maps
-- ledges
 - balace
 - menu screen redesign
-- Make characters text files loaded by fighter class.
-	- load all variables from FAT
-	- use moves based on variables
 - pause menu
 - more game modes (Training, stock match, LAN, options, extras)
 - allow for rule changing on characterSelect Screen
@@ -32,6 +29,8 @@
 - Clear players vector properly -- REALLY IMPORTANT
 - customizable controls
 - Add more characters and stages
+- invincibility frames
+- shields
 * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define DEBUG_ON
@@ -149,7 +148,7 @@ static const int FINALDESTINATION = 1, POKEMONSTADIUM = 2, CASTLESEIGE = 3, CORN
 // stage shortcupts just like character shortcuts
 static const int UPARR = 1, DOWNARR = 2, LEFTARR = 3, RIGHTARR = 4, P1MINI = 5, P2MINI = 6, P3MINI = 7, P4MINI = 8, MINIBOX = 9; 
 // shortcuts for minimap sprites
-static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15, DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22, SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31;
+static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15, DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22, SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31, HANG = 32;
 // shortcuts for actions
 #ifdef SFX_ON
 static const int FX_NONE = -1, FX_WEAKERHIT = 0, FX_WEAKHIT = 1, FX_STRONGHIT = 2, FX_AIRJUMP = 3, FX_DEATH = 4;
@@ -179,7 +178,6 @@ vector<Effect> effects;
 // stores all visual effects
 #endif
 class Scoreboard; // keeps score of the game
-
 
 double scrollx = 0;
 double scrolly = 0;
@@ -400,9 +398,11 @@ class Effect {
 class Ledge {
 	public:
 		int x, y; // x and y position of the ledge
-		Ledge(int xpos, int ypos) {
+		string direction;
+		Ledge(int xpos, int ypos, string dir) {
 			x = xpos;
 			y = ypos;
+			direction = dir;
 		} // creates a new ledge
 }; // a ledge on the stage
 class Floor {
@@ -501,6 +501,8 @@ class FinalDestination: public Stage {
 			walls.push_back(Wall(96, 132, 248-132, "left"));
 			walls.push_back(Wall(512-96, 132, 248-132, "right"));
 			ceilings.push_back(Ceiling(64, 132, 512-64-64));
+			ledges.push_back(Ledge(64, 132, "left"));
+			ledges.push_back(Ledge(512-64, 132, "right"));
 		} // initializes all the variables for final destination
 }; // the stage Final D estination
 class PokemonStadium: public Stage { 
@@ -528,6 +530,8 @@ class PokemonStadium: public Stage {
 			walls.push_back(Wall(50, 154, 216-154, "left"));
 			walls.push_back(Wall(512-50, 154, 216-154, "right"));
 			ceilings.push_back(Ceiling(42, 216, 512-42-42));
+			ledges.push_back(Ledge(42, 154, "right"));
+			ledges.push_back(Ledge(512-42, 154, "left"));
 		} // initializes the pokemon stadium stage
 }; // the stage Pokemon Stadium
 #ifdef SLOPEDSTAGES_ON
@@ -680,7 +684,7 @@ class Fighter {
 //			lasthitby = (int)(strtok((char*)data," "));
 		}
 #endif
-		virtual void initDefbox() {
+		void initDefbox() {
 			for(int n = 0; n < 250; n++) {
 				Hitbox h;
 				alldefbox.push_back(h);
@@ -704,7 +708,7 @@ class Fighter {
 			}
 			fclose(file);
 		}
-		virtual void initAtkbox() {
+		void initAtkbox() {
 			for(int n = 0; n < 250; n++) {
 				Hitbox h;
 				allatkbox.push_back(h);
@@ -1050,6 +1054,14 @@ class Fighter {
 					if(landinglag == 0) idle();
 				} // lags upon landing after an aerial
 				if(delay > 0) delay--; // counts down the time before a new animation is set (allows for animations to finish)
+				if(action == "hang") {
+					if(Pad.Newpress.A || Pad.Newpress.B || Pad.Newpress.R || Pad.Newpress.L) {
+						y=y-bottomside;
+						if(direction == "left") x=x-rightside;
+						else x=x+leftside;
+						idle();
+					}
+				}
 				if(action == "dodge" && delay <= 0) shield();
 				if(action == "airdodge" && delay <= 0) fall();
 				if(action == "roll" && delay <= 0) {
@@ -1187,19 +1199,19 @@ class Fighter {
 		virtual void bup() {}
 		virtual void bdown() {}
 		virtual void bneut() {}
-		virtual void land() {
+		void land() {
 			action = "land";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[LAND], endframes[LAND], framespeeds[LAND], ANIM_LOOP, -1);
 			landinglag = delay;
 			startlag = landinglag;
 			playsound(LAND);
 		}
-		virtual void shield() {
+		void shield() {
 			action = "shield";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHIELD], endframes[SHIELD], framespeeds[SHIELD], ANIM_LOOP, -1);
 			playsound(SHIELD);	
 		}
-		virtual void roll() {
+		void roll() {
 			action = "roll";
 			setDirection();
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[ROLL], endframes[ROLL], framespeeds[ROLL], ANIM_LOOP, -1);
@@ -1208,14 +1220,14 @@ class Fighter {
 			if(Pad.Held.Right) dx = 2;
 			playsound(ROLL);
 		}
-		virtual void dodge() {
+		void dodge() {
 			action = "dodge";
 			setDirection();
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DODGE], endframes[DODGE], framespeeds[DODGE], ANIM_LOOP, -1);
 			delay = 60/framespeeds[DODGE] * (endframes[DODGE]-startframes[DODGE]+1);
 			playsound(DODGE);
 		}
-		virtual void airdodge() {
+		void airdodge() {
 			action = "airdodge";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[AIRDODGE], endframes[AIRDODGE], framespeeds[AIRDODGE], ANIM_LOOP, -1);
 			delay = 60/framespeeds[AIRDODGE] * (endframes[AIRDODGE]-startframes[AIRDODGE]+1);
@@ -1232,12 +1244,12 @@ class Fighter {
 			DI = 0;
 			playsound(AIRDODGE);
 		}
-		virtual void crouch() {
+		void crouch() {
 			action = "crouch";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CROUCH], endframes[CROUCH], framespeeds[CROUCH], ANIM_LOOP, -1);
 			playsound(CROUCH);
 		}
-		virtual void fall() {
+		void fall() {
 			aerial = true;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FALL], endframes[FALL], framespeeds[FALL], ANIM_LOOP, -1);
 			directionalInfluence();
@@ -1246,14 +1258,14 @@ class Fighter {
 			action = "fall";
 			playsound(FALL);
 		}
-		virtual void idle() {
+		void idle() {
 			if(action != "idle") PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[IDLE], endframes[IDLE], framespeeds[IDLE], ANIM_LOOP, -1);
 			dx = 0;
 			dy = 0;
 			action = "idle";
 			playsound(IDLE);
 		}
-		virtual void run(int d = 0) {
+		void run(int d = 0) {
 			if(action != "run") PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[RUN], endframes[RUN], framespeeds[RUN], ANIM_LOOP, -1);
 			if(d == 0) {
 				if(Pad.Held.Left) dx = -4;
@@ -1268,7 +1280,7 @@ class Fighter {
 			action = "run";
 			playsound(RUN);
 		}
-		virtual void shorthop() {
+		void shorthop() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHORTHOP], endframes[SHORTHOP], framespeeds[SHORTHOP], ANIM_LOOP, -1);
 			dy = -4;
 			fastfall = 0;
@@ -1279,7 +1291,7 @@ class Fighter {
 			jumpcount++;
 			playsound(SHORTHOP);
 		}
-		virtual void jump() {
+		void jump() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JUMP], endframes[JUMP], framespeeds[JUMP], ANIM_LOOP, -1);
 			dy = -6;
 			fastfall = 0;
@@ -1290,7 +1302,7 @@ class Fighter {
 			jumpcount++;
 			playsound(JUMP);
 		}
-		virtual void doubleJump() {
+		void doubleJump() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DOUBLEJUMP], endframes[DOUBLEJUMP], framespeeds[DOUBLEJUMP], ANIM_LOOP, -1);
 			action = "doublejump";
 			dy = -3.5 - .5 * (jumpmax-jumpcount);
@@ -1299,41 +1311,47 @@ class Fighter {
 			jumpcount++;
 			aerial = true;
 			setDirection();
+#ifdef SFX_ON
+			if(effectwait <= 0) {
+				effects.push_back(Effect(x, y+32, FX_AIRJUMP, charnum));
+				effectwait = 15;
+			}
+#endif
 			playsound(DOUBLEJUMP);
 		}
-		virtual void jab() {
+		void jab() {
 			action = "jab";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
 			delay = 60/framespeeds[JAB] * (endframes[JAB]-startframes[JAB]+1);
 			playsound(JAB);
 		}
-		virtual void dashAttack() {
+		void dashAttack() {
 			if(Pad.Held.Left) dx = -1.5;
 			if(Pad.Held.Right) dx = 1.5;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DASHATTACK], endframes[DASHATTACK], framespeeds[DASHATTACK], ANIM_LOOP, -1);
 			delay = 60/framespeeds[DASHATTACK] * (endframes[DASHATTACK]-startframes[DASHATTACK]+1);
 			playsound(DASHATTACK);
 		}
-		virtual void ftilt() {
+		void ftilt() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FTILT], endframes[FTILT], framespeeds[FTILT], ANIM_LOOP, -1);
 			action = "attack";
 			delay = 60/framespeeds[FTILT] * (endframes[FTILT]-startframes[FTILT]+1);
 			setDirection();
 			playsound(FTILT);
 		}
-		virtual void utilt() {
+		void utilt() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[UTILT], endframes[UTILT], framespeeds[UTILT], ANIM_LOOP, -1);
 			action = "attack";
 			delay = 60/framespeeds[UTILT] * (endframes[UTILT]-startframes[UTILT]+1);		
 			playsound(UTILT);
 		}
-		virtual void dtilt() {
+		void dtilt() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DTILT], endframes[DTILT], framespeeds[DTILT], ANIM_LOOP, -1);
 			action = "attack";
 			delay = 60/framespeeds[DTILT] * (endframes[DTILT]-startframes[DTILT]+1);		
 			playsound(DTILT);		
 		}
-		virtual void chargeleft() {
+		void chargeleft() {
 			chargecount = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGELEFT], endframes[CHARGELEFT], framespeeds[CHARGELEFT], ANIM_LOOP, -1);
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
@@ -1343,7 +1361,7 @@ class Fighter {
 			delay = 60/framespeeds[CHARGELEFT] * (endframes[CHARGELEFT]-startframes[CHARGELEFT]+1) * 15;
 			playsound(CHARGELEFT);
 		}
-		virtual void chargeright() {
+		void chargeright() {
 			chargecount = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGERIGHT], endframes[CHARGERIGHT], framespeeds[CHARGERIGHT], ANIM_LOOP, -1);
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
@@ -1353,14 +1371,14 @@ class Fighter {
 			delay = 60/framespeeds[CHARGERIGHT] * (endframes[CHARGERIGHT]-startframes[CHARGERIGHT]+1) * 15;
 			playsound(CHARGERIGHT);
 		}
-		virtual void chargeup() {
+		void chargeup() {
 			chargecount = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGEUP], endframes[CHARGEUP], framespeeds[CHARGEUP], ANIM_LOOP, -1);
 			action = "chargeup";
 			delay = 60/framespeeds[CHARGEUP] * (endframes[CHARGEUP]-startframes[CHARGEUP]+1) * 15;
 			playsound(CHARGEUP);
 		}
-		virtual void chargedown() {
+		void chargedown() {
 			chargecount = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGEDOWN], endframes[CHARGEDOWN], framespeeds[CHARGEDOWN], ANIM_LOOP, -1);
 			action = "chargedown";
@@ -1368,7 +1386,7 @@ class Fighter {
 			delay = 60/framespeeds[CHARGEDOWN] * (endframes[CHARGEDOWN]-startframes[CHARGEDOWN]+1) * 15;
 			playsound(CHARGEDOWN);
 		}
-		virtual void smashleft() {
+		void smashleft() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHLEFT], endframes[SMASHLEFT], framespeeds[SMASHLEFT], ANIM_LOOP, -1);
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 			action = "attack";
@@ -1376,7 +1394,7 @@ class Fighter {
 			delay = 60/framespeeds[SMASHLEFT] * (endframes[SMASHLEFT]-startframes[SMASHLEFT]+1);
 			playsound(SMASHLEFT);
 		}
-		virtual void smashright() {
+		void smashright() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHRIGHT], endframes[SMASHRIGHT], framespeeds[SMASHRIGHT], ANIM_LOOP, -1);
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
 			action = "attack";
@@ -1384,26 +1402,26 @@ class Fighter {
 			delay = 60/framespeeds[SMASHRIGHT] * (endframes[SMASHRIGHT]-startframes[SMASHRIGHT]+1);
 			playsound(SMASHRIGHT);
 		}
-		virtual void smashup() {
+		void smashup() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHUP], endframes[SMASHUP], framespeeds[SMASHUP], ANIM_LOOP, -1);
 			action = "attack";
 			delay = 60/framespeeds[SMASHUP] * (endframes[SMASHUP]-startframes[SMASHUP]+1);
 			playsound(SMASHUP);
 		}
-		virtual void smashdown() {
+		void smashdown() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHDOWN], endframes[SMASHDOWN], framespeeds[SMASHDOWN], ANIM_LOOP, -1);
 			action = "attack";
 			delay = 60/framespeeds[SMASHDOWN] * (endframes[SMASHDOWN]-startframes[SMASHDOWN]+1);
 			playsound(SMASHDOWN);
 		}
-		virtual void fair() {
+		void fair() {
 			action = "airattack";
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FAIR], endframes[FAIR], framespeeds[FAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[FAIR] * (endframes[FAIR] - startframes[FAIR] + 1);
 			playsound(FAIR);
 		}
-		virtual void bair() {
+		void bair() {
 			action = "airattack";
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[BAIR], endframes[BAIR], framespeeds[BAIR], ANIM_LOOP, -1);
@@ -1412,37 +1430,41 @@ class Fighter {
 			if(Pad.Held.Right) PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 			playsound(BAIR);
 		}
-		virtual void uair() {
+		void uair() {
 			action = "airattack";
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[UAIR], endframes[UAIR], framespeeds[UAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[UAIR] * (endframes[UAIR] - startframes[UAIR] + 1);
 			playsound(UAIR);
 		}
-		virtual void dair() {
+		void dair() {
 			action = "airattack";
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DAIR], endframes[DAIR], framespeeds[DAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[DAIR] * (endframes[DAIR] - startframes[DAIR] + 1);
 			playsound(DAIR);
 		}
-		virtual void nair() {
+		void nair() {
 			action = "airattack";
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[NAIR], endframes[NAIR], framespeeds[NAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[NAIR] * (endframes[NAIR] - startframes[NAIR] + 1);
 			playsound(NAIR);
 		}
-		virtual void stun() {
+		void stun() {
 			action = "hitstun";
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[STUN], endframes[STUN], framespeeds[STUN], ANIM_LOOP, -1);
 			playsound(STUN);
 		}
-		virtual void slide() {
+		void slide() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SLIDE], endframes[SLIDE], framespeeds[SLIDE], ANIM_LOOP, -1);
 			action = "slide";
 			delay = 5;
 			playsound(SLIDE);
+		}
+		void hang() {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[HANG], endframes[HANG], framespeeds[HANG], ANIM_LOOP, -1);
+			action = "hang";
 		}
 	// Sound playing
 		virtual void playsound(int sndnum) {}
@@ -1560,7 +1582,8 @@ class Fighter {
 			if(touchy > 128 && touchx > 96 && touchx < 160) chargedown();
 		}
 		void move() {
-			if(!aerial) {
+			if(action == "hang") {}
+			else if(!aerial) {
 				if(!checkFloorCollision()) {
 					fall();
 					jumpcount++;
@@ -1575,7 +1598,8 @@ class Fighter {
 					fastfall = 0;
 					DI = 0;
 					ymomentum = 0;
-			}
+				}
+				checkLedgeCollision();
 				checkFloorCollision();
 				checkWallCollision();
 				checkCeilingCollision();
@@ -1676,7 +1700,39 @@ class Fighter {
 			dx = dy = fastfall = DI = 0.0;
 			percentage = 0;
 		}
-		virtual bool checkFloorCollision() {
+		bool checkLedgeCollision() {
+			vector<Ledge> ledges = stage.getLedges();
+			for(int n = 0; n < ledges.size(); n++) {
+				Ledge currledge = ledges[n];
+				if(action != "hitstun") {
+					if(currledge.direction == "right") {
+						if(x+leftside > currledge.x - 20 && x+leftside < currledge.x + 20 && y > currledge.y - 10 && y < currledge.y + 10) {
+							hang();
+							aerial = false;
+							dx = DI = dy = fastfall = ymomentum = 0;
+							airdodgecount = jumpcount = 0;
+							x = currledge.x-leftside;
+							y = currledge.y;
+							setDirection("left");
+							return true;
+						}
+					}
+					else {
+						if(x+rightside > currledge.x - 20 && x+rightside < currledge.x + 20 && y > currledge.y - 10 && y < currledge.y + 10) {
+							hang();
+							aerial = false;
+							dx = DI = dy = fastfall = ymomentum = 0;
+							airdodgecount = jumpcount = 0;
+							x = currledge.x-rightside;
+							y = currledge.y;
+							setDirection("right");
+							return true;				
+						}
+					}
+				}
+			}
+		}
+		bool checkFloorCollision() {
 			vector<Floor> floors = stage.getFloors();
 			for(uint8 n = 0; n < floors.size(); n++) {
 				Floor currfloor = floors[n];
@@ -2211,6 +2267,11 @@ class Kirby: public Fighter {
 			startframes.push_back(0);
 			endframes.push_back(0);
 			framespeeds.push_back(20);
+			
+			// HANG
+			startframes.push_back(202);
+			endframes.push_back(202);
+			framespeeds.push_back(20);
 		}
 	// sounds
 		void playsound(int sndnum) {
@@ -2563,6 +2624,11 @@ class Mewtwo: public Fighter {
 			// SLIDE
 			startframes.push_back(0);
 			endframes.push_back(0);
+			framespeeds.push_back(20);
+		
+			// HANG
+			startframes.push_back(81);
+			endframes.push_back(81);
 			framespeeds.push_back(20);
 		}
 	// actions
@@ -2921,6 +2987,11 @@ class Mario: public Fighter {
 			startframes.push_back(10);
 			endframes.push_back(10);
 			framespeeds.push_back(20);
+			
+			// HANG
+			startframes.push_back(24);
+			endframes.push_back(24);
+			framespeeds.push_back(20);
 		}
 	// actions
 		void bside() {
@@ -3257,6 +3328,11 @@ class Ike: public Fighter {
 			// SLIDE
 			startframes.push_back(7);
 			endframes.push_back(7);
+			framespeeds.push_back(20);
+			
+			// HANG
+			startframes.push_back(123);
+			endframes.push_back(123);
 			framespeeds.push_back(20);
 		}
 	// actions
