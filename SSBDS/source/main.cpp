@@ -7,32 +7,6 @@
 // belong to Nintendo and other 3rd party companies. This is a fan made game; it not
 // intended for profit, just for fun
 
-/* * * * * * To Do (no specific order) * * * * * *
-- Use cursors for character selection
-- Make a better (fullscreen) minimap
-	- use char faces instead of dots
-	- and better smashing buttons (or remove them completely)
-	- and better damage icons
-- MP3s
-- LAN
-- remove excess sprites from stips (decrease size)
-- Sloped stage floors (and walls and ceilings)
-- Fix stage collisions ... make more accurate stage maps
-- balace
-- menu screen redesign
-- pause menu
-- more game modes (Training, stock match, LAN, options, extras)
-- allow for rule changing on characterSelect Screen
-- fix ike sprites (sword tip in previous frame sometimes)
-- AI (Dan J)
-- Better menus (Tyler)
-- Clear players vector properly -- REALLY IMPORTANT
-- customizable controls
-- Add more characters and stages
-- invincibility frames
-- shields
-* * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #define DEBUG_ON
 // turns on printing of information to screen
 
@@ -40,6 +14,7 @@
 #define PROJECTILES_ON
 //#define SANDBAG_ON
 //#define SHADOW_ON
+//#define MINIMAP_ON
 //#define SLOPEDSTAGES_ON // Castle Seige and Corneria
 //#define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
 //#define MP3_ON
@@ -146,8 +121,10 @@ static const int SANDBAG = 0, KIRBY = 1, MEWTWO = 2, MARIO = 3, IKE = 4, SHADOW 
 // character shortcuts; used to avoid confusion
 static const int FINALDESTINATION = 1, POKEMONSTADIUM = 2, CASTLESEIGE = 3, CORNERIA = 4;
 // stage shortcupts just like character shortcuts
+#ifdef MINIMAP_ON
 static const int UPARR = 1, DOWNARR = 2, LEFTARR = 3, RIGHTARR = 4, P1MINI = 5, P2MINI = 6, P3MINI = 7, P4MINI = 8, MINIBOX = 9; 
 // shortcuts for minimap sprites
+#endif
 static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15, DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22, SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31, HANG = 32;
 // shortcuts for actions
 #ifdef SFX_ON
@@ -944,10 +921,10 @@ class Fighter {
 			if(action == "bup") bup();
 			if(action == "bdown") bdown();
 			if(action == "bneut") bneut();
-			if(action == "chargeleft" && (Stylus.Released || delay == 0)) smashleft();
-			if(action == "chargeright" && (Stylus.Released || delay == 0)) smashright();
-			if(action == "chargeup" && (Stylus.Released || delay == 0)) smashup();
-			if(action == "chargedown" && (Stylus.Released || delay == 0)) smashdown();
+			if(action == "chargeleft" && (Pad.Released.A || Pad.Released.B || delay == 0)) smashleft();
+			if(action == "chargeright" && (Pad.Released.A || Pad.Released.B || delay == 0)) smashright();
+			if(action == "chargeup" && (Pad.Released.A || Pad.Released.B || delay == 0)) smashup();
+			if(action == "chargedown" && (Pad.Released.A || Pad.Released.B || delay == 0)) smashdown();
 			if(hitstun > k.length*2) {
 				if(y != stage.getFloors()[0].y ) aerial = true;
 				hitstun--;
@@ -997,26 +974,32 @@ class Fighter {
 						tiltlag = 0;
 					}
 					else if(tiltlag == 0) {
-						if(Pad.Held.A) {
+						if(Pad.Held.A && Pad.Held.B) {
+							if(Pad.Held.Left) chargeleft();
+							else if(Pad.Held.Right) chargeright();
+							else if(Pad.Held.Up) chargeup();
+							else if(Pad.Held.Down) chargedown();
+							else jab();
+						}
+						else if(Pad.Held.A) {
 							if(Pad.Held.Right || Pad.Held.Left) ftilt();
 							else if(Pad.Held.Up) utilt();
+							else if(Pad.Held.Down) dtilt();
 							else jab();
 						}
 						else if(Pad.Held.B) {
 							if(Pad.Held.Right || Pad.Held.Left) bside();
-							else if(Pad.Held.Up) {
-								bup();
-							}
+							else if(Pad.Held.Up) bup();
 							else if(Pad.Held.Down) bdown();
 							else bneut();
 						}
-						else if((Pad.Released.X || Pad.Released.Y || Pad.Released.Up) && jumpcount < jumpmax) shorthop();
 						else if((Pad.Held.X || Pad.Held.Y || Pad.Held.Up) && jumpcount < jumpmax) jump();
 						else if(Pad.Held.R || Pad.Held.L) {
 							if(Pad.Held.Right || Pad.Held.Left) roll();
 							else shield();
 						}
 						else if(Pad.Held.Right || Pad.Held.Left) run();
+						else if(Pad.Held.Down) crouch();
 						else idle();
 					}
 				}
@@ -1185,10 +1168,7 @@ class Fighter {
 		}
 		void actGround() {
 			if(tiltlag <= 0) {
-				if(Pad.Newpress.Down) crouch();
-				else if(Stylus.Newpress) smashAttack();
-				else if((Pad.Newpress.R || Pad.Newpress.L)) shield();
-				else if(Pad.Held.Right || Pad.Held.Left || Pad.Newpress.Up || Pad.Newpress.A || Pad.Newpress.B || Pad.Newpress.X || Pad.Newpress.Y) {
+				if(Pad.Newpress.R || Pad.Newpress.L || Pad.Held.Right || Pad.Held.Left || Pad.Newpress.Down || Pad.Newpress.Up || Pad.Newpress.A || Pad.Newpress.B || Pad.Newpress.X || Pad.Newpress.Y) {
 					action = "tiltlag";
 					tiltlag = 5;
 				}
@@ -4021,6 +4001,7 @@ Stage setStage(string name) {
 	} // sets the stage of the players to the picked stage
 	return picked; // returns the picked stage
 } // displays the stage on the main screen
+#ifdef MINIMAP_ON
 void initMinimap(string name) {
 	PA_ResetBgSysScreen(SUB_SCREEN);
 	// initializes the minimap image
@@ -4061,6 +4042,7 @@ void initMinimap(string name) {
 	PA_StartSpriteAnimEx(SUB_SCREEN, RIGHTARR, 0, 2, 1, ANIM_LOOP, -1);
 	// loads and animates the touch smash arrows on the screen
 } // displays the minimap on the sub screen
+#endif
 #ifdef SFX_ON
 void initFX() {
 	PA_LoadSpritePal(MAIN_SCREEN, 15, (void*)specialFX_Pal);
@@ -4397,6 +4379,7 @@ void scrollScreen() {
 	} // scrolls the special effects
 #endif
 }
+#ifdef MINIMAP_ON
 void displaySubScreen() {
 	if(players.size() >= 1) PA_SetSpriteXY(SUB_SCREEN, P1MINI, (int)((players[0] -> x)/8 + 64 + 256/8), (int)((players[0] -> y)/8 + 64 + 256/8));
 	if(players.size() >= 2) PA_SetSpriteXY(SUB_SCREEN, P2MINI, (int)((players[1] -> x)/8 + 64 + 256/8), (int)((players[1] -> y)/8 + 64 + 256/8));
@@ -4406,6 +4389,7 @@ void displaySubScreen() {
 	PA_SetSpriteXY(SUB_SCREEN, MINIBOX, (int)((scrollx/8)+64 + 256/8), (int)((scrolly/8)+64 + 256/8));
 	// displays a box representing the current screen
 } // displays the minimap
+#endif
 void displayPercentages() {
 	PA_OutputText(SUB_SCREEN, 0, 0, "                                           ");
 	PA_OutputText(SUB_SCREEN, 0, 23, "                                           ");
@@ -4446,11 +4430,12 @@ void displayResults() {
 	PA_Init8bitBg(MAIN_SCREEN, 3);
 	PA_Init8bitBg(SUB_SCREEN, 3);
 	// initializes a gif on both screens
-
+#ifdef MINIMAP_ON
 	for(int n = 0; n < MINIBOX+1; n++) {
 		PA_StopSpriteAnim(SUB_SCREEN,n);
 		PA_DeleteSprite(SUB_SCREEN,n);
 	} // stops and deletes minimap object sprites
+#endif
 #ifdef SFX_ON
 	for(int n = 5; n < 20; n++) {
 		PA_StopSpriteAnim(MAIN_SCREEN, n);
@@ -4623,8 +4608,9 @@ void timeMatch(int minutes) {
 	// sets the stage to the stage chosen in stageSelect
 	PA_InitText(MAIN_SCREEN,1); // inits text on the main screen (displays time)
 	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
-	
+#ifdef MINIMAP_ON	
 	initMinimap(stagename); // inits minimap
+#endif
 	PA_InitText(SUB_SCREEN,1); // inits test on sub screen (displays percentages)
 	PA_SetTextCol(SUB_SCREEN, 31,31,31); // text color = white
 
@@ -4701,7 +4687,9 @@ void timeMatch(int minutes) {
 		}
 #endif
 		// acts all effects
+#ifdef MINIMAP_ON
 		displaySubScreen(); // changes sub screen display
+#endif
 		displayPercentages(); // displays percentages on sub screen
 		PA_OutputText(MAIN_SCREEN, 13,0, "          "); // clears time
 		if((int)((time/60)%60) < 10) PA_OutputText(MAIN_SCREEN, 13, 0, "%d:0%d",(int)((time/60)/60), (int)((time/60)%60));
