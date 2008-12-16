@@ -1,6 +1,6 @@
 // Game designed by TJgames of TJHSST
 // Head Developer: Jeremy Vercillo
-// Assistant Developer(s): Tyler Haines, Daniel Johnson
+// Assistant Developer(s): Tyler Haines, Daniel Johnson, Patrick Stalcup
 // 6/08 - ???
 
 // The rights to Super Smash Bros. and all the related characters, stages, and items
@@ -40,57 +40,8 @@
 // all image files
 
 #ifdef SFX_ON
-// include sound clips (just small ones, not MP3s)
-#include "one.h"
-#include "two.h"
-#include "three.h"
-#include "go.h"
-#include "game.h"
-#include "thewinneris.h"
-#include "nocontest.h"
-#include "kirby.h"
-#include "mario.h"
-#include "ike.h"
-#include "free_for_all.h"
-#include "menuconfirm.h"
-#include "deathsound.h"
-#include "hit1.h"
-#include "hit2.h"
-#include "hit3.h"
-
-#include "kirbybup1.h"
-#include "kirbybup2.h"
-#include "kirbybside.h"
-#include "kirbydoublejump.h"
-#include "kirbydsmash.h"
-#include "kirbyfsmash.h"
-#include "kirbyftilt.h"
-#include "kirbyjump.h"
-#include "kirbyusmash.h"
-
-#include "ikebair.h"
-#include "ikebdown.h"
-#include "ikebneut.h"
-#include "ikebside.h"
-#include "ikebup.h"
-#include "ikedashattack.h"
-#include "ikefair.h"
-#include "ikefsmash.h"
-#include "ikeftilt.h"
-#include "ikejump.h"
-#include "ikeutilt.h"
-
-#include "mariojump.h"
-#include "mariodoublejump.h"
-#include "marioutilt.h"
-#include "mariodashattack.h"
-#include "mariojab.h"
-#include "mariodsmash.h"
-#include "mariousmash.h"
-#include "mariobneut.h"
-#include "mariobup.h"
-// all sound effects
-// combine into a all_sounds.c at some point.
+#include "gfx/all_sounds.c"
+// all sound effects (just small ones, not MP3s)
 #endif
 
 using namespace std; // standard naming of variables

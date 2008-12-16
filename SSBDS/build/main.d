@@ -115,40 +115,23 @@ main.o: /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/main.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/menulan.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/menuoptions.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/menuextras.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Other/SpecialFX.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/specialFX.pal.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/SpecialFX.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/specialFX.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/charprev.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/charprev.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/projectilesprites.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/projectilesprites.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Other/ArrowLeft.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Other/ArrowRight.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Other/ArrowUp.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Other/ArrowDown.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Minimap/p1minimap.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Minimap/p2minimap.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Minimap/p3minimap.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Minimap/p4minimap.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Minimap/visibleminimap.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Stages/corneria.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Stages/finaldestination.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Stages/pokemonstadium.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Stages/castleseige.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Minimap/finaldestinationminimap.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/corneria.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/pokemonstadium.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/castleseige.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/finaldestination.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/ArrowLeft.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/ArrowRight.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/ArrowUp.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/ArrowDown.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/p1minimap.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/p2minimap.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/p3minimap.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/p4minimap.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/visibleminimap.pal.c \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/Palettes/finaldestinationminimap.pal.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/visibleminimap.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/corneria.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/finaldestination.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/pokemonstadium.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/castleseige.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/corneria.pal.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/pokemonstadium.pal.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/castleseige.pal.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/finaldestination.pal.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/visibleminimap.pal.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/all_sounds.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/one.h \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/two.h \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/three.h \
