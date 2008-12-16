@@ -1,4 +1,4 @@
-It seems that everything is set up. Feel free to edit, but ***LEAVE DESCRIPTIVE COMMITS*** I don't want to have to spend forever figuring out who edited what when.
+It seems that everything is set up. Feel free to edit, but ***LEAVE DESCRIPTIVE COMMITS*** I don't want to have to spend forever figuring out who edited what when. Also, check recent commits before you edit, to get a feel for what is being done, what needs to be done, and what hasn't been started yet. Also check out the wiki for a simple TODO list (thanks to Patrick!).
 
 As for directions:
 
