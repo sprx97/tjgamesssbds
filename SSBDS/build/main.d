@@ -176,4 +176,6 @@ main.o: /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/main.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/mariodsmash.h \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/mariousmash.h \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/mariobneut.h \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/mariobup.h
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/mariobup.h \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/stage.cpp \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/stages.cpp
