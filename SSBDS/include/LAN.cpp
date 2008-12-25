@@ -1,3 +1,4 @@
+#ifdef LAN_ON
 #include <MessageQueue.h>
 #include <802.11.h>
 #include <lobby.h> // DS <-> DS!
@@ -338,3 +339,4 @@ void LAN() {
 		PA_WaitForVBL() ;
 	}
 }
+#endif

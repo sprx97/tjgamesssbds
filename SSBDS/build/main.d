@@ -177,11 +177,14 @@ main.o: /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/main.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/mariousmash.h \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/mariobneut.h \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/mariobup.h \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/framework.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/stage.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/stages.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/fighter.cpp \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/projectiles.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/fighters.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/chars/kirby.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/chars/mewtwo.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/chars/mario.cpp \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/chars/ike.cpp
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/chars/ike.cpp \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/LAN.cpp

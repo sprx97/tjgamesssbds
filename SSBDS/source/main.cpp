@@ -7,8 +7,7 @@
 // belong to Nintendo and other 3rd party companies. This is a fan made game; it not
 // intended for profit, just for fun
 
-#define DEBUG_ON
-// turns on printing of information to screen
+#define DEBUG_ON // turns on printing of information to screen
 
 #define SFX_ON
 #define PROJECTILES_ON
@@ -20,22 +19,18 @@
 //#define MP3_ON
 // turns certain features on and off
 
-// Includes
 #include <PA9.h> // DS functions that we use come from here
 #include <math.h> // math!
 #include <vector> // vectors!
 #include <string> // strings!
 #include <sstream> // int to string
-#include <stdio.h>
-#include <stdlib.h>
-// standard C libraries
+#include <stdio.h> // standard file functions
+#include <stdlib.h> // standard C functions
 
-#include "gfx/all_gfx.c"
-// all image files
+#include "gfx/all_gfx.c" // all image files
 
 #ifdef SFX_ON
-#include "gfx/all_sounds.c"
-// all sound effects (just small ones, not MP3s)
+#include "gfx/all_sounds.c" // all sound effects (just small ones, not MP3s)
 #endif
 
 using namespace std; // standard naming of variables
@@ -46,24 +41,14 @@ using namespace std; // standard naming of variables
 #define SUB_SCREEN 0 // bottom screen
 #define COLOR256 1 // 256 color mode
 
-#define CAMERATYPE_FOLLOWUSER 0 
+#define CAMERATYPE_FOLLOWUSER 0
 #define CAMERATYPE_FOLLOWALL 1
 int cameratype = CAMERATYPE_FOLLOWUSER;
-// camera types
+// the kind of camera used in battles
 
 #ifdef MINIMAP_ON
 static const int UPARR = 1, DOWNARR = 2, LEFTARR = 3, RIGHTARR = 4, P1MINI = 5, P2MINI = 6, P3MINI = 7, P4MINI = 8, MINIBOX = 9; 
 // shortcuts for minimap sprites
-#endif
-static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15, DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22, SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31, HANG = 32;
-// shortcuts for actions
-#ifdef SFX_ON
-static const int FX_NONE = -1, FX_WEAKERHIT = 0, FX_WEAKHIT = 1, FX_STRONGHIT = 2, FX_AIRJUMP = 3, FX_DEATH = 4;
-// shortcuts for visual effects
-#endif
-#ifdef PROJECTILES_ON
-static const int SHADOWBALL_SMALL = 0, SHADOWBALL_MEDIUM = 1, SHADOWBALL_LARGE = 2, FINALCUTTER = 3, FIREBALL = 4, FLUDDWATER = 5, IKESWORD = 6;
-// shortcuts for projectiles
 #endif
 
 class Fighter;
@@ -133,277 +118,12 @@ class Scoreboard {
 		} // totals score for a player with number player
 }; // tracks all scores
 Scoreboard score = Scoreboard(0); // the scoreboard for smash
-class Knockback {
-	public:
-		double dx; // x knockback pixels per frame
-		double dy; // y knockback pixels per frame
-		double length; // how many frames the knockback lasts
-		Knockback() {} // blank init
-		Knockback(double x, double y, double l) {
-			dx = x*2;
-			dy = y*2;
-			length = l;
-		} // new knockback, dx, dy, and length for it
-		void set(double x, double y, double l) {
-			dx = x*2;
-			dy = y*2;
-			length = l;
-		} // sets the knockback's dx, dy, and length
-}; // a knockback
-class Circle {
-	double radius; // radius of the circle
-	Knockback k; // what the knockback of the circle is
-	public:
-		double x, y; // x and y of center of the circle
-		double damage; // how much damage the circle deals
-		int fx; // what visual effect type
-		Circle(double xpos, double ypos, double r, int f = FX_NONE) {
-			fx = f;
-			x = xpos;
-			y = ypos;
-			radius = r;
-			damage = 0;
-			setKnockback(0,0,0);
-		} // creates a circle with no knockback and damge -> Defboxes
-		Circle(double xpos, double ypos, double r, Knockback knock, double d, int f = FX_NONE) {
-			fx = f;
-			x = xpos;
-			y = ypos;
-			radius = r;
-			damage = (d/3.0);
-			k = knock;
-		} // creates a circle with knockback and damage -> Atkboxes
-		double getX() { return x; }
-		double getY() { return y; }
-		double getRadius() { return radius; }
-		// gets values for the circle
-		bool intersects(Circle other) {
-			double dx = other.getX() - x; // change in x
-			double dy = other.getY() - y; // change in y
-			double dist = sqrt(dx*dx + dy*dy); 
-			return dist < (radius+other.getRadius());
-		} // checks if this circle intersects Circle other
-		void setKnockback(double kx, double ky, double kl) { k.set(kx, ky, kl); }
-		// changes the knockback
-		Knockback getKnockback() { return k; } // gets the knockback
-}; // a circle; used for collisions; deals damage
-class Hitbox {
-	vector<Circle> circles; // Circles in the hitbox
-	int contact; // which circle in circles made contact
-	public:
-		void addCircle(Circle toadd) { circles.push_back(toadd); }
-		// adds a circle
-		vector<Circle> getCircles() { return circles; }
-		// gets the circles
-		bool hits(Hitbox other) {
-			for(uint8 n = 0; n < circles.size(); n++) {
-				for(uint8 m = 0; m < other.getCircles().size(); m++) {
-					if(circles[n].intersects(other.getCircles()[m])) {
-						contact = n;
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-		// checks if this hitbox intersects hitbox other
-		Circle getHitCircle(Hitbox other) {
-			for(uint8 n = 0; n < circles.size(); n++) {
-				for(uint8 m = 0; m < other.getCircles().size(); m++) {
-					if(circles[n].intersects(other.getCircles()[m])) {
-						return circles[n];
-					}
-				} 
-			}
-			return circles[contact];
-		}
-		// checks which circle hit hibox other
-		void reset() { circles.clear(); } // resets the hirbox
-}; // a collection of circles; used to hold all the circles for one frame
-#ifdef SFX_ON
-class Effect {
-	public:
-		double x, y; // x and y pos of the effect
-		int mynum; // the reference number of the effect
-		int delay; // how long the effect waits before changing
-		int playernum; // which player the effect is created by
-		int type; // what effect type it is
-		Effect(double xpos, double ypos, int t, int pn) {
-			x = xpos, y = ypos;
-			type = t;
-			playernum = pn;
-			mynum = 5*playernum + 5;
-			if(type == FX_AIRJUMP) mynum+=1;
-			else if(type == FX_DEATH) mynum+=2;
-			else { // all knockback sprites are the same spritenum
-				mynum+=3;
-			} // creates the effect... avoids overriding multipe sprites
-			// different sprite for different types of effects
-			if(x-scrollx < 256 && x-scrollx > 0-64 && y-scrolly < 192 && y-scrolly > 0-64) {
-				PA_SetSpriteXY(MAIN_SCREEN, mynum, x-scrollx, y-scrolly);
-			}
-			// sets the position of the sprite on the screen
-			if(type == FX_WEAKERHIT) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, mynum, 0, 2, 12, ANIM_ONESHOT);
-				delay = 60/12 * 3;
-			} // sets animation for a weaker hit
-			else if(type == FX_WEAKHIT) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, mynum, 3, 5, 12, ANIM_ONESHOT);
-				delay = 60/12 * 3;
-			} // sets animation for a weak hit
-			else if(type == FX_STRONGHIT) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, mynum, 6, 8, 12, ANIM_ONESHOT);
-				delay = 60/12 * 3;
-			} // sets animation for a strong hit
-			else if(type == FX_AIRJUMP) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, mynum, 9, 10, 15, ANIM_ONESHOT);
-				delay = 60/15 * 2;
-			} // sets animation for air jump
-			else if(type == FX_DEATH) {
-				if(x-scrollx == 0-10) {
-					PA_SetSpriteHflip(MAIN_SCREEN, mynum, true);
-				}
-				if(x-scrollx == 256-64+10) {
-					PA_SetSpriteHflip(MAIN_SCREEN, mynum, false);
-				}
-				if(y-scrolly == 0-10) {
-					PA_SetRotsetNoZoom(MAIN_SCREEN, mynum, 128);
-					PA_SetSpriteRotEnable(MAIN_SCREEN, mynum, mynum);
-				}
-				if(y-scrolly == 192-64+10) {
-					PA_SetRotsetNoZoom(MAIN_SCREEN, mynum, -128);
-					PA_SetSpriteRotEnable(MAIN_SCREEN, mynum, mynum);
-				}
-				PA_StartSpriteAnimEx(MAIN_SCREEN, mynum, 11, 17, 10, ANIM_ONESHOT);
-				delay = 60/10 * 7;
-			}
-			// sets animation for a death
-			// else if...
-			// else if...
-		} // creates a new effect
-		void act() {
-			delay--;
-			if(delay <= 0) {
-				vector<Effect> temp;
-				for(int n = 0; n < effects.size(); n++) {
-					Effect e = effects[n];
-					if(e.x != x || e.y != y || e.delay != delay || e.playernum != playernum) {
-						temp.push_back(e);
-					}
-				} // keeps the effect
-				PA_SetSpriteRotDisable(MAIN_SCREEN, mynum);
-				PA_SetSpriteXY(MAIN_SCREEN, mynum, -64, -64); // hides sprite
-				effects = temp;
-			} // removes once animation is done
-		} // acts; called every frame
-}; // a visual effect
-#endif
-#import "stage.cpp"
-#import "stages.cpp"
-#import "fighter.cpp"
-#ifdef PROJECTILES_ON
-class Projectile {
-	public:
-		double x, y, dx, dy;
-		double maxy, miny; // for bouncing
-		Hitbox hit;
-		int length;
-		int time;
-		int TYPE;
-		int num;
-		int owner;
-		Stage mystage;
-		Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage mine) {
-			mystage = mine;
-			num = 50+ob;
-			owner = ob;
-			TYPE = t;
-			x = xpos;
-			y = ypos;
-			dx = xchange;
-			if(dx > 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 0);
-			else PA_SetSpriteHflip(MAIN_SCREEN, num, 1);
-			dy = ychange;
-			length = l;
-			time = 0;
-			hit = h;
-			PA_SetSpriteXY(MAIN_SCREEN, num, x-scrollx, y-scrolly);
-			if(TYPE == SHADOWBALL_SMALL) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 0, 3, 20, ANIM_LOOP, -1);
-			}
-			if(TYPE == SHADOWBALL_MEDIUM) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 4, 7, 20, ANIM_LOOP, -1);
-			}
-			if(TYPE == SHADOWBALL_LARGE) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 8, 11, 20, ANIM_LOOP, -1);
-			}
-			if(TYPE == FINALCUTTER) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 12, 12, 20, ANIM_LOOP, -1);
-			}
-			if(TYPE == FIREBALL) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 13, 16, 20, ANIM_LOOP, -1);
-			}
-			if(TYPE == FLUDDWATER) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 17, 17, 20, ANIM_LOOP, -1);
-			}
-			if(TYPE == IKESWORD) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 18, 24, 20, ANIM_LOOP, -1);
-			}
-		}
-		void act() {
-			x += dx;
-			y += dy;
-			if(y > maxy) dy*=-1;
-			if(y < miny) dy*=-1;
-			PA_SetSpriteXY(MAIN_SCREEN, num, x-scrollx, y-scrolly);
-			if(x+64-scrollx < 0 || x-scrollx > 256 || y+64-scrolly < 0 || y-scrolly > 192) PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
-			time++;
-			if(time > length) removeSelf();
-		}
-		void removeSelf() {
-			vector<Projectile> temp;
-			for(int n = 0; n < projectiles.size(); n++) {
-				Projectile p = projectiles[n];
-				if(p.x != x || p.y != y) {
-					temp.push_back(p);
-				}
-			}
-			projectiles = temp;
-			PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
-		}
-		Fighter* checkHits(Fighter* other) {
-			Hitbox temp = hit; 
-			Hitbox atkbox;
-			vector<Circle> circles = temp.getCircles();
-			for(uint8 n = 0; n < circles.size(); n++) {
-				Circle current = circles[n];
-				Circle newcircright(current.getX() + x, current.getY() + y, current.getRadius(), current.getKnockback(), current.damage);
-				Circle newcircleft(64 - current.getX() + x, current.getY() + y, current.getRadius(), current.getKnockback(), current.damage);
-				if(dx < 0) atkbox.addCircle(newcircright);
-				else atkbox.addCircle(newcircleft);
-			}
-			if(atkbox.hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
-				if(other -> CAPE || other -> COUNTER) {
-					dx *= -1;
-					owner = other->charnum;
-					vector<Circle> temp = hit.getCircles();
-					hit.reset();
-					for(int n = 0; n < temp.size(); n++) {
-						hit.addCircle(Circle(temp[n].getX(), temp[n].getY(), temp[n].getRadius(), Knockback(temp[n].getKnockback().dx * -1, temp[n].getKnockback().dy, temp[n].getKnockback().length), temp[n].damage));
-					}
-					if(dx > 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 0);
-					if(dx < 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 1);
-				}
-				else {
-					other -> takeDamage(atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, owner, 0);
-					if(TYPE != FINALCUTTER && TYPE != IKESWORD) removeSelf();
-				}
-			}
-			return other;
-		}
-};
-#endif
-#import "fighters.cpp"
+#import "framework.cpp" // Stuff for the fighting engine (hitboxes, effects, etc)
+#import "stage.cpp" // Info about the stage and the stage superclass
+#import "stages.cpp" // individual stages
+#import "fighter.cpp" // fighter superclass
+#import "projectiles.cpp" // projectiles
+#import "fighters.cpp" // individual characters
 
 void printMemoryUsage() {
 #ifdef DEBUG_ON
@@ -1212,10 +932,7 @@ void extras() {
 
 } // extras menu, uncoded
 
-
-#ifdef LAN_ON
 #import "LAN.cpp"
-#endif
 
 // pre-game menus
 void mainMenu() {
