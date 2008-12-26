@@ -27,7 +27,7 @@ extern const unsigned short menuoptions_Pal[201];
 extern const unsigned short menuextras_Pal[196];
 
 extern const unsigned short charminis_Pal[243] __attribute__ ((aligned (4))) ;
-extern const unsigned char visibleminimap_Sprite[1024] __attribute__ ((aligned (4))) ;
+extern const unsigned char visibleminimap_Sprite[4096] __attribute__ ((aligned (4))) ;
 
 extern const unsigned char projectilesprites[122880] __attribute__ ((aligned (4))) ;
 extern const unsigned char charprev[40960] __attribute__ ((aligned (4))) ;
