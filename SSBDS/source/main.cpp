@@ -1,6 +1,7 @@
 // Game designed by TJgames of TJHSST
 // Head Developer: Jeremy Vercillo
 // Assistant Developer(s): Tyler Haines, Daniel Johnson, Patrick Stalcup
+// Head Advisor: Andrew Kim
 // 6/08 - ???
 
 // The rights to Super Smash Bros. and all the related characters, stages, and items
@@ -11,9 +12,6 @@
 
 #define SFX_ON
 #define PROJECTILES_ON
-//#define SANDBAG_ON
-//#define SHADOW_ON
-//#define MINIMAP_ON
 //#define SLOPEDSTAGES_ON // Castle Seige and Corneria
 //#define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
 //#define MP3_ON
@@ -45,11 +43,6 @@ using namespace std; // standard naming of variables
 #define CAMERATYPE_FOLLOWALL 1
 int cameratype = CAMERATYPE_FOLLOWUSER;
 // the kind of camera used in battles
-
-#ifdef MINIMAP_ON
-static const int UPARR = 1, DOWNARR = 2, LEFTARR = 3, RIGHTARR = 4, P1MINI = 5, P2MINI = 6, P3MINI = 7, P4MINI = 8, MINIBOX = 9; 
-// shortcuts for minimap sprites
-#endif
 
 class Fighter;
 vector<Fighter*> players;
@@ -124,6 +117,8 @@ Scoreboard score = Scoreboard(0); // the scoreboard for smash
 #import "fighter.cpp" // fighter superclass
 #import "projectiles.cpp" // projectiles
 #import "fighters.cpp" // individual characters
+
+#import "minimap.cpp" // minimap for during battles
 
 void printMemoryUsage() {
 #ifdef DEBUG_ON
@@ -219,48 +214,6 @@ Stage setStage(string name) {
 	} // sets the stage of the players to the picked stage
 	return picked; // returns the picked stage
 } // displays the stage on the main screen
-#ifdef MINIMAP_ON
-void initMinimap(string name) {
-	PA_ResetBgSysScreen(SUB_SCREEN);
-	// initializes the minimap image
-//	if(name == "finaldestination") {
-//		PA_LoadPAGfxLargeBg(SUB_SCREEN, 0, finaldestinationminimap);
-//	}
-	
-	PA_LoadSpritePal(SUB_SCREEN, P1MINI, (void*)p1minimap_Pal);
-	PA_CreateSprite(SUB_SCREEN, P1MINI, (void*)p1minimap_Sprite, OBJ_SIZE_8X8, COLOR256, P1MINI, -8, -8);
-	
-	PA_LoadSpritePal(SUB_SCREEN, P2MINI, (void*)p2minimap_Pal);
-	PA_CreateSprite(SUB_SCREEN, P2MINI, (void*)p2minimap_Sprite, OBJ_SIZE_8X8, COLOR256, P2MINI, -8, -8);
-	
-	PA_LoadSpritePal(SUB_SCREEN, P3MINI, (void*)p3minimap_Pal);
-	PA_CreateSprite(SUB_SCREEN, P3MINI, (void*)p3minimap_Sprite, OBJ_SIZE_8X8, COLOR256, P3MINI, -8, -8);
-	
-	PA_LoadSpritePal(SUB_SCREEN, P4MINI, (void*)p4minimap_Pal);
-	PA_CreateSprite(SUB_SCREEN, P4MINI, (void*)p4minimap_Sprite, OBJ_SIZE_8X8, COLOR256, P4MINI, -8, -8);
-	
-	PA_LoadSpritePal(SUB_SCREEN, MINIBOX, (void*)visibleminimap_Pal);
-	PA_CreateSprite(SUB_SCREEN, MINIBOX, (void*)visibleminimap_Sprite, OBJ_SIZE_32X32, COLOR256, MINIBOX, -8, -8);
-	// loads the sprite icons for the minimap
-	
-	PA_LoadSpritePal(SUB_SCREEN, UPARR, (void*)ArrowUp_Pal);
-	PA_CreateSprite(SUB_SCREEN, UPARR, (void*)ArrowUp_Sprite, OBJ_SIZE_64X64, COLOR256, UPARR, 96, 0);
-	PA_StartSpriteAnimEx(SUB_SCREEN, UPARR, 0, 2, 1, ANIM_LOOP, -1);
-
-	PA_LoadSpritePal(SUB_SCREEN, DOWNARR, (void*)ArrowDown_Pal);
-	PA_CreateSprite(SUB_SCREEN, DOWNARR, (void*)ArrowDown_Sprite, OBJ_SIZE_64X64, COLOR256, DOWNARR, 96, 128);
-	PA_StartSpriteAnimEx(SUB_SCREEN, DOWNARR, 0, 2, 1, ANIM_LOOP, -1);
-	
-	PA_LoadSpritePal(SUB_SCREEN, LEFTARR, (void*)ArrowLeft_Pal);
-	PA_CreateSprite(SUB_SCREEN, LEFTARR, (void*)ArrowLeft_Sprite, OBJ_SIZE_64X64, COLOR256, LEFTARR, 0, 64);
-	PA_StartSpriteAnimEx(SUB_SCREEN, LEFTARR, 0, 2, 1, ANIM_LOOP, -1);
-	
-	PA_LoadSpritePal(SUB_SCREEN, RIGHTARR, (void*)ArrowRight_Pal);
-	PA_CreateSprite(SUB_SCREEN, RIGHTARR, (void*)ArrowRight_Sprite, OBJ_SIZE_64X64, COLOR256, RIGHTARR, 192, 64);
-	PA_StartSpriteAnimEx(SUB_SCREEN, RIGHTARR, 0, 2, 1, ANIM_LOOP, -1);
-	// loads and animates the touch smash arrows on the screen
-} // displays the minimap on the sub screen
-#endif
 #ifdef SFX_ON
 void initFX() {
 	PA_LoadSpritePal(MAIN_SCREEN, 15, (void*)specialFX_Pal);
@@ -375,11 +328,6 @@ void characterSelect() {
 	// a third sprite
 	PA_CreateSprite(SUB_SCREEN, IKE, (void*)charsel, OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, IKE, IKE, IKE, 1, ANIM_LOOP, -1);
-#ifdef SHADOW_ON
-	PA_CreateSprite(SUB_SCREEN, SHADOW, (void*)charsel, OBJ_SIZE_64X64, COLOR256, 0, 0, 64);
-	PA_StartSpriteAnimEx(SUB_SCREEN, SHADOW, SHADOW, SHADOW, 1, ANIM_LOOP, -1);
-#endif
-	// etc, etc, etc
 
 	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);
 	PA_CreateSprite(MAIN_SCREEN, 0, (void*)charprev, OBJ_SIZE_64X64, COLOR256, 0, 0, 128);
@@ -391,7 +339,6 @@ void characterSelect() {
 	PA_CreateSprite(MAIN_SCREEN, 3, (void*) charprev, OBJ_SIZE_64X64, COLOR256, 0, 192, 128);
 	PA_StartSpriteAnimEx(MAIN_SCREEN, 3, 0, 0, 1, ANIM_LOOP, -1);	
 	// loads and animates character previews on top screen.
-	// frame 0 is blank
 
 	fadeIn();
 #ifdef SFX_ON	
@@ -429,34 +376,22 @@ void characterSelect() {
 			else if(humanselected == MEWTWO) players.push_back(new Mewtwo(512/2 -96 -32, 256/3 -32, 1));
 			else if(humanselected == MARIO) players.push_back(new Mario(512/2 -96 -32, 256/3 -32, 1));
 			else if(humanselected == IKE) players.push_back(new Ike(512/2 -96 -32, 256/3 -33, 1));		  
-#ifdef SHADOW_ON
-			else if(humanselected == SHADOW) players.push_back(new Shadow(512/2 -96 -32, 256/3 -32, 1));
-#endif	
 			// adds a new player class (fighter*) for the human
 					
 			if(cpu1selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 2, true));
 			else if(cpu1selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 2, true));
 			else if(cpu1selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 2, true));
 			else if(cpu1selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 2, true));		 
-#ifdef SHADOW_ON
-			else if(cpu1selected == SHADOW) players.push_back(new Shadow(512/2 +96 -32, 256/3 -32, 2, true));
-#endif			
 
 			if(cpu2selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 3, true));
 			else if(cpu2selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 3, true));
 			else if(cpu2selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 3, true));
 			else if(cpu2selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 3, true));		 
-#ifdef SHADOW_ON
-			else if(cpu2selected == SHADOW) players.push_back(new Shadow(512/2 +96 -32, 256/3 -32, 3, true));
-#endif					
 
 			if(cpu3selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 4, true));
 			else if(cpu3selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 4, true));
 			else if(cpu3selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 4, true));
 			else if(cpu3selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 4, true));		 
-#ifdef SHADOW_ON
-			else if(cpu3selected == SHADOW) players.push_back(new Shadow(512/2 +96 -32, 256/3 -32, 4, true));
-#endif		
 			// adds a new player class (fighter*) for the cpu1
 			
 			return;
@@ -472,7 +407,6 @@ void characterSelect() {
 //					else if(n == MEWTWO) AS_SoundQuickPlay(mewtwo);
 					else if(n == MARIO) AS_SoundQuickPlay(mario);
 					else if(n == IKE) AS_SoundQuickPlay(ike);
-//					else if(n == SHADOW) AS_SoundQuickPlay(shadow);
 #endif
 					// plays a sound byte of the player's name
 					if(selecting == 0) {
@@ -597,48 +531,6 @@ void scrollScreen() {
 	} // scrolls the special effects
 #endif
 }
-#ifdef MINIMAP_ON
-void displaySubScreen() {
-	if(players.size() >= 1) PA_SetSpriteXY(SUB_SCREEN, P1MINI, (int)((players[0] -> x)/8 + 64 + 256/8), (int)((players[0] -> y)/8 + 64 + 256/8));
-	if(players.size() >= 2) PA_SetSpriteXY(SUB_SCREEN, P2MINI, (int)((players[1] -> x)/8 + 64 + 256/8), (int)((players[1] -> y)/8 + 64 + 256/8));
-	if(players.size() >= 3) PA_SetSpriteXY(SUB_SCREEN, P3MINI, (int)((players[2] -> x)/8 + 64 + 256/8), (int)((players[2] -> y)/8 + 64 + 256/8));
-	if(players.size() >= 4) PA_SetSpriteXY(SUB_SCREEN, P4MINI, (int)((players[3] -> x)/8 + 64 + 256/8), (int)((players[3] -> y)/8 + 64 + 256/8));
-	// displays the two sprites in the correct position on a scaled down map
-	PA_SetSpriteXY(SUB_SCREEN, MINIBOX, (int)((scrollx/8)+64 + 256/8), (int)((scrolly/8)+64 + 256/8));
-	// displays a box representing the current screen
-} // displays the minimap
-#endif
-void displayPercentages() {
-	PA_OutputText(SUB_SCREEN, 0, 0, "                                           ");
-	PA_OutputText(SUB_SCREEN, 0, 23, "                                           ");
-	// clears the text
-	if(players.size() >=1) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_RED);
-		int damage = (int)(players[0]->getDamagePercent());
-		PA_OutputText(SUB_SCREEN, 0, 0, "%d %", damage);
-	} // displays damage percent of player 1
-	if(players.size() >= 2) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_BLUE);
-		int damage = (int)(players[1]->getDamagePercent());
-		stringstream ss;
-		ss << damage;
-		int length = ss.str().size();
-		PA_OutputText(SUB_SCREEN, 30-length, 0, "%d %", damage);
-	} // displays damage percent of player 2
-	if(players.size() >= 3) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_YELLOW);
-		int damage = (int)(players[2]->getDamagePercent());
-		PA_OutputText(SUB_SCREEN, 0, 23, "%d %", damage);
-	} // damage of player 3
-	if(players.size() >= 4) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_GREEN);
-		int damage = (int)(players[3]->getDamagePercent());
-		stringstream ss;
-		ss << damage;
-		int length = ss.str().size();
-		PA_OutputText(SUB_SCREEN, 30-length, 23, "%d %", damage);
-	}
-}
 
 void displayResults() {		
 	PA_ResetBg(MAIN_SCREEN);
@@ -648,12 +540,10 @@ void displayResults() {
 	PA_Init8bitBg(MAIN_SCREEN, 3);
 	PA_Init8bitBg(SUB_SCREEN, 3);
 	// initializes a gif on both screens
-#ifdef MINIMAP_ON
-	for(int n = 0; n < MINIBOX+1; n++) {
+	for(int n = 0; n < 5; n++) {
 		PA_StopSpriteAnim(SUB_SCREEN,n);
 		PA_DeleteSprite(SUB_SCREEN,n);
 	} // stops and deletes minimap object sprites
-#endif
 #ifdef SFX_ON
 	for(int n = 5; n < 20; n++) {
 		PA_StopSpriteAnim(MAIN_SCREEN, n);
@@ -719,16 +609,6 @@ void displayResults() {
 				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/fireemblemwin2.gif");
 			}
 		}
-#ifdef SHADOW_ON
-		if(players[winner] -> name == "shadow") {
-			if(players[winner] -> charnum == 0) {
-				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/shadowwin1.gif");
-			}
-			if(players[winner] -> charnum == 1) {
-				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/shadowwin2.gif");
-			}
-		}
-#endif
 	} 
 	// displays the series icon of the winner in the winner's color
 	
@@ -826,9 +706,7 @@ void timeMatch(int minutes) {
 	// sets the stage to the stage chosen in stageSelect
 	PA_InitText(MAIN_SCREEN,1); // inits text on the main screen (displays time)
 	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
-#ifdef MINIMAP_ON	
 	initMinimap(stagename); // inits minimap
-#endif
 	PA_InitText(SUB_SCREEN,1); // inits test on sub screen (displays percentages)
 	PA_SetTextCol(SUB_SCREEN, 31,31,31); // text color = white
 
@@ -905,9 +783,7 @@ void timeMatch(int minutes) {
 		}
 #endif
 		// acts all effects
-#ifdef MINIMAP_ON
-		displaySubScreen(); // changes sub screen display
-#endif
+		displayMinimap(); // changes sub screen display
 		displayPercentages(); // displays percentages on sub screen
 		PA_OutputText(MAIN_SCREEN, 13,0, "          "); // clears time
 		if((int)((time/60)%60) < 10) PA_OutputText(MAIN_SCREEN, 13, 0, "%d:0%d",(int)((time/60)/60), (int)((time/60)%60));

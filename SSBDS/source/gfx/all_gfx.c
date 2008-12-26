@@ -12,6 +12,8 @@ extern "C" {
 #include "charsel.pal.c"
 #include "stagesel.c"
 #include "stagesel.pal.c"
+#include "charminis.c"
+#include "charminis.pal.c"
 
 #include "menusolo.c"
 #include "menulan.c"

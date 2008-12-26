@@ -107,6 +107,8 @@ main.o: /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/main.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/charsel.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/stagesel.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/stagesel.pal.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/charminis.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/charminis.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/menusolo.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/menulan.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/menuoptions.c \
@@ -187,4 +189,5 @@ main.o: /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/main.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/chars/mewtwo.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/chars/mario.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/chars/ike.cpp \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/minimap.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/LAN.cpp
