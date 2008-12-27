@@ -118,8 +118,6 @@ Scoreboard score = Scoreboard(0); // the scoreboard for smash
 #import "projectiles.cpp" // projectiles
 #import "fighters.cpp" // individual characters
 
-#import "minimap.cpp" // minimap for during battles
-
 void printMemoryUsage() {
 #ifdef DEBUG_ON
 	PA_OutputText(MAIN_SCREEN, 0, 5, "                                                  ");
@@ -180,6 +178,8 @@ void openGif(int screen, string path) {
 		PA_LoadGif(screen, (void *)gifbuffer); // Show gif on screen
 	} // loads the gif if the image file exists
 } // opens the gif at path onto screen
+
+#import "minimap.cpp" // minimap for during battles
 
 string stagename; // the name of the current stage
 
