@@ -47,6 +47,10 @@ extern "C" {
 #include "finaldestination.pal.c"
 #include "visibleminimap.pal.c"
 
+#include "finaldestinationminimap.c"
+#include "finaldestinationminimap.pal.c"
+PAGfx_struct finaldestinationminimap = {(void*)finaldestinationminimap_Map, 768, (void*)finaldestinationminimap_Tiles, 3520, (void*)finaldestinationminimap_Pal, (int*)finaldestinationminimap_Info };
+
 PAGfx_struct finaldestination = {(void*)finaldestination_Map, 8192, (void*)finaldestination_Tiles, 40384, (void*)finaldestination_Pal, (int*)finaldestination_Info };
 PAGfx_struct pokemonstadium = {(void*)pokemonstadium_Map, 8192, (void*)pokemonstadium_Tiles, 35072, (void*)pokemonstadium_Pal, (int*)pokemonstadium_Info };
 PAGfx_struct castleseige = {(void*)castleseige_Map, 8192, (void*)castleseige_Tiles, 92480, (void*)castleseige_Pal, (int*)castleseige_Info };

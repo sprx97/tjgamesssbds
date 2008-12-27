@@ -133,6 +133,8 @@ main.o: /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/main.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/castleseige.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/finaldestination.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/visibleminimap.pal.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/finaldestinationminimap.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/finaldestinationminimap.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/all_sounds.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/one.h \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/build/two.h \
