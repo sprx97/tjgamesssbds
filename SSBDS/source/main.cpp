@@ -673,10 +673,10 @@ void displayResults() {
 			fadeOut();
 			score.clear(); // clears the scoreboard
 			effects.clear(); // clears the effects
-			for(int n = 0; n < players.size(); n++) {
-				players[n] -> deleteSprite();
-				delete players[n];
-			} // deletes the sprites of all players
+//			for(int n = 0; n < players.size(); n++) {
+//				players[n] -> deleteSprite();
+//				delete players[n];
+//			} // deletes the sprites of all players
 			players.clear(); // clears players vector
 			PA_FatFreeSprBuffers(); // frees sprite loading space
 			for(int n = 0; n < 16; n++) AS_SoundStop(n);
