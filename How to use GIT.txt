@@ -1,0 +1,25 @@
+After you create an account on github and I add you as a collaborator on the project, you'll have full access to the code and you will be able to edit stuff yourself!
+
+1. Download and install git. I got it from here: http://git.or.cz/#download
+2. Create local repository for the code on your system from the current online one
+	- use the "git clone" command
+		- git clone REPO PATH
+			- the repository (repo) for this project is git://github.com/Spartan97/tjgamesssbds.git
+			- the path is the path to wherever you want the local folder to be (declare a new folder in the path)
+	- Note: This might take a few minutes to finish, depending on how much is in the repo and your internet connection
+
+Now you can start editing the code, but here are a few basic things to do.
+
+- Before starting your edits each time, you want to synch your local repository with the online one.
+	- To do this, cd into your local repository and type git pull REPO
+		- once again, the repo is git://github.com/Spartan97/tjgamesssbds.git
+
+- When you are done editing, it's important that you upload your edits online so that others can see and build off of them
+	- This is a two-step process.
+		- First, type git commit -a -m 'MESSAGE'
+			- the message should be a short description of what your edits are. There is a character limit, I think it's 256.
+		- Then type git push to add your updates and message to the online repo
+
+Make sure you remember to pull and push, because otherwise some edits can get lost in the shuffle.
+
+Have fun!!!
