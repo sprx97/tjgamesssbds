@@ -23,3 +23,13 @@ Now you can start editing the code, but here are a few basic things to do.
 Make sure you remember to pull and push, because otherwise some edits can get lost in the shuffle.
 
 Have fun!!!
+==Alternative (Supplemental) Method==
+1. get a github account: (from github.com)
+2. visit the github page for ssbds upstream while logged in: http://github.com/Spartan97/tjgamesssbds/tree/master 
+3. click fork button
+4. use the repository like you would use a normal one (more on this later)
+5. after you have pushed changes back, click the pull request button that is
+on your forked repository page.
+6. provide a small description of what you changed, and check the box for
+spartan97
+7. Send it

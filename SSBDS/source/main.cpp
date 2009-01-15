@@ -355,11 +355,17 @@ void characterSelect() {
 	// 0 = human, 1 = cpu1... 2 and 3 would be for other CPUs if I get that far
 
 	while(true) {
-		if(Pad.Newpress.R) selecting++;
-		if(Pad.Newpress.L) selecting--;
 		// changes who is choosing
-		if(selecting < 0) selecting = 3;
-		if(selecting > 3) selecting = 0;
+		if(Pad.Newpress.R){
+			selecting++;
+			if(selecting > 3) 
+				selecting = 0;
+		}
+		if(Pad.Newpress.L){
+			selecting--;
+			if(selecting < 0) 
+				selecting = 3;
+		}
 		// loops around selection number: max number of players is 1
 		PA_OutputText(SUB_SCREEN, 7, 23, "Select for player %d", selecting+1);
 		// prints who is being selected for... like I said: cursors will come later
