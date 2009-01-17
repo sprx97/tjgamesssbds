@@ -27,7 +27,7 @@ class Mario: public Fighter {
 			charnum = players.size();
 			startx = x;
 			starty = y;
-			action = "fall";
+			action = FALL;
 			aerial = true;
 			delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 			dx = dy = fastfall = DI = 0.0;
@@ -261,12 +261,12 @@ class Mario: public Fighter {
 		}
 	// actions
 		void bside() {
-			if(action != "bside") {
+			if(action != BSIDE) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 148, 10, ANIM_ONESHOT);
 				delay = 60/10 * 6;
 				setDirection();
 				dx = 0;
-				action = "bside";
+				action = BSIDE;
 				CAPE = true;
 			}
 			else {
@@ -278,7 +278,7 @@ class Mario: public Fighter {
 			}
 		}
 		void bup() {
-			if(action != "bup") {
+			if(action != BUP) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 137, 142, 20, ANIM_ONESHOT);
 				aerial = true;
 				delay = 60/20 * 6;
@@ -287,7 +287,7 @@ class Mario: public Fighter {
 				fastfall = 0;
 				DI = 0;
 				setDirection();
-				action = "bup";
+				action = BUP;
 #ifdef SFX_ON
 				AS_SoundQuickPlay(mariobup);
 #endif
@@ -306,14 +306,14 @@ class Mario: public Fighter {
 			}
 		}
 		void bdown() {
-			if(action != "bdown") {
+			if(action != BDOWN) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 149, 149, 20, ANIM_LOOP, -1);
 				delay = 60/20 * 1;
 				fluddcharge = 0;
 				dx = 0;
 				if(aerial) dy = -gravity/2;
 				else dy = 0;
-				action = "bdown";
+				action = BDOWN;
 			}
 			else if(Pad.Released.B && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 149) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 150, 150, 12, ANIM_LOOP, -1);
@@ -346,11 +346,11 @@ class Mario: public Fighter {
 			}
 		}
 		void bneut() {
-			if(action != "bneut") {
+			if(action != BNEUT) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 133, 12, ANIM_LOOP, -1);
 				delay = 60/12 * 2;
 				dx = 0;
-				action = "bneut";
+				action = BNEUT;
 			}
 			else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 133 && delay == 1) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 134, 134, 10, ANIM_LOOP, -1);

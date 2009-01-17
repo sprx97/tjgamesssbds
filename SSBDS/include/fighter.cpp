@@ -1,4 +1,5 @@
-static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15, DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22, SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31, HANG = 32, GRABBED = 33, GRAB = 34, GRABATK = 35, FTHROW = 36, BTHROW = 37, UTHROW = 38, DTHROW = 39, DEAD = 40;
+static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15, DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22, SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31, HANG = 32, GRABBED = 33, GRAB = 34, GRABATK = 35, FTHROW = 36, BTHROW = 37, UTHROW = 38, DTHROW = 39, DEAD = 40, BNEUT = 41, BSIDE = 42, BUP = 43, BDOWN = 44;
+static const int ATTACK = -1, AIRATTACK = -2, AIRLAG = -3, TILTLAG = -4, RELEASED = -5, RELEASE = -6, HOLD = -7;
 // shortcuts for actions
 class Fighter {
 	public:
@@ -22,7 +23,8 @@ class Fighter {
 		int jumpmax;
 		double x, y, startx, starty;
 		double dx, dy;
-		string action, direction;
+		string direction;
+		int action;
 		bool aerial;
 		int delay, jumpcount, startlag, landinglag, tiltlag, airlag, lcancel, hitstun;
 		double fastfall, DI;
@@ -134,17 +136,17 @@ class Fighter {
 				}
 			}
 			// finds disttance to it.
-			if(action == "bside") bside();
-			if(action == "bup") bup();
-			if(action == "bdown") bdown();
-			if(action == "bneut") bneut();
+			if(action == BSIDE) bside();
+			if(action == BUP) bup();
+			if(action == BDOWN) bdown();
+			if(action == BNEUT) bneut();
 			if(hitstun > k.length*2) {
 				if(y != stage.getFloors()[0].y ) aerial = true;
 				hitstun--;
 				dx = kx;
 				dy = ky;
 				if(hitstun == 0) {
-					action == "hitstun";
+					action == STUN;
 					if(aerial) fall();
 					else idle();
 				}
@@ -172,7 +174,7 @@ class Fighter {
 					if(dy > 0) dy = 0;
 				}
 				if(hitstun == 0) {
-					action = "hitstun";
+					action = STUN;
 					if(aerial) fall();
 					else idle();
 				}
@@ -186,14 +188,14 @@ class Fighter {
 					if(landinglag == 0) idle();
 				}
 				if(delay > 0) delay--;
-				if(action == "jump" || action == "doublejump") {
+				if(action == JUMP || action == DOUBLEJUMP) {
 					if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
 					else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 					// act in air
 				}
-				if(action == "dodge" && delay <= 0) shield();
-				if(action == "airdodge" && delay <= 0) fall();
-				if(action == "roll" && delay <= 0) {
+				if(action == DODGE && delay <= 0) shield();
+				if(action == AIRDODGE && delay <= 0) fall();
+				if(action == ROLL && delay <= 0) {
 					dx = 0;
 					if(direction == "left") {
 						direction = "right";
@@ -205,11 +207,11 @@ class Fighter {
 					}
 					shield();
 				}
-				if(action == "released" || action == "release") {
+				if(action == RELEASED || action == RELEASE) {
 					if(delay <= 0) idle();
 				}
-				if(action == "slide" && delay <= 0) idle();
-				if(action == "slide") {
+				if(action == SLIDE && delay <= 0) idle();
+				if(action == SLIDE) {
 					if(dx > 0) {
 						dx -= .25;
 						if(dx <= 0) dx = 0;
@@ -219,22 +221,22 @@ class Fighter {
 						if(dx >= 0) dx = 0;
 					}
 				}
-				if(action == "jab") {
+				if(action == JAB) {
 				
 				}
-				if(action == "attack") {
+				if(action == ATTACK) {
 					if(delay <= 0) {
 						idle();
 					}
 				}
-				if(action == "dashattack") {
+				if(action == DASHATTACK) {
 					x += dx;
 					if(delay <= 0) idle();
 				}
-				if(action == "bside" || action == "bup" || action == "bdown" || action == "bneut") {
+				if(action == BSIDE || action == BUP || action == BDOWN || action == BNEUT) {
 					if(delay <= 0) idle();
 				}
-				if(action == "airattack") {
+				if(action == AIRATTACK) {
 					if(checkFloorCollision()) {
 						if(delay > 0) land();
 						else idle();
@@ -244,8 +246,8 @@ class Fighter {
 					if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
 					else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 				} // checks for stage collision with aerial				
-				if((action == "jump" || action == "doublejump") && delay <= 0) fall(); // falls when jump/multijump are finished animating
-				if(action == "fall") {
+				if((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
+				if(action == FALL) {
 					if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
 					else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 					if(checkFloorCollision()) idle();
@@ -255,13 +257,13 @@ class Fighter {
 						doubleJump();
 					}
 				}
-				if(aerial && action != "airattack" && action != "airlag") {
+				if(aerial && action != AIRATTACK && action != AIRLAG) {
 					// act air
 				}
-				if(action == "shield") {
+				if(action == SHIELD) {
 					// idle or roll or dodge
 				}
-				if(action == "run") {
+				if(action == RUN) {
 					if((Cdistance < 30 && Cdistance > -30) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();					
 					else if(Cangle < -45 && Cangle > -135 && jumpcount == 0) {
 						if(Cx > 0) setDirection("right");
@@ -272,7 +274,7 @@ class Fighter {
 					// or run more
 					// or slide
 				}
-				if(action == "idle" || action == "") {
+				if(action == IDLE) {
 					if(Cdistance < 30 && Cdistance > -30) {
 						if(Cx > 0) setDirection("right");
 						if(Cx < 0) setDirection("left");
@@ -286,7 +288,7 @@ class Fighter {
 					else if(Cangle < 90 && Cangle > -90) run(1);
 					else if(Cangle > 90 || Cangle < -90) run(-1);
 				}
-				if(action == "crouch") {
+				if(action == CROUCH) {
 					// idle
 					// or dtilt
 					// or bdown
@@ -301,25 +303,25 @@ class Fighter {
 				actCPU();
 				return;
 			}
-			if(action == "bside") bside();
-			if(action == "bup") bup();
-			if(action == "bdown") bdown();
-			if(action == "bneut") bneut();
-			if(action == "fthrow") fthrow();
-			if(action == "bthrow") bthrow();
-			if(action == "dthrow") dthrow();
-			if(action == "uthrow") uthrow();
-			if(action == "chargeleft" && (Pad.Released.A || Pad.Released.B || delay == 0)) smashleft();
-			if(action == "chargeright" && (Pad.Released.A || Pad.Released.B || delay == 0)) smashright();
-			if(action == "chargeup" && (Pad.Released.A || Pad.Released.B || delay == 0)) smashup();
-			if(action == "chargedown" && (Pad.Released.A || Pad.Released.B || delay == 0)) smashdown();
+			if(action == BSIDE) bside();
+			if(action == BUP) bup();
+			if(action == BDOWN) bdown();
+			if(action == BNEUT) bneut();
+			if(action == FTHROW) fthrow();
+			if(action == BTHROW) bthrow();
+			if(action == DTHROW) dthrow();
+			if(action == UTHROW) uthrow();
+			if(action == CHARGELEFT && (Pad.Released.A || Pad.Released.B || delay == 0)) smashleft();
+			if(action == CHARGERIGHT && (Pad.Released.A || Pad.Released.B || delay == 0)) smashright();
+			if(action == CHARGEUP && (Pad.Released.A || Pad.Released.B || delay == 0)) smashup();
+			if(action == CHARGEDOWN && (Pad.Released.A || Pad.Released.B || delay == 0)) smashdown();
 			if(hitstun > k.length*2) {
 				if(y != stage.getFloors()[0].y ) aerial = true;
 				hitstun--;
 				dx = kx;
 				dy = ky;
 				if(hitstun == 0) {
-					action == "hitstun";
+					action == STUN;
 					if(aerial) fall();
 					else idle();
 				}
@@ -345,7 +347,7 @@ class Fighter {
 					if(ky > 0) ky = 0;
 				}
 				if(hitstun == 0) {
-					action = "hitstun";
+					action = STUN;
 					if(aerial) fall();
 					else idle();
 				}
@@ -425,7 +427,7 @@ class Fighter {
 					if(landinglag == 0) idle();
 				} // lags upon landing after an aerial
 				if(delay > 0) delay--; // counts down the time before a new animation is set (allows for animations to finish)
-				if(action == "hang") {
+				if(action == HANG) {
 					hangtime++;
 					if(Pad.Newpress.A || Pad.Newpress.B) {
 						y=y+handy-bottomside;
@@ -467,9 +469,9 @@ class Fighter {
 						}
 					}
 				}
-				if(action == "dodge" && delay <= 0) shield();
-				if(action == "airdodge" && delay <= 0) fall();
-				if(action == "roll" && delay <= 0) {
+				if(action == DODGE && delay <= 0) shield();
+				if(action == AIRDODGE && delay <= 0) fall();
+				if(action == ROLL && delay <= 0) {
 					dx = 0;
 					if(direction == "left") {
 						direction = "right";
@@ -481,13 +483,13 @@ class Fighter {
 					}
 					shield();
 				}
-				if(action == "release" || action == "released") {
+				if(action == RELEASE || action == RELEASED) {
 					if(delay <= 0) idle();
 				}
-				if(action == "slide" && delay <= 0) {
+				if(action == SLIDE && delay <= 0) {
 					idle();
 				}
-				if(action == "slide") {
+				if(action == SLIDE) {
 					if(dx > 0) {
 						dx -= .25;
 						if(dx <= 0) dx = 0;
@@ -497,27 +499,27 @@ class Fighter {
 						if(dx >= 0) dx = 0;
 					}
 				}
-				if(action == "jab") {
+				if(action == JAB) {
 					if((Pad.Released.A && delay > 100) || delay <= 0) {
 						idle();
 						delay = 0;
 					}
 				}
-				if(action == "attack") {
+				if(action == ATTACK) {
 					if(delay <= 0) {
 						chargecount = 0;
 						if(Pad.Held.Down) crouch();
 						else idle(); // idles when attack is done
 					}
 				} 
-				if(action == "dashattack") {
+				if(action == DASHATTACK) {
 					x += dx;
 					if(delay <= 0) idle();
 				}
-				if(action == "bside" || action == "bup" || action == "bdown" || action == "bneut") {
+				if(action == BSIDE || action == BUP || action == BDOWN || action == BNEUT) {
 					if(delay <= 0) idle();
 				}
-				if(action == "airattack") {
+				if(action == AIRATTACK) {
 					if(lcancel > 0) lcancel--;
 					if(checkFloorCollision()) {
 						if(delay > 0 && lcancel <= 0) land();
@@ -527,41 +529,41 @@ class Fighter {
 					else if(Pad.Newpress.R || Pad.Newpress.L) lcancel = 10;
 					else if(delay <= 0) fall();
 				} // checks for stage collision with aerial
-				if((action == "jump" || action == "doublejump") && delay <= 0) fall(); // falls when jump/multijump are finished animating
-				if((action == "doublejump" || action == "jump" ) && (Pad.Newpress.A || Stylus.Newpress || Pad.Newpress.B)) {
+				if((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
+				if((action == DOUBLEJUMP || action == JUMP ) && (Pad.Newpress.A || Stylus.Newpress || Pad.Newpress.B)) {
 					ymomentum = dy;
 					momentumtime = delay;
 					dy = 0;
 					if(Stylus.Newpress) airAttackStylus();
 					else airlag = 2;
 				}
-				if(action == "fall") {
+				if(action == FALL) {
 					directionalInfluence();
 					if(checkFloorCollision()) idle();
 				} // checks for stage collision when falling
-				if(aerial && action != "airattack" && action != "airlag" && action != "fthrow" && action != "bthrow" && action != "uthrow" && action != "dthrow") {
+				if(aerial && action != AIRATTACK && action != AIRLAG && action != FTHROW && action != BTHROW && action != UTHROW && action != DTHROW) {
 					actAir();
 				} // acts in the air
-				if(action == "shield") {
+				if(action == SHIELD) {
 					if(!Pad.Held.R && !Pad.Held.L) idle();
 					if(Pad.Newpress.Left || Pad.Newpress.Right) roll();
 					if(Pad.Newpress.Down) dodge();
 					if(Pad.Newpress.A) grab();
 				}
-				if(action == "grab") {
+				if(action == GRAB) {
 					if(delay <= 0) {
 						if(Pad.Held.R || Pad.Held.L) shield();
 						else idle();
 					}
 				}
-				if(action == "grabattack") {
+				if(action == GRABATK) {
 					grabtimeleft--;
 					if(delay <= 0) {
 						grabbedenemy -> percentage += 3;
 						hold(grabtimeleft);
 					}
 				}
-				if(action == "hold") {
+				if(action == HOLD) {
 					if(delay <= 0) {
 						if(direction == "right") {
 							release("left");
@@ -582,10 +584,10 @@ class Fighter {
 					else if((direction == "right" && Pad.Newpress.Left) || (direction == "left" && Pad.Newpress.Right)) bthrow();
 					else if((direction == "right" && Pad.Newpress.Right) || (direction == "left" && Pad.Newpress.Left)) fthrow();
 				}
-				if(action == "run") {
+				if(action == RUN) {
 					if(Pad.Newpress.Up || Pad.Newpress.X || Pad.Newpress.Y || Pad.Newpress.B) {
 						tiltlag = 5;
-						action = "tiltlag";
+						action = TILTLAG;
 					}
 					else if(Pad.Newpress.A) dashAttack();
 					else if(Stylus.Newpress) smashAttack();
@@ -593,11 +595,11 @@ class Fighter {
 					else if(Pad.Released.Right || Pad.Released.Left) slide();
 					else idle();
 				}
-				if(action == "idle" || action == "") {
+				if(action == IDLE) {
 					actGround();
 					setDirection();
 				}
-				if(action == "crouch") {
+				if(action == CROUCH) {
 					if(!Pad.Held.Down) idle();
 					if(Pad.Newpress.A) dtilt();
 					if(Pad.Newpress.B) bdown();
@@ -606,30 +608,30 @@ class Fighter {
 			move(); // moves
 		} // usually the acting method, but can be overwritten
 		void actAir() {
-			if(action == "bup" || action == "bdown" || action == "bside" || action == "bneut") return;
-			if(action == "airdodge") {
+			if(action == BUP || action == BDOWN || action == BSIDE || action == BNEUT) return;
+			if(action == AIRDODGE) {
 				if(checkFloorCollision()) {
 					dx *= 3;
 					slide();
 				}
 				return;
 			}
-			if((Pad.Newpress.A || (Pad.Newpress.Up && jumpmax <= 2) || (Pad.Held.Up && jumpmax > 2) /*|| Pad.Held.Down || Pad.Held.Right || Pad.Held.Left */|| Pad.Newpress.B || Pad.Newpress.R || Pad.Newpress.L) && action != "jump" && action != "doublejump") {
+			if((Pad.Newpress.A || (Pad.Newpress.Up && jumpmax <= 2) || (Pad.Held.Up && jumpmax > 2) /*|| Pad.Held.Down || Pad.Held.Right || Pad.Held.Left */|| Pad.Newpress.B || Pad.Newpress.R || Pad.Newpress.L) && action != JUMP && action != DOUBLEJUMP) {
 				airlag = 2;
-				action = "airlag";
+				action = AIRLAG;
 			}
-			if((Pad.Newpress.A || Pad.Newpress.B || Pad.Newpress.R || Pad.Newpress.L) && (action == "jump" || action == "doublejump")) {
+			if((Pad.Newpress.A || Pad.Newpress.B || Pad.Newpress.R || Pad.Newpress.L) && (action == JUMP || action == DOUBLEJUMP)) {
 				airlag = 2;
-				action = "airlag";
+				action = AIRLAG;
 			}
-			if((Pad.Newpress.X || Pad.Newpress.Y) && jumpcount < jumpmax && action != "jump" && action != "doublejump") doubleJump();  // uses second (3rd, 4th, etc) jump(s)
+			if((Pad.Newpress.X || Pad.Newpress.Y) && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) doubleJump();  // uses second (3rd, 4th, etc) jump(s)
 			if(Stylus.Newpress) airAttackStylus();
 			directionalInfluence();
 		}
 		void actGround() {
 			if(tiltlag <= 0) {
 				if(Pad.Newpress.R || Pad.Newpress.L || Pad.Held.Right || Pad.Held.Left || Pad.Newpress.Down || Pad.Newpress.Up || Pad.Newpress.A || Pad.Newpress.B || Pad.Newpress.X || Pad.Newpress.Y) {
-					action = "tiltlag";
+					action = TILTLAG;
 					tiltlag = 5;
 				}
 				else idle();
@@ -644,21 +646,21 @@ class Fighter {
 		virtual void bthrow() {}
 		virtual void fthrow() {}
 		void release(string dir) {
-			action = "release";
+			action = RELEASE;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
 			delay = 8;
 			if(dir == "right") dx = 2;
 			else dx = -2;
 		}
 		void released(string dir) {
-			action = "released";
+			action = RELEASED;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
 			delay = 8;
 			if(dir == "right") dx = 2;
 			else dx = -2;
 		}
 		void grabbed(int otherx, int othery) {
-			action = "grabbed";
+			action = GRABBED;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
 			x = otherx;
 			y = othery;
@@ -668,37 +670,37 @@ class Fighter {
 			playsound(GRABBED);
 		}
 		void grab() {
-			action = "grab";
+			action = GRAB;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRAB], endframes[GRAB], framespeeds[GRAB], ANIM_LOOP, -1);
 			setDirection();
 			delay = 60/framespeeds[GRAB] * (endframes[GRAB]-startframes[GRAB]+1);
 			playsound(GRAB);
 		}
 		void hold(int d = 300) {
-			action = "hold";
+			action = HOLD;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, endframes[GRAB], endframes[GRAB], 20, ANIM_LOOP, -1);
 			delay = d;
 		}
 		void grabattack() {
-			action = "grabattack";
+			action = GRABATK;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABATK], endframes[GRABATK], framespeeds[GRABATK], ANIM_LOOP, -1);
 			delay = 60/framespeeds[GRABATK] * (endframes[GRABATK]-startframes[GRABATK]+1);
 			playsound(GRABATK);
 		}
 		void land() {
-			action = "land";
+			action = LAND;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[LAND], endframes[LAND], framespeeds[LAND], ANIM_LOOP, -1);
 			landinglag = delay;
 			startlag = landinglag;
 			playsound(LAND);
 		}
 		void shield() {
-			action = "shield";
+			action = SHIELD;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHIELD], endframes[SHIELD], framespeeds[SHIELD], ANIM_LOOP, -1);
 			playsound(SHIELD);	
 		}
 		void roll(string dir = "") {
-			action = "roll";
+			action = ROLL;
 			setDirection();
 			if(dir == "") {
 				if(Pad.Held.Left) dir = "left";
@@ -711,14 +713,14 @@ class Fighter {
 			playsound(ROLL);
 		}
 		void dodge() {
-			action = "dodge";
+			action = DODGE;
 			setDirection();
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DODGE], endframes[DODGE], framespeeds[DODGE], ANIM_LOOP, -1);
 			delay = 60/framespeeds[DODGE] * (endframes[DODGE]-startframes[DODGE]+1);
 			playsound(DODGE);
 		}
 		void airdodge() {
-			action = "airdodge";
+			action = AIRDODGE;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[AIRDODGE], endframes[AIRDODGE], framespeeds[AIRDODGE], ANIM_LOOP, -1);
 			delay = 60/framespeeds[AIRDODGE] * (endframes[AIRDODGE]-startframes[AIRDODGE]+1);
 			if(Pad.Held.Up) dy = -gravity -2;
@@ -735,7 +737,7 @@ class Fighter {
 			playsound(AIRDODGE);
 		}
 		void crouch() {
-			action = "crouch";
+			action = CROUCH;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CROUCH], endframes[CROUCH], framespeeds[CROUCH], ANIM_LOOP, -1);
 			playsound(CROUCH);
 		}
@@ -745,18 +747,18 @@ class Fighter {
 			directionalInfluence();
 			dy = 0;
 			dx = 0;
-			action = "fall";
+			action = FALL;
 			playsound(FALL);
 		}
 		void idle() {
-			if(action != "idle") PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[IDLE], endframes[IDLE], framespeeds[IDLE], ANIM_LOOP, -1);
+			if(action != IDLE) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[IDLE], endframes[IDLE], framespeeds[IDLE], ANIM_LOOP, -1);
 			dx = 0;
 			dy = 0;
-			action = "idle";
+			action = IDLE;
 			playsound(IDLE);
 		}
 		void run(int d = 0) {
-			if(action != "run") PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[RUN], endframes[RUN], framespeeds[RUN], ANIM_LOOP, -1);
+			if(action != RUN) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[RUN], endframes[RUN], framespeeds[RUN], ANIM_LOOP, -1);
 			if(d == 0) {
 				if(Pad.Held.Left) dx = -4;
 				if(Pad.Held.Right) dx = 4;
@@ -767,7 +769,7 @@ class Fighter {
 				if(d > 0) setDirection("right");
 				if(d < 0) setDirection("left");
 			}
-			action = "run";
+			action = RUN;
 			playsound(RUN);
 		}
 		void shorthop() {
@@ -776,7 +778,7 @@ class Fighter {
 			fastfall = 0;
 			dx = 0;
 			delay = 60/framespeeds[SHORTHOP] * (endframes[SHORTHOP] - startframes[SHORTHOP] + 1);
-			action = "jump";
+			action = JUMP;
 			aerial = true;
 			jumpcount++;
 			playsound(SHORTHOP);
@@ -787,14 +789,14 @@ class Fighter {
 			fastfall = 0;
 			dx = 0;
 			delay = 60/framespeeds[JUMP] * (endframes[JUMP] - startframes[JUMP] + 1);
-			action = "jump";
+			action = JUMP;
 			aerial = true;
 			jumpcount++;
 			playsound(JUMP);
 		}
 		void doubleJump() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DOUBLEJUMP], endframes[DOUBLEJUMP], framespeeds[DOUBLEJUMP], ANIM_LOOP, -1);
-			action = "doublejump";
+			action = DOUBLEJUMP;
 			dy = -3.5 - .5 * (jumpmax-jumpcount);
 			fastfall = 0;
 			delay = 60/framespeeds[DOUBLEJUMP] * (endframes[DOUBLEJUMP] - startframes[DOUBLEJUMP] + 1);
@@ -810,7 +812,7 @@ class Fighter {
 			playsound(DOUBLEJUMP);
 		}
 		void jab() {
-			action = "jab";
+			action = JAB;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
 			delay = 60/framespeeds[JAB] * (endframes[JAB]-startframes[JAB]+1);
 			playsound(JAB);
@@ -820,24 +822,25 @@ class Fighter {
 			if(Pad.Held.Right) dx = 1.5;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DASHATTACK], endframes[DASHATTACK], framespeeds[DASHATTACK], ANIM_LOOP, -1);
 			delay = 60/framespeeds[DASHATTACK] * (endframes[DASHATTACK]-startframes[DASHATTACK]+1);
+			action = DASHATTACK;
 			playsound(DASHATTACK);
 		}
 		void ftilt() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FTILT], endframes[FTILT], framespeeds[FTILT], ANIM_LOOP, -1);
-			action = "attack";
+			action = ATTACK;
 			delay = 60/framespeeds[FTILT] * (endframes[FTILT]-startframes[FTILT]+1);
 			setDirection();
 			playsound(FTILT);
 		}
 		void utilt() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[UTILT], endframes[UTILT], framespeeds[UTILT], ANIM_LOOP, -1);
-			action = "attack";
+			action = ATTACK;
 			delay = 60/framespeeds[UTILT] * (endframes[UTILT]-startframes[UTILT]+1);		
 			playsound(UTILT);
 		}
 		void dtilt() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DTILT], endframes[DTILT], framespeeds[DTILT], ANIM_LOOP, -1);
-			action = "attack";
+			action = ATTACK;
 			delay = 60/framespeeds[DTILT] * (endframes[DTILT]-startframes[DTILT]+1);		
 			playsound(DTILT);		
 		}
@@ -845,7 +848,7 @@ class Fighter {
 			chargecount = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGELEFT], endframes[CHARGELEFT], framespeeds[CHARGELEFT], ANIM_LOOP, -1);
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
-			action = "chargeleft";
+			action = CHARGELEFT;
 			direction = "left";
 			dx = 0;
 			delay = 60/framespeeds[CHARGELEFT] * (endframes[CHARGELEFT]-startframes[CHARGELEFT]+1) * 15;
@@ -855,7 +858,7 @@ class Fighter {
 			chargecount = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGERIGHT], endframes[CHARGERIGHT], framespeeds[CHARGERIGHT], ANIM_LOOP, -1);
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
-			action = "chargeright";
+			action = CHARGERIGHT;
 			direction = "right";
 			dx = 0;
 			delay = 60/framespeeds[CHARGERIGHT] * (endframes[CHARGERIGHT]-startframes[CHARGERIGHT]+1) * 15;
@@ -864,14 +867,14 @@ class Fighter {
 		void chargeup() {
 			chargecount = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGEUP], endframes[CHARGEUP], framespeeds[CHARGEUP], ANIM_LOOP, -1);
-			action = "chargeup";
+			action = CHARGEUP;
 			delay = 60/framespeeds[CHARGEUP] * (endframes[CHARGEUP]-startframes[CHARGEUP]+1) * 15;
 			playsound(CHARGEUP);
 		}
 		void chargedown() {
 			chargecount = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGEDOWN], endframes[CHARGEDOWN], framespeeds[CHARGEDOWN], ANIM_LOOP, -1);
-			action = "chargedown";
+			action = CHARGEDOWN;
 			dx = 0;
 			delay = 60/framespeeds[CHARGEDOWN] * (endframes[CHARGEDOWN]-startframes[CHARGEDOWN]+1) * 15;
 			playsound(CHARGEDOWN);
@@ -879,7 +882,7 @@ class Fighter {
 		void smashleft() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHLEFT], endframes[SMASHLEFT], framespeeds[SMASHLEFT], ANIM_LOOP, -1);
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
-			action = "attack";
+			action = ATTACK;
 			direction = "left";
 			delay = 60/framespeeds[SMASHLEFT] * (endframes[SMASHLEFT]-startframes[SMASHLEFT]+1);
 			playsound(SMASHLEFT);
@@ -887,32 +890,32 @@ class Fighter {
 		void smashright() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHRIGHT], endframes[SMASHRIGHT], framespeeds[SMASHRIGHT], ANIM_LOOP, -1);
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
-			action = "attack";
+			action = ATTACK;
 			direction = "right";
 			delay = 60/framespeeds[SMASHRIGHT] * (endframes[SMASHRIGHT]-startframes[SMASHRIGHT]+1);
 			playsound(SMASHRIGHT);
 		}
 		void smashup() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHUP], endframes[SMASHUP], framespeeds[SMASHUP], ANIM_LOOP, -1);
-			action = "attack";
+			action = ATTACK;
 			delay = 60/framespeeds[SMASHUP] * (endframes[SMASHUP]-startframes[SMASHUP]+1);
 			playsound(SMASHUP);
 		}
 		void smashdown() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHDOWN], endframes[SMASHDOWN], framespeeds[SMASHDOWN], ANIM_LOOP, -1);
-			action = "attack";
+			action = ATTACK;
 			delay = 60/framespeeds[SMASHDOWN] * (endframes[SMASHDOWN]-startframes[SMASHDOWN]+1);
 			playsound(SMASHDOWN);
 		}
 		void fair() {
-			action = "airattack";
+			action = AIRATTACK;
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FAIR], endframes[FAIR], framespeeds[FAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[FAIR] * (endframes[FAIR] - startframes[FAIR] + 1);
 			playsound(FAIR);
 		}
 		void bair() {
-			action = "airattack";
+			action = AIRATTACK;
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[BAIR], endframes[BAIR], framespeeds[BAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[BAIR] * (endframes[BAIR] - startframes[BAIR] + 1);
@@ -921,40 +924,40 @@ class Fighter {
 			playsound(BAIR);
 		}
 		void uair() {
-			action = "airattack";
+			action = AIRATTACK;
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[UAIR], endframes[UAIR], framespeeds[UAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[UAIR] * (endframes[UAIR] - startframes[UAIR] + 1);
 			playsound(UAIR);
 		}
 		void dair() {
-			action = "airattack";
+			action = AIRATTACK;
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DAIR], endframes[DAIR], framespeeds[DAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[DAIR] * (endframes[DAIR] - startframes[DAIR] + 1);
 			playsound(DAIR);
 		}
 		void nair() {
-			action = "airattack";
+			action = AIRATTACK;
 			dy = 0;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[NAIR], endframes[NAIR], framespeeds[NAIR], ANIM_LOOP, -1);
 			delay = 60/framespeeds[NAIR] * (endframes[NAIR] - startframes[NAIR] + 1);
 			playsound(NAIR);
 		}
 		void stun() {
-			action = "hitstun";
+			action = STUN;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[STUN], endframes[STUN], framespeeds[STUN], ANIM_LOOP, -1);
 			playsound(STUN);
 		}
 		void slide() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SLIDE], endframes[SLIDE], framespeeds[SLIDE], ANIM_LOOP, -1);
-			action = "slide";
+			action = SLIDE;
 			delay = 5;
 			playsound(SLIDE);
 		}
 		void hang() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[HANG], endframes[HANG], framespeeds[HANG], ANIM_LOOP, -1);
-			action = "hang";
+			action = HANG;
 			hangtime = 0;
 		}
 	// Sound playing
@@ -970,7 +973,7 @@ class Fighter {
 		int getHitstun() { return hitstun; }
 		double getDamagePercent() { return percentage; }
 		void takeDamage(Circle other, int mult, int hitter, int charge) {
-			if(action != "hitstun") stun();
+			if(action != STUN) stun();
 			percentage += other.damage + (int)((charge/225) * (.5*other.damage));
 #ifdef SFX_ON
 			if(effectwait <= 0) {	
@@ -1005,8 +1008,8 @@ class Fighter {
 		}
 		Fighter* checkHits(Fighter* other) {
 			if(getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
-				if(action == "hold" || action == "grabattack") {}
-				else if(action == "grab") {
+				if(action == HOLD || action == GRABATK) {}
+				else if(action == GRAB) {
 					if(direction == "right") other -> grabbed(x+handx, y);
 					else other -> grabbed(x-handx, y);
 					other -> grabbedby = this;
@@ -1081,8 +1084,8 @@ class Fighter {
 			if(touchy > 128 && touchx > 96 && touchx < 160) chargedown();
 		}
 		void move() {
-			if(action == "hang") { return; }
-			if(action == "grabbed") {}
+			if(action == HANG) { return; }
+			if(action == GRABBED) {}
 			else if(!aerial) {
 				if(!checkFloorCollision()) {
 					fall();
@@ -1091,10 +1094,10 @@ class Fighter {
 			}
 			else {
 				if(!isCPU) directionalInfluence();
-				if(action == "airattacK") {
+				if(action == AIRATTACK) {
 					fastfall = 0;
 				}
-				if(action == "airdodge" || action == "fthrow" || action == "dthrow" || action == "uthrow" || action == "bthrow") {
+				if(action == AIRDODGE || action == FTHROW || action == DTHROW || action == UTHROW || action == BTHROW) {
 					fastfall = 0;
 					DI = 0;
 					ymomentum = 0;
@@ -1113,7 +1116,7 @@ class Fighter {
 					ymomentum = 0;
 				}
 			}
-			if(action == "attack") jaywalk();
+			if(action == ATTACK) jaywalk();
 			if(aerial) y += gravity;
 			if(aerial) y += fastfall;
 			if(aerial) x += DI;
@@ -1123,7 +1126,7 @@ class Fighter {
 		virtual void jaywalk() {}
 		void setDirection(string rl = "") {
 			string olddirection = direction;
-			if(action == "hitstun") {
+			if(action == STUN) {
 				if(kx > 0) direction = "right";
 				else if(kx < 0) direction = "left";
 			}
@@ -1153,9 +1156,9 @@ class Fighter {
 				if(Pad.Held.Left) DI = -1;
 				if(Pad.Held.Down) fastfall = 2;
 				else fastfall = 0;
-				if(!Pad.Held.Right && !Pad.Held.Left || action == "bdown") DI = 0;
+				if(!Pad.Held.Right && !Pad.Held.Left || action == BDOWN) DI = 0;
 			
-	//			if(Pad.Held.Down && (action != "jump" && action != "doublejump")) fastfall = 1;
+	//			if(Pad.Held.Down && (action != JUMP && action != DOUBLEJUMP)) fastfall = 1;
 	//			if(Pad.Held.Up) fastfall = 0;
 			// slightly influences direction
 			}
@@ -1192,7 +1195,7 @@ class Fighter {
 			lasthitby = -1;
 			x = startx;
 			y = starty;
-			action = "fall";
+			action = FALL;
 			fall();
 			direction = "";
 			aerial = true;
@@ -1204,7 +1207,7 @@ class Fighter {
 			vector<Ledge> ledges = stage.getLedges();
 			for(int n = 0; n < ledges.size(); n++) {
 				Ledge currledge = ledges[n];
-				if(action != "hitstun" && action != "hang") {
+				if(action != STUN && action != HANG) {
 					if(currledge.direction == "right") {
 						if(ledgewait <= 0 && x+leftside > currledge.x - 20 && x+leftside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
 							hang();

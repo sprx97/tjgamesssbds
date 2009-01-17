@@ -27,7 +27,7 @@ class Mewtwo: public Fighter {
 			charnum = players.size();
 			startx = x;
 			starty = y;
-			action = "fall";
+			action = FALL;
 			aerial = true;
 			delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 			dx = dy = fastfall = DI = 0.0;
@@ -253,12 +253,12 @@ class Mewtwo: public Fighter {
 		}
 	// actions
 		void bside() {
-			if(action != "bside") {
+			if(action != BSIDE) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 135, 136, 10, ANIM_LOOP, -1);
 				delay = 60/10 * 2;
 				setDirection();
 				dx = 0;
-				action = "bside";
+				action = BSIDE;
 			}
 			else if((PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 141 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 136) && delay == 1) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 137, 141, 10, ANIM_LOOP, -1);
@@ -270,7 +270,7 @@ class Mewtwo: public Fighter {
 			}
 		}
 		void bup() {
-			if(action != "bup") {
+			if(action != BUP) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 119, 122, 10, ANIM_ONESHOT);
 				aerial = true;
 				delay = 60/10 * 4;
@@ -278,27 +278,27 @@ class Mewtwo: public Fighter {
 				dx = 0;
 				DI = 0;
 				fastfall = 0;
-				action = "bup";
+				action = BUP;
 				setDirection();
 			}
-			else if(action == "bup" && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122 && delay == 1) {
+			else if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122 && delay == 1) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 122, 125, 10, ANIM_ONESHOT);
 				aerial = true;
 				delay = 60/10 * 4;
 				y += -200;
 			}
-			else if(action == "bup" && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125 && delay == 1) {
+			else if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125 && delay == 1) {
 				if(!checkFloorCollision()) fall();
 				else idle();
 			}
 		}
 		void bdown() {
-			if(action != "bdown" || (Pad.Held.B && delay == 1)) {
+			if(action != BDOWN || (Pad.Held.B && delay == 1)) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 145, 10, ANIM_LOOP, -1);
 				delay = 60/10 * 3;
 				if(aerial) dy = -gravity/2;
 				dx = 0;
-				action = "bdown";
+				action = BDOWN;
 			}
 			else if(!Pad.Held.B) {
 				if(checkFloorCollision()) idle();
@@ -307,24 +307,24 @@ class Mewtwo: public Fighter {
 			else if(aerial && checkFloorCollision()) dy = 0;
 		}
 		void bneut() {
-			if(action != "bneut") {
+			if(action != BNEUT) {
 				if(shadowballcharge < 40) {
 					PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 126, 127, 15, ANIM_LOOP, -1);
 					delay = 60/15 * 2 * 5;
 					dx = 0;
-					action = "bneut";				
+					action = BNEUT;				
 				}
 				else if(shadowballcharge < 80) {
 					PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 128, 129, 15, ANIM_LOOP, -1);
 					delay = 60/15 * 2 * 5;
 					dx = 0;
-					action = "bneut";
+					action = BNEUT;
 				}
 				else if(shadowballcharge < 120) {
 					PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 130, 131, 15, ANIM_LOOP, -1);
 					delay = 60/15 * 2 * 5;
 					dx = 0;
-					action = "bneut";
+					action = BNEUT;
 				}
 				else if(shadowballcharge == 120) {
 					PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 134, 15, ANIM_LOOP, -1);
@@ -338,7 +338,7 @@ class Mewtwo: public Fighter {
 					projectiles.push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage));
 #endif
 					shadowballcharge = 0;
-					action = "bneut";
+					action = BNEUT;
 					dx = 0;
 				}
 			}
