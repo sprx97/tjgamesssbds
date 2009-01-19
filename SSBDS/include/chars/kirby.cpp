@@ -223,27 +223,7 @@ class Kirby: public Fighter {
 			startframes.push_back(208);
 			endframes.push_back(211);
 			framespeeds.push_back(10);
-						
-			// FTHROW
-			startframes.push_back(212);
-			endframes.push_back(218);
-			framespeeds.push_back(20);
-						
-			// BTHROW
-			startframes.push_back(219);
-			endframes.push_back(222);
-			framespeeds.push_back(15);
-						
-			// UTHROW
-			startframes.push_back(223);
-			endframes.push_back(226);
-			framespeeds.push_back(10);
-			
-			// DTHROW
-			startframes.push_back(227);
-			endframes.push_back(232);
-			framespeeds.push_back(15);
-			
+
 			// DEAD
 			startframes.push_back(233);
 			endframes.push_back(233);
@@ -561,7 +541,7 @@ class Kirby: public Fighter {
 			}
 			else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 232) {
 				int mult = -1;
-				grabbedenemy -> k = Knockback(.5, -2, 7);
+				grabbedenemy -> k = Knockback(.5, -2, 12);
 				if(direction == "right") {
 					mult = 1;
 				}
