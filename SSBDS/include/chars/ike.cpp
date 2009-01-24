@@ -29,7 +29,7 @@ class Ike: public Fighter {
 			charnum = players.size();
 			startx = x;
 			starty = y;
-			action = "fall";
+			action = FALL;
 			aerial = true;
 			delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 			dx = dy = fastfall = DI = 0.0;
@@ -264,14 +264,14 @@ class Ike: public Fighter {
 		}
 	// actions
 		void bside() {
-			if(action != "bside") {
+			if(action != BSIDE) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 108, 108, 12, ANIM_LOOP, -1);
 				delay = 60/12 * 1;
 				setDirection();
 				dx = 0;
 				if(aerial) dy = -gravity/2;
 				else dy = 0;
-				action = "bside";
+				action = BSIDE;
 				quickdrawcharge = 0;
 			}
 			else if(Pad.Released.B) {
@@ -301,14 +301,14 @@ class Ike: public Fighter {
 			}
 		}
 		void bup() {
-			if(action != "bup") {
+			if(action != BUP) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 118, 122, 15, ANIM_LOOP, -1);
 				delay = 60/15 * 5;
 				setDirection();
 				dx = 0;
 				if(aerial) dy = -gravity;
 				else dy = 0;
-				action = "bup";
+				action = BUP;
 				int directionmodifier = 1;
 				if(direction == "right") directionmodifier = -1;
 				Hitbox tempbox;
@@ -352,7 +352,7 @@ class Ike: public Fighter {
 			}
 		}
 		void bdown() {
-			if(action != "bdown") {
+			if(action != BDOWN) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 139, 142, 10, ANIM_UPDOWN, 5);
 #ifdef SFX_ON
 				AS_SoundQuickPlay(ikebdown);
@@ -362,7 +362,7 @@ class Ike: public Fighter {
 				dx = 0;
 				if(aerial) dy = -gravity/2;
 				else dy = 0;
-				action = "bdown";
+				action = BDOWN;
 				COUNTER = true;
 			}
 			else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 142) {
@@ -376,14 +376,14 @@ class Ike: public Fighter {
 			}
 		}
 		void bneut() {
-			if(action != "bneut") {
+			if(action != BNEUT) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 99, 99, 15, ANIM_LOOP, -1);
 				delay = 60/15 * 1;
 				setDirection();
 				dx = 0;
 				if(aerial) dy = -gravity/2;
 				else dy = 0;
-				action = "bneut";
+				action = BNEUT;
 				eruptioncharge = 0;				
 			}
 			else if((Pad.Released.B && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99) || (eruptioncharge == 300 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99)) {

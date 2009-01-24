@@ -26,7 +26,7 @@ class Kirby: public Fighter {
 			charnum = players.size();
 			startx = x;
 			starty = y;
-			action = "fall";
+			action = FALL;
 			aerial = true;
 			delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 			dx = dy = fastfall = DI = 0.0;
@@ -223,27 +223,7 @@ class Kirby: public Fighter {
 			startframes.push_back(208);
 			endframes.push_back(211);
 			framespeeds.push_back(10);
-						
-			// FTHROW
-			startframes.push_back(212);
-			endframes.push_back(218);
-			framespeeds.push_back(20);
-						
-			// BTHROW
-			startframes.push_back(219);
-			endframes.push_back(222);
-			framespeeds.push_back(15);
-						
-			// UTHROW
-			startframes.push_back(223);
-			endframes.push_back(226);
-			framespeeds.push_back(10);
-			
-			// DTHROW
-			startframes.push_back(227);
-			endframes.push_back(232);
-			framespeeds.push_back(15);
-			
+
 			// DEAD
 			startframes.push_back(233);
 			endframes.push_back(233);
@@ -260,7 +240,7 @@ class Kirby: public Fighter {
 		}
 	// actions
 		void bside() {
-			if(action != "bside") {
+			if(action != BSIDE) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 178, 186, 15, ANIM_ONESHOT);
 #ifdef SFX_ON
 				AS_SoundQuickPlay(kirbybside);
@@ -268,7 +248,7 @@ class Kirby: public Fighter {
 				delay = 60/15 * 9;
 				setDirection();
 				dx = 0;
-				action = "bside";
+				action = BSIDE;
 			}
 			else {
 				if(delay == 1) {
@@ -278,7 +258,7 @@ class Kirby: public Fighter {
 			}
 		}
 		void bup() {
-			if(action != "bup") {
+			if(action != BUP) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 190, 199, 20, ANIM_ONESHOT);
 #ifdef SFX_ON
 				AS_SoundQuickPlay(kirbybup1);
@@ -290,7 +270,7 @@ class Kirby: public Fighter {
 				fastfall = 0;
 				DI = 0;
 				setDirection();
-				action = "bup";
+				action = BUP;
 			}
 			else {
 				if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 199) {
@@ -324,12 +304,12 @@ class Kirby: public Fighter {
 			}
 		}
 		void bdown() {
-			if(action != "bdown") {
+			if(action != BDOWN) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 187, 188, 20, ANIM_LOOP, -1);
 				delay = 60/20 * 2;
 				dy = -gravity;
 				dx = 0;
-				action = "bdown";
+				action = BDOWN;
 				rockcount = 250;
 			}
 			else {
@@ -371,12 +351,12 @@ class Kirby: public Fighter {
 			}
 		}
 		void bneut() {
-			if(action != "bneut") {
+			if(action != BNEUT) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 172, 172, 10, ANIM_LOOP, -1);
 				delay = 60/10 * 1;
 				setDirection();
 				dx = 0;
-				action = "bneut";
+				action = BNEUT;
 			}
 			else {
 				if(Pad.Released.B) {
@@ -394,11 +374,11 @@ class Kirby: public Fighter {
 			}
 		}
 		void fthrow() {
-			if(action != "fthrow") {
+			if(action != FTHROW) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 212, 218, 10, ANIM_LOOP, -1);
 				playsound(FTHROW);
 				delay = 60/10 * (218-212+1);
-				action = "fthrow";
+				action = FTHROW;
 			}
 			else if(delay <= 0) {
 				int mult = -1;
@@ -446,11 +426,11 @@ class Kirby: public Fighter {
 			}	
 		}
 		void bthrow() {
-			if(action != "bthrow") {
+			if(action != BTHROW) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 219, 223, 10, ANIM_LOOP, -1);
 				playsound(BTHROW);
 				delay = 60/10 * (223-219+1);
-				action = "bthrow";
+				action = BTHROW;
 			}
 			else if(delay <= 0) {
 				int mult = 1;
@@ -497,11 +477,11 @@ class Kirby: public Fighter {
 			}	
 		}
 		void uthrow() {
-			if(action != "uthrow") {
+			if(action != UTHROW) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 223, 226, 10, ANIM_LOOP, -1);
 				playsound(UTHROW);
 				delay = 60/10 * (226-223+1);
-				action = "uthrow";
+				action = UTHROW;
 			}		
 			else if(delay <= 0) {
 				int mult = -1;
@@ -540,11 +520,11 @@ class Kirby: public Fighter {
 			}	
 		}
 		void dthrow() {
-			if(action != "dthrow") {
+			if(action != DTHROW) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 227, 228, 10, ANIM_LOOP, -1);
 				playsound(DTHROW);
 				delay = 60/10 * (228-227+1);
-				action = "dthrow";
+				action = DTHROW;
 				if(direction == "right") dx = 2;
 				else dx = -2;
 			}		
@@ -561,7 +541,7 @@ class Kirby: public Fighter {
 			}
 			else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 232) {
 				int mult = -1;
-				grabbedenemy -> k = Knockback(.5, -2, 7);
+				grabbedenemy -> k = Knockback(.5, -2, 12);
 				if(direction == "right") {
 					mult = 1;
 				}
