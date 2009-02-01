@@ -1,4 +1,7 @@
-It seems that everything is set up. Feel free to edit, but ***LEAVE DESCRIPTIVE COMMITS*** I don't want to have to spend forever figuring out who edited what when. Also, check recent commits before you edit, to get a feel for what is being done, what needs to be done, and what hasn't been started yet. Also check out the wiki for a simple TODO list (thanks to Patrick!).
+UPDATE 1/31/09: I really like how far I've gotten with this, and I'm nearing the point where I can use lot of help (character creation). But, junior year has finally kicked in and I don't have enough free time to work often on this project. I don't plan to be doing much on this until after APs (Mid-May), but come end of year and over the summer I hope to progress this to the point where a few in-person instructional sessions will allow for faster production and let the game to hit beta-testing status.
+
+Sorry for how poorly worded that was; it's late and it's hard to put what I'm trying to say into words.
+
 
 As for directions:
 
