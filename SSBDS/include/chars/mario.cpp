@@ -380,5 +380,25 @@ class Mario: public Fighter {
 			else if(aerial && checkFloorCollision()) dy = 0;
 			else {}
 		}
+		void fthrow() {
+			if(action != FTHROW) {
+			
+			}
+		}
+		void bthrow() {
+			if(action != BTHROW) {
+			
+			}
+		}
+		void uthrow() {
+			if(action != UTHROW) {
+			
+			}
+		}
+		void dthrow() {
+			if(action != DTHROW) {
+			
+			}
+		}
 		void jaywalk() {}
 };
