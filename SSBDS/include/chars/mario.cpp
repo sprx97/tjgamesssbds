@@ -365,7 +365,17 @@ class Mario: public Fighter {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 153, 155, 12, ANIM_LOOP, -1);
 				playsound(FTHROW);
 				delay = 60/12 * (155-153+1);
-				action = FTHROW;
+				action = FTHROW;		
+			}
+			if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 153) {
+				if(direction == "left") grabbedenemy -> dx = 8;
+				else grabbedenemy -> dx = -8;
+			}
+			if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 154 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 155) {
+				if(direction == "left") grabbedenemy -> dx = -8;
+				else grabbedenemy -> dx = 8;
+			}
+			if(delay <= 0) {
 				int mult = -1;
 				grabbedenemy -> k = Knockback(2, -2, 7);
 				if(direction == "right") {
@@ -378,16 +388,36 @@ class Mario: public Fighter {
 				grabbedenemy -> percentage += 7;
 				grabbedenemy -> stun();
 				grabbedenemy -> lasthitby = charnum;
-				grabbedenemy = NULL;			
+				grabbedenemy = NULL;	
+				idle();
 			}
-			if(delay <= 0) idle();
 		}
 		void bthrow() {
 			if(action != BTHROW) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 156, 162, 20, ANIM_LOOP, -1);
+				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 156, 162, 12, ANIM_LOOP, -1);
 				playsound(BTHROW);
-				delay = 60/20 * (162-156+1);
+				delay = 60/12 * (162-156+1);
 				action = BTHROW;
+			}
+			if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 156 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 157) {
+				if(direction == "left") grabbedenemy -> dx = 4;
+				else grabbedenemy -> dx = -4;
+			}
+			if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 158) {
+				grabbedenemy -> dx = 0;
+			}
+			if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 159 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 160) {
+				if(direction == "left") grabbedenemy -> dx = -4;
+				else grabbedenemy -> dx = 4;
+			}
+			if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 161) {
+				grabbedenemy -> dx = 0;
+			}
+			if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 162) {
+				if(direction == "left") grabbedenemy -> dx = 8;
+				else grabbedenemy -> dx = -8;
+			}
+			if(delay <= 0) {
 				int mult = 1;
 				grabbedenemy -> k = Knockback(2.5, -2, 7);
 				if(direction == "right") {
@@ -401,8 +431,8 @@ class Mario: public Fighter {
 				grabbedenemy -> stun();
 				grabbedenemy -> lasthitby = charnum;
 				grabbedenemy = NULL;
+				idle();
 			}
-			if(delay <= 0) idle();
 		}
 		void uthrow() {
 			if(action != UTHROW) {
@@ -410,6 +440,10 @@ class Mario: public Fighter {
 				playsound(UTHROW);
 				delay = 60/12 * (165-163+1);
 				action = UTHROW;
+				if(direction == "left") grabbedenemy -> dx = 2;
+				else grabbedenemy -> dx = -2;
+			}
+			if(delay <= 0) {
 				int mult = -1;
 				grabbedenemy -> k = Knockback(0, -3, 5);
 				if(direction == "right") {
@@ -423,8 +457,8 @@ class Mario: public Fighter {
 				grabbedenemy -> stun();
 				grabbedenemy -> lasthitby = charnum;
 				grabbedenemy = NULL;
+				idle();		
 			}
-			if(delay <= 0) idle();		
 		}
 		void dthrow() {
 			if(action != DTHROW) {
@@ -432,6 +466,14 @@ class Mario: public Fighter {
 				playsound(DTHROW);
 				delay = 60/12 * (168-165+1);
 				action = DTHROW;
+				if(direction == "left") grabbedenemy -> dx = 2;
+				else grabbedenemy -> dx = -2;
+				grabbedenemy -> dy = .5;
+			}
+			if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 167) {
+				grabbedenemy -> dx = 0;
+			}
+			if(delay <= 0) {
 				int mult = -1;
 				grabbedenemy -> k = Knockback(1, -2.5, 7);
 				if(direction == "right") {
@@ -445,8 +487,8 @@ class Mario: public Fighter {
 				grabbedenemy -> stun();
 				grabbedenemy -> lasthitby = charnum;
 				grabbedenemy = NULL;
+				idle();
 			}
-			if(delay <= 0) idle();
 		}
 		void jaywalk() {}
 };

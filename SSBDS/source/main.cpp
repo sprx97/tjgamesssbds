@@ -1,5 +1,5 @@
 // Game designed by TJgames of TJHSST
-// Head Developer: Jeremy Vercillo
+// Head Developer(s): Jeremy Vercillo
 // Assistant Developer(s): Tyler Haines, Daniel Johnson, Patrick Stalcup
 // Head Advisor: Andrew Kim
 // 6/08 - ???
@@ -822,7 +822,7 @@ void mainMenu() {
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
 
 #ifdef MP3_ON
-	AS_MP3StreamPlay("/SSBDS_Files/music/mainmenu.mp3");
+	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
 	// plays main menu music
 #endif
 	PA_LoadSpritePal(SUB_SCREEN, 0, (void*)menusolo_Pal);
@@ -910,7 +910,7 @@ void titleScreen() {
 	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
 
 #ifdef MP3_ON	
-	AS_MP3StreamPlay("SSBDS_Files/music/title.mp3");
+	AS_MP3StreamPlay("SSBDS_Files/music/MeleeThemeRemix.mp3");
 	// title screen music
 #endif
 	fadeIn();
@@ -937,7 +937,9 @@ int main(int argc, char ** argv) {
 	PA_Init();    // Initializes PA_Lib 
 	PA_InitVBL(); // Initializes a standard VBlank (FPS handler)
 
+#ifdef DEBUG_ON
 	defaultExceptionHandler(); // "red screen of death" error, hopefully won't happen
+#endif
 
 	if(!fatInitDefault()) {
 		PA_InitText(MAIN_SCREEN, 0);
@@ -962,7 +964,7 @@ int main(int argc, char ** argv) {
 # endif
 	// inits LAN functions
 
-	AS_Init(AS_MODE_MP3 | AS_MODE_16CH); // initializes AS_Lib
+    AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
 	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
 	AS_SetMP3Loop(true);
 	// required both for MP3 and Sound
