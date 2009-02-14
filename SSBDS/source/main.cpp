@@ -64,6 +64,22 @@ double scrollx = 0;
 double scrolly = 0;
 // how far the screen is scrolled (for stages)
 
+//****** customcontrols.c ********
+
+int BUTTON_A = 0, BUTTON_B = 1, BUTTON_X = 2, BUTTON_Y = 3, BUTTON_L = 4,
+	BUTTON_R = 5; // buttons (for custom controls)
+
+int ACTION_A = 0, ACTION_B = 1, ACTION_X = 2, ACTION_Y = 3, ACTION_L = 4,
+	ACTION_R = 5, ACTION_AB = 6, ACTION_LA = 7; // actions (for custom controls)
+
+// Map<int, int> customcontrols;
+
+void custom_action(int action) {
+	
+} // takes action and checks if it is done by custom controls, uncoded
+
+// *******************************
+
 class Scoreboard {
 	vector<int> kills; // player numbers of the kills (in order) -- -1 is a SD
 	vector<int> deaths; // player numbers of the deaths (in order)
@@ -807,9 +823,40 @@ void stockMatch(int stockcount) {
 void trainingMode() {
 
 } // training mode, uncoded
-void options() {
+void controlOptions() {
 
-} // options menu, uncoded
+} // edit custom controls, uncoded
+void cameraOptions() {
+
+} // edit camera options, uncoded
+void options() {
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	// opens gif background. no need to reinit, just loads over the old gif for this screen.
+
+#ifdef MP3_ON
+	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
+	// plays main menu music
+#endif
+
+
+
+// menu buttons for different options
+
+
+
+	fadeIn();
+	while(true) {
+		if(Pad.Newpress.B) {
+			fadeOut();
+			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
+			return; // back to title
+		}
+// Control Options
+// Camera Options
+		printMemoryUsage();
+		PA_WaitForVBL();
+	}
+} // options menu, in progress
 void extras() {
 
 } // extras menu, uncoded
@@ -874,19 +921,17 @@ void mainMenu() {
 #endif
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites on sub screen
-					if(n == 0) return timeMatch(1);
+					if(n == 0) timeMatch(1); // allow for changing minutes
 					if(n == 1) {
 #ifdef LAN_ON
-						return LAN();
-#else
-						return;
+						LAN();
 #endif					
 					}
 					if(n == 2) {
-						return options();
+						options();
 					}
 					if(n == 3) {
-						return extras();
+						extras();
 					}
 				}
 			}
