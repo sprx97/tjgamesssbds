@@ -737,8 +737,14 @@ void gameOver() {
 }
 
 // game modes
-void timeMatch(int minutes) {
-	int time = minutes*60*60 + 60; // minutes -> vblanks
+void match(int gamemode, int param) {
+	int time=0;
+	int stock=0;
+	if (gamemode==GAMEMODE_TIME)
+		time = param*60*60 + 60; // minutes -> vblanks
+	else
+		stock = param;
+	
 	characterSelect(); // select characters
 	stageSelect(); // select stage
 #ifdef SFX_ON
@@ -782,8 +788,16 @@ void timeMatch(int minutes) {
 		PA_CheckLid(); // if the lid is closed it pauses
 		if(Pad.Newpress.Start) Pause(); 
 		// checks to see if the game was paused by start button
-		if(time-60 == 0) {
-			return gameOver();
+		if (gamemode==GAMEMODE_TIME){
+			if(time-60 == 0) {
+				return gameOver();
+			}
+		}
+		else if (gamemode==GAMEMODE_STOCK){
+			for(int n = 0; n < players.size(); n++) {
+				if(score.deaths[n]>=stock)
+					return gameOver();
+			}
 		}
 		for(int n = 0; n < players.size(); n++) {
 			players[n] -> act();
@@ -821,12 +835,18 @@ void timeMatch(int minutes) {
 		// redisplays time
 		printMemoryUsage();
 		PA_WaitForVBL();
-		time--; // another tick off the clock!
+		if (gamemode==GAMEMODE_TIME)
+			time--; // another tick off the clock!
+		else
+			time++;//time counts up if its not a time match
 	}
 }
+void timeMatch(int minutes) {
+	match(GAMEMODE_TIME, minutes);
+}
 void stockMatch(int stockcount) {
-
-} // stock match, uncoded
+	match(GAMEMODE_STOCK, stockcount);
+} // stock match
 void trainingMode() {
 
 } // training mode, uncoded
