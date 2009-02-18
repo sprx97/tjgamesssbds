@@ -6,7 +6,7 @@
 
 // The rights to Super Smash Bros. and all the related characters, stages, and items
 // belong to Nintendo and other 3rd party companies. This is a fan made game; it not
-// intended for profit, just for fun
+// made for profit, just for fun.
 
 #define DEBUG_ON // turns on printing of information to screen
 
@@ -24,6 +24,7 @@
 #include <sstream> // int to string
 #include <stdio.h> // standard file functions
 #include <stdlib.h> // standard C functions
+#include <map> // maps
 
 #include "gfx/all_gfx.c" // all image files
 
@@ -64,21 +65,17 @@ double scrollx = 0;
 double scrolly = 0;
 // how far the screen is scrolled (for stages)
 
-//****** customcontrols.c ********
+int BUTTON_A = 0, BUTTON_B = 1, BUTTON_X = 2, BUTTON_Y = 3, BUTTON_L = 4, BUTTON_R = 5; 
+// buttons (for custom controls)
 
-int BUTTON_A = 0, BUTTON_B = 1, BUTTON_X = 2, BUTTON_Y = 3, BUTTON_L = 4,
-	BUTTON_R = 5; // buttons (for custom controls)
+int ACTION_A = 0, ACTION_B = 1, ACTION_X = 2, ACTION_Y = 3, ACTION_L = 4, ACTION_R = 5, ACTION_AB = 6, ACTION_LA = 7, ACTION_RA = 8; 
+// actions (for custom controls)
 
-int ACTION_A = 0, ACTION_B = 1, ACTION_X = 2, ACTION_Y = 3, ACTION_L = 4,
-	ACTION_R = 5, ACTION_AB = 6, ACTION_LA = 7; // actions (for custom controls)
-
-// Map<int, int> customcontrols;
+map<int, vector<int> > customcontrols; // custom control mapping
 
 void custom_action(int action) {
-	
-} // takes action and checks if it is done by custom controls, uncoded
 
-// *******************************
+} // takes action and checks if it is done by custom controls, uncoded
 
 class Scoreboard {
 	vector<int> kills; // player numbers of the kills (in order) -- -1 is a SD
@@ -247,6 +244,17 @@ void initProjectiles() {
 	} // loads all projectile sprites
 } // initializes projectiles
 #endif
+void initControls() {
+	customcontrols[ACTION_A] = vector<int>(BUTTON_A);
+	customcontrols[ACTION_B] = vector<int>(BUTTON_B);
+	customcontrols[ACTION_X] = vector<int>(BUTTON_X);
+	customcontrols[ACTION_Y] = vector<int>(BUTTON_Y);
+	customcontrols[ACTION_L] = vector<int>(BUTTON_L);
+	customcontrols[ACTION_R] = vector<int>(BUTTON_R);
+	customcontrols[ACTION_AB] = vector<int>(BUTTON_A, BUTTON_B);
+	customcontrols[ACTION_LA] = vector<int>(BUTTON_L, BUTTON_A);
+	customcontrols[ACTION_RA] = vector<int>(BUTTON_R, BUTTON_A);
+}
 
 // selecting char/stage
 void stageSelect() {
@@ -1019,6 +1027,8 @@ int main(int argc, char ** argv) {
 #else
 	PA_VBLFunctionInit(AS_SoundVBL); // easy way to make sure that AS_SoundVBL() is called every frame
 #endif
+	
+	initControls();
 	
 	while(true) titleScreen(); // permanently runs the game
 	return 0;
