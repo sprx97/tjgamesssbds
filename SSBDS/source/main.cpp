@@ -60,6 +60,9 @@ vector<Effect> effects;
 #endif
 class Scoreboard; // keeps score of the game
 
+#define GAMEMODE_TIME 0
+#define GAMEMODE_STOCK 1
+
 double scrollx = 0;
 double scrolly = 0;
 // how far the screen is scrolled (for stages)
@@ -712,6 +715,27 @@ void displayResults() {
 	}
  }
 
+void gameOver() {
+#ifdef SFX_ON
+	AS_SoundQuickPlay(game);
+#endif
+	// end of game sound clip
+	for(int n = 0; n < players.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, players[n] -> SPRITENUM);
+	// stops sprite anim for all players
+#ifdef PROJECTILES_ON
+	for(int n = 0; n < projectiles.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, projectiles[n].num);
+#endif			
+	// stops all projectile animations
+#ifdef SFX_ON
+	for(int n = 0; n < effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
+#endif			
+	// stops all effect animations
+	PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
+	for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
+	fadeOut();
+	return displayResults();
+}
+
 // game modes
 void timeMatch(int minutes) {
 	int time = minutes*60*60 + 60; // minutes -> vblanks
@@ -759,24 +783,7 @@ void timeMatch(int minutes) {
 		if(Pad.Newpress.Start) Pause(); 
 		// checks to see if the game was paused by start button
 		if(time-60 == 0) {
-#ifdef SFX_ON
-			AS_SoundQuickPlay(game);
-#endif
-		// end of game sound clip
-			for(int n = 0; n < players.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, players[n] -> SPRITENUM);
-			// stops sprite anim for all players
-#ifdef PROJECTILES_ON
-			for(int n = 0; n < projectiles.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, projectiles[n].num);
-#endif			
-			// stops all projectile animations
-#ifdef SFX_ON
-			for(int n = 0; n < effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
-#endif			
-			// stops all effect animations
-			PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
-			for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
-			fadeOut();
-			return displayResults();
+			return gameOver();
 		}
 		for(int n = 0; n < players.size(); n++) {
 			players[n] -> act();
