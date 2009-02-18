@@ -61,6 +61,9 @@ vector<Effect> effects;
 #endif
 class Scoreboard; // keeps score of the game
 
+#define GAMEMODE_TIME 0
+#define GAMEMODE_STOCK 1
+
 double scrollx = 0;
 double scrolly = 0;
 // how far the screen is scrolled (for stages)
@@ -720,9 +723,36 @@ void displayResults() {
 	}
  }
 
+void gameOver() {
+#ifdef SFX_ON
+	AS_SoundQuickPlay(game);
+#endif
+	// end of game sound clip
+	for(int n = 0; n < players.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, players[n] -> SPRITENUM);
+	// stops sprite anim for all players
+#ifdef PROJECTILES_ON
+	for(int n = 0; n < projectiles.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, projectiles[n].num);
+#endif			
+	// stops all projectile animations
+#ifdef SFX_ON
+	for(int n = 0; n < effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
+#endif			
+	// stops all effect animations
+	PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
+	for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
+	fadeOut();
+	return displayResults();
+}
+
 // game modes
-void timeMatch(int minutes) {
-	int time = minutes*60*60 + 60; // minutes -> vblanks
+void match(int gamemode, int param) {
+	int time=0;
+	int stock=0;
+	if (gamemode==GAMEMODE_TIME)
+		time = param*60*60 + 60; // minutes -> vblanks
+	else
+		stock = param;
+	
 	characterSelect(); // select characters
 	stageSelect(); // select stage
 #ifdef SFX_ON
@@ -766,25 +796,16 @@ void timeMatch(int minutes) {
 		PA_CheckLid(); // if the lid is closed it pauses
 		if(Pad.Newpress.Start) Pause(); 
 		// checks to see if the game was paused by start button
-		if(time-60 == 0) {
-#ifdef SFX_ON
-			AS_SoundQuickPlay(game);
-#endif
-		// end of game sound clip
-			for(int n = 0; n < players.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, players[n] -> SPRITENUM);
-			// stops sprite anim for all players
-#ifdef PROJECTILES_ON
-			for(int n = 0; n < projectiles.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, projectiles[n].num);
-#endif			
-			// stops all projectile animations
-#ifdef SFX_ON
-			for(int n = 0; n < effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
-#endif			
-			// stops all effect animations
-			PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
-			for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
-			fadeOut();
-			return displayResults();
+		if (gamemode==GAMEMODE_TIME){
+			if(time-60 == 0) {
+				return gameOver();
+			}
+		}
+		else if (gamemode==GAMEMODE_STOCK){
+			for(int n = 0; n < players.size(); n++) {
+				if(score.deaths[n]>=stock)
+					return gameOver();
+			}
 		}
 		for(int n = 0; n < players.size(); n++) {
 			players[n] -> act();
@@ -822,12 +843,18 @@ void timeMatch(int minutes) {
 		// redisplays time
 		printMemoryUsage();
 		PA_WaitForVBL();
-		time--; // another tick off the clock!
+		if (gamemode==GAMEMODE_TIME)
+			time--; // another tick off the clock!
+		else
+			time++;//time counts up if its not a time match
 	}
 }
+void timeMatch(int minutes) {
+	match(GAMEMODE_TIME, minutes);
+}
 void stockMatch(int stockcount) {
-
-} // stock match, uncoded
+	match(GAMEMODE_STOCK, stockcount);
+} // stock match
 void trainingMode() {
 
 } // training mode, uncoded
