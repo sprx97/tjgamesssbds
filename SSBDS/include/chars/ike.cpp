@@ -8,7 +8,7 @@ class Ike: public Fighter {
 			y = ypos;
 			hangtime = 0;
 			ledgewait = 0;
-			handx = 41;
+			handx = 14;
 			handy = 8;
 			eruptioncharge = 0;
 			quickdrawcharge = 0;
@@ -237,26 +237,6 @@ class Ike: public Fighter {
 			endframes.push_back(151);
 			framespeeds.push_back(15);
 
-			// FTHROW
-			startframes.push_back(152);
-			endframes.push_back(155);
-			framespeeds.push_back(20);
-
-			// BTHROW
-			startframes.push_back(156);
-			endframes.push_back(159);
-			framespeeds.push_back(20);
-
-			// UTHROW
-			startframes.push_back(160);
-			endframes.push_back(163);
-			framespeeds.push_back(20);
-
-			// DTHROW
-			startframes.push_back(165);
-			endframes.push_back(168);
-			framespeeds.push_back(12);
-
 			// DEAD
 			startframes.push_back(169);
 			endframes.push_back(169);
@@ -408,5 +388,118 @@ class Ike: public Fighter {
 				eruptioncharge++;
 				if(eruptioncharge > 300) eruptioncharge = 300;
 			}		}
+		void fthrow() {
+			if(action != FTHROW) {
+				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 152, 155, 15, ANIM_LOOP, -1);
+				playsound(FTHROW);
+				delay = 60/15 * (155-152+1);
+				action = FTHROW;
+				if(direction == "right") grabbedenemy -> dx = -2;
+				else grabbedenemy -> dx = 2;
+			}
+			if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 154 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 155) {
+				if(direction == "right") grabbedenemy -> dx = 4;
+				else grabbedenemy -> dx = -4;
+			}
+			if(delay <= 0) {
+				int mult = -1;
+				grabbedenemy -> k = Knockback(2, -2, 7);
+				if(direction == "right") {
+					mult = 1;
+				}
+				grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
+				grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+				grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+				grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+				grabbedenemy -> percentage += 8;
+				grabbedenemy -> stun();
+				grabbedenemy -> lasthitby = charnum;
+				grabbedenemy = NULL;			
+				idle();	
+			}
+		}
+		void bthrow() {
+			if(action != BTHROW) {
+				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 156, 159, 10, ANIM_LOOP, -1);
+				playsound(BTHROW);
+				delay = 60/10 * (159-156+1);
+				action = BTHROW;
+				if(direction == "right") grabbedenemy -> dx = -3;
+				else grabbedenemy -> dx = 3;
+				grabbedenemy -> dy = -1;
+			}
+			if(delay <= 0) {
+				int mult = 1;
+				grabbedenemy -> k = Knockback(2, -2.5, 7);
+				if(direction == "right") {
+					mult = -1;
+				}
+				grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
+				grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+				grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+				grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+				grabbedenemy -> percentage += 8;
+				grabbedenemy -> stun();
+				grabbedenemy -> lasthitby = charnum;
+				grabbedenemy = NULL;	
+				if(direction == "right") setDirection("left");
+				else setDirection("right");
+				idle();		
+			}
+		}
+		void uthrow() {
+			if(action != UTHROW) {
+				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 160, 163, 12, ANIM_LOOP, -1);
+				playsound(UTHROW);
+				delay = 60/12 * (163-160+1);
+				action = UTHROW;
+				if(direction == "right") grabbedenemy -> dx = -.5;
+				else grabbedenemy -> dx = .5;
+				grabbedenemy -> dy = -1;
+			}
+			if(delay <= 0) {
+				int mult = -1;
+				grabbedenemy -> k = Knockback(.5, -3, 6);
+				if(direction == "right") {
+					mult = 1;
+				}
+				grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
+				grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+				grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+				grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+				grabbedenemy -> percentage += 8;
+				grabbedenemy -> stun();
+				grabbedenemy -> lasthitby = charnum;
+				grabbedenemy = NULL;	
+				idle();						
+			}
+		}
+		void dthrow() {
+			if(action != DTHROW) {
+				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 165, 168, 10, ANIM_LOOP, -1);
+				playsound(DTHROW);
+				delay = 60/10 * (168-165+1);
+				action = DTHROW;
+				if(direction == "right") grabbedenemy -> dx = -1;
+				else grabbedenemy -> dx = 1;
+				grabbedenemy -> dy = .5;
+			}
+			if(delay <= 0) {
+				int mult = -1;
+				grabbedenemy -> k = Knockback(1, -2.5, 7);
+				if(direction == "right") {
+					mult = 1;
+				}
+				grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
+				grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+				grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+				grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+				grabbedenemy -> percentage += 8;
+				grabbedenemy -> stun();
+				grabbedenemy -> lasthitby = charnum;
+				grabbedenemy = NULL;
+				idle();
+			}
+		}
 		void jaywalk() {}
 };

@@ -1,5 +1,5 @@
 // Game designed by TJgames of TJHSST
-// Head Developer: Jeremy Vercillo
+// Head Developer(s): Jeremy Vercillo
 // Assistant Developer(s): Tyler Haines, Daniel Johnson, Patrick Stalcup
 // Head Advisor: Andrew Kim
 // 6/08 - ???
@@ -63,6 +63,22 @@ class Scoreboard; // keeps score of the game
 double scrollx = 0;
 double scrolly = 0;
 // how far the screen is scrolled (for stages)
+
+//****** customcontrols.c ********
+
+int BUTTON_A = 0, BUTTON_B = 1, BUTTON_X = 2, BUTTON_Y = 3, BUTTON_L = 4,
+	BUTTON_R = 5; // buttons (for custom controls)
+
+int ACTION_A = 0, ACTION_B = 1, ACTION_X = 2, ACTION_Y = 3, ACTION_L = 4,
+	ACTION_R = 5, ACTION_AB = 6, ACTION_LA = 7; // actions (for custom controls)
+
+// Map<int, int> customcontrols;
+
+void custom_action(int action) {
+	
+} // takes action and checks if it is done by custom controls, uncoded
+
+// *******************************
 
 class Scoreboard {
 	vector<int> kills; // player numbers of the kills (in order) -- -1 is a SD
@@ -807,9 +823,40 @@ void stockMatch(int stockcount) {
 void trainingMode() {
 
 } // training mode, uncoded
-void options() {
+void controlOptions() {
 
-} // options menu, uncoded
+} // edit custom controls, uncoded
+void cameraOptions() {
+
+} // edit camera options, uncoded
+void options() {
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	// opens gif background. no need to reinit, just loads over the old gif for this screen.
+
+#ifdef MP3_ON
+	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
+	// plays main menu music
+#endif
+
+
+
+// menu buttons for different options
+
+
+
+	fadeIn();
+	while(true) {
+		if(Pad.Newpress.B) {
+			fadeOut();
+			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
+			return; // back to title
+		}
+// Control Options
+// Camera Options
+		printMemoryUsage();
+		PA_WaitForVBL();
+	}
+} // options menu, in progress
 void extras() {
 
 } // extras menu, uncoded
@@ -822,7 +869,7 @@ void mainMenu() {
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
 
 #ifdef MP3_ON
-	AS_MP3StreamPlay("/SSBDS_Files/music/mainmenu.mp3");
+	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
 	// plays main menu music
 #endif
 	PA_LoadSpritePal(SUB_SCREEN, 0, (void*)menusolo_Pal);
@@ -874,19 +921,17 @@ void mainMenu() {
 #endif
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites on sub screen
-					if(n == 0) return timeMatch(1);
+					if(n == 0) timeMatch(1); // allow for changing minutes
 					if(n == 1) {
 #ifdef LAN_ON
-						return LAN();
-#else
-						return;
+						LAN();
 #endif					
 					}
 					if(n == 2) {
-						return options();
+						options();
 					}
 					if(n == 3) {
-						return extras();
+						extras();
 					}
 				}
 			}
@@ -910,7 +955,7 @@ void titleScreen() {
 	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
 
 #ifdef MP3_ON	
-	AS_MP3StreamPlay("SSBDS_Files/music/title.mp3");
+	AS_MP3StreamPlay("SSBDS_Files/music/MeleeThemeRemix.mp3");
 	// title screen music
 #endif
 	fadeIn();
@@ -937,7 +982,9 @@ int main(int argc, char ** argv) {
 	PA_Init();    // Initializes PA_Lib 
 	PA_InitVBL(); // Initializes a standard VBlank (FPS handler)
 
+#ifdef DEBUG_ON
 	defaultExceptionHandler(); // "red screen of death" error, hopefully won't happen
+#endif
 
 	if(!fatInitDefault()) {
 		PA_InitText(MAIN_SCREEN, 0);
@@ -962,7 +1009,7 @@ int main(int argc, char ** argv) {
 # endif
 	// inits LAN functions
 
-	AS_Init(AS_MODE_MP3 | AS_MODE_16CH); // initializes AS_Lib
+    AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
 	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
 	AS_SetMP3Loop(true);
 	// required both for MP3 and Sound
