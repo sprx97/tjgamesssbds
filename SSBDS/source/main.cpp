@@ -748,10 +748,8 @@ void gameOver() {
 void match(int gamemode, int param) {
 	int time=0;
 	int stock=0;
-	if (gamemode==GAMEMODE_TIME)
-		time = param*60*60 + 60; // minutes -> vblanks
-	else
-		stock = param;
+	if (gamemode==GAMEMODE_TIME) time = param*60*60 + 60; // minutes -> vblanks
+	else stock = param;
 	
 	characterSelect(); // select characters
 	stageSelect(); // select stage
@@ -803,7 +801,7 @@ void match(int gamemode, int param) {
 		}
 		else if (gamemode==GAMEMODE_STOCK){
 			for(int n = 0; n < players.size(); n++) {
-				if(score.deaths[n]>=stock)
+				if(score.getDeaths(n) >= stock)
 					return gameOver();
 			}
 		}
