@@ -125,15 +125,7 @@ class Fighter {
 						Cdistance = distance;
 						Cx = dx;
 						Cy = dy;
-						if(dx != 0 && dy == 0) {
-							if(dx > 0) Cangle = 0;
-							if(dx < 0) Cangle = 180;
-						}
-						else if(dy != 0 && dx == 0) {
-							if(dy > 0) Cangle = 90;
-							if(dy < 0) Cangle = -90;
-						}
-						else Cangle = atan2(dy, dx) * 180 / PI; // from -180 to 180
+						Cangle = atan2(dy, dx) * 180 / PI; // from -180 to 180
 					}
 				}
 			}
