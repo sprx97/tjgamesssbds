@@ -2,6 +2,8 @@ class Kirby: public Fighter {
 	int rockcount;
 	public:	// constructor
 		Kirby(int xpos, int ypos, int num, bool AI = false) {
+			acceleration = 0;
+			runspeed = 3.5;
 			x = xpos;
 			y = ypos;
 			hangtime = 0;

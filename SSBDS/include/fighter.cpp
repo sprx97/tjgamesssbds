@@ -4,6 +4,8 @@ static const int ATTACK = -1, AIRATTACK = -2, AIRLAG = -3, TILTLAG = -4, RELEASE
 class Fighter {
 	public:
 	// variables
+		double runspeed;
+		double acceleration;
 		int ledgewait;
 		int hangtime;
 		int handx, handy;
@@ -415,31 +417,31 @@ class Fighter {
 // have to check the AB combo first otherwise it'll register as just A or just B
 						if(!AB) {
 							if(custom_action(ACTION_SMASH, PAD_HELD)) {
-							if(Pad.Held.Left) chargeleft();
-							else if(Pad.Held.Right) chargeright();
-							else if(Pad.Held.Up) chargeup();
-							else if(Pad.Held.Down) chargedown();
-							else jab();
-						}
-						else if(custom_action(ACTION_BASIC, PAD_HELD)) {
-							if(Pad.Held.Right || Pad.Held.Left) ftilt();
-							else if(Pad.Held.Up) utilt();
-							else if(Pad.Held.Down) dtilt();
-							else jab();
-						}
-						else if(custom_action(ACTION_SPECIAL, PAD_HELD)) {
-							if(Pad.Held.Right || Pad.Held.Left) bside();
-							else if(Pad.Held.Up) bup();
-							else if(Pad.Held.Down) bdown();
-							else bneut();
-						}
-						else if((custom_action(ACTION_JUMP, PAD_HELD) || (Pad.Held.Up && tapjumpon)) && jumpcount < jumpmax) jump();
-						else if(custom_action(ACTION_SHIELD, PAD_HELD)) {
-							if(Pad.Held.Right || Pad.Held.Left) roll();
-							else shield();
-						}
-						else if(custom_action(ACTION_GRAB, PAD_HELD)) grab();
-							else if(Pad.Held.Right || Pad.Held.Left) run();
+								if(Pad.Held.Left) chargeleft();
+								else if(Pad.Held.Right) chargeright();
+								else if(Pad.Held.Up) chargeup();
+								else if(Pad.Held.Down) chargedown();
+								else jab();
+							}
+							else if(custom_action(ACTION_BASIC, PAD_HELD)) {
+								if(Pad.Held.Right || Pad.Held.Left) ftilt();
+								else if(Pad.Held.Up) utilt();
+								else if(Pad.Held.Down) dtilt();
+								else jab();
+							}
+							else if(custom_action(ACTION_SPECIAL, PAD_HELD)) {
+								if(Pad.Held.Right || Pad.Held.Left) bside();
+								else if(Pad.Held.Up) bup();
+								else if(Pad.Held.Down) bdown();
+								else bneut();
+							}
+							else if((custom_action(ACTION_JUMP, PAD_HELD) || (Pad.Held.Up && tapjumpon)) && jumpcount < jumpmax) jump();
+							else if(custom_action(ACTION_SHIELD, PAD_HELD)) {
+								if(Pad.Held.Right || Pad.Held.Left) roll();
+								else shield();
+							}
+							else if(custom_action(ACTION_GRAB, PAD_HELD)) grab();
+							else if((Pad.Held.Right || Pad.Held.Left)) run();
 							else if(Pad.Held.Down) crouch();
 							else idle();
 						}
@@ -617,11 +619,11 @@ class Fighter {
 					else if(delay <= 0) fall();
 				} // checks for stage collision with aerial
 				if((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
-				if((action == DOUBLEJUMP || action == JUMP ) && (custom_action(ACTION_BASIC, PAD_NEWPRESS) || Stylus.Newpress || custom_action(ACTION_SPECIAL, PAD_NEWPRESS))) {
+				if((action == DOUBLEJUMP || action == JUMP ) && (custom_action(ACTION_BASIC, PAD_NEWPRESS) || (Stylus.Newpress && stylusattacks) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS))) {
 					ymomentum = dy;
 					momentumtime = delay;
 					dy = 0;
-					if(Stylus.Newpress) airAttackStylus();
+					if(Stylus.Newpress && stylusattacks) airAttackStylus();
 					else airlag = 2;
 				}
 				if(action == FALL) {
@@ -676,11 +678,25 @@ class Fighter {
 						tiltlag = 5;
 						action = TILTLAG;
 					}
-					else if(custom_action(ACTION_BASIC, PAD_NEWPRESS)) dashAttack();
-					else if(Stylus.Newpress) smashAttack();
+					else if(custom_action(ACTION_BASIC, PAD_NEWPRESS)) {
+						dashAttack();
+					}
+					else if(Stylus.Newpress && stylusattacks) {
+						smashAttack();
+					}
 					else if(Pad.Held.Right || Pad.Held.Left) run();
-					else if(Pad.Released.Right || Pad.Released.Left) slide();
-					else idle();
+					else if(Pad.Released.Right || Pad.Released.Left) {
+						slide();
+					}
+					else {
+						idle();
+					}
+				}
+				else {
+					acceleration = 0;
+#ifdef DEBUG_ON
+					PA_OutputText(MAIN_SCREEN, 0, 4, "                                ");
+#endif
 				}
 				if(action == IDLE) {
 					actGround();
@@ -712,7 +728,7 @@ class Fighter {
 				action = AIRLAG;
 			}
 			if((custom_action(ACTION_JUMP, PAD_NEWPRESS)) && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) doubleJump();  // uses second (3rd, 4th, etc) jump(s)
-			if(Stylus.Newpress) airAttackStylus();
+			if(Stylus.Newpress && stylusattacks) airAttackStylus();
 			directionalInfluence();
 		}
 		void actGround() {
@@ -847,14 +863,24 @@ class Fighter {
 		void run(int d = 0) {
 			if(action != RUN) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[RUN], endframes[RUN], framespeeds[RUN], ANIM_LOOP, -1);
 			if(d == 0) {
-				if(Pad.Held.Left) dx = -4;
-				if(Pad.Held.Right) dx = 4;
+				if(Pad.Held.Left) dx = -runspeed-acceleration;
+				if(Pad.Held.Right) dx = runspeed+acceleration;
 				setDirection();
 			}
 			else {
-				dx = 4*d;
+				dx = (runspeed+acceleration)*d;
 				if(d > 0) setDirection("right");
 				if(d < 0) setDirection("left");
+			}
+			if(action == RUN) {
+				acceleration += .05*runspeed;
+				if(acceleration > runspeed) {
+					acceleration = runspeed;
+#ifdef DEBUG_ON
+					PA_OutputText(MAIN_SCREEN, 0, 4, "                                 ");
+					PA_OutputText(MAIN_SCREEN, 0, 4, "Max Speed");
+#endif
+				}
 			}
 			action = RUN;
 			playsound(RUN);
