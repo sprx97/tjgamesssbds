@@ -245,7 +245,7 @@ class Mewtwo: public Fighter {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 137, 141, 10, ANIM_LOOP, -1);
 				delay = 60/10 * 5;
 			}
-			else if(Pad.Released.B) {
+			else if(custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
 				if(checkFloorCollision()) idle();
 				else fall();
 			}
@@ -274,14 +274,14 @@ class Mewtwo: public Fighter {
 			}
 		}
 		void bdown() {
-			if(action != BDOWN || (Pad.Held.B && delay == 1)) {
+			if(action != BDOWN || (custom_action(ACTION_SPECIAL, PAD_HELD) && delay == 1)) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 145, 10, ANIM_LOOP, -1);
 				delay = 60/10 * 3;
 				if(aerial) dy = -gravity/2;
 				dx = 0;
 				action = BDOWN;
 			}
-			else if(!Pad.Held.B) {
+			else if(!custom_action(ACTION_SPECIAL, PAD_HELD)) {
 				if(checkFloorCollision()) idle();
 				else fall();
 			}
@@ -323,7 +323,7 @@ class Mewtwo: public Fighter {
 					dx = 0;
 				}
 			}
-			else if(Pad.Newpress.B) {
+			else if(custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 134, 15, ANIM_LOOP, -1);
 				delay = 60/15 * 3;
 #ifdef PROJECTILES_ON
@@ -362,7 +362,7 @@ class Mewtwo: public Fighter {
 					else fall();
 				}
 			}
-			else if(Pad.Newpress.R || Pad.Newpress.L) shield();
+			else if(custom_action(ACTION_SHIELD, PAD_NEWPRESS)) shield();
 			else {
 				shadowballcharge+=1;
 				if(shadowballcharge > 120) shadowballcharge = 120;

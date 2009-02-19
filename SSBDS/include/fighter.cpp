@@ -311,10 +311,10 @@ class Fighter {
 			if(action == BTHROW) bthrow();
 			if(action == DTHROW) dthrow();
 			if(action == UTHROW) uthrow();
-			if(action == CHARGELEFT && (Pad.Released.A || Pad.Released.B || delay == 0)) smashleft();
-			if(action == CHARGERIGHT && (Pad.Released.A || Pad.Released.B || delay == 0)) smashright();
-			if(action == CHARGEUP && (Pad.Released.A || Pad.Released.B || delay == 0)) smashup();
-			if(action == CHARGEDOWN && (Pad.Released.A || Pad.Released.B || delay == 0)) smashdown();
+			if(action == CHARGELEFT && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashleft();
+			if(action == CHARGERIGHT && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashright();
+			if(action == CHARGEUP && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashup();
+			if(action == CHARGEDOWN && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashdown();
 			if(hitstun > k.length*2) {
 				if(y != stage.getFloors()[0].y ) aerial = true;
 				hitstun--;
@@ -359,67 +359,154 @@ class Fighter {
 				if(lasthitby != -1 && aerial == false) lasthitby = -1;
 				if(tiltlag > 0) {
 					tiltlag--;
-					if((Pad.Released.X || Pad.Released.Y || Pad.Released.Up)) {
+					if((custom_action(ACTION_JUMP, PAD_RELEASED) || (Pad.Released.Up && tapjumpon))) {
 						shorthop();
 						tiltlag = 0;
 					}
 					else if(tiltlag == 0) {
-						if(Pad.Held.A && Pad.Held.B) {
+						bool AB = false;
+						if(customcontrols[ACTION_SMASH] == BUTTON_AB) {
+							if(custom_action(ACTION_SMASH, PAD_HELD)) {
+								if(Pad.Held.Left) chargeleft();
+								else if(Pad.Held.Right) chargeright();
+								else if(Pad.Held.Up) chargeup();
+								else if(Pad.Held.Down) chargedown();
+								else jab();
+								AB = true;
+							}
+						}
+						if(customcontrols[ACTION_BASIC] == BUTTON_AB) {
+							if(custom_action(ACTION_BASIC, PAD_HELD)) {
+								if(Pad.Held.Right || Pad.Held.Left) ftilt();
+								else if(Pad.Held.Up) utilt();
+								else if(Pad.Held.Down) dtilt();
+								else jab();
+								AB = true;
+							}	
+						}
+						if(customcontrols[ACTION_JUMP] == BUTTON_AB) {
+							if((custom_action(ACTION_JUMP, PAD_HELD) || (Pad.Held.Up && tapjumpon)) && jumpcount < jumpmax) {
+								jump();
+								AB = true;
+							}
+						}
+						if(customcontrols[ACTION_SPECIAL] == BUTTON_AB) {
+							if(custom_action(ACTION_SPECIAL, PAD_HELD)) {
+								if(Pad.Held.Right || Pad.Held.Left) bside();
+								else if(Pad.Held.Up) bup();
+								else if(Pad.Held.Down) bdown();
+								else bneut();
+								AB = true;
+							}
+						}
+						if(customcontrols[ACTION_SHIELD] == BUTTON_AB) {
+							if(custom_action(ACTION_SHIELD, PAD_HELD)) {
+								if(Pad.Held.Right || Pad.Held.Left) roll();
+								else shield();
+								AB = true;
+							}
+						}						
+						if(customcontrols[ACTION_GRAB] == BUTTON_AB) {
+							if(custom_action(ACTION_GRAB, PAD_NEWPRESS)) {
+								grab();
+								AB = true;
+							}
+						}	
+// have to check the AB combo first otherwise it'll register as just A or just B
+						if(!AB) {
+							if(custom_action(ACTION_SMASH, PAD_HELD)) {
 							if(Pad.Held.Left) chargeleft();
 							else if(Pad.Held.Right) chargeright();
 							else if(Pad.Held.Up) chargeup();
 							else if(Pad.Held.Down) chargedown();
 							else jab();
 						}
-						else if(Pad.Held.A) {
+						else if(custom_action(ACTION_BASIC, PAD_HELD)) {
 							if(Pad.Held.Right || Pad.Held.Left) ftilt();
 							else if(Pad.Held.Up) utilt();
 							else if(Pad.Held.Down) dtilt();
 							else jab();
 						}
-						else if(Pad.Held.B) {
+						else if(custom_action(ACTION_SPECIAL, PAD_HELD)) {
 							if(Pad.Held.Right || Pad.Held.Left) bside();
 							else if(Pad.Held.Up) bup();
 							else if(Pad.Held.Down) bdown();
 							else bneut();
 						}
-						else if((Pad.Held.X || Pad.Held.Y || Pad.Held.Up) && jumpcount < jumpmax) jump();
-						else if(Pad.Held.R || Pad.Held.L) {
+						else if((custom_action(ACTION_JUMP, PAD_HELD) || (Pad.Held.Up && tapjumpon)) && jumpcount < jumpmax) jump();
+						else if(custom_action(ACTION_SHIELD, PAD_HELD)) {
 							if(Pad.Held.Right || Pad.Held.Left) roll();
 							else shield();
 						}
-						else if(Pad.Held.Right || Pad.Held.Left) run();
-						else if(Pad.Held.Down) crouch();
-						else idle();
+						else if(custom_action(ACTION_GRAB, PAD_HELD)) grab();
+							else if(Pad.Held.Right || Pad.Held.Left) run();
+							else if(Pad.Held.Down) crouch();
+							else idle();
+						}
 					}
 				}
 				if(airlag > 0) {
 					airlag--;
 					if(checkFloorCollision()) idle();
 					else if(airlag == 0) {
-						if(Pad.Held.A || Pad.Released.A) {
+						bool AB = false;
+						if(customcontrols[ACTION_BASIC] == BUTTON_AB) {
+							if(custom_action(ACTION_BASIC, PAD_HELD) || custom_action(ACTION_BASIC, PAD_RELEASED)) {
+								if(Pad.Held.Up) uair();
+								else if(Pad.Held.Down) dair();
+								else if((Pad.Held.Left && direction == "left") || (Pad.Held.Right && direction == "right")) fair();
+								else if((Pad.Held.Left && direction == "right") || (Pad.Held.Right && direction == "left")) bair();
+								else nair();
+								AB = true;
+							}		
+						}
+						if(customcontrols[ACTION_JUMP] == BUTTON_AB) {
+							if(((Pad.Held.Up && tapjumpon) || custom_action(ACTION_JUMP, PAD_HELD) || custom_action(ACTION_JUMP, PAD_RELEASED)) && jumpcount < jumpmax) {
+								doubleJump();
+								AB = true;
+							}
+						}
+						if(customcontrols[ACTION_SPECIAL] == BUTTON_AB) {
+							if(custom_action(ACTION_SPECIAL, PAD_HELD) || custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
+								if(Pad.Held.Up) bup();
+								else if(Pad.Held.Down) bdown();
+								else if(Pad.Held.Left || Pad.Held.Right) bside();
+								else bneut();
+								AB = true;
+							}						
+						}
+						if(customcontrols[ACTION_SHIELD] == BUTTON_AB) {
+							if(custom_action(ACTION_SHIELD, PAD_HELD) || custom_action(ACTION_SHIELD, PAD_RELEASED)) {
+								if(airdodgecount < 1) {
+									airdodge();
+									airdodgecount++;
+									AB = true;
+								}
+							}						
+						}
+						if(!AB) {
+							if(custom_action(ACTION_BASIC, PAD_HELD) || custom_action(ACTION_BASIC, PAD_RELEASED)) {
 							if(Pad.Held.Up) uair();
 							else if(Pad.Held.Down) dair();
 							else if((Pad.Held.Left && direction == "left") || (Pad.Held.Right && direction == "right")) fair();
 							else if((Pad.Held.Left && direction == "right") || (Pad.Held.Right && direction == "left")) bair();
 							else nair();
 						}
-						else if(Pad.Held.B || Pad.Released.B) {
-							if(Pad.Held.Up) {
-								bup();
-							}
+							else if(custom_action(ACTION_SPECIAL, PAD_HELD) || custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
+							if(Pad.Held.Up) bup();
 							else if(Pad.Held.Down) bdown();
 							else if(Pad.Held.Left || Pad.Held.Right) bside();
 							else bneut();
 						}
-						else if(Pad.Held.R || Pad.Held.L || Pad.Released.R || Pad.Released.L) {
+							else if(custom_action(ACTION_SHIELD, PAD_HELD) || custom_action(ACTION_SHIELD, PAD_RELEASED)) {
 							if(airdodgecount < 1) {
 								airdodge();
 								airdodgecount++;
 							}
 						}
-						else if((Pad.Held.Up || Pad.Held.X || Pad.Held.Y || Pad.Released.X || Pad.Released.Y) && jumpcount < jumpmax) doubleJump();
-						else fall();
+							else if(((Pad.Held.Up && tapjumpon) || custom_action(ACTION_JUMP, PAD_HELD) || custom_action(ACTION_JUMP, PAD_RELEASED)) && jumpcount < jumpmax) doubleJump();
+							else fall();
+						}
 					}
 				}
 				if(landinglag > 0) {
@@ -429,13 +516,13 @@ class Fighter {
 				if(delay > 0) delay--; // counts down the time before a new animation is set (allows for animations to finish)
 				if(action == HANG) {
 					hangtime++;
-					if(Pad.Newpress.A || Pad.Newpress.B) {
+					if(custom_action(ACTION_BASIC, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 						y=y+handy-bottomside;
 						if(direction == "left") x=x+handx-rightside;
 						else x=x+handx-leftside;
 						ftilt();
 					}
-					else if(Pad.Newpress.R || Pad.Newpress.L) {
+					else if(custom_action(ACTION_SHIELD, PAD_NEWPRESS)) {
 						y = y+handy-bottomside;
 						if(direction == "left") {
 							x = x+handx-rightside;
@@ -446,7 +533,7 @@ class Fighter {
 							roll("right");
 						}
 					}
-					else if(Pad.Newpress.Up || Pad.Newpress.X || Pad.Newpress.Y) {
+					else if((Pad.Newpress.Up && tapjumpon) || custom_action(ACTION_JUMP, PAD_NEWPRESS)) {
 						y = y+handy-bottomside;
 						jump();
 					}
@@ -500,7 +587,7 @@ class Fighter {
 					}
 				}
 				if(action == JAB) {
-					if((Pad.Released.A && delay > 100) || delay <= 0) {
+					if((custom_action(ACTION_BASIC, PAD_RELEASED) && delay > 100) || delay <= 0) {
 						idle();
 						delay = 0;
 					}
@@ -526,11 +613,11 @@ class Fighter {
 						else idle();
 						delay = 0;
 					}
-					else if(Pad.Newpress.R || Pad.Newpress.L) lcancel = 10;
+					else if(custom_action(ACTION_SHIELD, PAD_RELEASED)) lcancel = 10;
 					else if(delay <= 0) fall();
 				} // checks for stage collision with aerial
 				if((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
-				if((action == DOUBLEJUMP || action == JUMP ) && (Pad.Newpress.A || Stylus.Newpress || Pad.Newpress.B)) {
+				if((action == DOUBLEJUMP || action == JUMP ) && (custom_action(ACTION_BASIC, PAD_NEWPRESS) || Stylus.Newpress || custom_action(ACTION_SPECIAL, PAD_NEWPRESS))) {
 					ymomentum = dy;
 					momentumtime = delay;
 					dy = 0;
@@ -545,14 +632,14 @@ class Fighter {
 					actAir();
 				} // acts in the air
 				if(action == SHIELD) {
-					if(!Pad.Held.R && !Pad.Held.L) idle();
+					if(!custom_action(ACTION_SHIELD, PAD_HELD)) idle();
 					if(Pad.Newpress.Left || Pad.Newpress.Right) roll();
 					if(Pad.Newpress.Down) dodge();
-					if(Pad.Newpress.A) grab();
+					if(custom_action(ACTION_BASIC, PAD_NEWPRESS) && shieldgrabon) grab();
 				}
 				if(action == GRAB) {
 					if(delay <= 0) {
-						if(Pad.Held.R || Pad.Held.L) shield();
+						if(custom_action(ACTION_SHIELD, PAD_HELD)) shield();
 						else idle();
 					}
 				}
@@ -575,7 +662,7 @@ class Fighter {
 						}
 						grabbedenemy = NULL;
 					}
-					else if(Pad.Newpress.A) {
+					else if(custom_action(ACTION_BASIC, PAD_NEWPRESS)) {
 						grabtimeleft = delay;
 						grabattack();
 					}
@@ -585,11 +672,11 @@ class Fighter {
 					else if((direction == "right" && Pad.Newpress.Right) || (direction == "left" && Pad.Newpress.Left)) fthrow();
 				}
 				if(action == RUN) {
-					if(Pad.Newpress.Up || Pad.Newpress.X || Pad.Newpress.Y || Pad.Newpress.B) {
+					if((Pad.Newpress.Up) || custom_action(ACTION_JUMP, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 						tiltlag = 5;
 						action = TILTLAG;
 					}
-					else if(Pad.Newpress.A) dashAttack();
+					else if(custom_action(ACTION_BASIC, PAD_NEWPRESS)) dashAttack();
 					else if(Stylus.Newpress) smashAttack();
 					else if(Pad.Held.Right || Pad.Held.Left) run();
 					else if(Pad.Released.Right || Pad.Released.Left) slide();
@@ -601,8 +688,8 @@ class Fighter {
 				}
 				if(action == CROUCH) {
 					if(!Pad.Held.Down) idle();
-					if(Pad.Newpress.A) dtilt();
-					if(Pad.Newpress.B) bdown();
+					if(custom_action(ACTION_BASIC, PAD_NEWPRESS)) dtilt();
+					if(custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) bdown();
 				}
 			}
 			move(); // moves
@@ -616,21 +703,21 @@ class Fighter {
 				}
 				return;
 			}
-			if((Pad.Newpress.A || (Pad.Newpress.Up && jumpmax <= 2) || (Pad.Held.Up && jumpmax > 2) /*|| Pad.Held.Down || Pad.Held.Right || Pad.Held.Left */|| Pad.Newpress.B || Pad.Newpress.R || Pad.Newpress.L) && action != JUMP && action != DOUBLEJUMP) {
+			if((custom_action(ACTION_BASIC, PAD_NEWPRESS) || (custom_action(ACTION_JUMP, PAD_NEWPRESS) && jumpmax <= 2) || (custom_action(ACTION_JUMP, PAD_HELD) && jumpmax > 2) || (Pad.Newpress.Up && tapjumpon && jumpmax <= 2) || (Pad.Held.Up && tapjumpon && jumpmax > 2) /*|| Pad.Held.Down || Pad.Held.Right || Pad.Held.Left */|| Pad.Newpress.B || Pad.Newpress.R || Pad.Newpress.L) && action != JUMP && action != DOUBLEJUMP) {
 				airlag = 2;
 				action = AIRLAG;
 			}
-			if((Pad.Newpress.A || Pad.Newpress.B || Pad.Newpress.R || Pad.Newpress.L) && (action == JUMP || action == DOUBLEJUMP)) {
+			if((custom_action(ACTION_BASIC, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS) || custom_action(ACTION_SHIELD, PAD_NEWPRESS)) && (action == JUMP || action == DOUBLEJUMP)) {
 				airlag = 2;
 				action = AIRLAG;
 			}
-			if((Pad.Newpress.X || Pad.Newpress.Y) && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) doubleJump();  // uses second (3rd, 4th, etc) jump(s)
+			if((custom_action(ACTION_JUMP, PAD_NEWPRESS)) && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) doubleJump();  // uses second (3rd, 4th, etc) jump(s)
 			if(Stylus.Newpress) airAttackStylus();
 			directionalInfluence();
 		}
 		void actGround() {
 			if(tiltlag <= 0) {
-				if(Pad.Newpress.R || Pad.Newpress.L || Pad.Held.Right || Pad.Held.Left || Pad.Newpress.Down || Pad.Newpress.Up || Pad.Newpress.A || Pad.Newpress.B || Pad.Newpress.X || Pad.Newpress.Y) {
+				if(custom_action(ACTION_GRAB, PAD_NEWPRESS) || custom_action(ACTION_SHIELD, PAD_NEWPRESS) || Pad.Held.Right || Pad.Held.Left || Pad.Newpress.Down || Pad.Newpress.Up || custom_action(ACTION_BASIC, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS) || custom_action(ACTION_JUMP, PAD_NEWPRESS)) {
 					action = TILTLAG;
 					tiltlag = 5;
 				}

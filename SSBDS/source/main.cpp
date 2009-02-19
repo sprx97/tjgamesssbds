@@ -6,7 +6,7 @@
 
 // The rights to Super Smash Bros. and all the related characters, stages, and items
 // belong to Nintendo and other 3rd party companies. This is a fan made game; it not
-// intended for profit, just for fun
+// made for profit, just for fun.
 
 #define DEBUG_ON // turns on printing of information to screen
 
@@ -24,6 +24,7 @@
 #include <sstream> // int to string
 #include <stdio.h> // standard file functions
 #include <stdlib.h> // standard C functions
+#include <map> // maps
 
 #include "gfx/all_gfx.c" // all image files
 
@@ -43,6 +44,9 @@ using namespace std; // standard naming of variables
 #define CAMERATYPE_FOLLOWALL 1
 int cameratype = CAMERATYPE_FOLLOWUSER;
 // the kind of camera used in battles
+
+#define GAMEMODE_TIME 0
+#define GAMEMODE_STOCK 1
 
 class Fighter;
 vector<Fighter*> players;
@@ -67,21 +71,103 @@ double scrollx = 0;
 double scrolly = 0;
 // how far the screen is scrolled (for stages)
 
-//****** customcontrols.c ********
+int BUTTON_NONE = -1, BUTTON_A = 0, BUTTON_B = 1, BUTTON_AB = 2, BUTTON_X = 3, BUTTON_Y = 4, BUTTON_L = 5, BUTTON_R = 6; 
+// buttons (for custom controls)
 
-int BUTTON_A = 0, BUTTON_B = 1, BUTTON_X = 2, BUTTON_Y = 3, BUTTON_L = 4,
-	BUTTON_R = 5; // buttons (for custom controls)
+int ACTION_BASIC = 0, ACTION_SPECIAL = 1, ACTION_SMASH = 2, ACTION_JUMP = 3, ACTION_JUMP2 = 4, ACTION_SHIELD = 5, ACTION_SHIELD2 = 6, ACTION_GRAB = 7;
+// actions (for custom controls)
 
-int ACTION_A = 0, ACTION_B = 1, ACTION_X = 2, ACTION_Y = 3, ACTION_L = 4,
-	ACTION_R = 5, ACTION_AB = 6, ACTION_LA = 7; // actions (for custom controls)
+int PAD_HELD = 0, PAD_NEWPRESS = 1, PAD_RELEASED = 2; // Press types (for custom controls)
 
-// Map<int, int> customcontrols;
+map<int, int> customcontrols; // custom control mapping
+bool shieldgrabon; // use a while shielding to grab
+bool tapjumpon; // use up dpad to jump
 
-void custom_action(int action) {
-	
+bool custom_action(int action, int typecheck) {
+	if(customcontrols[action] == BUTTON_A) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.A) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.A) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.A) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_B) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.B) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.B) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.B) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_AB) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.A && Pad.Held.B) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.A && Pad.Newpress.B) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.A || Pad.Released.B) return true;
+		}	
+	}
+	else if(customcontrols[action] == BUTTON_X) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.X) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.X) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.X) return true;
+		}	
+	}
+	else if(customcontrols[action] == BUTTON_Y) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.Y) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.Y) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.Y) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_L) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.L) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.L) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.L) return true;
+		}	
+	}
+	else if(customcontrols[action] == BUTTON_R) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.R) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.R) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.R) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_NONE) {
+		return false;
+	}
+	if(action == ACTION_JUMP) return custom_action(ACTION_JUMP2, typecheck);
+	if(action == ACTION_SHIELD) return custom_action(ACTION_SHIELD2, typecheck);
+	return false;
 } // takes action and checks if it is done by custom controls, uncoded
-
-// *******************************
 
 class Scoreboard {
 	vector<int> kills; // player numbers of the kills (in order) -- -1 is a SD
@@ -250,6 +336,18 @@ void initProjectiles() {
 	} // loads all projectile sprites
 } // initializes projectiles
 #endif
+void initControls() {
+	customcontrols[ACTION_BASIC] = BUTTON_A;
+	customcontrols[ACTION_SPECIAL] = BUTTON_B;
+	customcontrols[ACTION_SMASH] = BUTTON_AB;
+	customcontrols[ACTION_JUMP] = BUTTON_X;
+	customcontrols[ACTION_JUMP2] = BUTTON_Y;
+	customcontrols[ACTION_SHIELD] = BUTTON_R;
+	customcontrols[ACTION_SHIELD2] = BUTTON_L;
+	customcontrols[ACTION_GRAB] = BUTTON_NONE;
+	shieldgrabon = true;
+	tapjumpon = true;
+} // inits default control setup
 
 // selecting char/stage
 void stageSelect() {
@@ -740,10 +838,8 @@ void gameOver() {
 void match(int gamemode, int param) {
 	int time=0;
 	int stock=0;
-	if (gamemode==GAMEMODE_TIME)
-		time = param*60*60 + 60; // minutes -> vblanks
-	else
-		stock = param;
+	if (gamemode==GAMEMODE_TIME) time = param*60*60 + 60; // minutes -> vblanks
+	else stock = param;
 	
 	characterSelect(); // select characters
 	stageSelect(); // select stage
@@ -795,7 +891,7 @@ void match(int gamemode, int param) {
 		}
 		else if (gamemode==GAMEMODE_STOCK){
 			for(int n = 0; n < players.size(); n++) {
-				if(score.deaths[n]>=stock)
+				if(score.getDeaths(n) >= stock)
 					return gameOver();
 			}
 		}
@@ -948,7 +1044,7 @@ void mainMenu() {
 #endif
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites on sub screen
-					if(n == 0) timeMatch(1); // allow for changing minutes
+					if(n == 0) return timeMatch(1); // allow for changing minutes
 					if(n == 1) {
 #ifdef LAN_ON
 						LAN();
@@ -1046,6 +1142,8 @@ int main(int argc, char ** argv) {
 #else
 	PA_VBLFunctionInit(AS_SoundVBL); // easy way to make sure that AS_SoundVBL() is called every frame
 #endif
+	
+	initControls();
 	
 	while(true) titleScreen(); // permanently runs the game
 	return 0;
