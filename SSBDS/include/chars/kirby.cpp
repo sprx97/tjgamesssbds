@@ -314,7 +314,7 @@ class Kirby: public Fighter {
 			}
 			else {
 				if(rockcount > 0) rockcount--;
-				if(rockcount == 0 || Pad.Newpress.B) {
+				if(rockcount == 0 || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 					rockcount = -1;
 					PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 203, 204, 20, ANIM_LOOP, -1);
 					delay = 60/20 * 2;
@@ -359,7 +359,7 @@ class Kirby: public Fighter {
 				action = BNEUT;
 			}
 			else {
-				if(Pad.Released.B) {
+				if(custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
 					PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 176, 176, 10, ANIM_LOOP, -1);
 					delay = 60/10 * 1;
 				}

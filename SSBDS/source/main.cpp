@@ -45,6 +45,9 @@ using namespace std; // standard naming of variables
 int cameratype = CAMERATYPE_FOLLOWUSER;
 // the kind of camera used in battles
 
+#define GAMEMODE_TIME 0
+#define GAMEMODE_STOCK 1
+
 class Fighter;
 vector<Fighter*> players;
 // stores all fighters for playing a match
@@ -61,23 +64,106 @@ vector<Effect> effects;
 #endif
 class Scoreboard; // keeps score of the game
 
-#define GAMEMODE_TIME 0
-#define GAMEMODE_STOCK 1
-
 double scrollx = 0;
 double scrolly = 0;
 // how far the screen is scrolled (for stages)
 
-int BUTTON_A = 0, BUTTON_B = 1, BUTTON_X = 2, BUTTON_Y = 3, BUTTON_L = 4, BUTTON_R = 5; 
+int BUTTON_NONE = -1, BUTTON_A = 0, BUTTON_B = 1, BUTTON_AB = 2, BUTTON_X = 3, BUTTON_Y = 4, BUTTON_L = 5, BUTTON_R = 6; 
 // buttons (for custom controls)
 
-int ACTION_A = 0, ACTION_B = 1, ACTION_X = 2, ACTION_Y = 3, ACTION_L = 4, ACTION_R = 5, ACTION_AB = 6, ACTION_LA = 7, ACTION_RA = 8; 
+int ACTION_BASIC = 0, ACTION_SPECIAL = 1, ACTION_SMASH = 2, ACTION_JUMP = 3, ACTION_JUMP2 = 4, ACTION_SHIELD = 5, ACTION_SHIELD2 = 6, ACTION_GRAB = 7;
 // actions (for custom controls)
 
-map<int, vector<int> > customcontrols; // custom control mapping
+int PAD_HELD = 0, PAD_NEWPRESS = 1, PAD_RELEASED = 2; // Press types (for custom controls)
 
-void custom_action(int action) {
+map<int, int> customcontrols; // custom control mapping
+bool shieldgrabon; // use a while shielding to grab
+bool tapjumpon; // use up dpad to jump
 
+bool custom_action(int action, int typecheck) {
+	if(customcontrols[action] == BUTTON_A) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.A) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.A) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.A) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_B) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.B) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.B) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.B) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_AB) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.A && Pad.Held.B) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.A && Pad.Newpress.B) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.A || Pad.Released.B) return true;
+		}	
+	}
+	else if(customcontrols[action] == BUTTON_X) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.X) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.X) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.X) return true;
+		}	
+	}
+	else if(customcontrols[action] == BUTTON_Y) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.Y) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.Y) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.Y) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_L) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.L) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.L) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.L) return true;
+		}	
+	}
+	else if(customcontrols[action] == BUTTON_R) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.R) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.R) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.R) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_NONE) {
+		return false;
+	}
+	if(action == ACTION_JUMP) return custom_action(ACTION_JUMP2, typecheck);
+	if(action == ACTION_SHIELD) return custom_action(ACTION_SHIELD2, typecheck);
+	return false;
 } // takes action and checks if it is done by custom controls, uncoded
 
 class Scoreboard {
@@ -248,16 +334,17 @@ void initProjectiles() {
 } // initializes projectiles
 #endif
 void initControls() {
-	customcontrols[ACTION_A] = vector<int>(BUTTON_A);
-	customcontrols[ACTION_B] = vector<int>(BUTTON_B);
-	customcontrols[ACTION_X] = vector<int>(BUTTON_X);
-	customcontrols[ACTION_Y] = vector<int>(BUTTON_Y);
-	customcontrols[ACTION_L] = vector<int>(BUTTON_L);
-	customcontrols[ACTION_R] = vector<int>(BUTTON_R);
-	customcontrols[ACTION_AB] = vector<int>(BUTTON_A, BUTTON_B);
-	customcontrols[ACTION_LA] = vector<int>(BUTTON_L, BUTTON_A);
-	customcontrols[ACTION_RA] = vector<int>(BUTTON_R, BUTTON_A);
-}
+	customcontrols[ACTION_BASIC] = BUTTON_A;
+	customcontrols[ACTION_SPECIAL] = BUTTON_B;
+	customcontrols[ACTION_SMASH] = BUTTON_AB;
+	customcontrols[ACTION_JUMP] = BUTTON_X;
+	customcontrols[ACTION_JUMP2] = BUTTON_Y;
+	customcontrols[ACTION_SHIELD] = BUTTON_R;
+	customcontrols[ACTION_SHIELD2] = BUTTON_L;
+	customcontrols[ACTION_GRAB] = BUTTON_NONE;
+	shieldgrabon = true;
+	tapjumpon = true;
+} // inits default control setup
 
 // selecting char/stage
 void stageSelect() {
@@ -954,7 +1041,7 @@ void mainMenu() {
 #endif
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites on sub screen
-					if(n == 0) timeMatch(1); // allow for changing minutes
+					if(n == 0) return timeMatch(1); // allow for changing minutes
 					if(n == 1) {
 #ifdef LAN_ON
 						LAN();

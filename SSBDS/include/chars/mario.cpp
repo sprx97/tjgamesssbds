@@ -295,7 +295,7 @@ class Mario: public Fighter {
 				else dy = 0;
 				action = BDOWN;
 			}
-			else if(Pad.Released.B && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 149) {
+			else if(custom_action(ACTION_SPECIAL, PAD_RELEASED) && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 149) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 150, 150, 12, ANIM_LOOP, -1);
 				delay = 60/12 * 1;
 #ifdef PROJECTILES_ON

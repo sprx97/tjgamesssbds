@@ -254,7 +254,7 @@ class Ike: public Fighter {
 				action = BSIDE;
 				quickdrawcharge = 0;
 			}
-			else if(Pad.Released.B) {
+			else if(custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 110, 110, 12, ANIM_LOOP, -1);
 #ifdef SFX_ON
 				AS_SoundQuickPlay(ikebside);
@@ -366,7 +366,7 @@ class Ike: public Fighter {
 				action = BNEUT;
 				eruptioncharge = 0;				
 			}
-			else if((Pad.Released.B && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99) || (eruptioncharge == 300 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99)) {
+			else if((custom_action(ACTION_SPECIAL, PAD_RELEASED) && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99) || (eruptioncharge == 300 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99)) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 100, 109, 10, ANIM_LOOP, -1);
 #ifdef SFX_ON
 				AS_SoundQuickPlay(ikebneut);
