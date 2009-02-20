@@ -970,6 +970,9 @@ void options() {
 		}
 // Control Options
 // Camera Options
+// Stock mode or Time Mode
+// lives/time
+// cost of SDs
 		printMemoryUsage();
 		PA_WaitForVBL();
 	}
