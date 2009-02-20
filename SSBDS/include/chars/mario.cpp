@@ -3,6 +3,7 @@ class Mario: public Fighter {
 	public:
 	// constructor
 		Mario(int xpos, int ypos, int num, bool AI = false) {
+			myledge = -1;
 			acceleration = 0;
 			runspeed = 3.75;
 			x = xpos;

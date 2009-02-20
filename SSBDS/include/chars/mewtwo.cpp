@@ -3,6 +3,7 @@ class Mewtwo: public Fighter {
 		int shadowballcharge;
 	// constructor
 		Mewtwo(int xpos, int ypos, int num, bool AI = false) {
+			myledge = -1;
 			acceleration = 0;
 			runspeed = 4.5;
 			x = xpos;

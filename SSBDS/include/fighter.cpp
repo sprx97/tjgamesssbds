@@ -4,6 +4,7 @@ static const int ATTACK = -1, AIRATTACK = -2, AIRLAG = -3, TILTLAG = -4, RELEASE
 class Fighter {
 	public:
 	// variables
+		int myledge;
 		double runspeed;
 		double acceleration;
 		int ledgewait;
@@ -288,8 +289,11 @@ class Fighter {
 					// or bdown
 				}
 				if(action == HANG) {
-					rollUp(); //always roll up off of the ledge for now.
-				}//AI is hanging from ledge
+					if(PA_RandMax(100) > 99) {
+						myledge = -1;
+						rollUp(); //always roll up off of the ledge for now
+					}
+				} //AI is hanging from ledge
 			}
 			move();
 		}
@@ -517,22 +521,27 @@ class Fighter {
 						y=y+handy-bottomside;
 						if(direction == "left") x=x+handx-rightside;
 						else x=x+handx-leftside;
+						myledge = -1;
 						ftilt();
 					}
 					else if(custom_action(ACTION_SHIELD, PAD_NEWPRESS)) {
+						myledge = -1;
 						rollUp();
 					}
 					else if((Pad.Newpress.Up && tapjumpon) || custom_action(ACTION_JUMP, PAD_NEWPRESS)) {
 						y = y+handy-bottomside;
+						myledge = -1;
 						jump();
 					}
 					else if(Pad.Newpress.Down || hangtime >= 300) {
 						hangtime = 0;
 						ledgewait = 60;
+						myledge = -1;
 						fall();
 					}
 					else if(Pad.Newpress.Right || Pad.Newpress.Left) {
 						y = y+handy-bottomside;
+						myledge = -1;
 						if(direction == "left") {
 							x = x+handx-rightside;
 							idle();
@@ -1058,6 +1067,7 @@ class Fighter {
 			playsound(NAIR);
 		}
 		void stun() {
+			myledge = -1;
 			action = STUN;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[STUN], endframes[STUN], framespeeds[STUN], ANIM_LOOP, -1);
 			playsound(STUN);
@@ -1316,13 +1326,19 @@ class Fighter {
 			dx = dy = fastfall = DI = 0.0;
 			percentage = 0;
 		}
+		bool ledgenotinuse(int lnum) {
+			for(int n = 0; n < players.size(); n++) {
+				if(players[n] -> myledge == lnum) return false;
+			}
+			return true;
+		}
 		bool checkLedgeCollision() {
 			vector<Ledge> ledges = stage.getLedges();
 			for(int n = 0; n < ledges.size(); n++) {
 				Ledge currledge = ledges[n];
 				if(action != STUN && action != HANG) {
 					if(currledge.direction == "right") {
-						if(ledgewait <= 0 && x+leftside > currledge.x - 20 && x+leftside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
+						if(ledgenotinuse(n) && ledgewait <= 0 && x+leftside > currledge.x - 20 && x+leftside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
 							hang();
 							aerial = false;
 							dx = DI = dy = fastfall = ymomentum = 0;
@@ -1330,11 +1346,12 @@ class Fighter {
 							x = currledge.x-handx;
 							y = currledge.y-handy;
 							setDirection("left");
+							myledge = n;
 							return true;
 						}
 					}
 					else {
-						if(ledgewait <= 0 && x+rightside > currledge.x - 20 && x+rightside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
+						if(ledgenotinuse(n) && ledgewait <= 0 && x+rightside > currledge.x - 20 && x+rightside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
 							hang();
 							aerial = false;
 							dx = DI = dy = fastfall = ymomentum = 0;
@@ -1342,6 +1359,7 @@ class Fighter {
 							x = currledge.x+handx-64;
 							y = currledge.y-handy;
 							setDirection("right");
+							myledge = n;
 							return true;				
 						}
 					}

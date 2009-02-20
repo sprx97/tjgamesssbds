@@ -4,6 +4,7 @@ class Ike: public Fighter {
 	public:
 	// constructor
 		Ike(int xpos, int ypos, int num, bool AI = false) {
+			myledge = -1;
 			acceleration = 0;
 			runspeed = 2.75;
 			x = xpos;
