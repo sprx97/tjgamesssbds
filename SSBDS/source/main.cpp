@@ -1103,6 +1103,7 @@ void titleScreen() {
 int main(int argc, char ** argv) {
 	PA_Init();    // Initializes PA_Lib 
 	PA_InitVBL(); // Initializes a standard VBlank (FPS handler)
+	PA_InitRand();
 
 #ifdef DEBUG_ON
 	defaultExceptionHandler(); // "red screen of death" error, hopefully won't happen
