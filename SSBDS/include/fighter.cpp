@@ -254,12 +254,33 @@ class Fighter {
 				}
 				if(aerial && action != AIRATTACK && action != AIRLAG) {
 					// act air
+					if(Cdistance < 30) {
+						if(Cangle > -45 && Cangle < 45){
+							if (direction=="right") fair();
+							else bair();
+						}
+						else if(Cangle < -135 || Cangle > 135){ 
+							if (direction=="right") bair();
+							else fair();
+						}
+						else if(Cangle < -45 && Cangle > -135) uair();
+						else if(Cangle > 45 && Cangle < 135) dair();
+					}
+					else {
+						if(Cangle < -45 && Cangle > -135 && jumpcount < jumpmax) {
+							if(Cx > 0) setDirection("right");
+							if(Cx < 0) setDirection("left");
+							doubleJump();
+						}
+						else if(Cangle < 45 && Cangle > -45) directionalInfluence(1); //right
+						else if(Cangle > 135 || Cangle < -135) directionalInfluence(-1); //left
+					}//too far away
 				}
 				if(action == SHIELD) {
 					// idle or roll or dodge
 				}
 				if(action == RUN) {
-					if((Cdistance < 30 && Cdistance > -30) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();					
+					if((Cdistance < 30) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();					
 					else if(Cangle < -45 && Cangle > -135 && jumpcount == 0) {
 						if(Cx > 0) setDirection("right");
 						if(Cx < 0) setDirection("left");
@@ -270,18 +291,29 @@ class Fighter {
 					// or slide
 				}
 				if(action == IDLE) {
-					if(Cdistance < 30 && Cdistance > -30) {
-						if(Cx > 0) setDirection("right");
-						if(Cx < 0) setDirection("left");
-						bside();
+					if(Cdistance < 30) {
+						if(Cangle > -45 && Cangle < 45){
+							setDirection("right");
+							bside();
+						}
+						else if(Cangle < -135 || Cangle > 135){ 
+							setDirection("left");
+							bside();
+						}
+						else if(Cangle < -45 && Cangle > -135){
+							smashup();
+						}
+						else if(Cangle > 45 && Cangle < 135){
+							smashdown();
+						}
 					}
 					else if(Cangle < -45 && Cangle > -135 && jumpcount == 0) {
 						if(Cx > 0) setDirection("right");
 						if(Cx < 0) setDirection("left");
 						jump();
 					}
-					else if(Cangle < 90 && Cangle > -90) run(1);
-					else if(Cangle > 90 || Cangle < -90) run(-1);
+					else if(Cangle < 45 && Cangle > -45) run(1); //right
+					else if(Cangle > 135 || Cangle < -135) run(-1); //left
 				}
 				if(action == CROUCH) {
 					// idle
