@@ -291,7 +291,7 @@ class Fighter {
 				if(action == HANG) {
 					if(PA_RandMax(100) > 99) {
 						myledge = -1;
-						int randn=PA_RandMax(2);
+						int randn=PA_Rand()%3;
 						if (randn==0) rollUp();
 						else if (randn==1) attackUp();
 						else jumpUp();
