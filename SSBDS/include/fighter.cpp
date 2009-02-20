@@ -291,7 +291,10 @@ class Fighter {
 				if(action == HANG) {
 					if(PA_RandMax(100) > 99) {
 						myledge = -1;
-						rollUp(); //always roll up off of the ledge for now
+						int randn=PA_RandMax(2);
+						if (randn==0) rollUp();
+						else if (randn==1) attackUp();
+						else jumpUp();
 					}
 				} //AI is hanging from ledge
 			}
@@ -518,20 +521,13 @@ class Fighter {
 				if(action == HANG) {
 					hangtime++;
 					if(custom_action(ACTION_BASIC, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
-						y=y+handy-bottomside;
-						if(direction == "left") x=x+handx-rightside;
-						else x=x+handx-leftside;
-						myledge = -1;
-						ftilt();
+						attackUp();
 					}
 					else if(custom_action(ACTION_SHIELD, PAD_NEWPRESS)) {
-						myledge = -1;
 						rollUp();
 					}
 					else if((Pad.Newpress.Up && tapjumpon) || custom_action(ACTION_JUMP, PAD_NEWPRESS)) {
-						y = y+handy-bottomside;
-						myledge = -1;
-						jump();
+						jumpUp();
 					}
 					else if(Pad.Newpress.Down || hangtime >= 300) {
 						hangtime = 0;
@@ -813,6 +809,7 @@ class Fighter {
 		}
 		void rollUp(){
 			if(action == HANG) {
+				myledge = -1;
 				y = y+handy-bottomside;
 				if(direction == "left") {
 					x = x+handx-rightside;
@@ -822,6 +819,22 @@ class Fighter {
 					x = x+handx-leftside;
 					roll("right");
 				}
+			}
+		}
+		void attackUp(){
+			if(action == HANG) {
+				myledge = -1;
+				y=y+handy-bottomside;
+				if(direction == "left") x=x+handx-rightside;
+				else x=x+handx-leftside;
+				ftilt();
+			}
+		}
+		void jumpUp(){
+			if(action == HANG) {
+				myledge = -1;
+				y = y+handy-bottomside;
+				jump();
 			}
 		}
 		void dodge() {
