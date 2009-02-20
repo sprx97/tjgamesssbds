@@ -2,6 +2,8 @@ UPDATE 1/31/09: I really like how far I've gotten with this, and I'm nearing the
 
 Sorry for how poorly worded that was; it's late and it's hard to put what I'm trying to say into words.
 
+NOTE: Just in case anyone actually reads this, you can safely ignore the above message. Although Spartan97 CLAIMS he is not going to have time to work on this, he actually will. And he'll probably decide to spend some of it on this project. Even if he doesn't, I might. So we can and probably will keep having updates even before APs are over. 
+-ComputerDruid
 
 As for directions:
 
