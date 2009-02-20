@@ -1,0 +1,8 @@
+Things to do:
+- redo hitboxes on Ike's BAIR and fix animation
+- music
+- defboxes on grabs/throws/dead
+- debug mode show hitboxes
+- options menu for controls, match settings, and debug
+- better ledge physics
+- better AI
