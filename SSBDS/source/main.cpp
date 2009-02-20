@@ -47,6 +47,11 @@ int cameratype = CAMERATYPE_FOLLOWUSER;
 
 #define GAMEMODE_TIME 0
 #define GAMEMODE_STOCK 1
+int gamemode = GAMEMODE_STOCK;
+int timelimit = 2;
+int stocklimit = 3;
+int sdcost = 1;
+// game settings
 
 class Fighter;
 vector<Fighter*> players;
@@ -64,26 +69,20 @@ vector<Effect> effects;
 #endif
 class Scoreboard; // keeps score of the game
 
-#define GAMEMODE_TIME 0
-#define GAMEMODE_STOCK 1
-
 double scrollx = 0;
 double scrolly = 0;
 // how far the screen is scrolled (for stages)
 
 int BUTTON_NONE = -1, BUTTON_A = 0, BUTTON_B = 1, BUTTON_AB = 2, BUTTON_X = 3, BUTTON_Y = 4, BUTTON_L = 5, BUTTON_R = 6; 
 // buttons (for custom controls)
-
 int ACTION_BASIC = 0, ACTION_SPECIAL = 1, ACTION_SMASH = 2, ACTION_JUMP = 3, ACTION_JUMP2 = 4, ACTION_SHIELD = 5, ACTION_SHIELD2 = 6, ACTION_GRAB = 7;
 // actions (for custom controls)
-
 int PAD_HELD = 0, PAD_NEWPRESS = 1, PAD_RELEASED = 2; // Press types (for custom controls)
 
 map<int, int> customcontrols; // custom control mapping
 bool shieldgrabon; // use a while shielding to grab
 bool tapjumpon; // use up dpad to jump
 bool stylusattacks; // smashes and aerials with stylus
-int sdcost = 1;
 
 bool custom_action(int action, int typecheck) {
 	if(customcontrols[action] == BUTTON_A) {
@@ -838,11 +837,11 @@ void gameOver() {
 }
 
 // game modes
-void match(int gamemode, int param) {
+void match(int param) {
 	int time=0;
 	int stock=0;
 	if (gamemode==GAMEMODE_TIME) time = param*60*60 + 60; // minutes -> vblanks
-	else stock = param;
+	else if(gamemode == GAMEMODE_STOCK) stock = param;
 	
 	characterSelect(); // select characters
 	stageSelect(); // select stage
@@ -931,12 +930,6 @@ void match(int gamemode, int param) {
 		else time++; // time counts up if its not a time match
 	}
 }
-void timeMatch(int minutes) {
-	match(GAMEMODE_TIME, minutes);
-}
-void stockMatch(int stockcount) {
-	match(GAMEMODE_STOCK, stockcount);
-} // stock match
 void trainingMode() {
 
 } // training mode, uncoded
@@ -1041,7 +1034,10 @@ void mainMenu() {
 #endif
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites on sub screen
-					if(n == 0) return stockMatch(3); // allow for changing minutes
+					if(n == 0) {
+						if(gamemode == GAMEMODE_TIME) return match(timelimit);
+						else if(gamemode == GAMEMODE_STOCK) return match(stocklimit);
+					}
 					if(n == 1) {
 #ifdef LAN_ON
 						LAN();
