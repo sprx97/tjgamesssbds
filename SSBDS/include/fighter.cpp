@@ -643,11 +643,11 @@ class Fighter {
 					else if(delay <= 0) fall();
 				} // checks for stage collision with aerial
 				if((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
-				if((action == DOUBLEJUMP || action == JUMP ) && (custom_action(ACTION_BASIC, PAD_NEWPRESS) || (Stylus.Newpress && stylusattacks) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS))) {
+				if((action == DOUBLEJUMP || action == JUMP ) && (custom_action(ACTION_BASIC, PAD_NEWPRESS) || (Stylus.Newpress && cstickstylus) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS))) {
 					ymomentum = dy;
 					momentumtime = delay;
 					dy = 0;
-					if(Stylus.Newpress && stylusattacks) airAttackStylus();
+					if(Stylus.Newpress && cstickstylus) airAttackStylus();
 					else airlag = 2;
 				}
 				if(action == FALL) {
@@ -705,7 +705,7 @@ class Fighter {
 					else if(custom_action(ACTION_BASIC, PAD_NEWPRESS)) {
 						dashAttack();
 					}
-					else if(Stylus.Newpress && stylusattacks) {
+					else if(Stylus.Newpress && cstickstylus) {
 						smashAttack();
 					}
 					else if(Pad.Held.Right || Pad.Held.Left) run();
@@ -752,7 +752,7 @@ class Fighter {
 				action = AIRLAG;
 			}
 			if((custom_action(ACTION_JUMP, PAD_NEWPRESS)) && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) doubleJump();  // uses second (3rd, 4th, etc) jump(s)
-			if(Stylus.Newpress && stylusattacks) airAttackStylus();
+			if(Stylus.Newpress && cstickstylus) airAttackStylus();
 			directionalInfluence();
 		}
 		void actGround() {
@@ -1247,10 +1247,10 @@ class Fighter {
 		void smashAttack() {
 			int touchx = Stylus.X; // xpos of touch
 			int touchy = Stylus.Y; // ypos of touch
-			if(touchx < 64 && touchy < 128 && touchy > 64) chargeleft();
-			if(touchx > 192 && touchy < 128 && touchy > 64) chargeright();
-			if(touchy < 64 && touchx > 96 && touchx < 160) chargeup();
-			if(touchy > 128 && touchx > 96 && touchx < 160) chargedown();
+			if(touchx < 64 && touchy < 128 && touchy > 64) smashleft();
+			if(touchx > 192 && touchy < 128 && touchy > 64) smashright();
+			if(touchy < 64 && touchx > 96 && touchx < 160) smashup();
+			if(touchy > 128 && touchx > 96 && touchx < 160) smashdown();
 		}
 		void move() {
 			if(action == HANG) { return; }

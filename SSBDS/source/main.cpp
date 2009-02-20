@@ -82,7 +82,7 @@ int PAD_HELD = 0, PAD_NEWPRESS = 1, PAD_RELEASED = 2; // Press types (for custom
 map<int, int> customcontrols; // custom control mapping
 bool shieldgrabon; // use a while shielding to grab
 bool tapjumpon; // use up dpad to jump
-bool stylusattacks; // smashes and aerials with stylus
+bool cstickstylus; // smashes and aerials with stylus
 
 bool custom_action(int action, int typecheck) {
 	if(customcontrols[action] == BUTTON_A) {
@@ -346,7 +346,7 @@ void initControls() {
 	customcontrols[ACTION_SHIELD] = BUTTON_R;
 	customcontrols[ACTION_SHIELD2] = BUTTON_L;
 	customcontrols[ACTION_GRAB] = BUTTON_NONE;
-	stylusattacks = false;
+	cstickstylus = false;
 	shieldgrabon = true;
 	tapjumpon = true;
 } // inits default control setup
