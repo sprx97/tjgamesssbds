@@ -4,7 +4,7 @@ class Mario: public Fighter {
 	// constructor
 		Mario(int xpos, int ypos, int num, bool AI = false) {
 			acceleration = 0;
-			runspeed = 4;
+			runspeed = 3.75;
 			x = xpos;
 			y = ypos;
 			hangtime = 0;
