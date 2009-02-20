@@ -65,3 +65,33 @@ void displayPercentages() {
 		PA_OutputText(SUB_SCREEN, 30-length, 23, "%d %", damage);
 	}
 } // displays damage percents on the sub screen
+void displayLives(int stock) {
+	PA_OutputText(SUB_SCREEN, 0, 1, "                                               ");
+	PA_OutputText(SUB_SCREEN, 0, 22, "                                               ");
+	if(players.size() >= 1) {
+		PA_SetTextTileCol(SUB_SCREEN, TEXT_RED);
+		int lives = stock - score.getDeaths(0) - sdcost*score.getSDs(0);
+		PA_OutputText(SUB_SCREEN, 0, 1, "x%d", lives);
+	}
+	if(players.size() >= 2) {
+		PA_SetTextTileCol(SUB_SCREEN, TEXT_BLUE);
+		int lives = stock-score.getDeaths(1) - sdcost*score.getSDs(1);
+		stringstream ss;
+		ss << lives;
+		int length = ss.str().size();
+		PA_OutputText(SUB_SCREEN, 31-length, 1, "x%d", lives);
+	}
+	if(players.size() >= 3) {
+		PA_SetTextTileCol(SUB_SCREEN, TEXT_YELLOW);
+		int lives = stock-score.getDeaths(2) - sdcost*score.getSDs(2);
+		PA_OutputText(SUB_SCREEN, 0, 22, "x%d", lives);
+	}
+	if(players.size() >= 4) {
+		PA_SetTextTileCol(SUB_SCREEN, TEXT_GREEN);
+		int lives = stock-score.getDeaths(3) - sdcost*score.getSDs(3);
+		stringstream ss;
+		ss << lives;
+		int length = ss.str().size();
+		PA_OutputText(SUB_SCREEN, 31-length, 22, "x%d", lives);
+	}
+}

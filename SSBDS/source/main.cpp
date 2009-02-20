@@ -83,6 +83,7 @@ map<int, int> customcontrols; // custom control mapping
 bool shieldgrabon; // use a while shielding to grab
 bool tapjumpon; // use up dpad to jump
 bool stylusattacks; // smashes and aerials with stylus
+int sdcost = 1;
 
 bool custom_action(int action, int typecheck) {
 	if(customcontrols[action] == BUTTON_A) {
@@ -742,12 +743,12 @@ void displayResults() {
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 8, "Total:");
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 11, "Kills:");
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 14, "Deaths:");
-	PA_OutputSimpleText(MAIN_SCREEN, 0, 17, "SDs:");
+	PA_OutputSimpleText(MAIN_SCREEN, 0, 17, "SDs cost:");
 	for(int n = 0; n < players.size(); n++) {
 		int total = score.getTotal(n);
 		int kills = score.getKills(n);
 		int deaths = score.getDeaths(n);
-		int SDs = score.getSDs(n);
+		int SDs = sdcost*score.getSDs(n);
 		PA_OutputText(MAIN_SCREEN, (n*6)+9, 8, "%d", total);
 		PA_OutputText(MAIN_SCREEN, (n*6)+9, 11, "%d", kills);
 		PA_OutputText(MAIN_SCREEN, (n*6)+9, 14, "%d", deaths);
@@ -867,17 +868,11 @@ void match(int gamemode, int param) {
 
 #ifdef SFX_ON		
 	AS_SoundQuickPlay(three);
-	for(int n = 0; n < 60; n++) {
-		PA_WaitForVBL();
-	}
+	for(int n = 0; n < 60; n++) PA_WaitForVBL();
 	AS_SoundQuickPlay(two);
-	for(int n = 0; n < 60; n++) {
-		PA_WaitForVBL();
-	}
+	for(int n = 0; n < 60; n++) PA_WaitForVBL();
 	AS_SoundQuickPlay(one);
-	for(int n = 0; n < 60; n++) {
-		PA_WaitForVBL();
-	}
+	for(int n = 0; n < 60; n++) PA_WaitForVBL();
 	AS_SoundQuickPlay(go);
 #endif	
 	// counts down to start game
@@ -894,14 +889,12 @@ void match(int gamemode, int param) {
 		else if (gamemode==GAMEMODE_STOCK){
 			int playersstillalive=players.size(); //and while you're dying...
 			for(int n = 0; n < players.size(); n++) {
-				if(score.getDeaths(n) >= stock)
+				if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock)
 					playersstillalive--;
 			}
 			if (playersstillalive==1) return gameOver();
 		}
-		for(int n = 0; n < players.size(); n++) {
-			players[n] -> act();
-		} // all players act
+		for(int n = 0; n < players.size(); n++) players[n] -> act(); // all players act
 		for(int n = 0; n < players.size(); n++) {
 			for(int m = 0; m < players.size(); m++) {
 				if(m != n) {
@@ -921,13 +914,12 @@ void match(int gamemode, int param) {
 #endif
 		// acts and checks intersections of all projectiles
 #ifdef SFX_ON
-		for(int n = 0; n < effects.size(); n++) {
-			effects[n].act();
-		}
+		for(int n = 0; n < effects.size(); n++) effects[n].act();
 #endif
 		// acts all effects
 		displayMinimap(); // changes sub screen display
 		displayPercentages(); // displays percentages on sub screen
+		if(gamemode == GAMEMODE_STOCK) displayLives(stock);
 		PA_OutputText(MAIN_SCREEN, 13,0, "          "); // clears time
 		if((int)((time/60)%60) < 10) PA_OutputText(MAIN_SCREEN, 13, 0, "%d:0%d",(int)((time/60)/60), (int)((time/60)%60));
 		else if((int)((time/60)%60) == 0) PA_OutputText(MAIN_SCREEN, 13, 0, "%d:00",(int)((time/60)/60));
@@ -935,10 +927,8 @@ void match(int gamemode, int param) {
 		// redisplays time
 		printMemoryUsage();
 		PA_WaitForVBL();
-		if (gamemode==GAMEMODE_TIME)
-			time--; // another tick off the clock!
-		else
-			time++;//time counts up if its not a time match
+		if (gamemode==GAMEMODE_TIME) time--; // another tick off the clock!
+		else time++; // time counts up if its not a time match
 	}
 }
 void timeMatch(int minutes) {
@@ -1048,7 +1038,7 @@ void mainMenu() {
 #endif
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites on sub screen
-					if(n == 0) return timeMatch(1); // allow for changing minutes
+					if(n == 0) return stockMatch(3); // allow for changing minutes
 					if(n == 1) {
 #ifdef LAN_ON
 						LAN();

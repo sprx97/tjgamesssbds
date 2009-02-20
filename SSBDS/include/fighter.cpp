@@ -307,7 +307,7 @@ class Fighter {
 							smashdown();
 						}
 					}
-					else if(Cangle < -45 && Cangle > -135 && jumpcount == 0) {
+					else if(Cangle < -45 && Cangle > -135 && jumpcount == 0 && Cdistance > 50) {
 						if(Cx > 0) setDirection("right");
 						if(Cx < 0) setDirection("left");
 						jump();
@@ -321,7 +321,7 @@ class Fighter {
 					// or bdown
 				}
 				if(action == HANG) {
-					if(PA_RandMax(100) > 99) {
+					if(PA_RandMax(100) > 98) {
 						myledge = -1;
 						int randn=PA_Rand()%3;
 						if (randn==0) rollUp();
@@ -1124,6 +1124,7 @@ class Fighter {
 			playsound(SLIDE);
 		}
 		void hang() {
+			lasthitby = -1;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[HANG], endframes[HANG], framespeeds[HANG], ANIM_LOOP, -1);
 			action = HANG;
 			hangtime = 0;
