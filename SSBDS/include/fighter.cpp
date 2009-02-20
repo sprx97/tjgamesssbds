@@ -125,15 +125,7 @@ class Fighter {
 						Cdistance = distance;
 						Cx = dx;
 						Cy = dy;
-						if(dx != 0 && dy == 0) {
-							if(dx > 0) Cangle = 0;
-							if(dx < 0) Cangle = 180;
-						}
-						else if(dy != 0 && dx == 0) {
-							if(dy > 0) Cangle = 90;
-							if(dy < 0) Cangle = -90;
-						}
-						else Cangle = atan2(dy, dx) * 180 / PI; // from -180 to 180
+						Cangle = atan2(dy, dx) * 180 / PI; // from -180 to 180
 					}
 				}
 			}
@@ -295,6 +287,9 @@ class Fighter {
 					// or dtilt
 					// or bdown
 				}
+				if(action == HANG) {
+					rollUp(); //always roll up off of the ledge for now.
+				}//AI is hanging from ledge
 			}
 			move();
 		}
@@ -525,15 +520,7 @@ class Fighter {
 						ftilt();
 					}
 					else if(custom_action(ACTION_SHIELD, PAD_NEWPRESS)) {
-						y = y+handy-bottomside;
-						if(direction == "left") {
-							x = x+handx-rightside;
-							roll("left");
-						}
-						else {
-							x = x+handx-leftside;
-							roll("right");
-						}
+						rollUp();
 					}
 					else if((Pad.Newpress.Up && tapjumpon) || custom_action(ACTION_JUMP, PAD_NEWPRESS)) {
 						y = y+handy-bottomside;
@@ -814,6 +801,19 @@ class Fighter {
 			if(dir == "left") dx = -2;
 			if(dir == "right") dx = 2;
 			playsound(ROLL);
+		}
+		void rollUp(){
+			if(action == HANG) {
+				y = y+handy-bottomside;
+				if(direction == "left") {
+					x = x+handx-rightside;
+					roll("left");
+				}
+				else {
+					x = x+handx-leftside;
+					roll("right");
+				}
+			}
 		}
 		void dodge() {
 			action = DODGE;
