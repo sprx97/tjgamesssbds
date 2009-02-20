@@ -4,7 +4,7 @@ class Mewtwo: public Fighter {
 	// constructor
 		Mewtwo(int xpos, int ypos, int num, bool AI = false) {
 			acceleration = 0;
-			runspeed = 5;
+			runspeed = 4.5;
 			x = xpos;
 			y = ypos;
 			hangtime = 0;
