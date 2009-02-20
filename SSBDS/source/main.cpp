@@ -889,10 +889,12 @@ void match(int gamemode, int param) {
 			}
 		}
 		else if (gamemode==GAMEMODE_STOCK){
+			int playersstillalive=players.size(); //and while you're dying...
 			for(int n = 0; n < players.size(); n++) {
 				if(score.getDeaths(n) >= stock)
-					return gameOver();
+					playersstillalive--;
 			}
+			if (playersstillalive==1) return gameOver();
 		}
 		for(int n = 0; n < players.size(); n++) {
 			players[n] -> act();
