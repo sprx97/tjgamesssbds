@@ -294,11 +294,11 @@ class Fighter {
 					if(Cdistance < 30) {
 						if(Cangle > -45 && Cangle < 45){
 							setDirection("right");
-							bside();
+							smashright();
 						}
 						else if(Cangle < -135 || Cangle > 135){ 
 							setDirection("left");
-							bside();
+							smashleft();
 						}
 						else if(Cangle < -45 && Cangle > -135){
 							smashup();
