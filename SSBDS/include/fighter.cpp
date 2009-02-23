@@ -267,7 +267,7 @@ class Fighter {
 						else if(Cangle > 45 && Cangle < 135) dair();
 					}
 					else {
-						if(Cangle < -45 && Cangle > -135 && jumpcount < jumpmax) {
+						if(Cangle < -45 && Cangle > -135 && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) {
 							if(Cx > 0) setDirection("right");
 							if(Cx < 0) setDirection("left");
 							doubleJump();

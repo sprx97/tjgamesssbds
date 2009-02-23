@@ -742,7 +742,7 @@ void displayResults() {
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 8, "Total:");
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 11, "Kills:");
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 14, "Deaths:");
-	PA_OutputSimpleText(MAIN_SCREEN, 0, 17, "SDs cost:");
+	PA_OutputSimpleText(MAIN_SCREEN, 0, 17, "SDs:");
 	for(int n = 0; n < players.size(); n++) {
 		int total = score.getTotal(n);
 		int kills = score.getKills(n);
@@ -830,7 +830,7 @@ void gameOver() {
 	for(int n = 0; n < effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
 #endif			
 	// stops all effect animations
-	PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
+	if(gamemode == GAMEMODE_TIME) PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
 	for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
 	fadeOut();
 	return displayResults();
