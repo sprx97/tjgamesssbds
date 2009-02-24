@@ -932,7 +932,7 @@ void match(int param) {
 }
 void trainingMode() {
 
-} // training mode, uncoded
+} // training mode
 void controlOptions() {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
 	
@@ -1012,12 +1012,133 @@ void controlOptions() {
 		printMemoryUsage();
 		PA_WaitForVBL();
 	}
-} // edit custom controls, uncoded
+} // edit custom controls
 void cameraOptions() {
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	
+#ifdef MP3_ON
+	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
+#endif
 
-} // edit camera options, uncoded
+	PA_InitText(SUB_SCREEN, 0);
+	PA_SetTextCol(SUB_SCREEN, 0, 0, 0); // black text
+	
+	map<int, const char*> camerastrs;
+	camerastrs[CAMERATYPE_FOLLOWUSER] = "Follow Me";
+	camerastrs[CAMERATYPE_FOLLOWALL] = "Follow All";
+	
+	fadeIn();
+	while(true) {
+		if(Pad.Newpress.Left) {
+			cameratype -= 1;
+			if(cameratype < CAMERATYPE_FOLLOWUSER) cameratype = CAMERATYPE_FOLLOWUSER;
+		}
+		if(Pad.Newpress.Right) {
+			cameratype += 1;
+			if(cameratype > CAMERATYPE_FOLLOWALL) cameratype = CAMERATYPE_FOLLOWALL;
+		}
+		if(Pad.Newpress.B || Pad.Newpress.A || Pad.Newpress.Start) {
+			fadeOut();
+			PA_ResetSpriteSysScreen(SUB_SCREEN);
+			return;
+		}
+		PA_OutputText(SUB_SCREEN, 0, 0, "Camera Mode: %s", camerastrs[cameratype]);
+		printMemoryUsage();
+		PA_WaitForVBL();
+	}
+} // edit camera options
+void gameOptions() {
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	
+#ifdef MP3_ON
+	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
+#endif
+
+	PA_InitText(SUB_SCREEN, 0);
+	PA_SetTextCol(SUB_SCREEN, 0, 0, 0); // black text
+
+	int selected = 0;
+
+	PA_OutputText(SUB_SCREEN, 4, 0, "Game Mode:");
+	PA_OutputText(SUB_SCREEN, 4, 1, "Lives/Minutes:");
+	PA_OutputText(SUB_SCREEN, 4, 2, "SD cost:");
+
+	if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 0, "stock");
+	else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 0, "time");
+	if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 1, "%d", stocklimit);
+	else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 1, "%d:00", timelimit);
+	PA_OutputText(SUB_SCREEN, 16, 2, "%d", sdcost);
+
+	PA_OutputText(SUB_SCREEN, 0, 0, " ** ");
+
+	fadeIn();
+	while(true) {
+		if(Pad.Newpress.Up) selected--;
+		if(Pad.Newpress.Down) selected++;
+		if(selected > 2) selected = 2;
+		if(selected < 0) selected = 0;
+		if(Pad.Newpress.Up || Pad.Newpress.Down) {
+			for(int mark = 0; mark <= 2; mark++) {
+				if(mark == selected) PA_OutputText(SUB_SCREEN, 0, mark, " ** ");
+				else PA_OutputText(SUB_SCREEN, 0, mark, "    ");
+			}
+		}
+		
+		if(Pad.Newpress.Right) {
+			if(selected == 0) {
+				gamemode++;
+				if(gamemode > 1) gamemode = 1;
+				PA_OutputText(SUB_SCREEN, 16, 0, "     ");
+				if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 0, "stock");
+				else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 0, "time");
+				PA_OutputText(SUB_SCREEN, 16, 1, "    ");
+				if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 1, "%d", stocklimit);
+				else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 1, "%d:00", timelimit);
+			}
+			else if(selected == 1) {
+				if(gamemode == GAMEMODE_STOCK) stocklimit++;
+				else if(gamemode == GAMEMODE_TIME) timelimit++;
+				if(timelimit > 99) timelimit = 99;
+				if(stocklimit > 99) stocklimit = 99;
+			}
+			else if(selected == 2) {
+				sdcost++;
+				if(sdcost > 2) sdcost = 2;
+			}
+		}
+		if(Pad.Newpress.Left) {
+			if(selected == 0) {
+				gamemode--;
+				if(gamemode < 0) gamemode = 0;
+				PA_OutputText(SUB_SCREEN, 16, 0, "     ");
+				if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 0, "stock");
+				else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 0, "time");
+				PA_OutputText(SUB_SCREEN, 16, 1, "    ");
+				if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 1, "%d", stocklimit);
+				else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 1, "%d:00", timelimit);
+			}
+			else if(selected == 1) {
+				if(gamemode == GAMEMODE_STOCK) stocklimit--;
+				else if(gamemode == GAMEMODE_TIME) timelimit--;
+				if(timelimit < 1) timelimit = 1;
+				if(stocklimit < 1) stocklimit = 1;
+			}
+			else if(selected == 2) {
+				sdcost--;
+				if(sdcost < 0) sdcost = 0;
+			}
+		}
+		
+		if(Pad.Newpress.B || Pad.Newpress.A || Pad.Newpress.Start) {
+			fadeOut();
+			PA_ResetSpriteSysScreen(SUB_SCREEN);
+			return;
+		}
+		printMemoryUsage();
+		PA_WaitForVBL();
+	}
+} // edit match style
 void options() {
-	return controlOptions();
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
 
@@ -1026,18 +1147,44 @@ void options() {
 	// plays main menu music
 #endif
 
+	PA_InitText(SUB_SCREEN, 0);
+	PA_SetTextCol(SUB_SCREEN, 0, 0, 0);
+	
+	PA_OutputText(SUB_SCREEN, 4, 0, "Control Options");
+	PA_OutputText(SUB_SCREEN, 4, 1, "Camera Options");
+	PA_OutputText(SUB_SCREEN, 4, 2, "Game Options");
+	
+	int selected = 0;
+	PA_OutputText(SUB_SCREEN, 0, 0, " ** ");
+
 	fadeIn();
 	while(true) {
+		if(Pad.Newpress.Down) {
+			selected++;
+			if(selected > 2) selected = 2;
+		}
+		if(Pad.Newpress.Up) {
+			selected--;
+			if(selected < 0) selected = 0;
+		}
+		if(Pad.Newpress.Up || Pad.Newpress.Down) {
+			for(int mark = 0; mark <= 2; mark++) {
+				if(mark == selected) PA_OutputText(SUB_SCREEN, 0, mark, " ** ");
+				else PA_OutputText(SUB_SCREEN, 0, mark, "    ");
+			}
+		}
+		if(Pad.Newpress.A || Pad.Newpress.Start) {
+			fadeOut();
+			PA_ResetSpriteSysScreen(SUB_SCREEN);
+			if(selected == 0) return controlOptions();
+			if(selected == 1) return cameraOptions();
+			if(selected == 2) return gameOptions();
+		}
 		if(Pad.Newpress.B) {
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
 			return; // back to title
 		}
-// Control Options
-// Camera Options
-// Stock mode or Time Mode
-// lives/time
-// cost of SDs
 		printMemoryUsage();
 		PA_WaitForVBL();
 	}
