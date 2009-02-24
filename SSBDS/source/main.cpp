@@ -268,7 +268,7 @@ char* gifbuffer = NULL; // the array which stores the gif being printed
 void openGif(int screen, string path) {
 	delete gifbuffer; // clears the gif buffer
 	FILE* imgFile = fopen (path.c_str(), "rb"); // opens the file at path for reading	
-	if(imgFile){
+	if(imgFile) {
 		u32 imgSize;
 		fseek (imgFile, 0 , SEEK_END);
 		imgSize = ftell (imgFile);
@@ -338,17 +338,42 @@ void initProjectiles() {
 } // initializes projectiles
 #endif
 void initControls() {
-	customcontrols[ACTION_BASIC] = BUTTON_A;
-	customcontrols[ACTION_SPECIAL] = BUTTON_B;
-	customcontrols[ACTION_SMASH] = BUTTON_AB;
-	customcontrols[ACTION_JUMP] = BUTTON_X;
-	customcontrols[ACTION_JUMP2] = BUTTON_Y;
-	customcontrols[ACTION_SHIELD] = BUTTON_R;
-	customcontrols[ACTION_SHIELD2] = BUTTON_L;
-	customcontrols[ACTION_GRAB] = BUTTON_NONE;
-	cstickstylus = false;
-	shieldgrabon = true;
-	tapjumpon = true;
+/*	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "rb");
+	if(file) {
+		u32 size;
+		fseek(file, 0, SEEK_END);
+		size = ftell(file);
+		rewind(file);
+		
+		char* buffer = (char*) malloc(sizeof(char)*size);
+		fread(buffer, 1, size, file);
+		
+		fclose(file);
+		int n = 0;
+		while(n < 16) {
+			customcontrols[buffer[n].toInt()] = buffer[n+1].toInt();
+			n += 2;
+		}
+		if(buffer[17].toInt() == 1) cstickstylus = true;
+		else cstickstylus = false;
+		if(buffer[18].toInt() == 1) shieldgrabon = true;
+		else shieldgrabon = false;
+		if(buffer[19].toInt() == 1) tapjumpon = true;
+		else tapjumpon = false;
+	}
+	else {*/	
+		customcontrols[ACTION_BASIC] = BUTTON_A;
+		customcontrols[ACTION_SPECIAL] = BUTTON_B;
+		customcontrols[ACTION_SMASH] = BUTTON_AB;
+		customcontrols[ACTION_JUMP] = BUTTON_X;
+		customcontrols[ACTION_JUMP2] = BUTTON_Y;
+		customcontrols[ACTION_SHIELD] = BUTTON_R;
+		customcontrols[ACTION_SHIELD2] = BUTTON_L;
+		customcontrols[ACTION_GRAB] = BUTTON_NONE;
+		cstickstylus = false;
+		shieldgrabon = true;
+		tapjumpon = true;
+//	}
 } // inits default control setup
 
 // selecting char/stage
@@ -1143,7 +1168,7 @@ void gameOptions() {
 		PA_WaitForVBL();
 	}
 } // edit match style
-void options() {
+void initOptions() {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
 
@@ -1159,10 +1184,13 @@ void options() {
 	PA_OutputText(SUB_SCREEN, 4, 1, "Camera Options");
 	PA_OutputText(SUB_SCREEN, 4, 2, "Game Options");
 	
-	int selected = 0;
 	PA_OutputText(SUB_SCREEN, 0, 0, " ** ");
 
 	fadeIn();
+}
+void options() {
+	int selected = 0;
+	initOptions();
 	while(true) {
 		if(Pad.Newpress.Down) {
 			selected++;
@@ -1181,14 +1209,23 @@ void options() {
 		if(Pad.Newpress.A || Pad.Newpress.Start) {
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN);
-			if(selected == 0) return controlOptions();
-			if(selected == 1) return cameraOptions();
-			if(selected == 2) return gameOptions();
+			if(selected == 0) {
+				controlOptions();
+				initOptions();
+			}
+			if(selected == 1) {
+				cameraOptions();
+				initOptions();
+			}
+			if(selected == 2) {
+				gameOptions();
+				initOptions();
+			}
 		}
 		if(Pad.Newpress.B) {
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
-			return; // back to title
+			return; // back
 		}
 		printMemoryUsage();
 		PA_WaitForVBL();
@@ -1201,7 +1238,7 @@ void extras() {
 #import "LAN.cpp"
 
 // pre-game menus
-void mainMenu() {
+void initMainMenu() {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
 
@@ -1238,7 +1275,9 @@ void mainMenu() {
 	// a fourth menu button
 
 	fadeIn();
-
+}
+void mainMenu() {
+	initMainMenu();
 	while(true) {
 		if(Pad.Newpress.B) {
 			fadeOut();
@@ -1259,19 +1298,28 @@ void mainMenu() {
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites on sub screen
 					if(n == 0) {
-						if(gamemode == GAMEMODE_TIME) return match(timelimit);
-						else if(gamemode == GAMEMODE_STOCK) return match(stocklimit);
+						if(gamemode == GAMEMODE_TIME) {
+							match(timelimit);
+							initMainMenu();
+						}
+						else if(gamemode == GAMEMODE_STOCK) {
+							match(stocklimit);
+							initMainMenu();
+						}
 					}
 					if(n == 1) {
 #ifdef LAN_ON
-						return LAN();
+						LAN();
 #endif					
+						initMainMenu();
 					}
 					if(n == 2) {
-						return options();
+						options();
+						initMainMenu();
 					}
 					if(n == 3) {
-						return extras();
+						extras();
+						initMainMenu();
 					}
 				}
 			}
@@ -1329,8 +1377,8 @@ int main(int argc, char ** argv) {
 
 	if(!fatInitDefault()) {
 		PA_InitText(MAIN_SCREEN, 0);
-		PA_SetTextCol(MAIN_SCREEN, 31,31,31);
-		PA_OutputText(MAIN_SCREEN, 0,0, "FAT INIT FAILED!!!");
+		PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);
+		PA_OutputText(MAIN_SCREEN, 0, 0, "FAT INIT FAILED!!!");
 		while(true) {}
 	} // Init for libfat. if it fails it freezes with an error
 	PA_FatInitAllBuffers(); // Initialize all the memory buffers
