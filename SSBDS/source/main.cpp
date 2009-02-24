@@ -1060,7 +1060,7 @@ void gameOptions() {
 	int selected = 0;
 
 	PA_OutputText(SUB_SCREEN, 4, 0, "Game Mode:");
-	PA_OutputText(SUB_SCREEN, 4, 1, "Lives/Minutes:");
+	PA_OutputText(SUB_SCREEN, 4, 1, "Stock/Time:");
 	PA_OutputText(SUB_SCREEN, 4, 2, "SD cost:");
 
 	if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 0, "stock");
@@ -1088,18 +1088,16 @@ void gameOptions() {
 			if(selected == 0) {
 				gamemode++;
 				if(gamemode > 1) gamemode = 1;
-				PA_OutputText(SUB_SCREEN, 16, 0, "     ");
-				if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 0, "stock");
-				else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 0, "time");
-				PA_OutputText(SUB_SCREEN, 16, 1, "    ");
-				if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 1, "%d", stocklimit);
-				else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 1, "%d:00", timelimit);
 			}
 			else if(selected == 1) {
-				if(gamemode == GAMEMODE_STOCK) stocklimit++;
-				else if(gamemode == GAMEMODE_TIME) timelimit++;
-				if(timelimit > 99) timelimit = 99;
-				if(stocklimit > 99) stocklimit = 99;
+				if(gamemode == GAMEMODE_STOCK) {
+					stocklimit++;
+					if(stocklimit > 99) stocklimit = 99;
+				}
+				else if(gamemode == GAMEMODE_TIME) {
+					timelimit++;
+					if(timelimit > 99) timelimit = 99;
+				}
 			}
 			else if(selected == 2) {
 				sdcost++;
@@ -1110,23 +1108,30 @@ void gameOptions() {
 			if(selected == 0) {
 				gamemode--;
 				if(gamemode < 0) gamemode = 0;
-				PA_OutputText(SUB_SCREEN, 16, 0, "     ");
-				if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 0, "stock");
-				else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 0, "time");
-				PA_OutputText(SUB_SCREEN, 16, 1, "    ");
-				if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 1, "%d", stocklimit);
-				else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 1, "%d:00", timelimit);
 			}
 			else if(selected == 1) {
-				if(gamemode == GAMEMODE_STOCK) stocklimit--;
-				else if(gamemode == GAMEMODE_TIME) timelimit--;
-				if(timelimit < 1) timelimit = 1;
-				if(stocklimit < 1) stocklimit = 1;
+				if(gamemode == GAMEMODE_STOCK) {
+					stocklimit--;
+					if(stocklimit < 1) stocklimit = 1;
+				}
+				else if(gamemode == GAMEMODE_TIME) {
+					timelimit--;
+					if(timelimit < 1) timelimit = 1;
+				}
 			}
 			else if(selected == 2) {
 				sdcost--;
 				if(sdcost < 0) sdcost = 0;
 			}
+		}
+		if(Pad.Newpress.Right || Pad.Newpress.Left) {
+			PA_OutputText(SUB_SCREEN, 16, 0, "         ");
+			if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 0, "stock");
+			else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 0, "time");
+			PA_OutputText(SUB_SCREEN, 16, 1, "         ");
+			if(gamemode == GAMEMODE_STOCK) PA_OutputText(SUB_SCREEN, 16, 1, "%d", stocklimit);
+			else if(gamemode == GAMEMODE_TIME) PA_OutputText(SUB_SCREEN, 16, 1, "%d:00", timelimit);		
+			PA_OutputText(SUB_SCREEN, 16, 2, "%d", sdcost);
 		}
 		
 		if(Pad.Newpress.B || Pad.Newpress.A || Pad.Newpress.Start) {
