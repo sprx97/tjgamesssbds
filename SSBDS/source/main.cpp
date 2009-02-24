@@ -934,12 +934,90 @@ void trainingMode() {
 
 } // training mode, uncoded
 void controlOptions() {
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	
+#ifdef MP3_ON
+	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
+#endif
 
+	PA_InitText(SUB_SCREEN, 0);
+	PA_SetTextCol(SUB_SCREEN, 0, 0, 0); // black text
+	
+	map<int, const char*> buttonstrs;
+	buttonstrs[BUTTON_NONE] = "None";
+	buttonstrs[BUTTON_A] = "A";
+	buttonstrs[BUTTON_B] = "B";
+	buttonstrs[BUTTON_AB] = "AB";
+	buttonstrs[BUTTON_X] = "X";
+	buttonstrs[BUTTON_Y] = "Y";
+	buttonstrs[BUTTON_L] = "L";
+	buttonstrs[BUTTON_R] = "R";
+
+	map<int, const char*> actionstrs;
+	actionstrs[ACTION_BASIC] = "Basic";
+	actionstrs[ACTION_SPECIAL] = "Special";
+	actionstrs[ACTION_SMASH] = "Smash";
+	actionstrs[ACTION_JUMP] = "Jump";
+	actionstrs[ACTION_JUMP2] = "Jump";
+	actionstrs[ACTION_SHIELD] = "Shield";
+	actionstrs[ACTION_SHIELD2] = "Shield";
+	actionstrs[ACTION_GRAB] = "Grab";
+	
+	int selected = ACTION_BASIC;
+
+	for(int action = ACTION_BASIC; action <= ACTION_GRAB; action++) {
+		PA_OutputText(SUB_SCREEN, 4, action, "%s", actionstrs[action]);
+		PA_OutputText(SUB_SCREEN, 16, action, "%s", buttonstrs[customcontrols[action]]);
+	}
+	PA_OutputText(SUB_SCREEN, 0, 0, " **");
+	PA_OutputText(SUB_SCREEN, 0, 10, "Putting multiple actions on one button can cause errors");
+	
+	fadeIn();
+	while(true) {
+		if(Pad.Newpress.Up) selected--;
+		if(Pad.Newpress.Down) selected++;
+		if(selected > ACTION_GRAB) selected = ACTION_GRAB;
+		if(selected < ACTION_BASIC) selected = ACTION_BASIC;
+		if(Pad.Newpress.Up || Pad.Newpress.Down) {
+			for(int mark = ACTION_BASIC; mark <= ACTION_GRAB; mark++) {
+				if(mark == selected) PA_OutputText(SUB_SCREEN, 0, mark, " ** ");
+				else PA_OutputText(SUB_SCREEN, 0, mark, "    ");
+			}
+		}
+		// change which action your switching controls for
+		
+		if(Pad.Newpress.Right) {
+			int oldaction = customcontrols[selected];
+			customcontrols[selected] += 1;
+			if(customcontrols[selected] > BUTTON_R) customcontrols[selected] = BUTTON_NONE;
+		}
+		if(Pad.Newpress.Left) {
+			int oldaction = customcontrols[selected];
+			customcontrols[selected] -= 1;
+			if(customcontrols[selected] < BUTTON_NONE) customcontrols[selected] = BUTTON_R;
+		}
+		if(Pad.Newpress.Right || Pad.Newpress.Left) {
+			for(int action = ACTION_BASIC; action <= ACTION_GRAB; action++) {
+				PA_OutputText(SUB_SCREEN, 16, action, "     ");
+				PA_OutputText(SUB_SCREEN, 16, action, "%s", buttonstrs[customcontrols[action]]);
+			}
+		}
+		// chnage the action for the selected control		
+						
+		if(Pad.Newpress.B || Pad.Newpress.A || Pad.Newpress.Start) {
+			fadeOut();
+			PA_ResetSpriteSysScreen(SUB_SCREEN);
+			return;
+		}
+		printMemoryUsage();
+		PA_WaitForVBL();
+	}
 } // edit custom controls, uncoded
 void cameraOptions() {
 
 } // edit camera options, uncoded
 void options() {
+	return controlOptions();
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
 
@@ -947,12 +1025,6 @@ void options() {
 	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
 	// plays main menu music
 #endif
-
-
-
-// menu buttons for different options
-
-
 
 	fadeIn();
 	while(true) {
@@ -1040,14 +1112,14 @@ void mainMenu() {
 					}
 					if(n == 1) {
 #ifdef LAN_ON
-						LAN();
+						return LAN();
 #endif					
 					}
 					if(n == 2) {
-						options();
+						return options();
 					}
 					if(n == 3) {
-						extras();
+						return extras();
 					}
 				}
 			}
