@@ -380,11 +380,9 @@ void initControls() {
 	}
 } // inits default control setup
 void saveControls() {
-	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "wb");
-
+//	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "wb");
 //	fwrite((void*)"asdf", sizeof(char), 4, file);
-	
-	fclose(file);
+//	fclose(file);
 } // saves default control setup
 
 // selecting char/stage
