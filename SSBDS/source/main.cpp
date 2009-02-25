@@ -338,30 +338,34 @@ void initProjectiles() {
 } // initializes projectiles
 #endif
 void initControls() {
-/*	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "rb");
+	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "rb");
 	if(file) {
 		u32 size;
 		fseek(file, 0, SEEK_END);
 		size = ftell(file);
 		rewind(file);
-		
-		char* buffer = (char*) malloc(sizeof(char)*size);
-		fread(buffer, 1, size, file);
-		
-		fclose(file);
+				
+		char line[4];
+		char line2[4];
 		int n = 0;
 		while(n < 16) {
-			customcontrols[buffer[n].toInt()] = buffer[n+1].toInt();
+			fgets(line, 4, file);
+			fgets(line2, 4, file);
+			customcontrols[atoi(strtok(line, " \t"))] = atoi(strtok(line2, " \t"));
 			n += 2;
 		}
-		if(buffer[17].toInt() == 1) cstickstylus = true;
+		fgets(line, 4, file);
+		if(atoi(strtok(line, " \t")) == 1) cstickstylus = true;
 		else cstickstylus = false;
-		if(buffer[18].toInt() == 1) shieldgrabon = true;
+		fgets(line, 4, file);
+		if(atoi(strtok(line, " \t")) == 1) shieldgrabon = true;
 		else shieldgrabon = false;
-		if(buffer[19].toInt() == 1) tapjumpon = true;
+		fgets(line, 4, file);
+		if(atoi(strtok(line, " \t")) == 1) tapjumpon = true;
 		else tapjumpon = false;
+		fclose(file);
 	}
-	else {*/	
+	else {	
 		customcontrols[ACTION_BASIC] = BUTTON_A;
 		customcontrols[ACTION_SPECIAL] = BUTTON_B;
 		customcontrols[ACTION_SMASH] = BUTTON_AB;
@@ -373,8 +377,17 @@ void initControls() {
 		cstickstylus = false;
 		shieldgrabon = true;
 		tapjumpon = true;
-//	}
+	}
 } // inits default control setup
+void saveControls() {
+	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "wb");
+
+//		FILE* savefile = fopen ("/vgh/_vghero.dat", "wb"); //wb = create/truncate & write	
+//		fwrite((void*)&gameData, sizeof(GAMEDATA), 1, savefile);
+//		fclose(savefile);	
+	
+	fclose(file);
+} // saves default control setup
 
 // selecting char/stage
 void stageSelect() {
@@ -994,6 +1007,15 @@ void controlOptions() {
 		PA_OutputText(SUB_SCREEN, 4, action, "%s", actionstrs[action]);
 		PA_OutputText(SUB_SCREEN, 16, action, "%s", buttonstrs[customcontrols[action]]);
 	}
+	PA_OutputText(SUB_SCREEN, 4, 8, "C-Stick:");
+	if(cstickstylus) PA_OutputText(SUB_SCREEN, 16, 8, "on");
+	else PA_OutputText(SUB_SCREEN, 16, 8, "off");
+	PA_OutputText(SUB_SCREEN, 4, 9, "Shield Grab:");
+	if(shieldgrabon) PA_OutputText(SUB_SCREEN, 16, 9, "on");
+	else PA_OutputText(SUB_SCREEN, 16, 9, "off");
+	PA_OutputText(SUB_SCREEN, 4, 10, "Tap Jump:");
+	if(tapjumpon) PA_OutputText(SUB_SCREEN, 16, 10, "on");
+	else PA_OutputText(SUB_SCREEN, 16, 10, "off");
 	PA_OutputText(SUB_SCREEN, 0, 0, " **");
 	PA_OutputText(SUB_SCREEN, 0, 10, "Putting multiple actions on one button can cause errors");
 	
@@ -1001,7 +1023,7 @@ void controlOptions() {
 	while(true) {
 		if(Pad.Newpress.Up) selected--;
 		if(Pad.Newpress.Down) selected++;
-		if(selected > ACTION_GRAB) selected = ACTION_GRAB;
+		if(selected > ACTION_GRAB+3) selected = ACTION_GRAB+3;
 		if(selected < ACTION_BASIC) selected = ACTION_BASIC;
 		if(Pad.Newpress.Up || Pad.Newpress.Down) {
 			for(int mark = ACTION_BASIC; mark <= ACTION_GRAB; mark++) {
@@ -1012,26 +1034,58 @@ void controlOptions() {
 		// change which action your switching controls for
 		
 		if(Pad.Newpress.Right) {
-			int oldaction = customcontrols[selected];
-			customcontrols[selected] += 1;
-			if(customcontrols[selected] > BUTTON_R) customcontrols[selected] = BUTTON_NONE;
+			if(selected == 10) {
+				tapjumpon = !tapjumpon;
+			}
+			else if(selected == 9) {
+				shieldgrabon = !shieldgrabon;
+			}
+			else if(selected == 8) {
+				cstickstylus = !cstickstylus;
+			}
+			else {
+				int oldaction = customcontrols[selected];
+				customcontrols[selected] += 1;
+				if(customcontrols[selected] > BUTTON_R) customcontrols[selected] = BUTTON_NONE;
+			}
 		}
 		if(Pad.Newpress.Left) {
-			int oldaction = customcontrols[selected];
-			customcontrols[selected] -= 1;
-			if(customcontrols[selected] < BUTTON_NONE) customcontrols[selected] = BUTTON_R;
+			if(selected == 10) {
+				tapjumpon = !tapjumpon;
+			}
+			else if(selected == 9) {
+				shieldgrabon = !shieldgrabon;
+			}
+			else if(selected == 8) {
+				cstickstylus = !cstickstylus;
+			}
+			else {
+				int oldaction = customcontrols[selected];
+				customcontrols[selected] -= 1;
+				if(customcontrols[selected] < BUTTON_NONE) customcontrols[selected] = BUTTON_R;
+			}
 		}
 		if(Pad.Newpress.Right || Pad.Newpress.Left) {
 			for(int action = ACTION_BASIC; action <= ACTION_GRAB; action++) {
 				PA_OutputText(SUB_SCREEN, 16, action, "     ");
 				PA_OutputText(SUB_SCREEN, 16, action, "%s", buttonstrs[customcontrols[action]]);
 			}
+			PA_OutputText(SUB_SCREEN, 16, 8, "    ");
+			PA_OutputText(SUB_SCREEN, 16, 9, "    ");
+			PA_OutputText(SUB_SCREEN, 16, 10, "    ");
+			if(cstickstylus) PA_OutputText(SUB_SCREEN, 16, 8, "on");
+			else PA_OutputText(SUB_SCREEN, 16, 8, "off");
+			if(shieldgrabon) PA_OutputText(SUB_SCREEN, 16, 9, "on");
+			else PA_OutputText(SUB_SCREEN, 16, 9, "off");
+			if(tapjumpon) PA_OutputText(SUB_SCREEN, 16, 10, "on");
+			else PA_OutputText(SUB_SCREEN, 16, 10, "off");
 		}
 		// chnage the action for the selected control		
 						
 		if(Pad.Newpress.B || Pad.Newpress.A || Pad.Newpress.Start) {
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN);
+			saveControls();
 			return;
 		}
 		printMemoryUsage();
@@ -1212,19 +1266,23 @@ void options() {
 			if(selected == 0) {
 				controlOptions();
 				initOptions();
+				selected = 0;
 			}
 			if(selected == 1) {
 				cameraOptions();
 				initOptions();
+				selected = 0;
 			}
 			if(selected == 2) {
 				gameOptions();
 				initOptions();
+				selected = 0;
 			}
 		}
 		if(Pad.Newpress.B) {
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
+			PA_ResetBgSysScreen(SUB_SCREEN); // gets rid of bgs
 			return; // back
 		}
 		printMemoryUsage();
@@ -1273,6 +1331,9 @@ void initMainMenu() {
 	PA_LoadSpritePal(SUB_SCREEN, 3, (void*)menuextras_Pal);
 	PA_CreateSprite(SUB_SCREEN, 3, (void*)menuextras, OBJ_SIZE_64X64, COLOR256, 3, 256-64-48, 192-64-16);
 	// a fourth menu button
+
+	PA_ResetSpriteSysScreen(MAIN_SCREEN);
+	PA_ResetBgSysScreen(MAIN_SCREEN);
 
 	fadeIn();
 }
