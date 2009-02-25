@@ -355,13 +355,13 @@ void initControls() {
 			n += 2;
 		}
 		fgets(line, 4, file);
-		if(atoi(strtok(line, " \t")) == 0) cstickstylus = true;
+		if(atoi(strtok(line, " \t")) == 1) cstickstylus = true;
 		else cstickstylus = false;
 		fgets(line, 4, file);
-		if(atoi(strtok(line, " \t")) == 0) shieldgrabon = true;
+		if(atoi(strtok(line, " \t")) == 1) shieldgrabon = true;
 		else shieldgrabon = false;
 		fgets(line, 4, file);
-		if(atoi(strtok(line, " \t")) == 0) tapjumpon = true;
+		if(atoi(strtok(line, " \t")) == 1) tapjumpon = true;
 		else tapjumpon = false;
 		fclose(file);
 	}
@@ -378,10 +378,34 @@ void initControls() {
 		shieldgrabon = true;
 		tapjumpon = true;
 	}
-} // inits default control setup
+} // inits default or saved control setup
 void saveControls() {
 //	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "wb");
-//	fwrite((void*)"asdf", sizeof(char), 4, file);
+
+//	fwrite((void*)ACTION_BASIC, sizeof(int), 1, file);
+//	fwrite((void*)customcontrols[ACTION_BASIC], sizeof(int), 1, file);
+//	fwrite((void*)ACTION_SPECIAL, sizeof(int), 1, file);
+//	fwrite((void*)customcontrols[ACTION_SPECIAL], sizeof(int), 1, file);
+//	fwrite((void*)ACTION_SMASH, sizeof(int), 1, file);
+//	fwrite((void*)customcontrols[ACTION_SMASH], sizeof(int), 1, file);
+//	fwrite((void*)ACTION_JUMP, sizeof(int), 1, file);
+//	fwrite((void*)customcontrols[ACTION_JUMP], sizeof(int), 1, file);
+//	fwrite((void*)ACTION_JUMP2, sizeof(int), 1, file);
+//	fwrite((void*)customcontrols[ACTION_JUMP2], sizeof(int), 1, file);
+//	fwrite((void*)ACTION_SHIELD, sizeof(int), 1, file);
+//	fwrite((void*)customcontrols[ACTION_SHIELD], sizeof(int), 1, file);
+//	fwrite((void*)ACTION_SHIELD2, sizeof(int), 1, file);
+//	fwrite((void*)customcontrols[ACTION_SHIELD2], sizeof(int), 1, file);
+//	fwrite((void*)ACTION_GRAB, sizeof(int), 1, file);
+//	fwrite((void*)customcontrols[ACTION_GRAB], sizeof(int), 1, file);
+	
+//	if(cstickstylus) fwrite((void*)1, sizeof(int), 1, file);
+//	else fwrite((void*)0, sizeof(int), 1, file);
+//	if(shieldgrabon) fwrite((void*)1, sizeof(int), 1, file);
+//	else fwrite((void*)0, sizeof(int), 1, file);
+//	if(tapjumpon) fwrite((void*)1, sizeof(int), 1, file);
+//	else fwrite((void*)0, sizeof(int), 1, file);
+		
 //	fclose(file);
 } // saves default control setup
 
