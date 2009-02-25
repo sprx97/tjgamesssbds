@@ -355,13 +355,13 @@ void initControls() {
 			n += 2;
 		}
 		fgets(line, 4, file);
-		if(atoi(strtok(line, " \t")) == 1) cstickstylus = true;
+		if(atoi(strtok(line, " \t")) == 0) cstickstylus = true;
 		else cstickstylus = false;
 		fgets(line, 4, file);
-		if(atoi(strtok(line, " \t")) == 1) shieldgrabon = true;
+		if(atoi(strtok(line, " \t")) == 0) shieldgrabon = true;
 		else shieldgrabon = false;
 		fgets(line, 4, file);
-		if(atoi(strtok(line, " \t")) == 1) tapjumpon = true;
+		if(atoi(strtok(line, " \t")) == 0) tapjumpon = true;
 		else tapjumpon = false;
 		fclose(file);
 	}
@@ -382,9 +382,7 @@ void initControls() {
 void saveControls() {
 	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "wb");
 
-//		FILE* savefile = fopen ("/vgh/_vghero.dat", "wb"); //wb = create/truncate & write	
-//		fwrite((void*)&gameData, sizeof(GAMEDATA), 1, savefile);
-//		fclose(savefile);	
+//	fwrite((void*)"asdf", sizeof(char), 4, file);
 	
 	fclose(file);
 } // saves default control setup
@@ -1017,7 +1015,7 @@ void controlOptions() {
 	if(tapjumpon) PA_OutputText(SUB_SCREEN, 16, 10, "on");
 	else PA_OutputText(SUB_SCREEN, 16, 10, "off");
 	PA_OutputText(SUB_SCREEN, 0, 0, " **");
-	PA_OutputText(SUB_SCREEN, 0, 10, "Putting multiple actions on one button can cause errors");
+	PA_OutputText(SUB_SCREEN, 0, 20, "Putting multiple actions on one button can cause errors");
 	
 	fadeIn();
 	while(true) {
@@ -1026,7 +1024,7 @@ void controlOptions() {
 		if(selected > ACTION_GRAB+3) selected = ACTION_GRAB+3;
 		if(selected < ACTION_BASIC) selected = ACTION_BASIC;
 		if(Pad.Newpress.Up || Pad.Newpress.Down) {
-			for(int mark = ACTION_BASIC; mark <= ACTION_GRAB; mark++) {
+			for(int mark = ACTION_BASIC; mark <= ACTION_GRAB+3; mark++) {
 				if(mark == selected) PA_OutputText(SUB_SCREEN, 0, mark, " ** ");
 				else PA_OutputText(SUB_SCREEN, 0, mark, "    ");
 			}
@@ -1282,7 +1280,7 @@ void options() {
 		if(Pad.Newpress.B) {
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
-			PA_ResetBgSysScreen(SUB_SCREEN); // gets rid of bgs
+			PA_ResetBg(SUB_SCREEN); // gets rid of bgs
 			return; // back
 		}
 		printMemoryUsage();
@@ -1297,6 +1295,7 @@ void extras() {
 
 // pre-game menus
 void initMainMenu() {
+	PA_Init8bitBg(SUB_SCREEN, 3);
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
 
