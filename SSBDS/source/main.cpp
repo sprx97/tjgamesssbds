@@ -380,33 +380,23 @@ void initControls() {
 	}
 } // inits default or saved control setup
 void saveControls() {
-//	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "wb");
+	ostringstream buffer;
+	for(int n = 0; n <= ACTION_GRAB; n++) {
+		buffer << n;
+		buffer << "\n";
+		buffer << customcontrols[n];
+		buffer << "\n";
+	}
+	buffer << (int)cstickstylus;
+	buffer << "\n";
+	buffer << (int)shieldgrabon;
+	buffer << "\n";
+	buffer << (int)tapjumpon;
+	buffer << "\n";
 
-//	fwrite((void*)ACTION_BASIC, sizeof(int), 1, file);
-//	fwrite((void*)customcontrols[ACTION_BASIC], sizeof(int), 1, file);
-//	fwrite((void*)ACTION_SPECIAL, sizeof(int), 1, file);
-//	fwrite((void*)customcontrols[ACTION_SPECIAL], sizeof(int), 1, file);
-//	fwrite((void*)ACTION_SMASH, sizeof(int), 1, file);
-//	fwrite((void*)customcontrols[ACTION_SMASH], sizeof(int), 1, file);
-//	fwrite((void*)ACTION_JUMP, sizeof(int), 1, file);
-//	fwrite((void*)customcontrols[ACTION_JUMP], sizeof(int), 1, file);
-//	fwrite((void*)ACTION_JUMP2, sizeof(int), 1, file);
-//	fwrite((void*)customcontrols[ACTION_JUMP2], sizeof(int), 1, file);
-//	fwrite((void*)ACTION_SHIELD, sizeof(int), 1, file);
-//	fwrite((void*)customcontrols[ACTION_SHIELD], sizeof(int), 1, file);
-//	fwrite((void*)ACTION_SHIELD2, sizeof(int), 1, file);
-//	fwrite((void*)customcontrols[ACTION_SHIELD2], sizeof(int), 1, file);
-//	fwrite((void*)ACTION_GRAB, sizeof(int), 1, file);
-//	fwrite((void*)customcontrols[ACTION_GRAB], sizeof(int), 1, file);
-	
-//	if(cstickstylus) fwrite((void*)1, sizeof(int), 1, file);
-//	else fwrite((void*)0, sizeof(int), 1, file);
-//	if(shieldgrabon) fwrite((void*)1, sizeof(int), 1, file);
-//	else fwrite((void*)0, sizeof(int), 1, file);
-//	if(tapjumpon) fwrite((void*)1, sizeof(int), 1, file);
-//	else fwrite((void*)0, sizeof(int), 1, file);
-		
-//	fclose(file);
+	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "wb");
+	fprintf(file, buffer.str().c_str());
+	fclose(file);
 } // saves default control setup
 
 // selecting char/stage
