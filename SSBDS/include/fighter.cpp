@@ -107,6 +107,7 @@ class Fighter {
 			PA_LoadSpritePal(MAIN_SCREEN, 14, (void*)shield_Pal);
 			PA_CreateSprite(MAIN_SCREEN, 30+SPRITENUM, (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 14, -64, -64);
 			PA_SetSpriteRotEnable(MAIN_SCREEN, 30+SPRITENUM, SPRITENUM);
+			PA_StartSpriteAnimEx(MAIN_SCREEN, 30+SPRITENUM, 0, 0, 1, ANIM_LOOP, -1);
 		}
 		void deleteSprite() {
 			allatkbox.clear();
