@@ -103,6 +103,8 @@ main.o: /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/main.cpp \
   /Users/Jeremy/Desktop/CompSci/NDS/SmashDS/devkitpro/PAlib/lib/include/nds/arm9/PA_Fake16bit.h \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/all_gfx.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/all_gfx.h \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/shield.c \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/shield.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/charsel.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/charsel.pal.c \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/gfx/stagesel.c \

@@ -8,6 +8,9 @@ extern "C" {
 
 #include "all_gfx.h"
 
+#include "shield.c"
+#include "shield.pal.c"
+
 #include "charsel.c"
 #include "charsel.pal.c"
 #include "stagesel.c"

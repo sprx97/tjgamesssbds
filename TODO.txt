@@ -3,8 +3,4 @@ Things to do:
 - music
 - defboxes on grabs/throws/dead
 - debug mode show hitboxes
-- options menu
 - better ledge physics
-- better AI
-
-

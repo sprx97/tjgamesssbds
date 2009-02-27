@@ -16,6 +16,9 @@
 } PAGfx_struct;
 #endif
 
+extern const unsigned short shield_Pal[90] __attribute__ ((aligned (4))) ;
+extern const unsigned char shield_Sprite[4096] __attribute__ ((aligned (4))) ;
+
 extern const unsigned char menusolo[4096] __attribute__ ((aligned (4))) ;
 extern const unsigned char menulan[4096] __attribute__ ((aligned (4))) ;
 extern const unsigned char menuextras[4096] __attribute__ ((aligned (4))) ;

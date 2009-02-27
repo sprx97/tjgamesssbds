@@ -4,6 +4,7 @@ static const int ATTACK = -1, AIRATTACK = -2, AIRLAG = -3, TILTLAG = -4, RELEASE
 class Fighter {
 	public:
 	// variables
+		double shieldstr;
 		int myledge;
 		double runspeed;
 		double acceleration;
@@ -103,6 +104,9 @@ class Fighter {
 			PA_FatEasyLoadSpritePal(MAIN_SCREEN, SPRITENUM-100, name.c_str());
 			PA_FatLoadSprite(MYCHAR, name.c_str());
 			PA_CreateSprite(MAIN_SCREEN, SPRITENUM, (void*)sprite_gfx[MYCHAR], OBJ_SIZE_64X64, COLOR256, SPRITENUM-100, -64, -64);
+			PA_LoadSpritePal(MAIN_SCREEN, 14, (void*)shield_Pal);
+			PA_CreateSprite(MAIN_SCREEN, 30+SPRITENUM, (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 14, -64, -64);
+			PA_SetSpriteRotEnable(MAIN_SCREEN, 30+SPRITENUM, SPRITENUM);
 		}
 		void deleteSprite() {
 			allatkbox.clear();
@@ -658,11 +662,19 @@ class Fighter {
 					actAir();
 				} // acts in the air
 				if(action == SHIELD) {
+					shieldstr -= .2;
+					if(shieldstr <= 0) {
+						delay = 300;
+						stun();
+					}
+					PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM, (int)(512-4*shieldstr), (int)(512-4*shieldstr));
 					if(!custom_action(ACTION_SHIELD, PAD_HELD)) idle();
 					if(Pad.Newpress.Left || Pad.Newpress.Right) roll();
 					if(Pad.Newpress.Down) dodge();
 					if(custom_action(ACTION_BASIC, PAD_NEWPRESS) && shieldgrabon) grab();
+					if(action != SHIELD) PA_SetSpriteXY(MAIN_SCREEN, 30+SPRITENUM, -64, -64);
 				}
+				else if(shieldstr < 64) shieldstr += .1;
 				if(action == GRAB) {
 					if(delay <= 0) {
 						if(custom_action(ACTION_SHIELD, PAD_HELD)) shield();
@@ -825,6 +837,7 @@ class Fighter {
 			action = SHIELD;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHIELD], endframes[SHIELD], framespeeds[SHIELD], ANIM_LOOP, -1);
 			playsound(SHIELD);	
+			PA_SetSpriteXY(MAIN_SCREEN, 30+SPRITENUM, (int)x, (int)y);
 		}
 		void roll(string dir = "") {
 			action = ROLL;
