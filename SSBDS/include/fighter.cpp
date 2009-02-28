@@ -105,9 +105,9 @@ class Fighter {
 			PA_FatLoadSprite(MYCHAR, name.c_str());
 			PA_CreateSprite(MAIN_SCREEN, SPRITENUM, (void*)sprite_gfx[MYCHAR], OBJ_SIZE_64X64, COLOR256, SPRITENUM-100, -64, -64);
 			PA_LoadSpritePal(MAIN_SCREEN, 14, (void*)shield_Pal);
-			PA_CreateSprite(MAIN_SCREEN, 30+SPRITENUM, (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 14, -64, -64);
-			PA_SetSpriteRotEnable(MAIN_SCREEN, 30+SPRITENUM, SPRITENUM);
-			PA_StartSpriteAnimEx(MAIN_SCREEN, 30+SPRITENUM, 0, 0, 1, ANIM_LOOP, -1);
+//			PA_CreateSprite(MAIN_SCREEN, 30+SPRITENUM, (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 14, 0, 0);
+//			PA_SetSpriteRotEnable(MAIN_SCREEN, 30+SPRITENUM, SPRITENUM);
+//			PA_StartSpriteAnimEx(MAIN_SCREEN, 30+SPRITENUM, 0, 0, 1, ANIM_LOOP, -1);
 		}
 		void deleteSprite() {
 			allatkbox.clear();
@@ -668,12 +668,11 @@ class Fighter {
 						delay = 300;
 						stun();
 					}
-					PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM, (int)(512-4*shieldstr), (int)(512-4*shieldstr));
+//					PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM, (int)(512-4*shieldstr), (int)(512-4*shieldstr));
 					if(!custom_action(ACTION_SHIELD, PAD_HELD)) idle();
 					if(Pad.Newpress.Left || Pad.Newpress.Right) roll();
 					if(Pad.Newpress.Down) dodge();
 					if(custom_action(ACTION_BASIC, PAD_NEWPRESS) && shieldgrabon) grab();
-					if(action != SHIELD) PA_SetSpriteXY(MAIN_SCREEN, 30+SPRITENUM, -64, -64);
 				}
 				else if(shieldstr < 64) shieldstr += .1;
 				if(action == GRAB) {
@@ -838,7 +837,6 @@ class Fighter {
 			action = SHIELD;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHIELD], endframes[SHIELD], framespeeds[SHIELD], ANIM_LOOP, -1);
 			playsound(SHIELD);	
-			PA_SetSpriteXY(MAIN_SCREEN, 30+SPRITENUM, (int)x, (int)y);
 		}
 		void roll(string dir = "") {
 			action = ROLL;
@@ -931,8 +929,8 @@ class Fighter {
 		void run(int d = 0) {
 			if(action != RUN) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[RUN], endframes[RUN], framespeeds[RUN], ANIM_LOOP, -1);
 			if(d == 0) {
-				if(Pad.Held.Left) dx = -runspeed-acceleration;
-				if(Pad.Held.Right) dx = runspeed+acceleration;
+				if(Pad.Held.Left) dx = -runspeed/2-acceleration;
+				if(Pad.Held.Right) dx = runspeed/2+acceleration;
 				setDirection();
 			}
 			else {
@@ -1495,9 +1493,12 @@ class Fighter {
 		void scroll(double scrollx, double scrolly) {
 			if(x - scrollx > 256 || x - scrollx < 0-64 || y - scrolly > 192 || y - scrolly < 0-64) {
 				PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, -64, -64);
+//				PA_SetSpriteXY(MAIN_SCREEN, 30+SPRITENUM, -64, -64);
 			}
 			else {
 				PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x - (int)(scrollx), (int)y - (int)(scrolly));
+//				if(action == SHIELD) PA_SetSpriteXY(MAIN_SCREEN, 30+SPRITENUM, (int)x - (int)(scrollx), (int)y - (int)(scrolly));
+//				else PA_SetSpriteXY(MAIN_SCREEN, 30+SPRITENUM, -64, -64);
 			}
 		}
 };

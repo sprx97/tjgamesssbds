@@ -982,7 +982,7 @@ void trainingMode() {
 
 } // training mode
 void controlOptions() {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menubg.gif");
 	
 #ifdef MP3_ON
 	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
@@ -1103,7 +1103,7 @@ void controlOptions() {
 	}
 } // edit custom controls
 void cameraOptions() {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menubg.gif");
 	
 #ifdef MP3_ON
 	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
@@ -1137,7 +1137,7 @@ void cameraOptions() {
 	}
 } // edit camera options
 void gameOptions() {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menubg.gif");
 	
 #ifdef MP3_ON
 	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
@@ -1233,7 +1233,7 @@ void gameOptions() {
 	}
 } // edit match style
 void initOptions() {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menubg.gif");
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
 
 #ifdef MP3_ON
@@ -1305,6 +1305,10 @@ void extras() {
 
 #import "LAN.cpp"
 
+double distance(int x1, int y1, int x2, int y2) {
+	return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+}
+
 // pre-game menus
 void initMainMenu() {
 	PA_Init8bitBg(SUB_SCREEN, 3);
@@ -1315,34 +1319,6 @@ void initMainMenu() {
 	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
 	// plays main menu music
 #endif
-	PA_LoadSpritePal(SUB_SCREEN, 0, (void*)menusolo_Pal);
-	// inits a sprite palette Arguments are:
-	// - the screen the palette exists on
-	// - the reference number to the palette from 0 to 15
-	// - a void* cast of the location the paleete exists in... see the all_gfx.c
-	PA_CreateSprite(SUB_SCREEN, 0, (void*)menusolo, OBJ_SIZE_64X64, COLOR256, 0, 48, 16);
-	// inits a sprite Arguments are:
-	// - the screen the sprite exists on
-	// - the reference number to the sprite from 0 to 127
-	// - a void* cast of the location the sprite exists in... see the all_gfx.c
-	// - size of the sprite, almost always we'll use 64X64, but there are other options
-	// - the color mode used to display the sprite... always 256 colors that's why I #defined it
-	// - the reference number of the palette used to display the sprite, see the palette loading
-	// - the x position on the screen from 0 to 255
-	// - the y position on the screen form 0 to 191
-	
-	PA_LoadSpritePal(SUB_SCREEN, 1, (void*)menulan_Pal);
-	PA_CreateSprite(SUB_SCREEN, 1, (void*)menulan, OBJ_SIZE_64X64, COLOR256, 1, 256-64-48, 16);
-	// another menu button
-
-	PA_LoadSpritePal(SUB_SCREEN, 2, (void*)menuoptions_Pal);
-	PA_CreateSprite(SUB_SCREEN, 2, (void*)menuoptions, OBJ_SIZE_64X64, COLOR256, 2, 48, 192-64-16);
-	// a third menu button
-
-	PA_LoadSpritePal(SUB_SCREEN, 3, (void*)menuextras_Pal);
-	PA_CreateSprite(SUB_SCREEN, 3, (void*)menuextras, OBJ_SIZE_64X64, COLOR256, 3, 256-64-48, 192-64-16);
-	// a fourth menu button
-
 	PA_ResetSpriteSysScreen(MAIN_SCREEN);
 	PA_ResetBgSysScreen(MAIN_SCREEN);
 
@@ -1357,43 +1333,56 @@ void mainMenu() {
 			return; // back to title screen
 		}
 		if(Stylus.Newpress) {
-			for(int n = 0; n < 4; n++) { // loops through all sprites (menu buttons)
-				if(PA_SpriteTouched(n)) { // checks to see if the referenced sprite was touched
-#ifdef SFX_ON			
-					AS_SoundQuickPlay(menuconfirm);
-					// menu sound byte
+			int x = Stylus.X;
+			int y = Stylus.Y;
+			if(distance(x, y, 64, 74) <= 48) {
+#ifdef SFX_ON				
+				AS_SoundQuickPlay(menuconfirm);
 #endif
 #ifdef MP3_ON
-					AS_MP3Stop();
-					// stops background music
+				AS_MP3Stop(); // stops bg music
 #endif
-					fadeOut();
-					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites on sub screen
-					if(n == 0) {
-						if(gamemode == GAMEMODE_TIME) {
-							match(timelimit);
-							initMainMenu();
-						}
-						else if(gamemode == GAMEMODE_STOCK) {
-							match(stocklimit);
-							initMainMenu();
-						}
-					}
-					if(n == 1) {
-#ifdef LAN_ON
-						LAN();
-#endif					
-						initMainMenu();
-					}
-					if(n == 2) {
-						options();
-						initMainMenu();
-					}
-					if(n == 3) {
-						extras();
-						initMainMenu();
-					}
+				fadeOut();
+				if(gamemode == GAMEMODE_TIME) {
+					match(timelimit);
+					initMainMenu();
 				}
+				else if(gamemode == GAMEMODE_STOCK) {
+					match(stocklimit);
+					initMainMenu();
+				}
+			}
+			else if(distance(x, y, 126, 141) <= 48) {
+#ifdef SFX_ON				
+				AS_SoundQuickPlay(menuconfirm);
+#endif
+#ifdef MP3_ON
+				AS_MP3Stop(); // stops bg music
+#endif
+#ifdef LAN_ON
+				LAN();
+#endif
+				initMainMenu();
+			}
+			else if(distance(x, y, 188, 72) <= 48) {
+#ifdef SFX_ON				
+				AS_SoundQuickPlay(menuconfirm);
+#endif
+#ifdef MP3_ON
+				AS_MP3Stop(); // stops bg music
+#endif
+				extras();
+				initMainMenu();
+			}
+			else if(distance(x, y, 256, 192) <= 48) {
+#ifdef SFX_ON				
+				AS_SoundQuickPlay(menuconfirm);
+#endif
+#ifdef MP3_ON
+				AS_MP3Stop(); // stops bg music
+#endif
+				options();
+				initMainMenu();
 			}
 		}
 		printMemoryUsage();
