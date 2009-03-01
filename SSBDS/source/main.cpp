@@ -1408,6 +1408,7 @@ void titleScreen() {
 	// title screen music
 #endif
 	fadeIn();
+		
 	while(true) {
 		if(Stylus.Newpress) { // if the stylus is pressed
 #ifdef SFX_ON

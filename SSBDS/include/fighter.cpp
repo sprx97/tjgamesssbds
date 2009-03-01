@@ -104,10 +104,9 @@ class Fighter {
 			PA_FatEasyLoadSpritePal(MAIN_SCREEN, SPRITENUM-100, name.c_str());
 			PA_FatLoadSprite(MYCHAR, name.c_str());
 			PA_CreateSprite(MAIN_SCREEN, SPRITENUM, (void*)sprite_gfx[MYCHAR], OBJ_SIZE_64X64, COLOR256, SPRITENUM-100, -64, -64);
-			PA_LoadSpritePal(MAIN_SCREEN, 14, (void*)shield_Pal);
-//			PA_CreateSprite(MAIN_SCREEN, 30+SPRITENUM, (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 14, 0, 0);
-//			PA_SetSpriteRotEnable(MAIN_SCREEN, 30+SPRITENUM, SPRITENUM);
-//			PA_StartSpriteAnimEx(MAIN_SCREEN, 30+SPRITENUM, 0, 0, 1, ANIM_LOOP, -1);
+			PA_LoadSpritePal(MAIN_SCREEN, 14-(SPRITENUM-100), (void*)shield_Pal);
+			PA_CreateSprite(MAIN_SCREEN, 30+(SPRITENUM-100), (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 14-(SPRITENUM-100), -64, -64);
+			PA_SetSpriteRotEnable(MAIN_SCREEN, 30+(SPRITENUM-100), SPRITENUM-100);
 		}
 		void deleteSprite() {
 			allatkbox.clear();
@@ -663,12 +662,12 @@ class Fighter {
 					actAir();
 				} // acts in the air
 				if(action == SHIELD) {
-					shieldstr -= .2;
+					shieldstr -= (65-shieldstr)/50;
 					if(shieldstr <= 0) {
-						delay = 300;
+						hitstun = 300;
 						stun();
 					}
-//					PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM, (int)(512-4*shieldstr), (int)(512-4*shieldstr));
+					PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM-100, (int)(2048-24*shieldstr), (int)(2048-24*shieldstr));
 					if(!custom_action(ACTION_SHIELD, PAD_HELD)) idle();
 					if(Pad.Newpress.Left || Pad.Newpress.Right) roll();
 					if(Pad.Newpress.Down) dodge();
@@ -1383,6 +1382,7 @@ class Fighter {
 			delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 			dx = dy = fastfall = DI = 0.0;
 			percentage = 0;
+			shieldstr = 64;
 		}
 		bool ledgenotinuse(int lnum) {
 			for(int n = 0; n < players.size(); n++) {
@@ -1493,12 +1493,12 @@ class Fighter {
 		void scroll(double scrollx, double scrolly) {
 			if(x - scrollx > 256 || x - scrollx < 0-64 || y - scrolly > 192 || y - scrolly < 0-64) {
 				PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, -64, -64);
-//				PA_SetSpriteXY(MAIN_SCREEN, 30+SPRITENUM, -64, -64);
+				PA_SetSpriteXY(MAIN_SCREEN, 30+(SPRITENUM-100), -64, -64);
 			}
 			else {
 				PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x - (int)(scrollx), (int)y - (int)(scrolly));
-//				if(action == SHIELD) PA_SetSpriteXY(MAIN_SCREEN, 30+SPRITENUM, (int)x - (int)(scrollx), (int)y - (int)(scrolly));
-//				else PA_SetSpriteXY(MAIN_SCREEN, 30+SPRITENUM, -64, -64);
+				if(action == SHIELD) PA_SetSpriteXY(MAIN_SCREEN, 30+(SPRITENUM-100), (int)x - (int)(scrollx), (int)y - (int)(scrolly));
+				else PA_SetSpriteXY(MAIN_SCREEN, 30+(SPRITENUM-100), -64, -64);
 			}
 		}
 };
