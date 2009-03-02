@@ -1359,6 +1359,7 @@ void mainMenu() {
 #ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
 #endif
+				fadeOut();
 #ifdef LAN_ON
 				LAN();
 #endif
@@ -1371,6 +1372,7 @@ void mainMenu() {
 #ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
 #endif
+				fadeOut();
 				extras();
 				initMainMenu();
 			}
@@ -1381,6 +1383,7 @@ void mainMenu() {
 #ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
 #endif
+				fadeOut();
 				options();
 				initMainMenu();
 			}
