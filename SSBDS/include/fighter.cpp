@@ -1,3 +1,6 @@
+#define RIGHT "right"
+#define LEFT "left"
+
 static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15, DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22, SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31, HANG = 32, GRABBED = 33, GRAB = 34, GRABATK = 35, FTHROW = 36, BTHROW = 37, UTHROW = 38, DTHROW = 39, DEAD = 40, BNEUT = 41, BSIDE = 42, BUP = 43, BDOWN = 44;
 static const int ATTACK = -1, AIRATTACK = -2, AIRLAG = -3, TILTLAG = -4, RELEASED = -5, RELEASE = -6, HOLD = -7;
 // shortcuts for actions
@@ -196,16 +199,19 @@ class Fighter {
 				if(action == AIRDODGE && delay <= 0) fall();
 				if(action == ROLL && delay <= 0) {
 					dx = 0;
-					if(direction == "left") {
-						direction = "right";
+					if(direction == LEFT) {
+						direction = RIGHT;
 						PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
 					}
-					else if(direction == "right") {
-						direction = "left";
+					else if(direction == RIGHT) {
+						direction = LEFT;
 						PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 					}
-					shield();
+					//don't shield when done rolling right now
+					//shield();
+					idle()
 				}
+				//FIXME: is this even possible for a CPU?
 				if(action == RELEASED || action == RELEASE) {
 					if(delay <= 0) idle();
 				}
@@ -281,7 +287,22 @@ class Fighter {
 					}//too far away
 				}
 				if(action == SHIELD) {
-					// idle or roll or dodge
+					//shield shrinks/breaks
+					shieldstr -= (65-shieldstr)/50;
+					if(shieldstr <= 0) {
+						AS_SoundQuickPlay(shieldbreak);
+						hitstun = 300;
+						stun();
+					}
+					PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM-100, (int)(2048-24*shieldstr), (int)(2048-24*shieldstr));
+					//should I grab?
+					//grab();
+					//should I dodge?
+					//dodge();
+					//should I stop shielding?
+					//idle();
+					//should I roll?
+					//roll();
 				}
 				if(action == RUN) {
 					if((Cdistance < 30) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();					
