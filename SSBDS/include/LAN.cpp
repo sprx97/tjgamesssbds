@@ -10,6 +10,7 @@
 // variables for running a LAN game
 #define MENU_MAIN 0 
 #define MENU_CREATE_ROOM 1
+#define MENU_LOBBY 2
 // LAN Rooms
 
 LPLOBBY_USER roomOwners[MAX_ROOMS];
@@ -139,7 +140,7 @@ void LANgame() {
 		// check hits
 		
 		scrollScreen();
-		displaySubScreen();
+		displayMinimap();
 		displayPercentages();
 		PA_OutputText(MAIN_SCREEN, 13,0, "          ");
 		if((int)((time/60)%60) < 10) PA_OutputText(MAIN_SCREEN, 13, 0, "%d:0%d",(int)((time/60)/60), (int)((time/60)%60));
