@@ -1,6 +1,6 @@
 // Game designed by TJgames of TJHSST
-// Head Developer(s): Jeremy Vercillo
-// Assistant Developer(s): Tyler Haines, Daniel Johnson, Patrick Stalcup
+// Head Developer(s): Jeremy Vercillo, Daniel Johnson
+// Assistant Developer(s): Tyler Haines, Patrick Stalcup
 // Head Advisor: Andrew Kim
 // 6/08 - ???
 
@@ -13,7 +13,7 @@
 #define SFX_ON
 #define PROJECTILES_ON
 //#define SLOPEDSTAGES_ON // Castle Seige and Corneria
-//#define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
+#define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
 //#define MP3_ON
 // turns certain features on and off
 
@@ -1091,8 +1091,8 @@ void controlOptions() {
 			else PA_OutputText(SUB_SCREEN, 16, 10, "off");
 		}
 		// chnage the action for the selected control		
-						
-		if(Pad.Newpress.B || Pad.Newpress.A || Pad.Newpress.Start) {
+			
+		if(Pad.Newpress.B || Pad.Newpress.A || Pad.Newpress.Start) {			
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN);
 			saveControls();
@@ -1328,6 +1328,9 @@ void mainMenu() {
 	initMainMenu();
 	while(true) {
 		if(Pad.Newpress.B) {
+#ifdef SFX_ON
+			AS_SoundQuickPlay(menuno);
+#endif
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
 			return; // back to title screen

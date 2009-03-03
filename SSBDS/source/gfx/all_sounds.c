@@ -14,10 +14,12 @@ extern "C" {
 #include "ike.h"
 #include "free_for_all.h"
 #include "menuconfirm.h"
+#include "menuno.h"
 #include "deathsound.h"
 #include "hit1.h"
 #include "hit2.h"
 #include "hit3.h"
+#include "shieldbreak.h"
 
 #include "kirbybup1.h"
 #include "kirbybup2.h"

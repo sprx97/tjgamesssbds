@@ -664,6 +664,7 @@ class Fighter {
 				if(action == SHIELD) {
 					shieldstr -= (65-shieldstr)/50;
 					if(shieldstr <= 0) {
+						AS_SoundQuickPlay(shieldbreak);
 						hitstun = 300;
 						stun();
 					}
@@ -928,12 +929,12 @@ class Fighter {
 		void run(int d = 0) {
 			if(action != RUN) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[RUN], endframes[RUN], framespeeds[RUN], ANIM_LOOP, -1);
 			if(d == 0) {
-				if(Pad.Held.Left) dx = -runspeed/2-acceleration;
-				if(Pad.Held.Right) dx = runspeed/2+acceleration;
+				if(Pad.Held.Left) dx = -runspeed/4-acceleration;
+				if(Pad.Held.Right) dx = runspeed/4+acceleration;
 				setDirection();
 			}
 			else {
-				dx = (runspeed+acceleration)*d;
+				dx = (runspeed/4+acceleration)*d;
 				if(d > 0) setDirection("right");
 				if(d < 0) setDirection("left");
 			}
@@ -1195,6 +1196,10 @@ class Fighter {
 					other -> grabbedby = this;
 					grabbedenemy = other;
 					hold();
+				}
+				else if(other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/ }
+				else if(other -> action == SHIELD) {
+					other -> shieldstr -= getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage + (int)((chargecount/225) * (.5*getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage));
 				}
 				else if(other -> COUNTER) {
 					if(direction == "left") takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, other -> charnum, chargecount);
