@@ -1212,8 +1212,8 @@ class Fighter {
 			if(getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 				if(action == HOLD || action == GRABATK) {}
 				else if(action == GRAB) {
-					if(direction == "right") other -> grabbed(x+handx, y);
-					else other -> grabbed(x-handx, y);
+					if(direction == "right") other -> grabbed((int)(x+handx), (int)y);
+					else other -> grabbed((int)(x-handx), (int)y);
 					other -> grabbedby = this;
 					grabbedenemy = other;
 					hold();
@@ -1449,6 +1449,7 @@ class Fighter {
 					}
 				}
 			}
+			return false;
 		}
 		bool checkFloorCollision() {
 			vector<Floor> floors = stage.getFloors();

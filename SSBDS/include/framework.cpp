@@ -109,7 +109,7 @@ class Effect {
 			} // creates the effect... avoids overriding multipe sprites
 			// different sprite for different types of effects
 			if(x-scrollx < 256 && x-scrollx > 0-64 && y-scrolly < 192 && y-scrolly > 0-64) {
-				PA_SetSpriteXY(MAIN_SCREEN, mynum, x-scrollx, y-scrolly);
+				PA_SetSpriteXY(MAIN_SCREEN, mynum, (int)(x-scrollx), (int)(y-scrolly));
 			}
 			// sets the position of the sprite on the screen
 			if(type == FX_WEAKERHIT) {
