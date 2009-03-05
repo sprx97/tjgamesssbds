@@ -1054,7 +1054,6 @@ void controlOptions() {
 				cstickstylus = !cstickstylus;
 			}
 			else {
-				int oldaction = customcontrols[selected];
 				customcontrols[selected] += 1;
 				if(customcontrols[selected] > BUTTON_R) customcontrols[selected] = BUTTON_NONE;
 			}
@@ -1070,7 +1069,6 @@ void controlOptions() {
 				cstickstylus = !cstickstylus;
 			}
 			else {
-				int oldaction = customcontrols[selected];
 				customcontrols[selected] -= 1;
 				if(customcontrols[selected] < BUTTON_NONE) customcontrols[selected] = BUTTON_R;
 			}
