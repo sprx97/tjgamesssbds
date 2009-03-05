@@ -221,7 +221,7 @@ Scoreboard score = Scoreboard(0); // the scoreboard for smash
 #import "stage.cpp" // Info about the stage and the stage superclass
 #import "stages.cpp" // individual stages
 #import "fighter.cpp" // fighter superclass
-#import "projectiles.cpp" // projectiles
+#include "projectiles.h" // projectiles
 #import "fighters.cpp" // individual characters
 
 void printMemoryUsage() {
