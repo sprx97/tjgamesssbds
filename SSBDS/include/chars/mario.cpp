@@ -272,9 +272,7 @@ class Mario: public Fighter {
 				DI = 0;
 				setDirection();
 				action = BUP;
-#ifdef SFX_ON
 				AS_SoundQuickPlay(mariobup);
-#endif
 			}
 			else {
 				if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 142) {
@@ -339,9 +337,7 @@ class Mario: public Fighter {
 			else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 133 && delay == 1) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 134, 134, 10, ANIM_LOOP, -1);
 				delay = 60/10 * 1;
-#ifdef SFX_ON
 				AS_SoundQuickPlay(mariobneut);
-#endif
 #ifdef PROJECTILES_ON
 				int directionmodifier = 1;
 				if(direction == "right") directionmodifier = -1;

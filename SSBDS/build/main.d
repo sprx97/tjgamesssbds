@@ -198,7 +198,4 @@ main.o: /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/source/main.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/chars/mario.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/chars/ike.cpp \
   /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/minimap.cpp \
-  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/LAN.cpp \
-  /Users/Jeremy/Desktop/CompSci/NDS/SmashDS/devkitpro/liblobby/include/MessageQueue.h \
-  /Users/Jeremy/Desktop/CompSci/NDS/SmashDS/devkitpro/liblobby/include/802.11.h \
-  /Users/Jeremy/Desktop/CompSci/NDS/SmashDS/devkitpro/liblobby/include/lobby.h
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/include/LAN.cpp

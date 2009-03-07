@@ -1,7 +1,5 @@
-#ifdef SFX_ON
 static const int FX_NONE = -1, FX_WEAKERHIT = 0, FX_WEAKHIT = 1, FX_STRONGHIT = 2, FX_AIRJUMP = 3, FX_DEATH = 4;
 // shortcuts for visual effects
-#endif
 class Knockback {
 	public:
 		double dx; // x knockback pixels per frame
@@ -89,7 +87,6 @@ class Hitbox {
 		// checks which circle hit hibox other
 		void reset() { circles.clear(); } // resets the hirbox
 }; // a collection of circles; used to hold all the circles for one frame
-#ifdef SFX_ON
 class Effect {
 	public:
 		double x, y; // x and y pos of the effect
@@ -166,4 +163,3 @@ class Effect {
 			} // removes once animation is done
 		} // acts; called every frame
 }; // a visual effect
-#endif

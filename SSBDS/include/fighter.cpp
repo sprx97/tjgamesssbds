@@ -209,7 +209,7 @@ class Fighter {
 					}
 					//don't shield when done rolling right now
 					//shield();
-					idle()
+					idle();
 				}
 				//FIXME: is this even possible for a CPU?
 				if(action == RELEASED || action == RELEASE) {
@@ -1003,12 +1003,10 @@ class Fighter {
 			jumpcount++;
 			aerial = true;
 			setDirection();
-#ifdef SFX_ON
 			if(effectwait <= 0) {
 				effects.push_back(Effect(x, y+32, FX_AIRJUMP, charnum));
 				effectwait = 15;
 			}
-#endif
 			playsound(DOUBLEJUMP);
 		}
 		void jab() {
@@ -1177,7 +1175,6 @@ class Fighter {
 		void takeDamage(Circle other, int mult, int hitter, int charge) {
 			if(action != STUN) stun();
 			percentage += other.damage + (int)((charge/225) * (.5*other.damage));
-#ifdef SFX_ON
 			if(effectwait <= 0) {	
 				if(other.fx == FX_NONE) {		
 					if(other.damage + (int)((charge/225) * (.5*other.damage)) <= 6/3) {
@@ -1199,7 +1196,6 @@ class Fighter {
 				}
 				effectwait = 15;
 			}
-#endif
 			k = other.getKnockback();
 			hitstun = (int) (k.length * 3 * (1+(percentage/100)));
 			kx = (1+(percentage/100)) * k.dx * mult;
@@ -1372,7 +1368,6 @@ class Fighter {
 		bool checkForDeath() {
 			if(x > stage.rightdeath || x+64 < stage.leftdeath || y > stage.bottomdeath || y+64 < stage.topdeath) {
 				score.addDeath(lasthitby, charnum);
-#ifdef SFX_ON
 				int deathx = -64, deathy = -64;
 				if(x > stage.rightdeath) {
 					deathx = 256-64+scrollx+10;
@@ -1392,7 +1387,6 @@ class Fighter {
 				} // died off top
 				effects.push_back(Effect(deathx, deathy, FX_DEATH, charnum));
 				AS_SoundQuickPlay(deathsound);
-#endif
 				return true;
 			}
 			return false;
