@@ -10,10 +10,9 @@
 
 #define DEBUG_ON // turns on printing of information to screen
 
-#define SFX_ON
 #define PROJECTILES_ON
 //#define SLOPEDSTAGES_ON // Castle Seige and Corneria
-#define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
+//#define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
 //#define MP3_ON
 // turns certain features on and off
 
@@ -28,9 +27,7 @@
 
 #include "gfx/all_gfx.c" // all image files
 
-#ifdef SFX_ON
 #include "gfx/all_sounds.c" // all sound effects (just small ones, not MP3s)
-#endif
 
 using namespace std; // standard naming of variables
 
@@ -62,11 +59,9 @@ class Projectile;
 vector<Projectile> projectiles;
 // stores all projectiles
 #endif
-#ifdef SFX_ON
 class Effect;
 vector<Effect> effects;
 // stores all visual effects
-#endif
 class Scoreboard; // keeps score of the game
 
 double scrollx = 0;
@@ -320,7 +315,6 @@ Stage setStage(string name) {
 	} // sets the stage of the players to the picked stage
 	return picked; // returns the picked stage
 } // displays the stage on the main screen
-#ifdef SFX_ON
 void initFX() {
 	PA_LoadSpritePal(MAIN_SCREEN, 15, (void*)specialFX_Pal);
 	for(int n = 5; n < 25; n++) {
@@ -328,7 +322,6 @@ void initFX() {
 	}
 	// loads all special effect sprites
 } // initializes special effects
-#endif
 #ifdef PROJECTILES_ON
 void initProjectiles() {
 	PA_LoadSpritePal(MAIN_SCREEN, 14, (void*)projectilesprites_Pal);
@@ -423,9 +416,7 @@ void stageSelect() {
 	while(true) {
 		if(Pad.Newpress.Start && selected != -1) {
 // if start is pressed and a stage is selected
-#ifdef SFX_ON
 			AS_SoundQuickPlay(menuconfirm);
-#endif
 // menu confirmation sound
 			fadeOut();
 			
@@ -444,9 +435,7 @@ void stageSelect() {
 		if(Stylus.Newpress) {
 			for(int n = 0; n < 10; n++) { // through all possible stages
 				if(PA_SpriteTouched(n)) {
-#ifdef SFX_ON
 					AS_SoundQuickPlay(menuconfirm);
-#endif
 					// menu confirm sound
 
 					if(n == 1) openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/finaldestinationprev.gif");
@@ -508,9 +497,7 @@ void characterSelect() {
 	// loads and animates character previews on top screen.
 
 	fadeIn();
-#ifdef SFX_ON	
 	AS_SoundQuickPlay(free_for_all);
-#endif	
 	// plays free for all sound byte
 
 	int humanselected = -1; // which character was chosen for the human
@@ -538,9 +525,7 @@ void characterSelect() {
 		// prints who is being selected for... like I said: cursors will come later
 		if(Pad.Newpress.Start && humanselected != -1 && cpu1selected != -1) {
 // if start is pressed and both players are ready
-#ifdef SFX_ON
 			AS_SoundQuickPlay(menuconfirm);
-#endif			
 			// menu confirmation sound byte
 			fadeOut();
 			PA_ResetSpriteSys(); // restes all sprites
@@ -575,12 +560,10 @@ void characterSelect() {
 			for(int n = 0; n < 10; n++) { // through the last character number
 				if(PA_SpriteTouched(n)) {
 					spritetouched = true;
-#ifdef SFX_ON
 					if(n == KIRBY) AS_SoundQuickPlay(kirby);
 //					else if(n == MEWTWO) AS_SoundQuickPlay(mewtwo);
 					else if(n == MARIO) AS_SoundQuickPlay(mario);
 					else if(n == IKE) AS_SoundQuickPlay(ike);
-#endif
 					// plays a sound byte of the player's name
 					if(selecting == 0) {
 						humanselected = n;
@@ -696,13 +679,11 @@ void scrollScreen() {
 	for(int n = 0; n < players.size(); n++) {
 		players[n] -> scroll(scrollx, scrolly);
 	} // scrolls the players
-#ifdef SFX_ON
 	for(int n = 0; n < effects.size(); n++) {
 		if(effects[n].type == FX_DEATH) {} // don't move sprite
 		else if(effects[n].type == FX_AIRJUMP) PA_SetSpriteXY(MAIN_SCREEN, effects[n].mynum, PA_GetSpriteX(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM), PA_GetSpriteY(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM)+32);
 		else PA_SetSpriteXY(MAIN_SCREEN, effects[n].mynum, PA_GetSpriteX(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM), PA_GetSpriteY(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM));
 	} // scrolls the special effects
-#endif
 }
 
 void displayResults() {		
@@ -717,12 +698,10 @@ void displayResults() {
 		PA_StopSpriteAnim(SUB_SCREEN,n);
 		PA_DeleteSprite(SUB_SCREEN,n);
 	} // stops and deletes minimap object sprites
-#ifdef SFX_ON
 	for(int n = 5; n < 20; n++) {
 		PA_StopSpriteAnim(MAIN_SCREEN, n);
 		PA_DeleteSprite(MAIN_SCREEN, n);
 	} // stops and deletes special effects
-#endif
 #ifdef PROJECTILES_ON
 	for(int n = 50; n < 55; n++) {
 		PA_StopSpriteAnim(MAIN_SCREEN, n);
@@ -814,7 +793,6 @@ void displayResults() {
 
 	fadeIn();
 
-#ifdef SFX_ON
 	if(draw) {
 		AS_SoundQuickPlay(nocontest);
 		for(int n = 0; n < 90; n++) {
@@ -836,13 +814,10 @@ void displayResults() {
 			PA_WaitForVBL();
 		}
 	} // plays a sound clip saying ther winner
-#endif
 
 	while(true) {
 		if(Stylus.Newpress) {
-#ifdef SFX_ON
 			AS_SoundQuickPlay(menuconfirm);
-#endif			
 			fadeOut();
 			score.clear(); // clears the scoreboard
 			effects.clear(); // clears the effects
@@ -864,9 +839,7 @@ void displayResults() {
  }
 
 void gameOver() {
-#ifdef SFX_ON
 	AS_SoundQuickPlay(game);
-#endif
 	// end of game sound clip
 	for(int n = 0; n < players.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, players[n] -> SPRITENUM);
 	// stops sprite anim for all players
@@ -874,9 +847,7 @@ void gameOver() {
 	for(int n = 0; n < projectiles.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, projectiles[n].num);
 #endif			
 	// stops all projectile animations
-#ifdef SFX_ON
 	for(int n = 0; n < effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
-#endif			
 	// stops all effect animations
 	if(gamemode == GAMEMODE_TIME) PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
 	for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
@@ -893,9 +864,7 @@ void match(int param) {
 	
 	characterSelect(); // select characters
 	stageSelect(); // select stage
-#ifdef SFX_ON
 	initFX(); // inits the special FX
-#endif	
 #ifdef PROJECTILES_ON
 	initProjectiles(); // inits the projectiles
 #endif
@@ -912,8 +881,7 @@ void match(int param) {
 	score = Scoreboard(players.size()); // initializes a new scoreboard
 
 	fadeIn();
-
-#ifdef SFX_ON		
+		
 	AS_SoundQuickPlay(three);
 	for(int n = 0; n < 60; n++) PA_WaitForVBL();
 	AS_SoundQuickPlay(two);
@@ -921,7 +889,6 @@ void match(int param) {
 	AS_SoundQuickPlay(one);
 	for(int n = 0; n < 60; n++) PA_WaitForVBL();
 	AS_SoundQuickPlay(go);
-#endif	
 	// counts down to start game
 																																										
 	while(true) {
@@ -960,9 +927,7 @@ void match(int param) {
 		}
 #endif
 		// acts and checks intersections of all projectiles
-#ifdef SFX_ON
 		for(int n = 0; n < effects.size(); n++) effects[n].act();
-#endif
 		// acts all effects
 		displayMinimap(); // changes sub screen display
 		displayPercentages(); // displays percentages on sub screen
@@ -1326,9 +1291,7 @@ void mainMenu() {
 	initMainMenu();
 	while(true) {
 		if(Pad.Newpress.B) {
-#ifdef SFX_ON
 			AS_SoundQuickPlay(menuno);
-#endif
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
 			return; // back to title screen
@@ -1337,9 +1300,7 @@ void mainMenu() {
 			int x = Stylus.X;
 			int y = Stylus.Y;
 			if(distance(x, y, 64, 74) <= 48) {
-#ifdef SFX_ON				
 				AS_SoundQuickPlay(menuconfirm);
-#endif
 #ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
 #endif
@@ -1353,10 +1314,8 @@ void mainMenu() {
 					initMainMenu();
 				}
 			}
-			else if(distance(x, y, 126, 141) <= 48) {
-#ifdef SFX_ON				
+			else if(distance(x, y, 126, 141) <= 48) {				
 				AS_SoundQuickPlay(menuconfirm);
-#endif
 #ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
 #endif
@@ -1366,10 +1325,8 @@ void mainMenu() {
 #endif
 				initMainMenu();
 			}
-			else if(distance(x, y, 188, 72) <= 48) {
-#ifdef SFX_ON				
+			else if(distance(x, y, 188, 72) <= 48) {				
 				AS_SoundQuickPlay(menuconfirm);
-#endif
 #ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
 #endif
@@ -1378,9 +1335,7 @@ void mainMenu() {
 				initMainMenu();
 			}
 			else if(distance(x, y, 256, 192) <= 48) {
-#ifdef SFX_ON				
 				AS_SoundQuickPlay(menuconfirm);
-#endif
 #ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
 #endif
@@ -1415,10 +1370,8 @@ void titleScreen() {
 		
 	while(true) {
 		if(Stylus.Newpress) { // if the stylus is pressed
-#ifdef SFX_ON
 			AS_SoundQuickPlay(menuconfirm);
 			// menu confirm sound byte
-#endif
 #ifdef MP3_ON
 			AS_MP3Stop();
 			// stops sound
@@ -1458,22 +1411,12 @@ int main(int argc, char ** argv) {
 	// 31 = all white
 	// 0 = normal
 
-#ifdef LAN_ON
-	IPC_Init() ;
-	LOBBY_Init() ;
-# endif
-	// inits LAN functions
-
     AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
 	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
 	AS_SetMP3Loop(true);
 	// required both for MP3 and Sound
 
-#ifdef LAN_ON
-	PA_VBLFunctionInit(customVBL); // custom VBL function called every frame
-#else
 	PA_VBLFunctionInit(AS_SoundVBL); // easy way to make sure that AS_SoundVBL() is called every frame
-#endif
 	
 	initControls();
 	
