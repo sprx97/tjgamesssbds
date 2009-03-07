@@ -260,9 +260,7 @@ class Ike: public Fighter {
 			}
 			else if(custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 110, 110, 12, ANIM_LOOP, -1);
-#ifdef SFX_ON
 				AS_SoundQuickPlay(ikebside);
-#endif						
 				delay = quickdrawcharge/2;
 				if(direction == "right") dx = 2*(int)(quickdrawcharge / 20) + 4;
 				else dx = -1*2*(int)(quickdrawcharge / 20) - 4;
@@ -304,9 +302,7 @@ class Ike: public Fighter {
 			}
 			else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 127, 127, 15, ANIM_LOOP, -1);
-#ifdef SFX_ON
 				AS_SoundQuickPlay(ikebup);
-#endif						
 				delay = 60/15 * 1;
 			}
 			else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 127) {
@@ -338,9 +334,7 @@ class Ike: public Fighter {
 		void bdown() {
 			if(action != BDOWN) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 139, 142, 10, ANIM_UPDOWN, 5);
-#ifdef SFX_ON
 				AS_SoundQuickPlay(ikebdown);
-#endif		
 				delay = 60/10 * 5;
 				setDirection();
 				dx = 0;
@@ -372,9 +366,7 @@ class Ike: public Fighter {
 			}
 			else if((custom_action(ACTION_SPECIAL, PAD_RELEASED) && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99) || (eruptioncharge == 300 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99)) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 100, 109, 10, ANIM_LOOP, -1);
-#ifdef SFX_ON
 				AS_SoundQuickPlay(ikebneut);
-#endif		
 				delay = 60/10 * 10;
 			}
 			else if(checkFloorCollision() && aerial) dy = 0;

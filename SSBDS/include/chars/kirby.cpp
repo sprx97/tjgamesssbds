@@ -246,9 +246,7 @@ class Kirby: public Fighter {
 		void bside() {
 			if(action != BSIDE) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 178, 186, 15, ANIM_ONESHOT);
-#ifdef SFX_ON
 				AS_SoundQuickPlay(kirbybside);
-#endif
 				delay = 60/15 * 9;
 				setDirection();
 				dx = 0;
@@ -264,9 +262,7 @@ class Kirby: public Fighter {
 		void bup() {
 			if(action != BUP) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 190, 199, 20, ANIM_ONESHOT);
-#ifdef SFX_ON
 				AS_SoundQuickPlay(kirbybup1);
-#endif
 				aerial = true;
 				delay = 60/20 * 10;
 				dy = -6;
@@ -279,9 +275,7 @@ class Kirby: public Fighter {
 			else {
 				if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 199) {
 					PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 200, 200, 20, ANIM_LOOP, -1);
-#ifdef SFX_ON
 					AS_SoundQuickPlay(kirbybup2);
-#endif
 					delay = 60/20 * 1;
 					dy = 4;
 				}
