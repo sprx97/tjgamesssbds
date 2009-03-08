@@ -113,7 +113,6 @@ using std::string;
 				dx = kx;
 				dy = ky;
 				if(hitstun == 0) {
-					action == STUN;
 					if(aerial) fall();
 					else idle();
 				}
@@ -347,7 +346,6 @@ using std::string;
 				dx = kx;
 				dy = ky;
 				if(hitstun == 0) {
-					action == STUN;
 					if(aerial) fall();
 					else idle();
 				}

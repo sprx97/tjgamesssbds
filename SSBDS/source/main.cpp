@@ -10,9 +10,8 @@
 
 #define DEBUG_ON // turns on printing of information to screen
 
-#define PROJECTILES_ON
 //#define SLOPEDSTAGES_ON // Castle Seige and Corneria
-//#define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
+#define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
 //#define MP3_ON
 // turns certain features on and off
 
@@ -56,11 +55,9 @@ class Fighter;
 vector<Fighter*> players;
 // stores all fighters for playing a match
 
-#ifdef PROJECTILES_ON
 class Projectile;
 vector<Projectile> projectiles;
 // stores all projectiles
-#endif
 class Effect;
 vector<Effect> effects;
 // stores all visual effects
@@ -324,14 +321,12 @@ void initFX() {
 	}
 	// loads all special effect sprites
 } // initializes special effects
-#ifdef PROJECTILES_ON
 void initProjectiles() {
 	PA_LoadSpritePal(MAIN_SCREEN, 14, (void*)projectilesprites_Pal);
 	for(int n = 50; n < 55; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)projectilesprites, OBJ_SIZE_64X64, COLOR256, 14, -64, -64);
 	} // loads all projectile sprites
 } // initializes projectiles
-#endif
 void initControls() {
 	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "rb");
 	if(file) {
@@ -704,12 +699,10 @@ void displayResults() {
 		PA_StopSpriteAnim(MAIN_SCREEN, n);
 		PA_DeleteSprite(MAIN_SCREEN, n);
 	} // stops and deletes special effects
-#ifdef PROJECTILES_ON
 	for(int n = 50; n < 55; n++) {
 		PA_StopSpriteAnim(MAIN_SCREEN, n);
 		PA_DeleteSprite(MAIN_SCREEN, n);
 	} // stops and deletes projectile sprites
-#endif
 	for(int n = 0; n < (int)players.size(); n++) {
 		PA_SetSpriteXY(MAIN_SCREEN, players[n] -> SPRITENUM, -64,-64);
 	} // stops the characters from moving
@@ -845,9 +838,7 @@ void gameOver() {
 	// end of game sound clip
 	for(int n = 0; n < (int)players.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, players[n] -> SPRITENUM);
 	// stops sprite anim for all players
-#ifdef PROJECTILES_ON
 	for(int n = 0; n < (int)projectiles.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, projectiles[n].num);
-#endif			
 	// stops all projectile animations
 	for(int n = 0; n < (int)effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
 	// stops all effect animations
@@ -867,9 +858,7 @@ void match(int param) {
 	characterSelect(); // select characters
 	stageSelect(); // select stage
 	initFX(); // inits the special FX
-#ifdef PROJECTILES_ON
 	initProjectiles(); // inits the projectiles
-#endif
 			
 	Stage stage = setStage(stagename); 
 	// sets the stage to the stage chosen in stageSelect
@@ -920,14 +909,12 @@ void match(int param) {
 		}
 		// checks to see if any player hit another
 		scrollScreen(); // scrolls the screen
-#ifdef PROJECTILES_ON
 		for(int n = 0; n < (int)projectiles.size(); n++) {
 			projectiles[n].act();
 			for(int m = 0; m < (int)players.size(); m++) {
 				if(projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);
 			}
 		}
-#endif
 		// acts and checks intersections of all projectiles
 		for(int n = 0; n < (int)effects.size(); n++) effects[n].act();
 		// acts all effects
