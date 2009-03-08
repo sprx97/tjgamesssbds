@@ -183,28 +183,28 @@ class Scoreboard {
 		} // clears the score
 		int getKills(int player) {
 			int count = 0;
-			for(int n = 0; n < kills.size(); n++) {
+			for(int n = 0; n < (int)kills.size(); n++) {
 				if(kills[n] == player) count++;
 			}
 			return count;
 		} // the number of kills by player with number player
 		int getDeaths(int player) {
 			int count = 0;
-			for(int n = 0; n < deaths.size(); n++) {
+			for(int n = 0; n < (int)deaths.size(); n++) {
 				if(deaths[n] == player && kills[n] != -1) count++;
 			}
 			return count;
 		} // the number of deaths by player with number player
 		int getSDs(int player) {
 			int count = 0;
-			for(int n = 0; n < deaths.size(); n++) {
+			for(int n = 0; n < (int)deaths.size(); n++) {
 				if(deaths[n] == player && kills[n] == -1) count++;
 			}
 			return count;
 		} // the number of SDs by player with number player
 		int getTotal(int player) {
 			int count = 0;
-			for(int n = 0; n < deaths.size(); n++) {
+			for(int n = 0; n < (int)deaths.size(); n++) {
 				if(kills[n] == player) count++;
 				if(deaths[n] == player) count--;
 			}
@@ -310,7 +310,7 @@ Stage setStage(string name) {
 		picked = Corneria();
 	} // loads corneria if it was chosen
 #endif
-	for(int n = 0; n < players.size(); n++) {
+	for(int n = 0; n < (int)players.size(); n++) {
 		players[n] -> setStage(picked);
 	} // sets the stage of the players to the picked stage
 	return picked; // returns the picked stage
@@ -388,7 +388,7 @@ void saveControls() {
 	buffer << "\n";
 
 	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "wb");
-	fprintf(file, buffer.str().c_str());
+	fprintf(file, "%s", buffer.str().c_str());
 	fclose(file);
 } // saves default control setup
 
@@ -613,16 +613,16 @@ void characterSelect() {
 
 // in-game functions
 void Pause() {
-	for(int n = 0; n < players.size(); n++) {
+	for(int n = 0; n < (int)players.size(); n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, players[n] -> SPRITENUM, 1);
 	} // pauses all player animations
 	// - screen
 	// - sprite number
 	// - on/off (1/0)
-	for(int n = 0; n < effects.size(); n++) {
+	for(int n = 0; n < (int)effects.size(); n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, effects[n].mynum, 1);
 	} // pauses all effect animations
-	for(int n = 0; n < projectiles.size(); n++) {
+	for(int n = 0; n < (int)projectiles.size(); n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, projectiles[n].num, 1);
 	} // pauses all projectile animations
 	PA_WaitForVBL();
@@ -631,13 +631,13 @@ void Pause() {
 		PA_WaitForVBL();
 	} // waits for unpause
 	PA_OutputText(MAIN_SCREEN, 12, 10, "          "); // clears text
-	for(int n = 0; n < players.size(); n++) {
+	for(int n = 0; n < (int)players.size(); n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, players[n] -> SPRITENUM, 0);
 	} // unpauses players
-	for(int n = 0; n < effects.size(); n++) {
+	for(int n = 0; n < (int)effects.size(); n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, effects[n].mynum, 0);
 	} // unpauses effects
-	for(int n = 0; n < projectiles.size(); n++) {
+	for(int n = 0; n < (int)projectiles.size(); n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, projectiles[n].num, 0);
 	} // unpauses projectiles
 } // pauses the game; will add pause menu later
@@ -648,7 +648,7 @@ void scrollScreen() {
 		double maxy = players[0] -> y;
 		double miny = players[0] -> y;
 		// initializes min and max x and y
-		for(int n = 0; n < players.size(); n++) {
+		for(int n = 0; n < (int)players.size(); n++) {
 			double x = players[n] -> x;
 			double y = players[n] -> y;
 			if(x > maxx) maxx = x;
@@ -676,10 +676,10 @@ void scrollScreen() {
 	PA_LargeScrollX(MAIN_SCREEN, 0, 256+(int)scrollx);
 	PA_LargeScrollY(MAIN_SCREEN, 0, 256+(int)scrolly);
 	// scrolls the screen
-	for(int n = 0; n < players.size(); n++) {
+	for(int n = 0; n < (int)players.size(); n++) {
 		players[n] -> scroll(scrollx, scrolly);
 	} // scrolls the players
-	for(int n = 0; n < effects.size(); n++) {
+	for(int n = 0; n < (int)effects.size(); n++) {
 		if(effects[n].type == FX_DEATH) {} // don't move sprite
 		else if(effects[n].type == FX_AIRJUMP) PA_SetSpriteXY(MAIN_SCREEN, effects[n].mynum, PA_GetSpriteX(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM), PA_GetSpriteY(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM)+32);
 		else PA_SetSpriteXY(MAIN_SCREEN, effects[n].mynum, PA_GetSpriteX(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM), PA_GetSpriteY(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM));
@@ -708,13 +708,13 @@ void displayResults() {
 		PA_DeleteSprite(MAIN_SCREEN, n);
 	} // stops and deletes projectile sprites
 #endif
-	for(int n = 0; n < players.size(); n++) {
+	for(int n = 0; n < (int)players.size(); n++) {
 		PA_SetSpriteXY(MAIN_SCREEN, players[n] -> SPRITENUM, -64,-64);
 	} // stops the characters from moving
 	
 	int winner = 0; // winner of the game, based on location in players
 	bool draw = false; // whether or not the winners are tied
-	for(int n = 1; n < players.size(); n++) {
+	for(int n = 1; n < (int)players.size(); n++) {
 		if(score.getTotal(n) > score.getTotal(winner)) {
 			draw = false;
 			winner = n;
@@ -770,7 +770,7 @@ void displayResults() {
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 11, "Kills:");
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 14, "Deaths:");
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 17, "SDs:");
-	for(int n = 0; n < players.size(); n++) {
+	for(int n = 0; n < (int)players.size(); n++) {
 		int total = score.getTotal(n);
 		int kills = score.getKills(n);
 		int deaths = score.getDeaths(n);
@@ -782,7 +782,7 @@ void displayResults() {
 	}
 	// prints the scoreboard stats for each player
 	
-	for(int n = 0; n < players.size(); n++) {
+	for(int n = 0; n < (int)players.size(); n++) {
 		players[n] -> fall();
 		players[n] -> idle(); 
 		// ensures that it goes into idling animation
@@ -841,13 +841,13 @@ void displayResults() {
 void gameOver() {
 	AS_SoundQuickPlay(game);
 	// end of game sound clip
-	for(int n = 0; n < players.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, players[n] -> SPRITENUM);
+	for(int n = 0; n < (int)players.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, players[n] -> SPRITENUM);
 	// stops sprite anim for all players
 #ifdef PROJECTILES_ON
-	for(int n = 0; n < projectiles.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, projectiles[n].num);
+	for(int n = 0; n < (int)projectiles.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, projectiles[n].num);
 #endif			
 	// stops all projectile animations
-	for(int n = 0; n < effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
+	for(int n = 0; n < (int)effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
 	// stops all effect animations
 	if(gamemode == GAMEMODE_TIME) PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
 	for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
@@ -902,15 +902,15 @@ void match(int param) {
 		}
 		else if (gamemode==GAMEMODE_STOCK){
 			int playersstillalive=players.size(); //and while you're dying...
-			for(int n = 0; n < players.size(); n++) {
+			for(int n = 0; n < (int)players.size(); n++) {
 				if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock)
 					playersstillalive--;
 			}
 			if (playersstillalive==1) return gameOver();
 		}
-		for(int n = 0; n < players.size(); n++) players[n] -> act(); // all players act
-		for(int n = 0; n < players.size(); n++) {
-			for(int m = 0; m < players.size(); m++) {
+		for(int n = 0; n < (int)players.size(); n++) players[n] -> act(); // all players act
+		for(int n = 0; n < (int)players.size(); n++) {
+			for(int m = 0; m < (int)players.size(); m++) {
 				if(m != n) {
 					players[m] = players[n] -> checkHits(players[m]);
 				}
@@ -919,15 +919,15 @@ void match(int param) {
 		// checks to see if any player hit another
 		scrollScreen(); // scrolls the screen
 #ifdef PROJECTILES_ON
-		for(int n = 0; n < projectiles.size(); n++) {
+		for(int n = 0; n < (int)projectiles.size(); n++) {
 			projectiles[n].act();
-			for(int m = 0; m < players.size(); m++) {
+			for(int m = 0; m < (int)players.size(); m++) {
 				if(projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);
 			}
 		}
 #endif
 		// acts and checks intersections of all projectiles
-		for(int n = 0; n < effects.size(); n++) effects[n].act();
+		for(int n = 0; n < (int)effects.size(); n++) effects[n].act();
 		// acts all effects
 		displayMinimap(); // changes sub screen display
 		displayPercentages(); // displays percentages on sub screen

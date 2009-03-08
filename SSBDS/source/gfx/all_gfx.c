@@ -27,7 +27,7 @@ extern "C" {
 #include "menuoptions.pal.c"
 #include "menuextras.pal.c"
 
-#include "SpecialFX.c"
+#include "specialFX.c"
 	
 #include "specialFX.pal.c"
 	
