@@ -123,7 +123,7 @@ class Fighter {
 			double Cangle = 0;
 			double Cx = 0;
 			double Cy = 0;
-			for(int n = 0; n < players.size(); n++) {
+			for(int n = 0; n < (int)players.size(); n++) {
 				if(players[n] -> charnum != charnum) {
 					double dx = (players[n] -> x) - x;
 					double dy = (players[n] -> y) - y;
@@ -1370,20 +1370,20 @@ class Fighter {
 				score.addDeath(lasthitby, charnum);
 				int deathx = -64, deathy = -64;
 				if(x > stage.rightdeath) {
-					deathx = 256-64+scrollx+10;
-					deathy = y;
+					deathx = 256-64+(int)scrollx+10;
+					deathy = (int)y;
 				} // died off of right side
 				else if(x+64 < stage.leftdeath) {
-					deathx = 0+scrollx-10;
-					deathy = y;
+					deathx = 0+(int)scrollx-10;
+					deathy = (int)y;
 				} // died off of left side
 				else if(y > stage.bottomdeath) {
-					deathx = x;
-					deathy = 192-64+scrolly+10;
+					deathx = (int)x;
+					deathy = 192-64+(int)scrolly+10;
 				} // died off of bottom
 				else if(y+64 < stage.topdeath) {
-					deathx = x;
-					deathy = 0+scrolly-10;
+					deathx = (int)x;
+					deathy = 0+(int)scrolly-10;
 				} // died off top
 				effects.push_back(Effect(deathx, deathy, FX_DEATH, charnum));
 				AS_SoundQuickPlay(deathsound);
@@ -1405,14 +1405,14 @@ class Fighter {
 			shieldstr = 64;
 		}
 		bool ledgenotinuse(int lnum) {
-			for(int n = 0; n < players.size(); n++) {
+			for(int n = 0; n < (int)players.size(); n++) {
 				if(players[n] -> myledge == lnum) return false;
 			}
 			return true;
 		}
 		bool checkLedgeCollision() {
 			vector<Ledge> ledges = stage.getLedges();
-			for(int n = 0; n < ledges.size(); n++) {
+			for(int n = 0; n < (int)ledges.size(); n++) {
 				Ledge currledge = ledges[n];
 				if(action != STUN && action != HANG) {
 					if(currledge.direction == "right") {
@@ -1451,7 +1451,7 @@ class Fighter {
 				Floor currfloor = floors[n];
 				double rise;
 				if(currfloor.slopes.size() == 0) rise = 0;
-				else rise = currfloor.getrise(x);
+				else rise = currfloor.getrise((int)x);
 #ifdef DEBUG_ON
 				PA_OutputText(MAIN_SCREEN, 0, 1, "Rise: %d", (int)(rise));
 #endif
@@ -1522,4 +1522,5 @@ class Fighter {
 				else PA_SetSpriteXY(MAIN_SCREEN, 30+(SPRITENUM-100), -64, -64);
 			}
 		}
+		virtual ~Fighter() {}
 };

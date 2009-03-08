@@ -23,7 +23,7 @@ class Floor {
 		bool isPlatform() { return isplatform; } // returns isplatform
 		double totalrise() {
 			double total = 0;
-			for(int n = 0; n < slopes.size(); n++) {
+			for(int n = 0; n < (int)slopes.size(); n++) {
 				total += slopes[n];
 			}
 			return total;
@@ -80,4 +80,6 @@ class Stage {
 		vector<Ceiling> getCeilings() { return ceilings; }
 		vector<Ledge> getLedges() { return ledges; }
 		// gets stuff about the stage
+	//destructor
+		virtual ~Stage() {}
 }; // class which all stages extend
