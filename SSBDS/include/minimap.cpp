@@ -15,7 +15,7 @@ void initMinimap(string name) {
 //	}
 
 	PA_LoadSpritePal(SUB_SCREEN, 1, (void*)charminis_Pal);
-	for(int n = 0; n < players.size(); n++) {
+	for(int n = 0; n < (int)players.size(); n++) {
 		PA_CreateSprite(SUB_SCREEN, n+1, (void*)charminis, OBJ_SIZE_16X16, COLOR256, 1, -16, -16);
 		if(players[n] -> name == "kirby") PA_StartSpriteAnimEx(SUB_SCREEN, n+1, KIRBY, KIRBY, 1, ANIM_LOOP, -1);
 		else if(players[n] -> name == "mewtwo") PA_StartSpriteAnimEx(SUB_SCREEN, n+1, MEWTWO, MEWTWO, 1, ANIM_LOOP, -1);
@@ -27,7 +27,7 @@ void initMinimap(string name) {
 	// loads the sprite icons for the minimap
 } // initializes the minimap display on the sub screen
 void displayMinimap() {
-	for(int n = 0; n < players.size(); n++) {
+	for(int n = 0; n < (int)players.size(); n++) {
 		PA_SetSpriteXY(SUB_SCREEN, n+1, (int)((players[n] -> x)/4) + 64, (int)((players[n] -> y)/4) + 32 + 56 + 4);
 	}
 	// displays the sprites in the correct position on a scaled down map

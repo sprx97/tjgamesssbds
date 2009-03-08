@@ -419,8 +419,8 @@ class Kirby: public Fighter {
 				dy = -6-gravity;
 			}
 			if(grabbedenemy != NULL) {
-				if(direction == "right") grabbedenemy -> grabbed(x+handx+dx, y+dy);
-				else grabbedenemy -> grabbed(x-handx+dx, y+dy);
+				if(direction == "right") grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
+				else grabbedenemy -> grabbed((int)(x-handx+dx), (int)(y+dy));
 			}	
 		}
 		void bthrow() {
@@ -470,8 +470,8 @@ class Kirby: public Fighter {
 				aerial = true;
 			}
 			if(grabbedenemy != NULL) {
-				if(direction == "right") grabbedenemy -> grabbed(x+handx+dx, y+dy);
-				else grabbedenemy -> grabbed(x-handx+dx, y+dy);
+				if(direction == "right") grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
+				else grabbedenemy -> grabbed((int)(x-handx+dx), (int)(y+dy));
 			}	
 		}
 		void uthrow() {
@@ -513,8 +513,8 @@ class Kirby: public Fighter {
 				dy = 0;
 			}
 			if(grabbedenemy != NULL) {
-				if(direction == "right") grabbedenemy -> grabbed(x+handx+dx, y+dy);
-				else grabbedenemy -> grabbed(x-handx+dx, y+dy);
+				if(direction == "right") grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
+				else grabbedenemy -> grabbed((int)(x-handx+dx), (int)(y+dy));
 			}	
 		}
 		void dthrow() {

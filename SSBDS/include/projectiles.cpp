@@ -26,7 +26,7 @@ class Projectile {
 			length = l;
 			time = 0;
 			hit = h;
-			PA_SetSpriteXY(MAIN_SCREEN, num, x-scrollx, y-scrolly);
+			PA_SetSpriteXY(MAIN_SCREEN, num, (int)(x-scrollx), (int)(y-scrolly));
 			if(TYPE == SHADOWBALL_SMALL) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 0, 3, 20, ANIM_LOOP, -1);
 			}
@@ -54,14 +54,14 @@ class Projectile {
 			y += dy;
 			if(y > maxy) dy*=-1;
 			if(y < miny) dy*=-1;
-			PA_SetSpriteXY(MAIN_SCREEN, num, x-scrollx, y-scrolly);
+			PA_SetSpriteXY(MAIN_SCREEN, num, (int)(x-scrollx), (int)(y-scrolly));
 			if(x+64-scrollx < 0 || x-scrollx > 256 || y+64-scrolly < 0 || y-scrolly > 192) PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
 			time++;
 			if(time > length) removeSelf();
 		}
 		void removeSelf() {
 			vector<Projectile> temp;
-			for(int n = 0; n < projectiles.size(); n++) {
+			for(int n = 0; n < (int)projectiles.size(); n++) {
 				Projectile p = projectiles[n];
 				if(p.x != x || p.y != y) {
 					temp.push_back(p);
@@ -87,7 +87,7 @@ class Projectile {
 					owner = other->charnum;
 					vector<Circle> temp = hit.getCircles();
 					hit.reset();
-					for(int n = 0; n < temp.size(); n++) {
+					for(int n = 0; n < (int)temp.size(); n++) {
 						hit.addCircle(Circle(temp[n].getX(), temp[n].getY(), temp[n].getRadius(), Knockback(temp[n].getKnockback().dx * -1, temp[n].getKnockback().dy, temp[n].getKnockback().length), temp[n].damage));
 					}
 					if(dx > 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 0);
