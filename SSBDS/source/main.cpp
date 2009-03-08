@@ -33,9 +33,11 @@ using namespace std; // standard naming of variables
 
 #define PI 3.1415926 // PI
 
-#define MAIN_SCREEN 1 // top screen
-#define SUB_SCREEN 0 // bottom screen
-#define COLOR256 1 // 256 color mode
+//#define MAIN_SCREEN 1 // top screen
+//#define SUB_SCREEN 0 // bottom screen
+//#define COLOR256 1 // 256 color mode
+//inluded here:
+#include "global.h"
 
 #define CAMERATYPE_FOLLOWUSER 0
 #define CAMERATYPE_FOLLOWALL 1

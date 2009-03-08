@@ -1,6 +1,10 @@
 #define RIGHT "right"
 #define LEFT "left"
 
+#include "hitbox.h"
+#include "knockback.h"
+#include "circle.h"
+
 static const int LAND = 0, SHIELD = 1, ROLL = 2, DODGE = 3, AIRDODGE = 4, CROUCH = 5, FALL = 6, IDLE = 7, RUN = 8, SHORTHOP = 9, JUMP = 10, DOUBLEJUMP = 11, JAB = 12, DASHATTACK = 13, FTILT = 14, UTILT = 15, DTILT = 16, CHARGELEFT = 17, CHARGERIGHT = 18, CHARGEUP = 19, CHARGEDOWN = 20, SMASHLEFT = 21, SMASHRIGHT = 22, SMASHUP = 23, SMASHDOWN = 24, FAIR = 25, BAIR = 26, UAIR = 27, DAIR = 28, NAIR = 29, STUN = 30, SLIDE = 31, HANG = 32, GRABBED = 33, GRAB = 34, GRABATK = 35, FTHROW = 36, BTHROW = 37, UTHROW = 38, DTHROW = 39, DEAD = 40, BNEUT = 41, BSIDE = 42, BUP = 43, BDOWN = 44;
 static const int ATTACK = -1, AIRATTACK = -2, AIRLAG = -3, TILTLAG = -4, RELEASED = -5, RELEASE = -6, HOLD = -7;
 // shortcuts for actions
@@ -70,7 +74,7 @@ class Fighter {
 				double ypos = atof(strtok(NULL, " \t"));
 				double radius = atof(strtok(NULL, " \t"));
 
-				alldefbox[frame].addCircle(Circle(xpos, (int)(ypos)%64, radius));
+				alldefbox[frame].addCircle(Circle(xpos, (int)(ypos)%64, radius,FX_NONE));
 			}
 			fclose(file);
 		}

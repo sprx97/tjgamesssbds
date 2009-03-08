@@ -1,5 +1,5 @@
-#ifdef PROJECTILES_ON
 #include "projectiles.h"
+#include "global.h"
 
 // shortcuts for projectiles
 Projectile::Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage mine) {
@@ -90,4 +90,3 @@ Fighter* Projectile::checkHits(Fighter* other) {
 	}
 	return other;
 }
-#endif

@@ -1,6 +1,8 @@
-#ifdef PROJECTILES_ON
 #ifndef PROJECTILES_H //prevents errors with chained inclusion of headers
 #define PROJECTILES_H
+
+#include "hitbox.h"
+
 static const int SHADOWBALL_SMALL = 0, SHADOWBALL_MEDIUM = 1, SHADOWBALL_LARGE = 2, FINALCUTTER = 3, FIREBALL = 4, FLUDDWATER = 5, IKESWORD = 6;
 // shortcuts for projectiles
 class Projectile {
@@ -19,5 +21,4 @@ class Projectile {
 		void removeSelf();
 		Fighter* checkHits(Fighter* other);
 };
-#endif
 #endif
