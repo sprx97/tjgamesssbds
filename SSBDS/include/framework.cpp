@@ -151,7 +151,7 @@ class Effect {
 			delay--;
 			if(delay <= 0) {
 				vector<Effect> temp;
-				for(int n = 0; n < effects.size(); n++) {
+				for(int n = 0; n < (int)effects.size(); n++) {
 					Effect e = effects[n];
 					if(e.x != x || e.y != y || e.delay != delay || e.playernum != playernum) {
 						temp.push_back(e);
