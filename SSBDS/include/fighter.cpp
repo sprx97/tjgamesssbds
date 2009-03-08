@@ -148,7 +148,6 @@ class Fighter {
 				dx = kx;
 				dy = ky;
 				if(hitstun == 0) {
-					action == STUN;
 					if(aerial) fall();
 					else idle();
 				}
@@ -382,7 +381,6 @@ class Fighter {
 				dx = kx;
 				dy = ky;
 				if(hitstun == 0) {
-					action == STUN;
 					if(aerial) fall();
 					else idle();
 				}

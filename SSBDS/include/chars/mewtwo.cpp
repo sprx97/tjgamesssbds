@@ -314,14 +314,12 @@ class Mewtwo: public Fighter {
 				else if(shadowballcharge == 120) {
 					PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 134, 15, ANIM_LOOP, -1);
 					delay = 60/15 * 3;
-#ifdef PROJECTILES_ON
 					int SHADOWBALL_SIZE = -1;
 					int directionmodifier = 1;
 					if(direction == "right") directionmodifier = -1;
 					Hitbox tempbox;
 					tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 240));
 					projectiles.push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage));
-#endif
 					shadowballcharge = 0;
 					action = BNEUT;
 					dx = 0;
@@ -330,7 +328,6 @@ class Mewtwo: public Fighter {
 			else if(custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 134, 15, ANIM_LOOP, -1);
 				delay = 60/15 * 3;
-#ifdef PROJECTILES_ON
 				int SHADOWBALL_SIZE = -1;
 				if(shadowballcharge >= 80) SHADOWBALL_SIZE = SHADOWBALL_LARGE;
 				else if(shadowballcharge >= 40) SHADOWBALL_SIZE = SHADOWBALL_MEDIUM;
@@ -355,7 +352,6 @@ class Mewtwo: public Fighter {
 //				tempbox.addCircle(createAtkbox(32, 32, rad, Knockback((-3*directionmodifier/kbmod), -1.5/kbmod, 8), shadowballcharge*2));
 				tempbox.addCircle(createAtkbox(32, 32, rad, Knockback((-3*directionmodifier), -1.5, 8), 120));
 				projectiles.push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_SIZE, charnum, tempbox, stage));
-#endif
 				shadowballcharge = 0;
 			}
 			else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 132) {}

@@ -300,13 +300,11 @@ class Mario: public Fighter {
 			else if(custom_action(ACTION_SPECIAL, PAD_RELEASED) && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 149) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 150, 150, 12, ANIM_LOOP, -1);
 				delay = 60/12 * 1;
-#ifdef PROJECTILES_ON
 				int directionmodifier = 1;
 				if(direction == "right") directionmodifier = -1;
 				Hitbox tempbox;
 				tempbox.addCircle(createAtkbox(58, 32, 5, Knockback((-1*directionmodifier), -.5, 6), 60));
 				projectiles.push_back(Projectile(x, y-16, -5*directionmodifier, 0, 2*fluddcharge, FLUDDWATER, charnum, tempbox, stage));
-#endif
 				fluddcharge = 0;
 			}
 			else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 150) {
@@ -338,7 +336,6 @@ class Mario: public Fighter {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 134, 134, 10, ANIM_LOOP, -1);
 				delay = 60/10 * 1;
 				AS_SoundQuickPlay(mariobneut);
-#ifdef PROJECTILES_ON
 				int directionmodifier = 1;
 				if(direction == "right") directionmodifier = -1;
 				Hitbox tempbox;
@@ -347,7 +344,6 @@ class Mario: public Fighter {
 				p.miny = stage.getFloors()[0].y-32;
 				p.maxy = y;
 				projectiles.push_back(p);
-#endif
 			}
 			else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 134 && delay == 1) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 135, 136, 12, ANIM_LOOP, -1);

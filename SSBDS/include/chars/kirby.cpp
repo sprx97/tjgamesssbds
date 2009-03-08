@@ -288,7 +288,6 @@ class Kirby: public Fighter {
 					else {
 						PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 201, 201, 20, ANIM_LOOP, -1);
 						delay = 60/20 * 1;
-#ifdef PROJECTILES_ON
 						int directionmodifier = 1;
 						if(direction =="right") directionmodifier = -1;
 						Hitbox tempbox;
@@ -296,7 +295,6 @@ class Kirby: public Fighter {
 						tempbox.addCircle(createAtkbox(30, 794%63, 22, Knockback((-1*directionmodifier), -.5, 8), 24));
 						tempbox.addCircle(createAtkbox(47, 812%64, 10, Knockback((-1*directionmodifier), -.5, 8), 24));
 						projectiles.push_back(Projectile(x, y, -5*directionmodifier, 0, 20, FINALCUTTER, charnum, tempbox, stage));
-#endif
 					}
 				}
 			}
