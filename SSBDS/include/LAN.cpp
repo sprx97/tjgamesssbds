@@ -73,7 +73,7 @@ void LAN() {
 		PA_WaitForVBL();
 	}
 	
-	players.push_back(new Kirby(512/2 -96 -32, 256/3 -32, 1));
+	players.push_back(new Kirby(512/2 -96 -32, 256/3 -32, 1, players, &display));
 	Stage stage = setStage("finaldestination");
 	PA_InitText(MAIN_SCREEN, 1); // inits text on the main screen (displays time)
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white

@@ -35,7 +35,6 @@ void Fighter::initDefbox() {
 	while(true) {
 		Hitbox tempbox;
 		fgets(line, 64, file);
-
 		int frame = atoi(strtok(line, " \t"));
 		if(frame == -1) break;					
 		double xpos = atof(strtok(NULL, " \t"));
@@ -975,7 +974,7 @@ void Fighter::doubleJump() {
 	aerial = true;
 	setDirection();
 	if(effectwait <= 0) {
-		effects.push_back(Effect(x, y+32, FX_AIRJUMP, charnum,display->scrollx, display->scrolly));
+		effects.push_back(Effect(x, y+32, FX_AIRJUMP, charnum, display->scrollx, display->scrolly));
 		effectwait = 15;
 	}
 	playsound(DOUBLEJUMP);

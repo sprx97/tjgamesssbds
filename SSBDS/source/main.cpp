@@ -56,7 +56,7 @@ int stocklimit = 3;
 int sdcost = 1;
 // game settings
 
-class Fighter;
+#include "fighter.h"
 vector<Fighter*> players;
 // stores all fighters for playing a match
 
@@ -183,9 +183,9 @@ bool custom_action(int action, int typecheck) {
 	if(action == ACTION_SHIELD) return custom_action(ACTION_SHIELD2, typecheck);
 	return false;
 } // takes action and checks if it is done by custom controls, uncoded
-#import "stage.cpp" // Info about the stage and the stage superclass
+//#import "stage.cpp" // Info about the stage and the stage superclass
 #import "stages.cpp" // individual stages
-#import "fighter.cpp" // fighter superclass
+//#import "fighter.cpp" // fighter superclass
 #include "projectiles.h" // projectiles
 #import "fighters.cpp" // individual characters
 
@@ -498,26 +498,26 @@ void characterSelect() {
 			fadeOut();
 			PA_ResetSpriteSys(); // restes all sprites
 			PA_OutputText(SUB_SCREEN, 7, 23, "                     "); // clears text
-			if(humanselected == KIRBY) players.push_back(new Kirby(512/2 -96 -32, 256/3 -32, 1));
-			else if(humanselected == MEWTWO) players.push_back(new Mewtwo(512/2 -96 -32, 256/3 -32, 1));
-			else if(humanselected == MARIO) players.push_back(new Mario(512/2 -96 -32, 256/3 -32, 1));
-			else if(humanselected == IKE) players.push_back(new Ike(512/2 -96 -32, 256/3 -33, 1));		  
+			if(humanselected == KIRBY) players.push_back(new Kirby(512/2 -96 -32, 256/3 -32, 1, players, &display));
+			else if(humanselected == MEWTWO) players.push_back(new Mewtwo(512/2 -96 -32, 256/3 -32, 1, players, &display));
+			else if(humanselected == MARIO) players.push_back(new Mario(512/2 -96 -32, 256/3 -32, 1, players, &display));
+			else if(humanselected == IKE) players.push_back(new Ike(512/2 -96 -32, 256/3 -33, 1, players, &display));		  
 			// adds a new player class (fighter*) for the human
 					
-			if(cpu1selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 2, true));
-			else if(cpu1selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 2, true));
-			else if(cpu1selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 2, true));
-			else if(cpu1selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 2, true));		 
+			if(cpu1selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 2, players, &display, true));
+			else if(cpu1selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 2, players, &display, true));
+			else if(cpu1selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 2, players, &display, true));
+			else if(cpu1selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 2, players, &display, true));		 
 
-			if(cpu2selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 3, true));
-			else if(cpu2selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 3, true));
-			else if(cpu2selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 3, true));
-			else if(cpu2selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 3, true));		 
+			if(cpu2selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 3, players, &display, true));
+			else if(cpu2selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 3, players, &display, true));
+			else if(cpu2selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 3, players, &display, true));
+			else if(cpu2selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 3, players, &display, true));		 
 
-			if(cpu3selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 4, true));
-			else if(cpu3selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 4, true));
-			else if(cpu3selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 4, true));
-			else if(cpu3selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 4, true));		 
+			if(cpu3selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 4, players, &display, true));
+			else if(cpu3selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 4, players, &display, true));
+			else if(cpu3selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 4, players, &display, true));
+			else if(cpu3selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 4, players, &display, true));		 
 			// adds a new player class (fighter*) for the cpu1
 			
 			return;
@@ -840,7 +840,7 @@ void match(int param) {
 	PA_SetTextCol(SUB_SCREEN, 31,31,31); // text color = white
 
 	// initializes scoreboard
-	display.score = new Scoreboard(players.size()); // initializes a new scoreboard
+	score = Scoreboard(players.size()); // initializes a new scoreboard
 
 	fadeIn();
 		

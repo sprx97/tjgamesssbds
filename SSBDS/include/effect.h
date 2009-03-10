@@ -1,8 +1,6 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
-#include <vector>
-
 // shortcuts for visual effects
 class Effect {
 	public:

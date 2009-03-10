@@ -2,7 +2,7 @@ class Mewtwo: public Fighter {
 	public:
 		int shadowballcharge;
 	// constructor
-		Mewtwo(int xpos, int ypos, int num, bool AI = false, vector<Fighter*> listplayers, Display *disp) {
+		Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI = false) {
 			display=disp;
 			players=listplayers;
 			shieldstr = 64;
