@@ -2,7 +2,9 @@ class Mario: public Fighter {
 	int fluddcharge;
 	public:
 	// constructor
-		Mario(int xpos, int ypos, int num, bool AI = false) {
+		Mario(int xpos, int ypos, int num, bool AI = false, vector<Fighter*> listplayers, Display *disp) {
+			display=disp;
+			players=listplayers;
 			shieldstr = 64;
 			myledge = -1;
 			acceleration = 0;

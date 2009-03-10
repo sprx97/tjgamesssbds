@@ -3,7 +3,9 @@ class Ike: public Fighter {
 	int eruptioncharge;
 	public:
 	// constructor
-		Ike(int xpos, int ypos, int num, bool AI = false) {
+		Ike(int xpos, int ypos, int num, bool AI = false, vector<Fighter*> listplayers, Display *disp) {
+			display=disp;
+			players=listplayers;
 			shieldstr = 64;
 			myledge = -1;
 			acceleration = 0;

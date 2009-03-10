@@ -24,9 +24,13 @@
 #include <stdlib.h> // standard C functions
 #include <map> // maps
 
+#ifndef shield_Pal //FIXME: handle this better
 #include "gfx/all_gfx.c" // all image files
+#endif
 
+#ifndef shieldbreak //FIXME: handle this better
 #include "gfx/all_sounds.c" // all sound effects (just small ones, not MP3s)
+#endif
 
 using namespace std; // standard naming of variables
 
@@ -37,6 +41,7 @@ using namespace std; // standard naming of variables
 //#define COLOR256 1 // 256 color mode
 //inluded here:
 #include "global.h"
+#include "effect.h"
 
 #define CAMERATYPE_FOLLOWUSER 0
 #define CAMERATYPE_FOLLOWALL 1
@@ -58,26 +63,41 @@ vector<Fighter*> players;
 class Projectile;
 vector<Projectile> projectiles;
 // stores all projectiles
-class Effect;
-vector<Effect> effects;
+
+#define effects display.getEffects()
+
+#include "display.h"
+Display display = Display();
 // stores all visual effects
+
 class Scoreboard; // keeps score of the game
 
-double scrollx = 0;
-double scrolly = 0;
-// how far the screen is scrolled (for stages)
+//double scrollx = 0;
+//double scrolly = 0;
 
-int BUTTON_NONE = -1, BUTTON_A = 0, BUTTON_B = 1, BUTTON_AB = 2, BUTTON_X = 3, BUTTON_Y = 4, BUTTON_L = 5, BUTTON_R = 6; 
-// buttons (for custom controls)
-int ACTION_BASIC = 0, ACTION_SPECIAL = 1, ACTION_SMASH = 2, ACTION_JUMP = 3, ACTION_JUMP2 = 4, ACTION_SHIELD = 5, ACTION_SHIELD2 = 6, ACTION_GRAB = 7;
-// actions (for custom controls)
-int PAD_HELD = 0, PAD_NEWPRESS = 1, PAD_RELEASED = 2; // Press types (for custom controls)
+#define scrollx display.scrollx
+#define scrolly display.scrolly
+#define score (*display.score)
+
+// how far the screen is scrolled (for stages)
 
 map<int, int> customcontrols; // custom control mapping
 bool shieldgrabon; // use a while shielding to grab
 bool tapjumpon; // use up dpad to jump
 bool cstickstylus; // smashes and aerials with stylus
 
+map<int , int> getcustomcontrols(){
+	return customcontrols;
+}
+bool getTapJumpOn(){
+	return tapjumpon;
+}
+bool getCStickStylus(){
+	return cstickstylus;
+}
+bool getShieldGrabOn(){
+	return shieldgrabon;
+}
 bool custom_action(int action, int typecheck) {
 	if(customcontrols[action] == BUTTON_A) {
 		if(typecheck == PAD_HELD) {
@@ -163,55 +183,6 @@ bool custom_action(int action, int typecheck) {
 	if(action == ACTION_SHIELD) return custom_action(ACTION_SHIELD2, typecheck);
 	return false;
 } // takes action and checks if it is done by custom controls, uncoded
-
-class Scoreboard {
-	vector<int> kills; // player numbers of the kills (in order) -- -1 is a SD
-	vector<int> deaths; // player numbers of the deaths (in order)
-	public:
-		int playercount; // total number of players
-		Scoreboard(int count) {
-			playercount = count;
-		} // creates a scoreboard
-		void addDeath(int killer, int killed) {
-			kills.push_back(killer);
-			deaths.push_back(killed);
-		} // registers a kill
-		void clear() {
-			kills.clear();
-			deaths.clear();
-		} // clears the score
-		int getKills(int player) {
-			int count = 0;
-			for(int n = 0; n < (int)kills.size(); n++) {
-				if(kills[n] == player) count++;
-			}
-			return count;
-		} // the number of kills by player with number player
-		int getDeaths(int player) {
-			int count = 0;
-			for(int n = 0; n < (int)deaths.size(); n++) {
-				if(deaths[n] == player && kills[n] != -1) count++;
-			}
-			return count;
-		} // the number of deaths by player with number player
-		int getSDs(int player) {
-			int count = 0;
-			for(int n = 0; n < (int)deaths.size(); n++) {
-				if(deaths[n] == player && kills[n] == -1) count++;
-			}
-			return count;
-		} // the number of SDs by player with number player
-		int getTotal(int player) {
-			int count = 0;
-			for(int n = 0; n < (int)deaths.size(); n++) {
-				if(kills[n] == player) count++;
-				if(deaths[n] == player) count--;
-			}
-			return count;
-		} // totals score for a player with number player
-}; // tracks all scores
-Scoreboard score = Scoreboard(0); // the scoreboard for smash
-#import "framework.cpp" // Stuff for the fighting engine (hitboxes, effects, etc)
 #import "stage.cpp" // Info about the stage and the stage superclass
 #import "stages.cpp" // individual stages
 #import "fighter.cpp" // fighter superclass
@@ -869,7 +840,7 @@ void match(int param) {
 	PA_SetTextCol(SUB_SCREEN, 31,31,31); // text color = white
 
 	// initializes scoreboard
-	score = Scoreboard(players.size()); // initializes a new scoreboard
+	display.score = new Scoreboard(players.size()); // initializes a new scoreboard
 
 	fadeIn();
 		
@@ -916,7 +887,8 @@ void match(int param) {
 			}
 		}
 		// acts and checks intersections of all projectiles
-		for(int n = 0; n < (int)effects.size(); n++) effects[n].act();
+		//for(int n = 0; n < (int)effects.size(); n++) effects[n].act();
+		display.updateEffects();
 		// acts all effects
 		displayMinimap(); // changes sub screen display
 		displayPercentages(); // displays percentages on sub screen

@@ -8,6 +8,8 @@
 #include "knockback.h"
 #include "circle.h"
 #include "stage.h"
+#include "effect.h"
+#include "display.h"
 #include <string>
 using std::string;
 
@@ -56,9 +58,12 @@ class Fighter {
 		vector<int> startframes;
 		vector<int> endframes;
 		vector<int> framespeeds;
+		vector<Fighter*> players;
+		vector<Effect> effects;
 		Fighter* grabbedenemy;
 		Fighter* grabbedby;
 		int grabtimeleft;
+		Display *display;
 	// virtual methods
 		void initDefbox();
 		void initAtkbox();
