@@ -20,18 +20,16 @@ void customVBL(void) {
 
 void receive(unsigned char *data, int length, LPLOBBY_USER from) {
 	if(playernumber == 1) {
-		players[0] -> x = data[0];
-		players[0] -> y = data[1];
-		PA_SetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM, data[2]);
+		PA_OutputText(MAIN_SCREEN, 0, 0, "%d %d %d", data[0], data[1], data[2]);
+		players[0] -> x = (double)data[0];
+		players[0] -> y = (double)data[1];
+		PA_SetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM, (int)data[2]);
 	}
 }
 
 void LAN() {
 	PA_ResetBgSys();
 	PA_ResetSpriteSys();
-
-	PA_Init8bitBg(MAIN_SCREEN, 3);
-
 	PA_InitText(MAIN_SCREEN, 0);
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);
 
@@ -67,17 +65,18 @@ void LAN() {
 	}
 	
 	int max = LOBBY_GetNumberOfKnownUsers();
+	PA_OutputText(MAIN_SCREEN, 1, 3, "                                         ");
+	PA_OutputText(MAIN_SCREEN, 1, 4, "                                         ");
+	PA_OutputText(MAIN_SCREEN, 1, 3, "Waiting for connection");
 	while(max < 1) {
 		max = LOBBY_GetNumberOfKnownUsers();
 		PA_WaitForVBL();
 	}
 	
-	PA_ResetBg(MAIN_SCREEN);
-	
 	players.push_back(new Kirby(512/2 -96 -32, 256/3 -32, 1));
-//	initFX();
-//	initProjectiles();
 	Stage stage = setStage("finaldestination");
+	PA_InitText(MAIN_SCREEN, 1); // inits text on the main screen (displays time)
+	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
 
 	while(true) {
 		if(playernumber == 0) {
@@ -86,11 +85,9 @@ void LAN() {
 			dat[1] = (char)(players[0] -> y);
 			dat[2] = PA_GetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM);
 			LOBBY_SendToUser(LOBBY_GetUserByID(0), 0x0001, (unsigned char *)dat, 10);
-		}
-		
+		}		
+		scrollScreen();
 		PA_WaitForVBL();
 	}
-	
-	
 }
 
