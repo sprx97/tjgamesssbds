@@ -284,6 +284,7 @@ void Fighter::actCPU() {
 			else{
 				if(direction == RIGHT) run(1);
 				else run(-1);
+			}
 			// or dash attack
 			// or run more
 			// or slide
