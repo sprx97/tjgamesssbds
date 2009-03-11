@@ -29,7 +29,7 @@ vector<Effect> Display::getEffects(){
 	return effects;
 }
 void Display::updateEffects(){
-	PA_OutputText(MAIN_SCREEN, 0, 10, "number of effects in display: "+effects.size());
+	PA_OutputText(MAIN_SCREEN, 0, 10, "number of effects in display: %d", effects.size());
 	for(int k = 0; k < (int)effects.size();k++){
 		if (effects[k].act()){
 			deleffect(effects[k]);
