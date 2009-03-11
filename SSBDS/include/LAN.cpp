@@ -20,9 +20,7 @@ void customVBL(void) {
 
 void receive(unsigned char *data, int length, LPLOBBY_USER from) {
 	if(playernumber == 1) {
-		PA_OutputText(MAIN_SCREEN, 0, 0, "%d %d %d", data[0], data[1], data[2]);
-		players[0] -> x = (double)data[0];
-		players[0] -> y = (double)data[1];
+		PA_SetSpriteXY(MAIN_SCREEN, players[0] -> SPRITENUM, (int)data[0], (int)data[1]);
 		PA_SetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM, (int)data[2]);
 	}
 }
