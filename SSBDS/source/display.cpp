@@ -1,7 +1,9 @@
 #include "effect.h"
 #include "display.h"
+#include "global.h"
 #include <vector>
 #include "scoreboard.h"
+#include <PA9.h> // DS functions that we use come from here
 using std::vector;
 
 Display::Display(){
@@ -13,6 +15,7 @@ void Display::addeffect(Effect e){
 	effects.push_back(e);
 }
 void Display::deleffect(Effect de){
+	PA_OutputText(MAIN_SCREEN, 0, 0, "effect deleted");
 	vector<Effect> temp;
 	for(int n = 0; n < (int)effects.size(); n++) {
 		Effect e = effects[n];
