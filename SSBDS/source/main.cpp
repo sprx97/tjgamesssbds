@@ -795,7 +795,6 @@ void displayResults() {
 //				delete players[n];
 //			} // deletes the sprites of all players
 			players.clear(); // clears players vector
-			PA_FatFreeSprBuffers(); // frees sprite loading space
 			for(int n = 0; n < 16; n++) AS_SoundStop(n);
 			// stop sounds
 			scrollx = 0;
@@ -1248,6 +1247,9 @@ void initMainMenu() {
 #endif
 	PA_ResetSpriteSysScreen(MAIN_SCREEN);
 	PA_ResetBgSysScreen(MAIN_SCREEN);
+
+	PA_InitText(MAIN_SCREEN, 0);
+	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);
 
 	fadeIn();
 }

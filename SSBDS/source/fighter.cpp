@@ -82,12 +82,12 @@ void Fighter::initSprite() {
 	PA_CreateSprite(MAIN_SCREEN, 30+(SPRITENUM-100), (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 14-(SPRITENUM-100), -64, -64);
 	PA_SetSpriteRotEnable(MAIN_SCREEN, 30+(SPRITENUM-100), SPRITENUM-100);
 }
-void Fighter::deleteSprite() {
-	allatkbox.clear();
-	alldefbox.clear();
-	PA_FatFreeSprite(MYCHAR);
-	PA_DeleteSprite(MAIN_SCREEN, SPRITENUM);
-}
+//void Fighter::deleteSprite() {
+//	allatkbox.clear();
+//	alldefbox.clear();
+//	PA_FatFreeSprite(MYCHAR);
+//	PA_DeleteSprite(MAIN_SCREEN, SPRITENUM);
+//}
 void Fighter::actCPU() {
 	int Cenemy = 0;
 	double Cdistance = 10000000;

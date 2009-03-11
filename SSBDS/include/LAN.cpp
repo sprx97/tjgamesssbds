@@ -20,8 +20,9 @@ void customVBL(void) {
 
 void receive(unsigned char *data, int length, LPLOBBY_USER from) {
 	if(playernumber == 1) {
-		PA_SetSpriteXY(MAIN_SCREEN, players[0] -> SPRITENUM, (int)data[0], (int)data[1]);
-		PA_SetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM, (int)data[2]);
+		PA_OutputText(MAIN_SCREEN, 0, 0, "%d %d %d", data[0], data[1], data[2]);
+//		PA_SetSpriteXY(MAIN_SCREEN, players[0] -> SPRITENUM, data[0], data[1]);
+//		PA_SetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM, data[2]);
 	}
 }
 
@@ -62,12 +63,13 @@ void LAN() {
 		PA_WaitForVBL();
 	}
 	
-	int max = LOBBY_GetNumberOfKnownUsers();
+	int max = LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF)));
 	PA_OutputText(MAIN_SCREEN, 1, 3, "                                         ");
 	PA_OutputText(MAIN_SCREEN, 1, 4, "                                         ");
 	PA_OutputText(MAIN_SCREEN, 1, 3, "Waiting for connection");
-	while(max < 1) {
-		max = LOBBY_GetNumberOfKnownUsers();
+	while(max < 2) {
+		max = LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF)));
+		PA_OutputText(MAIN_SCREEN, 1, 4, "%d", max);
 		PA_WaitForVBL();
 	}
 	
@@ -76,14 +78,17 @@ void LAN() {
 	PA_InitText(MAIN_SCREEN, 1); // inits text on the main screen (displays time)
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
 
+	PA_OutputText(MAIN_SCREEN, 1, 3, "                                         ");
+	PA_OutputText(MAIN_SCREEN, 1, 4, "                                         ");
+
 	while(true) {
 		if(playernumber == 0) {
 			players[0] -> act();
-			dat[0] = (char)(players[0] -> x);
-			dat[1] = (char)(players[0] -> y);
+			dat[0] = (int)(players[0] -> x);
+			dat[1] = (int)(players[0] -> y);
 			dat[2] = PA_GetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM);
 			LOBBY_SendToUser(LOBBY_GetUserByID(0), 0x0001, (unsigned char *)dat, 10);
-		}		
+		}
 		scrollScreen();
 		PA_WaitForVBL();
 	}
