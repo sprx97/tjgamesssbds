@@ -1,17 +1,20 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#include <vector>
+
 #define MAIN_SCREEN 1 // top screen
 #define SUB_SCREEN 0 // bottom screen
 #define COLOR256 1 // 256 color mode
 
-static const int FX_NONE = -1, FX_WEAKERHIT = 0, FX_WEAKHIT = 1, FX_STRONGHIT = 2, FX_AIRJUMP = 3, FX_DEATH = 4;
 
-int BUTTON_NONE = -1, BUTTON_A = 0, BUTTON_B = 1, BUTTON_AB = 2, BUTTON_X = 3, BUTTON_Y = 4, BUTTON_L = 5, BUTTON_R = 6; 
+extern const int FX_NONE, FX_WEAKERHIT, FX_WEAKHIT, FX_STRONGHIT, FX_AIRJUMP, FX_DEATH;
+
+extern int BUTTON_NONE, BUTTON_A, BUTTON_B, BUTTON_AB, BUTTON_X, BUTTON_Y, BUTTON_L, BUTTON_R; 
 // actions (for custom controls)
-int PAD_HELD = 0, PAD_NEWPRESS = 1, PAD_RELEASED = 2; // Press types (for custom controls)
+extern int PAD_HELD, PAD_NEWPRESS, PAD_RELEASED; // Press types (for custom controls)
 // buttons (for custom controls)
-int ACTION_BASIC = 0, ACTION_SPECIAL = 1, ACTION_SMASH = 2, ACTION_JUMP = 3, ACTION_JUMP2 = 4, ACTION_SHIELD = 5, ACTION_SHIELD2 = 6, ACTION_GRAB = 7;
+extern int ACTION_BASIC, ACTION_SPECIAL, ACTION_SMASH, ACTION_JUMP, ACTION_JUMP2, ACTION_SHIELD, ACTION_SHIELD2, ACTION_GRAB;
 
 bool custom_action(int action, int typecheck); //defined in main.cpp. maps custom controls
 #include <map> // maps
@@ -19,5 +22,6 @@ std::map<int , int> getcustomcontrols();
 bool getTapJumpOn();
 bool getCStickStylus();
 bool getShieldGrabOn();
+void* getProj();//FIXME: Hack
 
 #endif

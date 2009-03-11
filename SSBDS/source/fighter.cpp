@@ -13,7 +13,7 @@
 #include <math.h>
 #include <map> // maps
 #ifndef shield_Pal
-#include "gfx/all_gfx.c" //may want to reduce this later
+#include "gfx/all_gfx.h" //may want to reduce this later
 #endif
 #ifndef shieldbreaker
 #include "gfx/all_sounds.c" // all sound effects (just small ones, not MP3s)

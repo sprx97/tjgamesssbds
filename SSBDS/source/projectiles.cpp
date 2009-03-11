@@ -1,8 +1,10 @@
 #include "projectiles.h"
 #include "global.h"
+#include "display.h"
 
 // shortcuts for projectiles
-Projectile::Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage mine) {
+Projectile::Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage mine, Display *d) {
+	display=d;
 	mystage = mine;
 	num = 50+ob;
 	owner = ob;
@@ -16,7 +18,7 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 	length = l;
 	time = 0;
 	hit = h;
-	PA_SetSpriteXY(MAIN_SCREEN, num, x-scrollx, y-scrolly);
+	PA_SetSpriteXY(MAIN_SCREEN, num, x-display->scrollx, y-display->scrolly);
 	if(TYPE == SHADOWBALL_SMALL) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 0, 3, 20, ANIM_LOOP, -1);
 	}
@@ -44,20 +46,22 @@ void Projectile::act() {
 	y += dy;
 	if(y > maxy) dy*=-1;
 	if(y < miny) dy*=-1;
-	PA_SetSpriteXY(MAIN_SCREEN, num, x-scrollx, y-scrolly);
-	if(x+64-scrollx < 0 || x-scrollx > 256 || y+64-scrolly < 0 || y-scrolly > 192) PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
+	PA_SetSpriteXY(MAIN_SCREEN, num, x-display->scrollx, y-display->scrolly);
+	if(x+64-display->scrollx < 0 || x-display->scrollx > 256 || y+64-display->scrolly < 0 || y-display->scrolly > 192) PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
 	time++;
 	if(time > length) removeSelf();
 }
 void Projectile::removeSelf() {
+	vector<Projectile> current;
+	current = *((vector<Projectile>*)getProj());
 	vector<Projectile> temp;
-	for(int n = 0; n < projectiles.size(); n++) {
-		Projectile p = projectiles[n];
+	for(int n = 0; n < current.size(); n++) {
+		Projectile p = current[n];
 		if(p.x != x || p.y != y) {
 			temp.push_back(p);
 		}
 	}
-	projectiles = temp;
+	current = temp;
 	PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
 }
 Fighter* Projectile::checkHits(Fighter* other) {

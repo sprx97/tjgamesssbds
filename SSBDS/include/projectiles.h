@@ -12,6 +12,7 @@ static const int SHADOWBALL_SMALL = 0, SHADOWBALL_MEDIUM = 1, SHADOWBALL_LARGE =
 // shortcuts for projectiles
 class Projectile {
 	public:
+		Display* display;
 		double x, y, dx, dy;
 		double maxy, miny; // for bouncing
 		Hitbox hit;
@@ -21,7 +22,7 @@ class Projectile {
 		int num;
 		int owner;
 		Stage mystage;
-		Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage mine);
+		Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage mine, Display *d);
 		void act();
 		void removeSelf();
 		Fighter* checkHits(Fighter* other);

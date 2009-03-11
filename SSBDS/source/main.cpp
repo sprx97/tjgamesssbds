@@ -98,6 +98,9 @@ bool getCStickStylus(){
 bool getShieldGrabOn(){
 	return shieldgrabon;
 }
+void* getProj(){
+	return &projectiles;
+}
 bool custom_action(int action, int typecheck) {
 	if(customcontrols[action] == BUTTON_A) {
 		if(typecheck == PAD_HELD) {
