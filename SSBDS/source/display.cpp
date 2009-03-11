@@ -25,8 +25,8 @@ void Display::deleffect(Effect de){
 	} // keeps the effect
 	effects=temp;
 }
-vector<Effect> Display::getEffects(){
-	return effects;
+vector<Effect>* Display::getEffects(){
+	return &effects;
 }
 void Display::updateEffects(){
 	PA_OutputText(MAIN_SCREEN, 0, 10, "number of effects in display: "+effects.size());

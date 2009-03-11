@@ -64,7 +64,7 @@ class Projectile;
 vector<Projectile> projectiles;
 // stores all projectiles
 
-#define effects display.getEffects()
+#define effects (*display.getEffects())
 
 #include "display.h"
 Display display = Display();
