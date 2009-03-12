@@ -978,7 +978,7 @@ void Fighter::doubleJump() {
 	aerial = true;
 	setDirection();
 	if(effectwait <= 0) {
-		effects.push_back(Effect(x, y+32, FX_AIRJUMP, charnum, display->scrollx, display->scrolly));
+		display -> addeffect(Effect(x, y+32, FX_AIRJUMP, charnum, display->scrollx, display->scrolly));
 		effectwait = 15;
 	}
 	playsound(DOUBLEJUMP);
@@ -1153,19 +1153,19 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 		if(other.fx == FX_NONE) {		
 			if(other.damage + (int)((charge/225) * (.5*other.damage)) <= 6/3) {
 				AS_SoundQuickPlay(hit1);
-				effects.push_back(Effect(x, y, FX_WEAKERHIT, charnum, display->scrollx, display->scrolly));
+				display -> addeffect(Effect(x, y, FX_WEAKERHIT, charnum, display->scrollx, display->scrolly));
 			}
 			else if(other.damage + (int)((charge/225) * (.5*other.damage)) > 6/3 && other.damage + (int)((charge/225) * (.5*other.damage)) <= 12/3) {
 				AS_SoundQuickPlay(hit2);
-				effects.push_back(Effect(x, y, FX_WEAKHIT, charnum, display->scrollx, display->scrolly));
+				display -> addeffect(Effect(x, y, FX_WEAKHIT, charnum, display->scrollx, display->scrolly));
 			}
 			else {
 				AS_SoundQuickPlay(hit3);
-				effects.push_back(Effect(x, y, FX_STRONGHIT, charnum, display->scrollx, display->scrolly));
+				display -> addeffect(Effect(x, y, FX_STRONGHIT, charnum, display->scrollx, display->scrolly));
 			}
 		}
 		else {
-			effects.push_back(Effect(x, y, other.fx, charnum, display->scrollx, display->scrolly));
+			display -> addeffect(Effect(x, y, other.fx, charnum, display->scrollx, display->scrolly));
 			// play sound based on effect
 		}
 		effectwait = 15;
@@ -1359,7 +1359,7 @@ bool Fighter::checkForDeath() {
 			deathx = (int)x;
 			deathy = 0+(int)display->scrolly-10;
 		} // died off top
-		effects.push_back(Effect(deathx, deathy, FX_DEATH, charnum, display->scrollx, display->scrolly));
+		display -> addeffect(Effect(deathx, deathy, FX_DEATH, charnum, display->scrollx, display->scrolly));
 		AS_SoundQuickPlay(deathsound);
 		return true;
 	}

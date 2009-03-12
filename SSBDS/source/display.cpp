@@ -15,7 +15,6 @@ void Display::addeffect(Effect e){
 	effects.push_back(e);
 }
 void Display::deleffect(Effect de){
-	PA_OutputText(MAIN_SCREEN, 0, 0, "effect deleted");
 	vector<Effect> temp;
 	for(int n = 0; n < (int)effects.size(); n++) {
 		Effect e = effects[n];
@@ -29,7 +28,6 @@ vector<Effect>* Display::getEffects(){
 	return &effects;
 }
 void Display::updateEffects(){
-	PA_OutputText(MAIN_SCREEN, 0, 10, "number of effects in display: %d", effects.size());
 	for(int k = 0; k < (int)effects.size();k++){
 		if (effects[k].act()){
 			deleffect(effects[k]);
