@@ -559,4 +559,10 @@ class Kirby: public Fighter {
 			if(frame == 82 && direction == "right") x += 8;
 			if(frame == 82 && direction == "left") x -= 8;
 		}
+		~Kirby() {
+			allatkbox.clear();
+			alldefbox.clear();
+			PA_DeleteSprite(MAIN_SCREEN, SPRITENUM);
+			PA_FatFreeSprite(MYCHAR);
+		}
 };

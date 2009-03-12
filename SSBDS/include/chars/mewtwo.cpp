@@ -476,4 +476,10 @@ class Mewtwo: public Fighter {
 			}
 		}
 		void jaywalk() {}
+		~Mewtwo() {
+			allatkbox.clear();
+			alldefbox.clear();
+			PA_DeleteSprite(MAIN_SCREEN, SPRITENUM);
+			PA_FatFreeSprite(MYCHAR);		
+		}
 };

@@ -489,4 +489,10 @@ class Mario: public Fighter {
 			}
 		}
 		void jaywalk() {}
+		~Mario() {
+			allatkbox.clear();
+			alldefbox.clear();
+			PA_DeleteSprite(MAIN_SCREEN, SPRITENUM);
+			PA_FatFreeSprite(MYCHAR);		
+		}
 };

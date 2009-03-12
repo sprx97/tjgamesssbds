@@ -500,4 +500,10 @@ class Ike: public Fighter {
 			}
 		}
 		void jaywalk() {}
+		~Ike() {
+			allatkbox.clear();
+			alldefbox.clear();
+			PA_DeleteSprite(MAIN_SCREEN, SPRITENUM);
+			PA_FatFreeSprite(MYCHAR);		
+		}
 };
