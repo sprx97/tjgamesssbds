@@ -24,13 +24,9 @@
 #include <stdlib.h> // standard C functions
 #include <map> // maps
 
-#ifndef shield_Pal //FIXME: handle this better
 #include "gfx/all_gfx.c" // all image files
-#endif
 
-#ifndef shieldbreak //FIXME: handle this better
 #include "gfx/all_sounds.c" // all sound effects (just small ones, not MP3s)
-#endif
 
 using namespace std; // standard naming of variables
 
