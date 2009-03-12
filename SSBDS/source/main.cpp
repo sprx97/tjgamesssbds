@@ -794,6 +794,7 @@ void displayResults() {
 //				players[n] -> deleteSprite();
 //				delete players[n];
 //			} // deletes the sprites of all players
+			PA_FatFreeSprBuffers();
 			players.clear(); // clears players vector
 			for(int n = 0; n < 16; n++) AS_SoundStop(n);
 			// stop sounds
