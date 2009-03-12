@@ -187,7 +187,8 @@ bool custom_action(int action, int typecheck) {
 	return false;
 } // takes action and checks if it is done by custom controls, uncoded
 //#import "stage.cpp" // Info about the stage and the stage superclass
-#import "stages.cpp" // individual stages
+//#import "stages.cpp" // individual stages
+#include "stages.h"
 //#import "fighter.cpp" // fighter superclass
 #include "projectiles.h" // projectiles
 #import "fighters.cpp" // individual characters
