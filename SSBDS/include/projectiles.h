@@ -21,8 +21,8 @@ class Projectile {
 		int TYPE;
 		int num;
 		int owner;
-		Stage mystage;
-		Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage mine, Display *d);
+		Stage* mystage;
+		Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage* mine, Display *d);
 		void act();
 		void removeSelf();
 		Fighter* checkHits(Fighter* other);

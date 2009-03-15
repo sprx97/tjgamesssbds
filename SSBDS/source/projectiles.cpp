@@ -3,7 +3,7 @@
 #include "display.h"
 
 // shortcuts for projectiles
-Projectile::Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage mine, Display *d) {
+Projectile::Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage* mine, Display *d) {
 	display=d;
 	mystage = mine;
 	num = 50+ob;

@@ -302,7 +302,7 @@ void Ike::bup() {
 		if(direction == "right") directionmodifier = -1;
 		Hitbox tempbox;
 		tempbox.addCircle(Circle(32, 32, 15, Knockback(0, 0, 2), 9));
-		Projectile p = Projectile(x, y, -.1*directionmodifier, -4, 30, IKESWORD, charnum, tempbox, stage, display);
+		Projectile p = Projectile(x, y, -.1*directionmodifier, -4, 30, IKESWORD, charnum, tempbox, &stage, display);
 		p.miny = y - 120;
 		p.maxy = y;
 		((vector<Projectile>*)getProj())->push_back(p);

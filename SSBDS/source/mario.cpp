@@ -311,7 +311,7 @@ void Mario::bdown() {
 		if(direction == "right") directionmodifier = -1;
 		Hitbox tempbox;
 		tempbox.addCircle(createAtkbox(58, 32, 5, Knockback((-1*directionmodifier), -.5, 6), 60));
-		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-16, -5*directionmodifier, 0, 2*fluddcharge, FLUDDWATER, charnum, tempbox, stage, display));
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-16, -5*directionmodifier, 0, 2*fluddcharge, FLUDDWATER, charnum, tempbox, &stage, display));
 		fluddcharge = 0;
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 150) {
@@ -347,7 +347,7 @@ void Mario::bneut() {
 		if(direction == "right") directionmodifier = -1;
 		Hitbox tempbox;
 		tempbox.addCircle(createAtkbox(32, 32, 6, Knockback(-.25*directionmodifier, 0, 6), 10));
-		Projectile p = Projectile(x, y, -3*directionmodifier, 1.5, 90, FIREBALL, charnum, tempbox, stage, display);
+		Projectile p = Projectile(x, y, -3*directionmodifier, 1.5, 90, FIREBALL, charnum, tempbox, &stage, display);
 		p.miny = stage.getFloors()[0].y-32;
 		p.maxy = y;
 		((vector<Projectile>*)getProj())->push_back(p);

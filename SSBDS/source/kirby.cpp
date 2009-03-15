@@ -302,7 +302,7 @@ void Kirby::bup() {
 				tempbox.addCircle(createAtkbox(36, 805%64, 22, Knockback((-1*directionmodifier), -.5, 8), 24));
 				tempbox.addCircle(createAtkbox(30, 794%63, 22, Knockback((-1*directionmodifier), -.5, 8), 24));
 				tempbox.addCircle(createAtkbox(47, 812%64, 10, Knockback((-1*directionmodifier), -.5, 8), 24));
-				((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -5*directionmodifier, 0, 20, FINALCUTTER, charnum, tempbox, stage, display));
+				((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -5*directionmodifier, 0, 20, FINALCUTTER, charnum, tempbox, &stage, display));
 			}
 		}
 	}
