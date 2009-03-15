@@ -9,13 +9,15 @@
 // made for profit, just for fun.
 
 #define DEBUG_ON // turns on printing of information to screen
-
 //#define SLOPEDSTAGES_ON // Castle Seige and Corneria
 #define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
 //#define MP3_ON
 // turns certain features on and off
 
+//PALib:
 #include <PA9.h> // DS functions that we use come from here
+
+//C++ Library Functions:
 #include <math.h> // math!
 #include <vector> // vectors!
 #include <string> // strings!
@@ -24,15 +26,20 @@
 #include <stdlib.h> // standard C functions
 #include <map> // maps
 
+//Data Files:
 #include "gfx/all_gfx.c" // all image files
-
 #include "gfx/all_sounds.c" // all sound effects (just small ones, not MP3s)
 
-using namespace std; // standard naming of variables
+//Allow us to skip us to skip the std:: prefix on tandard types
+using namespace std;
+//FIXME: should probably only use individual things, the above is considered bad practice
+//example:
+using std::vector;
 
 __attribute__((__deprecated__))
 const double PI=3.1415926; // DEPRECATED: use M_PI (from math.h) instead
 
+//Project classes:
 #include "global.h"
 #include "effect.h"
 #include "stages.h"
@@ -42,6 +49,7 @@ const double PI=3.1415926; // DEPRECATED: use M_PI (from math.h) instead
 #include "display.h"
 #include "scoreboard.h"
 
+//Global variables and definitions for what they mean:
 #define CAMERATYPE_FOLLOWUSER 0
 #define CAMERATYPE_FOLLOWALL 1
 int cameratype = CAMERATYPE_FOLLOWUSER;
@@ -70,13 +78,15 @@ Display display = Display();
 #define scrolly display.scrolly
 #define score (*display.score)
 
-// how far the screen is scrolled (for stages)
-
 map<int, int> customcontrols; // custom control mapping
 bool shieldgrabon; // use a while shielding to grab
 bool tapjumpon; // use up dpad to jump
 bool cstickstylus; // smashes and aerials with stylus
 
+//wrapper methods to get global variables from other classes
+//FIXME: these should probably exist somewhere other than main if they need
+//to be accessible to lots of other classes. maybe a customcontrols class or
+//global or something.
 map<int , int> getcustomcontrols(){
 	return customcontrols;
 }
@@ -178,6 +188,8 @@ bool custom_action(int action, int typecheck) {
 	return false;
 } // takes action and checks if it is done by custom controls
 
+//Graphics functions.:
+//FIXME: Should these move to display?
 void printMemoryUsage() {
 #ifdef DEBUG_ON
 	PA_OutputText(MAIN_SCREEN, 0, 5, "                                                  ");
@@ -242,11 +254,12 @@ void openGif(int screen, string path) {
 #import "minimap.cpp" // minimap for during battles
 
 __attribute__((__deprecated__))
-string stagename; // the name of the current stage
+string stagename; // the name of the current stage.
+//This is deprecated because using a string is excessive for transmiting stage names
 
 int selectedStage = -1; //the stage currently selected
 
-__attribute__((__deprecated__)) //use method that accepts an int instead
+__attribute__((__deprecated__))
 Stage setStage(string name) {
 	//WARNING: this method is deprecated and is not/should not be called
 	//changes made here will not take effect unless you are calling this
@@ -282,6 +295,8 @@ Stage setStage(string name) {
 	} // sets the stage of the players to the picked stage
 	return picked; // returns the picked stage
 } // displays the stage on the main screen
+
+//The REAL way to set up a stage:
 Stage setStage(int selStage) {
 	PA_ResetBgSysScreen(MAIN_SCREEN); // resets bg on the main screen
 	Stage picked; // the stage which is chosen
@@ -313,6 +328,8 @@ Stage setStage(int selStage) {
 	} // sets the stage of the players to the picked stage
 	return picked; // returns the picked stage
 } // displays the stage on the main screen
+
+//Set up sprite stuff:
 void initFX() {
 	PA_LoadSpritePal(MAIN_SCREEN, 15, (void*)specialFX_Pal);
 	for(int n = 5; n < 25; n++) {
@@ -326,6 +343,8 @@ void initProjectiles() {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)projectilesprites, OBJ_SIZE_64X64, COLOR256, 14, -64, -64);
 	} // loads all projectile sprites
 } // initializes projectiles
+
+//Controls saving and loading:
 void initControls() {
 	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "rb");
 	if(file) {
@@ -388,6 +407,7 @@ void saveControls() {
 	fclose(file);
 } // saves default control setup
 
+//Menu screens:
 // selecting char/stage
 void stageSelect() {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/blank.gif"); // blank background
@@ -603,7 +623,7 @@ void characterSelect() {
 	}
 }
 
-// in-game functions
+// In-game functions:
 void Pause() {
 	for(int n = 0; n < (int)players.size(); n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, players[n] -> SPRITENUM, 1);
@@ -842,7 +862,7 @@ void gameOver() {
 	return displayResults();
 }
 
-// game modes
+// Game modes/logic
 void match(int param) {
 	int time=0;
 	int stock=0;
@@ -930,6 +950,8 @@ void match(int param) {
 void trainingMode() {
 
 } // training mode
+
+//More menu screens:
 void controlOptions() {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menubg.gif");
 	
@@ -1254,11 +1276,12 @@ void extras() {
 
 #import "LAN.cpp"
 
+//randomly placed helper method:
 double distance(int x1, int y1, int x2, int y2) {
 	return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 }
 
-// pre-game menus
+// (Even more) pre-game menus
 void initMainMenu() {
 	PA_Init8bitBg(SUB_SCREEN, 3);
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
@@ -1376,6 +1399,7 @@ void titleScreen() {
 	}
 }
 
+//Set-up for Palib and gets the system rolling:
 int main(int argc, char ** argv) {
 	PA_Init();    // Initializes PA_Lib 
 	PA_InitVBL(); // Initializes a standard VBlank (FPS handler)
