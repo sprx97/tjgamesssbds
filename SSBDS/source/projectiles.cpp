@@ -51,18 +51,20 @@ void Projectile::act() {
 	time++;
 	if(time > length) removeSelf();
 }
+__attribute__((__deprecated__))
 void Projectile::removeSelf() {
-	vector<Projectile> current;
-	current = *((vector<Projectile>*)getProj());
-	vector<Projectile> temp;
-	for(int n = 0; n < (int)current.size(); n++) {
-		Projectile p = current[n];
-		if(p.x != x || p.y != y) {
-			temp.push_back(p);
-		}
-	}
-	current = temp;
-	PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
+	removeProj(this);
+//	vector<Projectile>* current;
+//	current = ((vector<Projectile>*)getProj());
+//	vector<Projectile> temp;
+//	for(int n = 0; n < (int)current->size(); n++) {
+//		Projectile p = (*current)[n];
+//		if(p.x != x || p.y != y) {
+//			temp.push_back(p);
+//		}
+//	}
+//	current = temp;
+//	PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
 }
 Fighter* Projectile::checkHits(Fighter* other) {
 	Hitbox temp = hit; 

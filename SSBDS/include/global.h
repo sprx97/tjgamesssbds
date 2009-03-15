@@ -25,5 +25,6 @@ bool getTapJumpOn();
 bool getCStickStylus();
 bool getShieldGrabOn();
 void* getProj();//FIXME: Hack
+void removeProj(void* projectile);
 
 #endif

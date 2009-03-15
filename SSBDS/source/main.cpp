@@ -102,6 +102,19 @@ bool getShieldGrabOn(){
 void* getProj(){
 	return &projectiles;
 }
+void removeProj(void* pr) {
+	Projectile* proj = (Projectile*)pr;
+	vector<Projectile> temp;
+	for(int n = 0; n < (int)projectiles.size(); n++) {
+		Projectile p = projectiles[n];
+		if(p.x != proj->x || p.y != proj->y) {
+			temp.push_back(p);
+		}
+	}
+	projectiles = temp;
+	PA_SetSpriteXY(MAIN_SCREEN, proj->num, -64, -64);
+	delete proj;
+}
 bool custom_action(int action, int typecheck) {
 	if(customcontrols[action] == BUTTON_A) {
 		if(typecheck == PAD_HELD) {
