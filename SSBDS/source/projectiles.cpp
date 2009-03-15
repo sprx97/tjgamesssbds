@@ -18,7 +18,7 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 	length = l;
 	time = 0;
 	hit = h;
-	PA_SetSpriteXY(MAIN_SCREEN, num, x-display->scrollx, y-display->scrolly);
+	PA_SetSpriteXY(MAIN_SCREEN, num, (int)(x-display->scrollx), (int)(y-display->scrolly));
 	if(TYPE == SHADOWBALL_SMALL) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 0, 3, 20, ANIM_LOOP, -1);
 	}
@@ -46,7 +46,7 @@ void Projectile::act() {
 	y += dy;
 	if(y > maxy) dy*=-1;
 	if(y < miny) dy*=-1;
-	PA_SetSpriteXY(MAIN_SCREEN, num, x-display->scrollx, y-display->scrolly);
+	PA_SetSpriteXY(MAIN_SCREEN, num, (int)(x-display->scrollx), (int)(y-display->scrolly));
 	if(x+64-display->scrollx < 0 || x-display->scrollx > 256 || y+64-display->scrolly < 0 || y-display->scrolly > 192) PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
 	time++;
 	if(time > length) removeSelf();
@@ -55,7 +55,7 @@ void Projectile::removeSelf() {
 	vector<Projectile> current;
 	current = *((vector<Projectile>*)getProj());
 	vector<Projectile> temp;
-	for(int n = 0; n < current.size(); n++) {
+	for(int n = 0; n < (int)current.size(); n++) {
 		Projectile p = current[n];
 		if(p.x != x || p.y != y) {
 			temp.push_back(p);
@@ -81,7 +81,7 @@ Fighter* Projectile::checkHits(Fighter* other) {
 			owner = other->charnum;
 			vector<Circle> temp = hit.getCircles();
 			hit.reset();
-			for(int n = 0; n < temp.size(); n++) {
+			for(int n = 0; n < (int)temp.size(); n++) {
 				hit.addCircle(Circle(temp[n].getX(), temp[n].getY(), temp[n].getRadius(), Knockback(temp[n].getKnockback().dx * -1, temp[n].getKnockback().dy, temp[n].getKnockback().length), temp[n].damage));
 			}
 			if(dx > 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 0);
