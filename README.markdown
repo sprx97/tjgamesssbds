@@ -14,12 +14,14 @@ NOTE: Just in case anyone actually reads this, you can safely ignore the above m
 Directions
 ----------
 
-1. Go to www.palib.info and download/install the latest version of PAlib. This is a pain, but necessary
-2. read up and learn as much about PAlib as you can. Otherwise this whole project will be completely over your head; it's different that most CS projects
+1. Go to [the PALib website][main] and download/install the latest version of PAlib. This is a pain, but necessary
+2. read up and learn as much about PAlib as you can. Otherwise this whole project will be completely over your head; it's different from most CS projects
 	- [main page][main] for PAlib
 	- [PAlib fourm][forum]
 	- PAlib [function documentation][docs]
-	- PAlib [wiki/tutorial][tutorial]. Very outdated, but useful nevertheless.
+	- PAlib [wiki/tutorial][tutorial]. 
+		- Very outdated, but useful nevertheless.
+		- Has instructions to help you install PALib
 
 [main]:     http://forum.palib.info/ "PALib Main Page" 
 [forum]:    http://forum.palib.info/index.php?action=forum "PALib Forum"
