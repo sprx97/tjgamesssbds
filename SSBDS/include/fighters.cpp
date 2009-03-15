@@ -1,5 +1,5 @@
 
-#import "chars/kirby.cpp"
+#import "kirby.h"
 #import "chars/mewtwo.cpp"
 //#import "chars/mario.cpp"
 #include "mario.h"
