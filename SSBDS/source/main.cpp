@@ -1085,6 +1085,8 @@ void cameraOptions() {
 } // edit camera options
 void gameOptions() {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menubg.gif");
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	//put main menu on top screen while in a submenu
 	
 #ifdef MP3_ON
 	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
@@ -1261,6 +1263,8 @@ void initMainMenu() {
 	PA_Init8bitBg(SUB_SCREEN, 3);
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/title.gif");
+	//put title screen on top screen when at main menu.
 
 #ifdef MP3_ON
 	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
