@@ -187,7 +187,7 @@ bool custom_action(int action, int typecheck) {
 #include "stages.h"
 //#import "fighter.cpp" // fighter superclass
 #include "projectiles.h" // projectiles
-#import "fighters.cpp" // individual characters
+#include "fighters.h" // individual characters
 
 void printMemoryUsage() {
 #ifdef DEBUG_ON
