@@ -18,6 +18,41 @@
 using std::vector;
 using std::string;
 
+Fighter::Fighter(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI){
+	display=disp;
+	players=listplayers;
+	shieldstr = 64;
+	myledge = -1;
+	acceleration = 0;
+	x = xpos;
+	y = ypos;
+	hangtime = 0;
+	ledgewait = 0;
+	CAPE = false;
+	COUNTER = false;
+	effectwait = 0;
+	chargecount = 0;
+	isCPU = AI;
+	lasthitby = -1;
+	SPRITENUM = num + 100;
+	charnum = players.size();
+	startx = x;
+	starty = y;
+	action = FALL;
+	aerial = true;
+	delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
+	dx = dy = fastfall = DI = 0.0;
+	percentage = 0;
+	ymomentum = 0.0;
+	momentumtime = 0;
+	grabtimeleft = 0;
+	initAtkbox();
+	initDefbox();
+	initFrames();
+	initSprite();
+	if(x > stage->width/2) setDirection("right");
+	else setDirection("left");
+} // initializes all of the variables
 // virtual methods
 void Fighter::initDefbox() {
 	for(int n = 0; n < 250; n++) {
@@ -79,6 +114,7 @@ void Fighter::initSprite() {
 	PA_CreateSprite(MAIN_SCREEN, 30+(SPRITENUM-100), (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 14-(SPRITENUM-100), -64, -64);
 	PA_SetSpriteRotEnable(MAIN_SCREEN, 30+(SPRITENUM-100), SPRITENUM-100);
 }
+void Fighter::initFrames(){}//implemented in subclasses
 void Fighter::actCPU() {
 	int Cenemy = 0;
 	double Cdistance = 10000000;

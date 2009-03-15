@@ -7,52 +7,21 @@
 #include "gfx/all_sounds.c"
 using std::vector;
 
-Kirby::Kirby(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) {
-	display=disp;
-	players=listplayers;
+//constructor
+Kirby::Kirby(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,AI) {
 	shieldstr = 64;
-	myledge = -1;
-	acceleration = 0;
 	runspeed = 3.5;
-	x = xpos;
-	y = ypos;
-	hangtime = 0;
-	ledgewait = 0;
 	handx = 24;
 	handy = 18;
-	CAPE = false;
-	COUNTER = false;
-	effectwait = 0;
 	MYCHAR = KIRBY;
-	chargecount = 0;
-	isCPU = AI;
-	lasthitby = -1;
 	topside = 22;
 	bottomside = 44;
 	rightside = 41;
 	leftside = 21;
 	rockcount = 0;
-	SPRITENUM = num + 100;
 	gravity = 3;
 	jumpmax = 6;
-	charnum = players.size();
-	startx = x;
-	starty = y;
-	action = FALL;
-	aerial = true;
-	delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
-	dx = dy = fastfall = DI = 0.0;
-	percentage = 0;
-	ymomentum = 0.0;
-	momentumtime = 0;
-	grabtimeleft = 0;
 	name = "kirby";
-	initAtkbox();
-	initDefbox();
-	initSprite();
-	initFrames();
-	if(x > stage->width/2) setDirection("right");
-	else setDirection("left");
 } // initializes all of the variables
 // initializers
 void Kirby::initFrames() {

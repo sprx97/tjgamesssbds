@@ -18,6 +18,8 @@ static const int ATTACK = -1, AIRATTACK = -2, AIRLAG = -3, TILTLAG = -4, RELEASE
 // shortcuts for actions
 class Fighter {
 	public:
+		//constructor
+		Fighter(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI = false);
 	// variables
 		double shieldstr;
 		int myledge;
@@ -81,6 +83,7 @@ class Fighter {
 		virtual void dthrow();
 		virtual void bthrow();
 		virtual void fthrow();
+		virtual void initFrames();
 		void release(string dir);
 		void released(string dir);
 		void grabbed(int otherx, int othery);

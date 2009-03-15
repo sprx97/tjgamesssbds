@@ -8,53 +8,23 @@
 using std::vector;
 
 // constructor
-Ike::Ike(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) {
-	display=disp;
-	players=listplayers;
+Ike::Ike(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,AI) {
 	shieldstr = 64;
-	myledge = -1;
-	acceleration = 0;
 	runspeed = 2.75;
-	x = xpos;
-	y = ypos;
-	hangtime = 0;
-	ledgewait = 0;
 	handx = 14;
 	handy = 8;
 	eruptioncharge = 0;
 	quickdrawcharge = 0;
 	CAPE = false;
 	COUNTER = false;
-	effectwait = 0;
 	MYCHAR = IKE;
-	chargecount = 0;
-	isCPU = AI;
-	lasthitby = -1;
 	topside = 15;
 	bottomside = 47;
 	rightside = 37;
 	leftside = 13;
-	SPRITENUM = num + 100;
 	gravity = 3;
 	jumpmax = 2;
-	charnum = players.size();
-	startx = x;
-	starty = y;
-	action = FALL;
-	aerial = true;
-	delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
-	dx = dy = fastfall = DI = 0.0;
-	percentage = 0;
-	ymomentum = 0.0;
-	momentumtime = 0;
-	grabtimeleft = 0;
 	name = "ike";
-	initAtkbox();
-	initDefbox();
-	initFrames();
-	initSprite();
-	if(x > stage->width/2) setDirection("right");
-	else setDirection("left");
 } // initializes all of the variables
 // initializers
 void Ike::playsound(int sndnum) {
