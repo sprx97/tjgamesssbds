@@ -20,10 +20,10 @@ As for directions:
 	- PAlib [function documentation][docs]
 	- PAlib [wiki/tutorial][tutorial]. Very outdated, but useful nevertheless.
 
-[main]:    http://forum.palib.info/ "PALib Main Page" 
-[forum]:   http://forum.palib.info/index.php?action=forum "PALib Forum"
-[docs]:    http://palib.info/Doc/PAlibDoc%20Eng/modules.html "PALib Function Documentation"
-[tutorial] http://www.palib.info/wiki/doku.php "PALib Tutorial/Wiki"
+[main]:     http://forum.palib.info/ "PALib Main Page" 
+[forum]:    http://forum.palib.info/index.php?action=forum "PALib Forum"
+[docs]:     http://palib.info/Doc/PAlibDoc%20Eng/modules.html "PALib Function Documentation"
+[tutorial]: http://www.palib.info/wiki/doku.php "PALib Tutorial/Wiki"
 
 Now here are what all the important files are/do in this project.
 
