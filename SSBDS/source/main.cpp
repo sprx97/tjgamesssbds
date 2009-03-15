@@ -281,7 +281,7 @@ Stage setStage(string name) {
 	} // loads corneria if it was chosen
 #endif
 	for(int n = 0; n < (int)players.size(); n++) {
-		players[n] -> setStage(picked);
+		players[n] -> setStage(&picked);
 	} // sets the stage of the players to the picked stage
 	return picked; // returns the picked stage
 } // displays the stage on the main screen

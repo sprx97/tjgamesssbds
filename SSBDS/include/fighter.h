@@ -50,7 +50,7 @@ class Fighter {
 		Knockback k;
 		double kx, ky;
 		double percentage;
-		Stage stage;
+		Stage *stage;
 		double ymomentum;
 		int momentumtime;
 		int charnum;
@@ -126,7 +126,7 @@ class Fighter {
 	// Sound playing
 		virtual void playsound(int sndnum);
 	// constant methods
-		void setStage(Stage s);
+		void setStage(Stage *s);
 		int getHitstun();
 		double getDamagePercent();
 		void takeDamage(Circle other, int mult, int hitter, int charge);

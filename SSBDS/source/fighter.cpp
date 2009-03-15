@@ -105,7 +105,7 @@ void Fighter::actCPU() {
 	if(action == BDOWN) bdown();
 	if(action == BNEUT) bneut();
 	if(hitstun > k.length*2) {
-		if(y != stage.getFloors()[0].y ) aerial = true;
+		if(y != stage->getFloors()[0].y ) aerial = true;
 		hitstun--;
 		dx = kx;
 		dy = ky;
@@ -118,7 +118,7 @@ void Fighter::actCPU() {
 		else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 	}
 	else if(hitstun > 0) {
-		if(y != stage.getFloors()[0].y ) aerial = true;
+		if(y != stage->getFloors()[0].y ) aerial = true;
 		hitstun--;
 		if(dx > 0) {
 			dx -= kx/(hitstun/3);
@@ -343,7 +343,7 @@ void Fighter::act() {
 	if(action == CHARGEUP && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashup();
 	if(action == CHARGEDOWN && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashdown();
 	if(hitstun > k.length*2) {
-		if(y != stage.getFloors()[0].y ) aerial = true;
+		if(y != stage->getFloors()[0].y ) aerial = true;
 		hitstun--;
 		dx = kx;
 		dy = ky;
@@ -354,7 +354,7 @@ void Fighter::act() {
 		if(checkFloorCollision()) idle();
 	}
 	else if(hitstun > 0) {
-		if(y != stage.getFloors()[0].y ) aerial = true;
+		if(y != stage->getFloors()[0].y ) aerial = true;
 		hitstun--;
 		if(kx > 0) {
 			kx -= kx/(hitstun/3);
@@ -1128,10 +1128,10 @@ void Fighter::hang() {
 // Sound playing
 void Fighter::playsound(int sndnum) {}
 // constant methods
-void Fighter::setStage(Stage s) { 
+void Fighter::setStage(Stage *s) { 
 	stage = s; 
-	x = stage.spawnx[charnum];
-	y = stage.spawny[charnum];
+	x = stage->spawnx[charnum];
+	y = stage->spawny[charnum];
 	startx = x;
 	starty = y;
 }
@@ -1331,22 +1331,22 @@ void Fighter::directionalInfluence(int dx) {
 	}
 } // acts in the air based on key presses
 bool Fighter::checkForDeath() {
-	if(x > stage.rightdeath || x+64 < stage.leftdeath || y > stage.bottomdeath || y+64 < stage.topdeath) {
+	if(x > stage->rightdeath || x+64 < stage->leftdeath || y > stage->bottomdeath || y+64 < stage->topdeath) {
 		display->score->addDeath(lasthitby, charnum);
 		int deathx = -64, deathy = -64;
-		if(x > stage.rightdeath) {
+		if(x > stage->rightdeath) {
 			deathx = 256-64+(int)display->scrollx+10;
 			deathy = (int)y;
 		} // died off of right side
-		else if(x+64 < stage.leftdeath) {
+		else if(x+64 < stage->leftdeath) {
 			deathx = 0+(int)display->scrollx-10;
 			deathy = (int)y;
 		} // died off of left side
-		else if(y > stage.bottomdeath) {
+		else if(y > stage->bottomdeath) {
 			deathx = (int)x;
 			deathy = 192-64+(int)display->scrolly+10;
 		} // died off of bottom
-		else if(y+64 < stage.topdeath) {
+		else if(y+64 < stage->topdeath) {
 			deathx = (int)x;
 			deathy = 0+(int)display->scrolly-10;
 		} // died off top
@@ -1376,7 +1376,7 @@ bool Fighter::ledgenotinuse(int lnum) {
 	return true;
 }
 bool Fighter::checkLedgeCollision() {
-	vector<Ledge> ledges = stage.getLedges();
+	vector<Ledge> ledges = stage->getLedges();
 	for(int n = 0; n < (int)ledges.size(); n++) {
 		Ledge currledge = ledges[n];
 		if(action != STUN && action != HANG) {
@@ -1411,7 +1411,7 @@ bool Fighter::checkLedgeCollision() {
 	return false;
 }
 bool Fighter::checkFloorCollision() {
-	vector<Floor> floors = stage.getFloors();
+	vector<Floor> floors = stage->getFloors();
 	for(uint8 n = 0; n < floors.size(); n++) {
 		Floor currfloor = floors[n];
 		double rise;
@@ -1445,7 +1445,7 @@ bool Fighter::checkFloorCollision() {
 	return false;
 }
 bool Fighter::checkWallCollision() {
-	vector<Wall> walls = stage.getWalls();
+	vector<Wall> walls = stage->getWalls();
 	for(uint8 n = 0; n < walls.size(); n++) {
 		Wall currwall = walls[n];
 		if(currwall.direction == "left") {
@@ -1466,7 +1466,7 @@ bool Fighter::checkWallCollision() {
 	return false;
 }
 bool Fighter::checkCeilingCollision() {
-	vector<Ceiling> ceilings = stage.getCeilings();
+	vector<Ceiling> ceilings = stage->getCeilings();
 	for(uint8 n = 0; n < ceilings.size(); n++) {
 		Ceiling currceil = ceilings[n];
 		if(y+topside >= currceil.y && y+topside+gravity+fastfall+dy+ymomentum < currceil.y && x+rightside+dx+DI > currceil.x && x+leftside+dx+DI < currceil.x+currceil.length) {
