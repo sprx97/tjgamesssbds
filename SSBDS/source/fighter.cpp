@@ -6,14 +6,12 @@
 #include "stage.h"
 #include "effect.h"
 #include <vector>
-#include <string>
 #include <math.h>
 #include <map> // maps
 #include "gfx/all_gfx.h" //may want to reduce this later
 #include "gfx/all_sounds.c" // all sound effects (just small ones, not MP3s)
 
 using std::vector;
-using std::string;
 
 Fighter::Fighter(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI){
 	display=disp;
@@ -803,14 +801,14 @@ void Fighter::uthrow() {}
 void Fighter::dthrow() {}
 void Fighter::bthrow() {}
 void Fighter::fthrow() {}
-void Fighter::release(string dir) {
+void Fighter::release(int dir) {
 	action = RELEASE;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
 	delay = 8;
 	if(dir == RIGHT) dx = 2;
 	else dx = -2;
 }
-void Fighter::released(string dir) {
+void Fighter::released(int dir) {
 	action = RELEASED;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
 	delay = 8;
@@ -857,10 +855,10 @@ void Fighter::shield() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHIELD], endframes[SHIELD], framespeeds[SHIELD], ANIM_LOOP, -1);
 	playsound(SHIELD);	
 }
-void Fighter::roll(string dir) {
+void Fighter::roll(int dir) {
 	action = ROLL;
 	setDirection();
-	if(dir == "") {
+	if(dir == 0) {
 		if(Pad.Held.Left) dir = LEFT;
 		else if(Pad.Held.Right) dir = RIGHT;
 	}	
@@ -1324,13 +1322,13 @@ void Fighter::move() {
 	PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x, (int)y); // repositions the sprite
 } // moves the sprite
 void Fighter::jaywalk() {}
-void Fighter::setDirection(string rl) {
-	string olddirection = direction;
+void Fighter::setDirection(int rl) {
+	int olddirection = direction;
 	if(action == STUN) {
 		if(kx > 0) direction = RIGHT;
 		else if(kx < 0) direction = LEFT;
 	}
-	if(rl == "") {
+	if(rl == 0) {
 		if(Pad.Held.Right) {
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
 			direction = RIGHT;
@@ -1395,7 +1393,7 @@ void Fighter::respawn() {
 	y = starty;
 	action = FALL;
 	fall();
-	direction = "";
+	direction = 0;
 	aerial = true;
 	delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 	dx = dy = fastfall = DI = 0.0;
@@ -1413,7 +1411,7 @@ bool Fighter::checkLedgeCollision() {
 	for(int n = 0; n < (int)ledges.size(); n++) {
 		Ledge currledge = ledges[n];
 		if(action != STUN && action != HANG) {
-			if(currledge.direction == RIGHT) {
+			if(currledge.direction == "right") {
 				if(ledgenotinuse(n) && ledgewait <= 0 && x+leftside > currledge.x - 20 && x+leftside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
 					hang();
 					aerial = false;
@@ -1481,7 +1479,7 @@ bool Fighter::checkWallCollision() {
 	vector<Wall> walls = stage->getWalls();
 	for(uint8 n = 0; n < walls.size(); n++) {
 		Wall currwall = walls[n];
-		if(currwall.direction == LEFT) {
+		if(currwall.direction == "left") {
 			if(x+rightside <= currwall.x && x+rightside + DI + dx > currwall.x && y+bottomside > currwall.y+topside && y < currwall.y + currwall.length) {
 				x = currwall.x-rightside;
 				dx = DI = 0;

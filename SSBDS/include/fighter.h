@@ -1,8 +1,8 @@
 #ifndef FIGHTER_H
 #define FIGHTER_H
 
-#define RIGHT "right"
-#define LEFT "left"
+#define RIGHT 1 //"right"
+#define LEFT (-1) //"left"
 
 #include "hitbox.h"
 #include "knockback.h"
@@ -44,7 +44,7 @@ class Fighter {
 		int jumpmax;
 		double x, y, startx, starty;
 		double dx, dy;
-		string direction;
+		int direction;
 		int action;
 		bool aerial;
 		int delay, jumpcount, startlag, landinglag, tiltlag, airlag, lcancel, hitstun;
@@ -84,15 +84,15 @@ class Fighter {
 		virtual void bthrow();
 		virtual void fthrow();
 		virtual void initFrames();
-		void release(string dir);
-		void released(string dir);
+		void release(int dir);
+		void released(int dir);
 		void grabbed(int otherx, int othery);
 		void grab();
 		void hold(int d = 300);
 		void grabattack();
 		void land();
 		void shield();
-		void roll(string dir = "");
+		void roll(int dir = 0);
 		void rollUp();
 		void attackUp();
 		void jumpUp();
@@ -142,7 +142,7 @@ class Fighter {
 		void smashAttack();
 		void move(); // moves the sprite
 		virtual void jaywalk();
-		void setDirection(string rl = ""); // flips the direction of the sprite if necessary
+		void setDirection(int rl = 0); // flips the direction of the sprite if necessary
 		virtual void directionalInfluence(int dx = 0); // acts in the air based on key presses
 		bool checkForDeath();
 		void respawn();
