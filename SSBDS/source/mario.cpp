@@ -277,7 +277,7 @@ void Mario::bdown() {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 150, 150, 12, ANIM_LOOP, -1);
 		delay = 60/12 * 1;
 		int directionmodifier = 1;
-		if(direction == "right") directionmodifier = -1;
+		if(direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
 		tempbox.addCircle(createAtkbox(58, 32, 5, Knockback((-1*directionmodifier), -.5, 6), 60));
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-16, -5*directionmodifier, 0, 2*fluddcharge, FLUDDWATER, charnum, tempbox, stage, display));
@@ -313,7 +313,7 @@ void Mario::bneut() {
 		delay = 60/10 * 1;
 		AS_SoundQuickPlay(mariobneut);
 		int directionmodifier = 1;
-		if(direction == "right") directionmodifier = -1;
+		if(direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
 		tempbox.addCircle(createAtkbox(32, 32, 6, Knockback(-.25*directionmodifier, 0, 6), 10));
 		Projectile p = Projectile(x, y, -3*directionmodifier, 1.5, 90, FIREBALL, charnum, tempbox, stage, display);
@@ -340,17 +340,17 @@ void Mario::fthrow() {
 		action = FTHROW;		
 	}
 	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 153) {
-		if(direction == "left") grabbedenemy -> dx = 8;
+		if(direction == LEFT) grabbedenemy -> dx = 8;
 		else grabbedenemy -> dx = -8;
 	}
 	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 154 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 155) {
-		if(direction == "left") grabbedenemy -> dx = -8;
+		if(direction == LEFT) grabbedenemy -> dx = -8;
 		else grabbedenemy -> dx = 8;
 	}
 	if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(2, -2, 7);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = 1;
 		}
 		grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
@@ -372,27 +372,27 @@ void Mario::bthrow() {
 		action = BTHROW;
 	}
 	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 156 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 157) {
-		if(direction == "left") grabbedenemy -> dx = 4;
+		if(direction == LEFT) grabbedenemy -> dx = 4;
 		else grabbedenemy -> dx = -4;
 	}
 	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 158) {
 		grabbedenemy -> dx = 0;
 	}
 	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 159 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 160) {
-		if(direction == "left") grabbedenemy -> dx = -4;
+		if(direction == LEFT) grabbedenemy -> dx = -4;
 		else grabbedenemy -> dx = 4;
 	}
 	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 161) {
 		grabbedenemy -> dx = 0;
 	}
 	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 162) {
-		if(direction == "left") grabbedenemy -> dx = 8;
+		if(direction == LEFT) grabbedenemy -> dx = 8;
 		else grabbedenemy -> dx = -8;
 	}
 	if(delay <= 0) {
 		int mult = 1;
 		grabbedenemy -> k = Knockback(2.5, -2, 7);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = -1;
 		}
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
@@ -412,13 +412,13 @@ void Mario::uthrow() {
 		playsound(UTHROW);
 		delay = 60/12 * (165-163+1);
 		action = UTHROW;
-		if(direction == "left") grabbedenemy -> dx = 2;
+		if(direction == LEFT) grabbedenemy -> dx = 2;
 		else grabbedenemy -> dx = -2;
 	}
 	if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(0, -3, 5);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = 1;
 		}
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
@@ -438,7 +438,7 @@ void Mario::dthrow() {
 		playsound(DTHROW);
 		delay = 60/12 * (168-165+1);
 		action = DTHROW;
-		if(direction == "left") grabbedenemy -> dx = 2;
+		if(direction == LEFT) grabbedenemy -> dx = 2;
 		else grabbedenemy -> dx = -2;
 		grabbedenemy -> dy = .5;
 	}
@@ -448,7 +448,7 @@ void Mario::dthrow() {
 	if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(1, -2.5, 7);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = 1;
 		}
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));

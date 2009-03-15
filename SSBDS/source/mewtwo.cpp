@@ -292,7 +292,7 @@ Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Displa
 					delay = 60/15 * 3;
 					int SHADOWBALL_SIZE = -1;
 					int directionmodifier = 1;
-					if(direction == "right") directionmodifier = -1;
+					if(direction == RIGHT) directionmodifier = -1;
 					Hitbox tempbox;
 					tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 240));
 					((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage, display));
@@ -309,7 +309,7 @@ Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Displa
 				else if(shadowballcharge >= 40) SHADOWBALL_SIZE = SHADOWBALL_MEDIUM;
 				else SHADOWBALL_SIZE = SHADOWBALL_SMALL;
 				int directionmodifier = 1;
-				if(direction == "right") directionmodifier = -1;
+				if(direction == RIGHT) directionmodifier = -1;
 				Hitbox tempbox;
 				int rad = 0;
 				double kbmod = 1;
@@ -360,7 +360,7 @@ Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Displa
 				action = FTHROW;
 				int mult = -1;
 				grabbedenemy -> k = Knockback(2, -3, 12);
-				if(direction == "right") {
+				if(direction == RIGHT) {
 					mult = 1;
 				}
 				grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
@@ -382,7 +382,7 @@ Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Displa
 				action = BTHROW;
 				int mult = 1;
 				grabbedenemy -> k = Knockback(2, -2, 14);
-				if(direction == "right") {
+				if(direction == RIGHT) {
 					mult = -1;
 				}
 				grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
@@ -424,7 +424,7 @@ Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Displa
 				playsound(DTHROW);
 				delay = 60/10 * (155-155+1);
 				action = DTHROW;
-				if(direction == "right") dx = 3;
+				if(direction == RIGHT) dx = 3;
 				else dx = -3;
 			}
 			else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 155) {
@@ -435,7 +435,7 @@ Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Displa
 			else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 157) {
 				int mult = -1;
 				grabbedenemy -> k = Knockback(1, -2, 12);
-				if(direction == "right") {
+				if(direction == RIGHT) {
 					mult = 1;
 				}
 				grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));

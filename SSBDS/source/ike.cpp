@@ -239,7 +239,7 @@ void Ike::bside() {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 110, 110, 12, ANIM_LOOP, -1);
 		AS_SoundQuickPlay(ikebside);
 		delay = quickdrawcharge/2;
-		if(direction == "right") dx = 2*(int)(quickdrawcharge / 20) + 4;
+		if(direction == RIGHT) dx = 2*(int)(quickdrawcharge / 20) + 4;
 		else dx = -1*2*(int)(quickdrawcharge / 20) - 4;
 	}
 	else if((delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 108) || (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 109)) {
@@ -269,7 +269,7 @@ void Ike::bup() {
 		else dy = 0;
 		action = BUP;
 		int directionmodifier = 1;
-		if(direction == "right") directionmodifier = -1;
+		if(direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
 		tempbox.addCircle(Circle(32, 32, 15, Knockback(0, 0, 2), 9));
 		Projectile p = Projectile(x, y, -.1*directionmodifier, -4, 30, IKESWORD, charnum, tempbox, stage, display);
@@ -367,17 +367,17 @@ void Ike::fthrow() {
 		playsound(FTHROW);
 		delay = 60/15 * (155-152+1);
 		action = FTHROW;
-		if(direction == "right") grabbedenemy -> dx = -2;
+		if(direction == RIGHT) grabbedenemy -> dx = -2;
 		else grabbedenemy -> dx = 2;
 	}
 	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 154 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 155) {
-		if(direction == "right") grabbedenemy -> dx = 4;
+		if(direction == RIGHT) grabbedenemy -> dx = 4;
 		else grabbedenemy -> dx = -4;
 	}
 	if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(2, -2, 7);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = 1;
 		}
 		grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
@@ -397,14 +397,14 @@ void Ike::bthrow() {
 		playsound(BTHROW);
 		delay = 60/10 * (159-156+1);
 		action = BTHROW;
-		if(direction == "right") grabbedenemy -> dx = -3;
+		if(direction == RIGHT) grabbedenemy -> dx = -3;
 		else grabbedenemy -> dx = 3;
 		grabbedenemy -> dy = -1;
 	}
 	if(delay <= 0) {
 		int mult = 1;
 		grabbedenemy -> k = Knockback(2, -2.5, 7);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = -1;
 		}
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
@@ -415,8 +415,8 @@ void Ike::bthrow() {
 		grabbedenemy -> stun();
 		grabbedenemy -> lasthitby = charnum;
 		grabbedenemy = NULL;	
-		if(direction == "right") setDirection("left");
-		else setDirection("right");
+		if(direction == RIGHT) setDirection(LEFT);
+		else setDirection(RIGHT);
 		idle();		
 	}
 }
@@ -426,14 +426,14 @@ void Ike::uthrow() {
 		playsound(UTHROW);
 		delay = 60/12 * (163-160+1);
 		action = UTHROW;
-		if(direction == "right") grabbedenemy -> dx = -.5;
+		if(direction == RIGHT) grabbedenemy -> dx = -.5;
 		else grabbedenemy -> dx = .5;
 		grabbedenemy -> dy = -1;
 	}
 	if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(.5, -3, 6);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = 1;
 		}
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
@@ -453,14 +453,14 @@ void Ike::dthrow() {
 		playsound(DTHROW);
 		delay = 60/10 * (168-165+1);
 		action = DTHROW;
-		if(direction == "right") grabbedenemy -> dx = -1;
+		if(direction == RIGHT) grabbedenemy -> dx = -1;
 		else grabbedenemy -> dx = 1;
 		grabbedenemy -> dy = .5;
 	}
 	if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(1, -2.5, 7);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = 1;
 		}
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));

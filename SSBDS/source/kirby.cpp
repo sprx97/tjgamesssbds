@@ -266,7 +266,7 @@ void Kirby::bup() {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 201, 201, 20, ANIM_LOOP, -1);
 				delay = 60/20 * 1;
 				int directionmodifier = 1;
-				if(direction =="right") directionmodifier = -1;
+				if(direction ==RIGHT) directionmodifier = -1;
 				Hitbox tempbox;
 				tempbox.addCircle(createAtkbox(36, 805%64, 22, Knockback((-1*directionmodifier), -.5, 8), 24));
 				tempbox.addCircle(createAtkbox(30, 794%63, 22, Knockback((-1*directionmodifier), -.5, 8), 24));
@@ -356,7 +356,7 @@ void Kirby::fthrow() {
 	else if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(1, -2.5, 7);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = 1;
 		}
 		grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
@@ -394,7 +394,7 @@ void Kirby::fthrow() {
 		dy = -6-gravity;
 	}
 	if(grabbedenemy != NULL) {
-		if(direction == "right") grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
+		if(direction == RIGHT) grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
 		else grabbedenemy -> grabbed((int)(x-handx+dx), (int)(y+dy));
 	}	
 }
@@ -408,7 +408,7 @@ void Kirby::bthrow() {
 	else if(delay <= 0) {
 		int mult = 1;
 		grabbedenemy -> k = Knockback(1.25, -2.5, 7);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = -1;
 		}
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
@@ -422,7 +422,7 @@ void Kirby::bthrow() {
 		fall();
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 219) {
-		if(direction == "right") dx = -1.5;
+		if(direction == RIGHT) dx = -1.5;
 		else dx = 1.5;
 		dy = -8-gravity;
 		aerial = true;
@@ -440,12 +440,12 @@ void Kirby::bthrow() {
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 223) {
 		dy = -4-gravity;
-		if(direction == "right") dx = -1.5;
+		if(direction == RIGHT) dx = -1.5;
 		else dx = 1.5;
 		aerial = true;
 	}
 	if(grabbedenemy != NULL) {
-		if(direction == "right") grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
+		if(direction == RIGHT) grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
 		else grabbedenemy -> grabbed((int)(x-handx+dx), (int)(y+dy));
 	}	
 }
@@ -459,7 +459,7 @@ void Kirby::uthrow() {
 	else if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(.5, -3, 7);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = 1;
 		}
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
@@ -488,7 +488,7 @@ void Kirby::uthrow() {
 		dy = 0;
 	}
 	if(grabbedenemy != NULL) {
-		if(direction == "right") grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
+		if(direction == RIGHT) grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
 		else grabbedenemy -> grabbed((int)(x-handx+dx), (int)(y+dy));
 	}	
 }
@@ -498,7 +498,7 @@ void Kirby::dthrow() {
 		playsound(DTHROW);
 		delay = 60/10 * (228-227+1);
 		action = DTHROW;
-		if(direction == "right") dx = 2;
+		if(direction == RIGHT) dx = 2;
 		else dx = -2;
 	}		
 	else if(delay == 1 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 228 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 227)) {
@@ -509,13 +509,13 @@ void Kirby::dthrow() {
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 230) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 231, 232, 10, ANIM_LOOP, -1);
 		delay = 60/10 * (232-231+1);
-		if(direction == "right") dx = -2;
+		if(direction == RIGHT) dx = -2;
 		else dx = 2;
 	}
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 232) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(.5, -2, 12);
-		if(direction == "right") {
+		if(direction == RIGHT) {
 			mult = 1;
 		}
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
@@ -531,8 +531,8 @@ void Kirby::dthrow() {
 }
 void Kirby::jaywalk() {
 	int frame = PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM);
-	if(frame == 82 && direction == "right") x += 8;
-	if(frame == 82 && direction == "left") x -= 8;
+	if(frame == 82 && direction == RIGHT) x += 8;
+	if(frame == 82 && direction == LEFT) x -= 8;
 }
 Kirby::~Kirby() {
 	allatkbox.clear();
