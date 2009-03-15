@@ -50,8 +50,8 @@ Fighter::Fighter(int xpos, int ypos, int num, vector<Fighter*> listplayers, Disp
 	initDefbox();
 	initFrames();
 	initSprite();
-	if(x > stage->width/2) setDirection("right");
-	else setDirection("left");
+	if(x > stage->width/2) setDirection(RIGHT);
+	else setDirection(LEFT);
 } // initializes all of the variables
 // virtual methods
 void Fighter::initDefbox() {
@@ -254,8 +254,8 @@ void Fighter::actCPU() {
 			else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 			if(checkFloorCollision()) idle();
 			else if(Cangle < -45 && Cangle > -135 && jumpcount < jumpmax) {
-				if(Cx > 0) setDirection("right");
-				if(Cx < 0) setDirection("left");
+				if(Cx > 0) setDirection(RIGHT);
+				if(Cx < 0) setDirection(LEFT);
 				doubleJump();
 			}
 		}
@@ -263,11 +263,11 @@ void Fighter::actCPU() {
 			// act air
 			if(Cdistance < 30) {
 				if(Cangle > -45 && Cangle < 45){
-					if (direction=="right") fair();
+					if (direction==RIGHT) fair();
 					else bair();
 				}
 				else if(Cangle < -135 || Cangle > 135){ 
-					if (direction=="right") bair();
+					if (direction==RIGHT) bair();
 					else fair();
 				}
 				else if(Cangle < -45 && Cangle > -135) uair();
@@ -275,8 +275,8 @@ void Fighter::actCPU() {
 			}
 			else {
 				if(Cangle < -45 && Cangle > -135 && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) {
-					if(Cx > 0) setDirection("right");
-					if(Cx < 0) setDirection("left");
+					if(Cx > 0) setDirection(RIGHT);
+					if(Cx < 0) setDirection(LEFT);
 					doubleJump();
 				}
 				else if(Cangle < 45 && Cangle > -45) directionalInfluence(1); //right
@@ -304,8 +304,8 @@ void Fighter::actCPU() {
 		if(action == RUN) {
 			if((Cdistance < 30) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();					
 			else if(Cangle < -45 && Cangle > -135 && jumpcount == 0) {
-				if(Cx > 0) setDirection("right");
-				if(Cx < 0) setDirection("left");
+				if(Cx > 0) setDirection(RIGHT);
+				if(Cx < 0) setDirection(LEFT);
 				jump();
 			}
 			else{
@@ -319,11 +319,11 @@ void Fighter::actCPU() {
 		if(action == IDLE) {
 			if(Cdistance < 30) {
 				if(Cangle > -45 && Cangle < 45){
-					setDirection("right");
+					setDirection(RIGHT);
 					smashright();
 				}
 				else if(Cangle < -135 || Cangle > 135){ 
-					setDirection("left");
+					setDirection(LEFT);
 					smashleft();
 				}
 				else if(Cangle < -45 && Cangle > -135){
@@ -334,8 +334,8 @@ void Fighter::actCPU() {
 				}
 			}
 			else if(Cangle < -45 && Cangle > -135 && jumpcount == 0 && Cdistance > 50) {
-				if(Cx > 0) setDirection("right");
-				if(Cx < 0) setDirection("left");
+				if(Cx > 0) setDirection(RIGHT);
+				if(Cx < 0) setDirection(LEFT);
 				jump();
 			}
 			else if(Cangle < 45 && Cangle > -45) run(1); //right
@@ -516,8 +516,8 @@ void Fighter::act() {
 					if(custom_action(ACTION_BASIC, PAD_HELD) || custom_action(ACTION_BASIC, PAD_RELEASED)) {
 						if(Pad.Held.Up) uair();
 						else if(Pad.Held.Down) dair();
-						else if((Pad.Held.Left && direction == "left") || (Pad.Held.Right && direction == "right")) fair();
-						else if((Pad.Held.Left && direction == "right") || (Pad.Held.Right && direction == "left")) bair();
+						else if((Pad.Held.Left && direction == LEFT) || (Pad.Held.Right && direction == RIGHT)) fair();
+						else if((Pad.Held.Left && direction == RIGHT) || (Pad.Held.Right && direction == LEFT)) bair();
 						else nair();
 						AB = true;
 					}		
@@ -550,8 +550,8 @@ void Fighter::act() {
 					if(custom_action(ACTION_BASIC, PAD_HELD) || custom_action(ACTION_BASIC, PAD_RELEASED)) {
 						if(Pad.Held.Up) uair();
 						else if(Pad.Held.Down) dair();
-						else if((Pad.Held.Left && direction == "left") || (Pad.Held.Right && direction == "right")) fair();
-						else if((Pad.Held.Left && direction == "right") || (Pad.Held.Right && direction == "left")) bair();
+						else if((Pad.Held.Left && direction == LEFT) || (Pad.Held.Right && direction == RIGHT)) fair();
+						else if((Pad.Held.Left && direction == RIGHT) || (Pad.Held.Right && direction == LEFT)) bair();
 						else nair();
 					}
 					else if(custom_action(ACTION_SPECIAL, PAD_HELD) || custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
@@ -596,15 +596,15 @@ void Fighter::act() {
 			else if(Pad.Newpress.Right || Pad.Newpress.Left) {
 				y = y+handy-bottomside;
 				myledge = -1;
-				if(direction == "left") {
+				if(direction == LEFT) {
 					x = x+handx-rightside;
 					idle();
-					setDirection("left");
+					setDirection(LEFT);
 				}
 				else {
 					x = x+handx-leftside;
 					idle();
-					setDirection("right");
+					setDirection(RIGHT);
 				}
 			}
 		}
@@ -612,12 +612,12 @@ void Fighter::act() {
 		if(action == AIRDODGE && delay <= 0) fall();
 		if(action == ROLL && delay <= 0) {
 			dx = 0;
-			if(direction == "left") {
-				direction = "right";
+			if(direction == LEFT) {
+				direction = RIGHT;
 				PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
 			}
-			else if(direction == "right") {
-				direction = "left";
+			else if(direction == RIGHT) {
+				direction = LEFT;
 				PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 			}
 			shield();
@@ -712,13 +712,13 @@ void Fighter::act() {
 		}
 		if(action == HOLD) {
 			if(delay <= 0) {
-				if(direction == "right") {
-					release("left");
-					grabbedenemy -> released("right");
+				if(direction == RIGHT) {
+					release(LEFT);
+					grabbedenemy -> released(RIGHT);
 				}
-				else if(direction == "left") {
-					release("right");
-					grabbedenemy -> released("left");
+				else if(direction == LEFT) {
+					release(RIGHT);
+					grabbedenemy -> released(LEFT);
 				}
 				grabbedenemy = NULL;
 			}
@@ -728,8 +728,8 @@ void Fighter::act() {
 			}
 			else if(Pad.Newpress.Up) uthrow();
 			else if(Pad.Newpress.Down) dthrow();
-			else if((direction == "right" && Pad.Newpress.Left) || (direction == "left" && Pad.Newpress.Right)) bthrow();
-			else if((direction == "right" && Pad.Newpress.Right) || (direction == "left" && Pad.Newpress.Left)) fthrow();
+			else if((direction == RIGHT && Pad.Newpress.Left) || (direction == LEFT && Pad.Newpress.Right)) bthrow();
+			else if((direction == RIGHT && Pad.Newpress.Right) || (direction == LEFT && Pad.Newpress.Left)) fthrow();
 		}
 		if(action == RUN) {
 			if((Pad.Newpress.Up) || custom_action(ACTION_JUMP, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
@@ -810,14 +810,14 @@ void Fighter::release(string dir) {
 	action = RELEASE;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
 	delay = 8;
-	if(dir == "right") dx = 2;
+	if(dir == RIGHT) dx = 2;
 	else dx = -2;
 }
 void Fighter::released(string dir) {
 	action = RELEASED;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
 	delay = 8;
-	if(dir == "right") dx = 2;
+	if(dir == RIGHT) dx = 2;
 	else dx = -2;
 }
 void Fighter::grabbed(int otherx, int othery) {
@@ -864,26 +864,26 @@ void Fighter::roll(string dir) {
 	action = ROLL;
 	setDirection();
 	if(dir == "") {
-		if(Pad.Held.Left) dir = "left";
-		else if(Pad.Held.Right) dir = "right";
+		if(Pad.Held.Left) dir = LEFT;
+		else if(Pad.Held.Right) dir = RIGHT;
 	}	
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[ROLL], endframes[ROLL], framespeeds[ROLL], ANIM_LOOP, -1);
 	delay = 60/framespeeds[ROLL] * (endframes[ROLL]-startframes[ROLL]+1);
-	if(dir == "left") dx = -2;
-	if(dir == "right") dx = 2;
+	if(dir == LEFT) dx = -2;
+	if(dir == RIGHT) dx = 2;
 	playsound(ROLL);
 }
 void Fighter::rollUp(){
 	if(action == HANG) {
 		myledge = -1;
 		y = y+handy-bottomside;
-		if(direction == "left") {
+		if(direction == LEFT) {
 			x = x+handx-rightside;
-			roll("left");
+			roll(LEFT);
 		}
 		else {
 			x = x+handx-leftside;
-			roll("right");
+			roll(RIGHT);
 		}
 	}
 }
@@ -891,7 +891,7 @@ void Fighter::attackUp(){
 	if(action == HANG) {
 		myledge = -1;
 		y=y+handy-bottomside;
-		if(direction == "left") x=x+handx-rightside;
+		if(direction == LEFT) x=x+handx-rightside;
 		else x=x+handx-leftside;
 		ftilt();
 	}
@@ -957,8 +957,8 @@ void Fighter::run(int d) {
 	}
 	else {
 		dx = (runspeed/4+acceleration)*d;
-		if(d > 0) setDirection("right");
-		if(d < 0) setDirection("left");
+		if(d > 0) setDirection(RIGHT);
+		if(d < 0) setDirection(LEFT);
 	}
 	if(action == RUN) {
 		acceleration += .05*runspeed;
@@ -1048,7 +1048,7 @@ void Fighter::chargeleft() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGELEFT], endframes[CHARGELEFT], framespeeds[CHARGELEFT], ANIM_LOOP, -1);
 	PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 	action = CHARGELEFT;
-	direction = "left";
+	direction = LEFT;
 	dx = 0;
 	delay = 60/framespeeds[CHARGELEFT] * (endframes[CHARGELEFT]-startframes[CHARGELEFT]+1) * 15;
 	playsound(CHARGELEFT);
@@ -1058,7 +1058,7 @@ void Fighter::chargeright() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGERIGHT], endframes[CHARGERIGHT], framespeeds[CHARGERIGHT], ANIM_LOOP, -1);
 	PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
 	action = CHARGERIGHT;
-	direction = "right";
+	direction = RIGHT;
 	dx = 0;
 	delay = 60/framespeeds[CHARGERIGHT] * (endframes[CHARGERIGHT]-startframes[CHARGERIGHT]+1) * 15;
 	playsound(CHARGERIGHT);
@@ -1082,7 +1082,7 @@ void Fighter::smashleft() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHLEFT], endframes[SMASHLEFT], framespeeds[SMASHLEFT], ANIM_LOOP, -1);
 	PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 	action = ATTACK;
-	direction = "left";
+	direction = LEFT;
 	delay = 60/framespeeds[SMASHLEFT] * (endframes[SMASHLEFT]-startframes[SMASHLEFT]+1);
 	playsound(SMASHLEFT);
 }
@@ -1090,7 +1090,7 @@ void Fighter::smashright() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SMASHRIGHT], endframes[SMASHRIGHT], framespeeds[SMASHRIGHT], ANIM_LOOP, -1);
 	PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
 	action = ATTACK;
-	direction = "right";
+	direction = RIGHT;
 	delay = 60/framespeeds[SMASHRIGHT] * (endframes[SMASHRIGHT]-startframes[SMASHRIGHT]+1);
 	playsound(SMASHRIGHT);
 }
@@ -1209,7 +1209,7 @@ Fighter* Fighter::checkHits(Fighter* other) {
 	if(getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if(action == HOLD || action == GRABATK) {}
 		else if(action == GRAB) {
-			if(direction == "right") other -> grabbed((int)(x+handx), (int)y);
+			if(direction == RIGHT) other -> grabbed((int)(x+handx), (int)y);
 			else other -> grabbed((int)(x-handx), (int)y);
 			other -> grabbedby = this;
 			grabbedenemy = other;
@@ -1220,13 +1220,13 @@ Fighter* Fighter::checkHits(Fighter* other) {
 			other -> shieldstr -= getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage + (int)((chargecount/225) * (.5*getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage));
 		}
 		else if(other -> COUNTER) {
-			if(direction == "left") takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, other -> charnum, chargecount);
+			if(direction == LEFT) takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, other -> charnum, chargecount);
 			else takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, other -> charnum, chargecount);
 			other -> COUNTER = false;
 			other -> idle();
 		}
 		else {
-			if(direction == "left") other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, charnum, chargecount);
+			if(direction == LEFT) other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, charnum, chargecount);
 			else other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, charnum, chargecount);
 		}
 	}
@@ -1240,7 +1240,7 @@ Hitbox Fighter::getAtkbox() {
 		Circle current = circles[n];
 		Circle newcircleft(current.getX() + x, current.getY() + y, current.getRadius(), current.getKnockback(), current.damage);
 		Circle newcircright((64 - current.getX()) + x, current.getY() + y, current.getRadius(), current.getKnockback(), current.damage);
-		if(direction == "left") atkbox.addCircle(newcircleft);
+		if(direction == LEFT) atkbox.addCircle(newcircleft);
 		else atkbox.addCircle(newcircright);
 	}
 	return atkbox;
@@ -1253,7 +1253,7 @@ Hitbox Fighter::getDefbox(int framenum) {
 		Circle current = circles[n];
 		Circle newcircright(current.getX() + x, current.getY() + y, current.getRadius());
 		Circle newcircleft(x + (64 - current.getX()), y + (current.getY()), current.getRadius());
-		if(direction == "left") defbox.addCircle(newcircleft);
+		if(direction == LEFT) defbox.addCircle(newcircleft);
 		else defbox.addCircle(newcircright);
 	}
 	return defbox;
@@ -1265,8 +1265,8 @@ Circle Fighter::createAtkbox(double extrax, double extray, double radius, Knockb
 void Fighter::airAttack() {
 	if(Pad.Held.Up) uair();
 	else if(Pad.Held.Down) dair();
-	else if((Pad.Held.Right && direction == "right") || (Pad.Held.Left && direction == "left")) fair();
-	else if((Pad.Held.Right && direction == "left") || (Pad.Held.Left && direction == "right")) bair();
+	else if((Pad.Held.Right && direction == RIGHT) || (Pad.Held.Left && direction == LEFT)) fair();
+	else if((Pad.Held.Right && direction == LEFT) || (Pad.Held.Left && direction == RIGHT)) bair();
 	else nair();
 }
 void Fighter::airAttackStylus() {
@@ -1274,8 +1274,8 @@ void Fighter::airAttackStylus() {
 	int touchy = Stylus.Y;
 	if(touchy < 64 && touchx > 96 && touchx < 160) uair();
 	else if(touchy > 128 && touchx > 96 && touchx < 160) dair();
-	else if((touchx > 192 && touchy < 128 && touchy > 64 && direction == "right") || (touchx < 64 && touchy < 128 && touchy > 64 && direction == "left")) fair();
-	else if((touchx > 192 && touchy < 128 && touchy > 64 && direction == "left") || (touchx < 64 && touchy < 128 && touchy > 64 && direction == "right")) bair();
+	else if((touchx > 192 && touchy < 128 && touchy > 64 && direction == RIGHT) || (touchx < 64 && touchy < 128 && touchy > 64 && direction == LEFT)) fair();
+	else if((touchx > 192 && touchy < 128 && touchy > 64 && direction == LEFT) || (touchx < 64 && touchy < 128 && touchy > 64 && direction == RIGHT)) bair();
 	else nair();
 }
 void Fighter::smashAttack() {
@@ -1330,23 +1330,23 @@ void Fighter::jaywalk() {}
 void Fighter::setDirection(string rl) {
 	string olddirection = direction;
 	if(action == STUN) {
-		if(kx > 0) direction = "right";
-		else if(kx < 0) direction = "left";
+		if(kx > 0) direction = RIGHT;
+		else if(kx < 0) direction = LEFT;
 	}
 	if(rl == "") {
 		if(Pad.Held.Right) {
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
-			direction = "right";
+			direction = RIGHT;
 		}
 		if(Pad.Held.Left) {
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
-			direction = "left";
+			direction = LEFT;
 		}
 	}
 	else {
 		direction = rl;
-		if(direction == "right") PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
-		if(direction == "left") PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
+		if(direction == RIGHT) PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
+		if(direction == LEFT) PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 	}
 } // flips the direction of the sprite if necessary
 void Fighter::directionalInfluence(int dx) {
@@ -1416,7 +1416,7 @@ bool Fighter::checkLedgeCollision() {
 	for(int n = 0; n < (int)ledges.size(); n++) {
 		Ledge currledge = ledges[n];
 		if(action != STUN && action != HANG) {
-			if(currledge.direction == "right") {
+			if(currledge.direction == RIGHT) {
 				if(ledgenotinuse(n) && ledgewait <= 0 && x+leftside > currledge.x - 20 && x+leftside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
 					hang();
 					aerial = false;
@@ -1424,7 +1424,7 @@ bool Fighter::checkLedgeCollision() {
 					airdodgecount = jumpcount = 0;
 					x = currledge.x-handx;
 					y = currledge.y-handy;
-					setDirection("left");
+					setDirection(LEFT);
 					myledge = n;
 					return true;
 				}
@@ -1437,7 +1437,7 @@ bool Fighter::checkLedgeCollision() {
 					airdodgecount = jumpcount = 0;
 					x = currledge.x+handx-64;
 					y = currledge.y-handy;
-					setDirection("right");
+					setDirection(RIGHT);
 					myledge = n;
 					return true;				
 				}
@@ -1484,7 +1484,7 @@ bool Fighter::checkWallCollision() {
 	vector<Wall> walls = stage->getWalls();
 	for(uint8 n = 0; n < walls.size(); n++) {
 		Wall currwall = walls[n];
-		if(currwall.direction == "left") {
+		if(currwall.direction == LEFT) {
 			if(x+rightside <= currwall.x && x+rightside + DI + dx > currwall.x && y+bottomside > currwall.y+topside && y < currwall.y + currwall.length) {
 				x = currwall.x-rightside;
 				dx = DI = 0;
