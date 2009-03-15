@@ -1,8 +1,14 @@
-class Mewtwo: public Fighter {
-	public:
-		int shadowballcharge;
+#include "mewtwo.h"
+#include <vector>
+#include <PA9.h>
+#include "display.h"
+#include "projectiles.h"
+#include "fighter.h"
+//#include "gfx/all_sounds.c"
+using std::vector;
+
 	// constructor
-		Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI = false) {
+Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) {
 			display=disp;
 			players=listplayers;
 			shieldstr = 64;
@@ -50,9 +56,9 @@ class Mewtwo: public Fighter {
 			else setDirection("left");
 		} // initializes all of the variables
 	// initializers
-		void playsound(int sndnum) {}
+		void Mewtwo::playsound(int sndnum) {}
 	// sounds
-		void initFrames() {
+		void Mewtwo::initFrames() {
 			// LAND
 			startframes.push_back(0);
 			endframes.push_back(0);
@@ -239,7 +245,7 @@ class Mewtwo: public Fighter {
 			framespeeds.push_back(20);
 		}
 	// actions
-		void bside() {
+		void Mewtwo::bside() {
 			if(action != BSIDE) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 135, 136, 10, ANIM_LOOP, -1);
 				delay = 60/10 * 2;
@@ -256,7 +262,7 @@ class Mewtwo: public Fighter {
 				else fall();
 			}
 		}
-		void bup() {
+		void Mewtwo::bup() {
 			if(action != BUP) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 119, 122, 10, ANIM_ONESHOT);
 				aerial = true;
@@ -279,7 +285,7 @@ class Mewtwo: public Fighter {
 				else idle();
 			}
 		}
-		void bdown() {
+		void Mewtwo::bdown() {
 			if(action != BDOWN || (custom_action(ACTION_SPECIAL, PAD_HELD) && delay == 1)) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 145, 10, ANIM_LOOP, -1);
 				delay = 60/10 * 3;
@@ -293,7 +299,7 @@ class Mewtwo: public Fighter {
 			}
 			else if(aerial && checkFloorCollision()) dy = 0;
 		}
-		void bneut() {
+		void Mewtwo::bneut() {
 			if(action != BNEUT) {
 				if(shadowballcharge < 40) {
 					PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 126, 127, 15, ANIM_LOOP, -1);
@@ -321,7 +327,7 @@ class Mewtwo: public Fighter {
 					if(direction == "right") directionmodifier = -1;
 					Hitbox tempbox;
 					tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 240));
-					projectiles.push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage, display));
+					((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage, display));
 					shadowballcharge = 0;
 					action = BNEUT;
 					dx = 0;
@@ -353,7 +359,7 @@ class Mewtwo: public Fighter {
 				}
 //				tempbox.addCircle(createAtkbox(32, 32, rad, Knockback((-3*directionmodifier/kbmod), -1.5/kbmod, 8), shadowballcharge*2));
 				tempbox.addCircle(createAtkbox(32, 32, rad, Knockback((-3*directionmodifier), -1.5, 8), 120));
-				projectiles.push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_SIZE, charnum, tempbox, stage, display));
+				((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_SIZE, charnum, tempbox, stage, display));
 				shadowballcharge = 0;
 			}
 			else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 132) {}
@@ -378,7 +384,7 @@ class Mewtwo: public Fighter {
 				}				
 			}
 		}
-		void fthrow() {
+		void Mewtwo::fthrow() {
 			if(action != FTHROW) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 150, 154, 10, ANIM_LOOP, -1);
 				playsound(FTHROW);
@@ -400,7 +406,7 @@ class Mewtwo: public Fighter {
 			}
 			if(delay <= 0) idle();
 		}
-		void bthrow() {
+		void Mewtwo::bthrow() {
 			if(action != BTHROW) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 148, 149, 10, ANIM_LOOP, -1);
 				playsound(BTHROW);
@@ -422,7 +428,7 @@ class Mewtwo: public Fighter {
 			}
 			if(delay <= 0) idle();
 		}
-		void uthrow() {
+		void Mewtwo::uthrow() {
 			if(action != UTHROW) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 147, 147, 20, ANIM_LOOP, -1);
 				playsound(UTHROW);
@@ -444,7 +450,7 @@ class Mewtwo: public Fighter {
 				idle();
 			}						
 		}
-		void dthrow() {
+		void Mewtwo::dthrow() {
 			if(action != DTHROW) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 155, 155, 10, ANIM_LOOP, -1);
 				playsound(DTHROW);
@@ -475,11 +481,10 @@ class Mewtwo: public Fighter {
 				idle();
 			}
 		}
-		void jaywalk() {}
-		~Mewtwo() {
+		void Mewtwo::jaywalk() {}
+		Mewtwo::~Mewtwo() {
 			allatkbox.clear();
 			alldefbox.clear();
 			PA_DeleteSprite(MAIN_SCREEN, SPRITENUM);
 			PA_FatFreeSprite(MYCHAR);		
 		}
-};
