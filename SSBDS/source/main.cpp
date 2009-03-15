@@ -528,10 +528,10 @@ void characterSelect() {
 			for(int n = 0; n < 10; n++) { // through the last character number
 				if(PA_SpriteTouched(n)) {
 					spritetouched = true;
-					if(n == KIRBY) AS_SoundQuickPlay(kirby);
-//					else if(n == MEWTWO) AS_SoundQuickPlay(mewtwo);
-					else if(n == MARIO) AS_SoundQuickPlay(mario);
-					else if(n == IKE) AS_SoundQuickPlay(ike);
+					if(n == KIRBY) AS_SoundQuickPlay(kirbyname);
+//					else if(n == MEWTWO) AS_SoundQuickPlay(mewtwoname);
+					else if(n == MARIO) AS_SoundQuickPlay(marioname);
+					else if(n == IKE) AS_SoundQuickPlay(ikename);
 					// plays a sound byte of the player's name
 					if(selecting == 0) {
 						humanselected = n;
@@ -770,11 +770,11 @@ void displayResults() {
 		for(int n = 0; n < 80; n++) {
 			PA_WaitForVBL();
 		}
-		if(players[winner] -> name == "kirby") AS_SoundQuickPlay(kirby);
-//		else if(players[winner] -> name == "mewtwo") AS_SoundQuickPlay(mewtwo);
-		else if(players[winner] -> name == "mario") AS_SoundQuickPlay(mario);
-		else if(players[winner] -> name == "ike") AS_SoundQuickPlay(ike);
-//		else if(players[winner] -> name == "shadow") AS_SoundQuickPlay(shadow);
+		if(players[winner] -> name == "kirby") AS_SoundQuickPlay(kirbyname);
+//		else if(players[winner] -> name == "mewtwo") AS_SoundQuickPlay(mewtwoname);
+		else if(players[winner] -> name == "mario") AS_SoundQuickPlay(marioname);
+		else if(players[winner] -> name == "ike") AS_SoundQuickPlay(ikename);
+//		else if(players[winner] -> name == "shadow") AS_SoundQuickPlay(shadowname);
 						
 		for(int n = 0; n < 60; n++) {
 			PA_WaitForVBL();

@@ -1,4 +1,4 @@
-#include "char-mario.h"
+#include "mario.h"
 #include <vector>
 #include <PA9.h>
 #include "display.h"
