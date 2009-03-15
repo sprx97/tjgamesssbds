@@ -26,7 +26,6 @@ Now here are what all the important files are/do in this project.
 
 - /SSBDS/data
 	- all the .raw files (sound FX) are stored here. They are then converted into and loaded as .h files.
-
 - /SSBDS/source
 	- all of the source code for the project
 	- /gfx
@@ -39,7 +38,6 @@ Now here are what all the important files are/do in this project.
 		- Contains a computer server to host DS's that I made. It isn't used anymore, but I included it nevertheless.
 	- /hiboxmaker.java
 		- a GUI I made to create hitboxes for characters... slightly outdated; don't worry about it for now.
-
 - /SSBDS/SSBDS_Files
 	- External files that are loaded by the ROM
 	- must be loaded onto your flashcard along with the ROM
@@ -51,10 +49,8 @@ Now here are what all the important files are/do in this project.
 		- mp3 files for background music; not working ATM
 	- /hitboxes
 		- variables for hitboxes of characters (txt files) 
-
 - /SSBDS/makefile
 	- the file containing build instructions. Set up PAlib, then CD into the /SSBDS directory and type "make" to compile the ROM.
-
 - /SSBDS/SSBDS.NDS
 	- the ROM file... pretty simple. Just load this onto your flashcard if you just want to play the game.
 	- You also need to load /SSBDS_Files into the root of your flashcard
