@@ -70,7 +70,6 @@ class Fighter {
 		void initDefbox();
 		void initAtkbox();
 		void initSprite();
-		void deleteSprite();
 		virtual void actCPU();
 		virtual void act();
 		void actAir() ;
