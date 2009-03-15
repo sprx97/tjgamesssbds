@@ -32,12 +32,13 @@ using namespace std; // standard naming of variables
 
 #define PI 3.1415926 // PI
 
-//#define MAIN_SCREEN 1 // top screen
-//#define SUB_SCREEN 0 // bottom screen
-//#define COLOR256 1 // 256 color mode
-//inluded here:
 #include "global.h"
 #include "effect.h"
+#include "stages.h"
+#include "projectiles.h" // projectiles
+#include "fighters.h" // individual characters
+#include "fighter.h"
+#include "display.h"
 
 #define CAMERATYPE_FOLLOWUSER 0
 #define CAMERATYPE_FOLLOWALL 1
@@ -52,7 +53,6 @@ int stocklimit = 3;
 int sdcost = 1;
 // game settings
 
-#include "fighter.h"
 vector<Fighter*> players;
 // stores all fighters for playing a match
 
@@ -60,9 +60,9 @@ class Projectile;
 vector<Projectile> projectiles;
 // stores all projectiles
 
+//FIXME still quite a few things use this
 #define effects (*display.getEffects())
 
-#include "display.h"
 Display display = Display();
 // stores all visual effects
 
@@ -182,12 +182,6 @@ bool custom_action(int action, int typecheck) {
 	if(action == ACTION_SHIELD) return custom_action(ACTION_SHIELD2, typecheck);
 	return false;
 } // takes action and checks if it is done by custom controls, uncoded
-//#import "stage.cpp" // Info about the stage and the stage superclass
-//#import "stages.cpp" // individual stages
-#include "stages.h"
-//#import "fighter.cpp" // fighter superclass
-#include "projectiles.h" // projectiles
-#include "fighters.h" // individual characters
 
 void printMemoryUsage() {
 #ifdef DEBUG_ON
