@@ -15,10 +15,12 @@ As for directions:
 
 1. Go to www.palib.info and download/install the latest version of PAlib. This is a pain, but necessary
 2. read up and learn as much about PAlib as you can. Otherwise this whole project will be completely over your head; it's different that most CS projects
-	- http://forum.palib.info/ 				--> main page for PAlib
+	- [main page][palibmain] for PAlib
 	- http://forum.palib.info/index.php?action=forum	--> PAlib fourm
 	- http://palib.info/Doc/PAlibDoc%20Eng/modules.html	--> PAlib function documentation
 	- http://www.palib.info/wiki/doku.php			--> PAlib wiki/tutorial. Very outdated, but useful nevertheless.
+
+[palibmain]: http://forum.palib.info/ "PALib Main Page" 
 
 Now here are what all the important files are/do in this project.
 
