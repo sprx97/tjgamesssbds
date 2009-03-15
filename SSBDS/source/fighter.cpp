@@ -45,8 +45,6 @@ Fighter::Fighter(int xpos, int ypos, int num, vector<Fighter*> listplayers, Disp
 	initDefbox();
 	initFrames();
 	initSprite();
-	if(x > stage->width/2) setDirection(RIGHT);
-	else setDirection(LEFT);
 } // initializes all of the variables
 // virtual methods
 void Fighter::initDefbox() {
@@ -1165,6 +1163,8 @@ void Fighter::setStage(Stage *s) {
 	y = stage->spawny[charnum];
 	startx = x;
 	starty = y;
+	if(x > stage->width/2) setDirection(RIGHT);
+	else setDirection(LEFT);
 }
 int Fighter::getHitstun() { return hitstun; }
 double Fighter::getDamagePercent() { return percentage; }
