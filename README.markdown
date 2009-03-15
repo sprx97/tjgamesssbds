@@ -19,6 +19,7 @@ Directions
 	- [main page][main] for PAlib
 	- [PAlib forum][forum]
 	- PAlib [function documentation][docs]
+		- Useful to help you find methods you need, and the syntax for those you can't remember.
 	- PAlib [wiki/tutorial][tutorial]. 
 		- Very outdated, but useful nevertheless.
 		- Has instructions to help you install PALib
