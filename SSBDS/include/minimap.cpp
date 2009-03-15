@@ -1,16 +1,16 @@
-void initMinimap(string name) {
+void initMinimap(int selStage) {
 	PA_ResetBgSysScreen(SUB_SCREEN);
 
-	if(name == "finaldestination") {
+	if(selStage == FINALDESTINATION) {
 		PA_EasyBgLoad(SUB_SCREEN, 3, finaldestinationminimap);
 	}
-	else if(name == "pokemonstadium") {
+	else if(selStage == POKEMONSTADIUM) {
 		PA_EasyBgLoad(SUB_SCREEN, 3, pokemonstadiumminimap);
 	}
-//	else if(name == "corneria") {
+//	else if(selStage == CORNERIA) {
 //		PA_EasyBgLoad(SUB_SCREEN, 3, corneria);
 //	}
-//	else if(name == "castleseige") {
+//	else if(selStage == CASTLESIEGE) {
 //		PA_EasyBgLoad(SUB_SCREEN, 3, castleseige);
 //	}
 

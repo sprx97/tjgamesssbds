@@ -244,7 +244,14 @@ void openGif(int screen, string path) {
 __attribute__((__deprecated__))
 string stagename; // the name of the current stage
 
+int selectedStage = -1; //the stage currently selected
+
+__attribute__((__deprecated__)) //use method that accepts an int instead
 Stage setStage(string name) {
+	//WARNING: this method is deprecated and is not/should not be called
+	//changes made here will not take effect unless you are calling this
+	//for some good reason. This method wil leave soon. Use the one below 
+	//which takes an int.
 	PA_ResetBgSysScreen(MAIN_SCREEN); // resets bg on the main screen
 	Stage picked; // the stage which is chosen
 	if(name == "finaldestination") {
@@ -265,6 +272,37 @@ Stage setStage(string name) {
 		picked = CastleSeige();
 	} // loads castle seige if it was chosen
 	if(name == "corneria") {
+		// background
+		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, corneria);
+		picked = Corneria();
+	} // loads corneria if it was chosen
+#endif
+	for(int n = 0; n < (int)players.size(); n++) {
+		players[n] -> setStage(&picked);
+	} // sets the stage of the players to the picked stage
+	return picked; // returns the picked stage
+} // displays the stage on the main screen
+Stage setStage(int selStage) {
+	PA_ResetBgSysScreen(MAIN_SCREEN); // resets bg on the main screen
+	Stage picked; // the stage which is chosen
+	if(selStage == FINALDESTINATION) {
+//		PA_Init8bitBg(MAIN_SCREEN, 3);
+//		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/finaldestinationbackground.gif");
+		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, finaldestination);
+		picked = FinalDestination();
+	} // loads final destination if it was chosen
+	if(selStage == POKEMONSTADIUM) {
+		// background
+		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, pokemonstadium);
+		picked = PokemonStadium();
+	} // loads pokemon stadium if it was chosen
+#ifdef SLOPEDSTAGES_ON
+	if(selStage == CASTLESIEGE) {
+		// background
+		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, castleseige);
+		picked = CastleSeige();
+	} // loads castle seige if it was chosen
+	if(selStage == CORNERIA) {
 		// background
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, corneria);
 		picked = Corneria();
@@ -380,13 +418,9 @@ void stageSelect() {
 			
 			PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites
 			
-			if(selected == FINALDESTINATION) stagename = "finaldestination";
-			if(selected == POKEMONSTADIUM) stagename = "pokemonstadium";
-#ifdef SLOPEDSTAGES_ON
-			if(selected == CASTLESEIGE) stagename = "castleseige";
-			if(selected == CORNERIA) stagename = "corneria";
-#endif
-			// set stagename based on selected
+			//new way:
+			selectedStage=selected;
+			// set selectedStage based on selected
 		
 			return;
 		}
@@ -820,11 +854,11 @@ void match(int param) {
 	initFX(); // inits the special FX
 	initProjectiles(); // inits the projectiles
 			
-	Stage stage = setStage(stagename); 
+	Stage stage = setStage(selectedStage); 
 	// sets the stage to the stage chosen in stageSelect
 	PA_InitText(MAIN_SCREEN,1); // inits text on the main screen (displays time)
 	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
-	initMinimap(stagename); // inits minimap
+	initMinimap(selectedStage); // inits minimap
 	PA_InitText(SUB_SCREEN,1); // inits test on sub screen (displays percentages)
 	PA_SetTextCol(SUB_SCREEN, 31,31,31); // text color = white
 
@@ -1374,5 +1408,5 @@ int main(int argc, char ** argv) {
 	initControls();
 	
 	while(true) titleScreen(); // permanently runs the game
-	return 0;
+	return 0; //never happens, but then again, DS games don't quit
 } // End of main()
