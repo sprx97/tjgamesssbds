@@ -1,6 +1,3 @@
-#define RIGHT "right"
-#define LEFT "left"
-
 #include <PA9.h> // DS functions that we use come from here
 #include "hitbox.h"
 #include "knockback.h"
