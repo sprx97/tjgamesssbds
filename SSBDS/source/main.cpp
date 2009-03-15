@@ -788,6 +788,7 @@ void displayResults() {
 			score.clear(); // clears the scoreboard
 			effects.clear(); // clears the effects
 			for(int n = 0; n < (int)players.size(); n++) {
+				PA_FatFreeSprite(players[n] -> MYCHAR);
 				delete players[n];
 			} // deletes the sprites of all players
 			PA_FatFreeSprBuffers();
@@ -1374,12 +1375,11 @@ int main(int argc, char ** argv) {
 	// 31 = all white
 	// 0 = normal
 
+	PA_VBLFunctionInit(AS_SoundVBL); // easy way to make sure that AS_SoundVBL() is called every frame
     AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
 	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
 	AS_SetMP3Loop(true);
 	// required both for MP3 and Sound
-
-	PA_VBLFunctionInit(AS_SoundVBL); // easy way to make sure that AS_SoundVBL() is called every frame
 	
 	initControls();
 	
