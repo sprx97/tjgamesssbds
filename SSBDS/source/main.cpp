@@ -30,7 +30,8 @@
 
 using namespace std; // standard naming of variables
 
-#define PI 3.1415926 // PI
+__attribute__((__deprecated__))
+const double PI=3.1415926; // DEPRECATED: use M_PI (from math.h) instead
 
 #include "global.h"
 #include "effect.h"
@@ -39,6 +40,7 @@ using namespace std; // standard naming of variables
 #include "fighters.h" // individual characters
 #include "fighter.h"
 #include "display.h"
+#include "scoreboard.h"
 
 #define CAMERATYPE_FOLLOWUSER 0
 #define CAMERATYPE_FOLLOWALL 1
@@ -56,21 +58,14 @@ int sdcost = 1;
 vector<Fighter*> players;
 // stores all fighters for playing a match
 
-class Projectile;
 vector<Projectile> projectiles;
 // stores all projectiles
-
-//FIXME still quite a few things use this
-#define effects (*display.getEffects())
 
 Display display = Display();
 // stores all visual effects
 
-class Scoreboard; // keeps score of the game
-
-//double scrollx = 0;
-//double scrolly = 0;
-
+//FIXME still quite a few things use these
+#define effects (*display.getEffects())
 #define scrollx display.scrollx
 #define scrolly display.scrolly
 #define score (*display.score)
@@ -181,7 +176,7 @@ bool custom_action(int action, int typecheck) {
 	if(action == ACTION_JUMP) return custom_action(ACTION_JUMP2, typecheck);
 	if(action == ACTION_SHIELD) return custom_action(ACTION_SHIELD2, typecheck);
 	return false;
-} // takes action and checks if it is done by custom controls, uncoded
+} // takes action and checks if it is done by custom controls
 
 void printMemoryUsage() {
 #ifdef DEBUG_ON
@@ -246,6 +241,7 @@ void openGif(int screen, string path) {
 
 #import "minimap.cpp" // minimap for during battles
 
+__attribute__((__deprecated__))
 string stagename; // the name of the current stage
 
 Stage setStage(string name) {
