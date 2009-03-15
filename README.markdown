@@ -17,7 +17,7 @@ Directions
 1. Go to [the PALib website][main] and download/install the latest version of PAlib. This is a pain, but necessary
 2. read up and learn as much about PAlib as you can. Otherwise this whole project will be completely over your head; it's different from most CS projects
 	- [main page][main] for PAlib
-	- [PAlib fourm][forum]
+	- [PAlib forum][forum]
 	- PAlib [function documentation][docs]
 	- PAlib [wiki/tutorial][tutorial]. 
 		- Very outdated, but useful nevertheless.
