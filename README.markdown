@@ -11,7 +11,8 @@ Sorry for how poorly worded that was; it's late and it's hard to put what I'm tr
 NOTE: Just in case anyone actually reads this, you can safely ignore the above message. Although Spartan97 CLAIMS he is not going to have time to work on this, he actually will. And he'll probably decide to spend some of it on this project. Even if he doesn't, I might. So we can and probably will keep having updates even before APs are over. 
 -ComputerDruid
 
-As for directions:
+Directions
+----------
 
 1. Go to www.palib.info and download/install the latest version of PAlib. This is a pain, but necessary
 2. read up and learn as much about PAlib as you can. Otherwise this whole project will be completely over your head; it's different that most CS projects
