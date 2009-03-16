@@ -8,7 +8,7 @@
 using std::vector;
 
 //constructor
-Kirby::Kirby(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,AI) {
+Kirby::Kirby(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,"kirby",AI) {
 	shieldstr = 64;
 	runspeed = 3.5;
 	handx = 24;
@@ -21,7 +21,6 @@ Kirby::Kirby(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display 
 	rockcount = 0;
 	gravity = 3;
 	jumpmax = 6;
-	name = "kirby";
 } // initializes all of the variables
 // initializers
 void Kirby::initFrames() {

@@ -8,7 +8,7 @@
 using std:: vector;
 
 // constructor
-Mario::Mario(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,AI) {
+Mario::Mario(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,"mario",AI) {
 	shieldstr = 64;
 	runspeed = 3.75;
 	handx = 29;
@@ -21,7 +21,6 @@ Mario::Mario(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display 
 	leftside = 24;
 	gravity = 3;
 	jumpmax = 2;
-	name = "mario";
 } // initializes all of the variables
 // initializers
 void Mario::playsound(int sndnum) {

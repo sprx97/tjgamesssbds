@@ -13,7 +13,8 @@
 
 using std::vector;
 
-Fighter::Fighter(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI){
+Fighter::Fighter(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, string n, bool AI){
+	name=n;
 	display=disp;
 	players=listplayers;
 	shieldstr = 64;

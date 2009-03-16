@@ -19,7 +19,7 @@ static const int ATTACK = -1, AIRATTACK = -2, AIRLAG = -3, TILTLAG = -4, RELEASE
 class Fighter {
 	public:
 		//constructor
-		Fighter(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI = false);
+		Fighter(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, string n, bool AI = false);
 	// variables
 		double shieldstr;
 		int myledge;

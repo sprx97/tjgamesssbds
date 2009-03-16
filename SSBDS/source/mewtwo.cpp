@@ -8,7 +8,7 @@
 using std::vector;
 
 // constructor
-Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,AI) {
+Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,"mewtwo",AI) {
 			shieldstr = 64;
 			runspeed = 4.5;
 			handx = 16;
@@ -21,7 +21,6 @@ Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Displa
 			leftside = 22;
 			gravity = 3;
 			jumpmax = 2;
-			name = "mewtwo";
 		} // initializes all of the variables
 	// initializers
 		void Mewtwo::playsound(int sndnum) {}
