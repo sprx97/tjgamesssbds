@@ -35,3 +35,17 @@ void Display::updateEffects(){
 		}
 	}
 }
+void Display::pauseEffects(){
+	for(int n = 0; n < (int)effects.size(); n++) {
+		PA_SpriteAnimPause(MAIN_SCREEN, effects[n].mynum, 1);
+	}
+}// pauses all effect animations
+void Display::unpauseEffects(){
+	for(int n = 0; n < (int)effects.size(); n++) {
+		PA_SpriteAnimPause(MAIN_SCREEN, effects[n].mynum, 0);
+	}
+}// unpauses all effect animations
+void Display::stopEffects(){
+	for(int n = 0; n < (int)effects.size(); n++)
+		PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
+}
