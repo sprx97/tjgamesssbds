@@ -73,6 +73,7 @@ Display display = Display();
 // stores all visual effects
 
 //FIXME still quite a few things use these
+#define effects (*display.getEffects())
 #define scrollx display.scrollx
 #define scrolly display.scrolly
 #define score (*display.score)
@@ -643,7 +644,9 @@ void Pause() {
 	// - screen
 	// - sprite number
 	// - on/off (1/0)
-	display.pauseEffects();
+	for(int n = 0; n < (int)effects.size(); n++) {
+		PA_SpriteAnimPause(MAIN_SCREEN, effects[n].mynum, 1);
+	} // pauses all effect animations
 	for(int n = 0; n < (int)projectiles.size(); n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, projectiles[n].num, 1);
 	} // pauses all projectile animations
@@ -656,7 +659,9 @@ void Pause() {
 	for(int n = 0; n < (int)players.size(); n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, players[n] -> SPRITENUM, 0);
 	} // unpauses players
-	display.unpauseEffects();
+	for(int n = 0; n < (int)effects.size(); n++) {
+		PA_SpriteAnimPause(MAIN_SCREEN, effects[n].mynum, 0);
+	} // unpauses effects
 	for(int n = 0; n < (int)projectiles.size(); n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, projectiles[n].num, 0);
 	} // unpauses projectiles
@@ -699,7 +704,6 @@ void scrollScreen() {
 	for(int n = 0; n < (int)players.size(); n++) {
 		players[n] -> scroll(scrollx, scrolly);
 	} // scrolls the players
-	vector<Effect> effects = *display.getEffects();
 	for(int n = 0; n < (int)effects.size(); n++) {
 		if(effects[n].type == FX_DEATH) {} // don't move sprite
 		else if(effects[n].type == FX_AIRJUMP) PA_SetSpriteXY(MAIN_SCREEN, effects[n].mynum, PA_GetSpriteX(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM), PA_GetSpriteY(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM)+32);
@@ -839,7 +843,7 @@ void displayResults() {
 			AS_SoundQuickPlay(menuconfirm);
 			fadeOut();
 			score.clear(); // clears the scoreboard
-			display.getEffects()->clear(); // clears the effects
+			effects.clear(); // clears the effects
 			for(int n = 0; n < (int)players.size(); n++) {
 				PA_FatFreeSprite(players[n] -> MYCHAR);
 				delete players[n];
@@ -864,7 +868,7 @@ void gameOver() {
 	// stops sprite anim for all players
 	for(int n = 0; n < (int)projectiles.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, projectiles[n].num);
 	// stops all projectile animations
-	display.stopEffects();
+	for(int n = 0; n < (int)effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
 	// stops all effect animations
 	if(gamemode == GAMEMODE_TIME) PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
 	for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
@@ -940,6 +944,7 @@ void match(int param) {
 			}
 		}
 		// acts and checks intersections of all projectiles
+		//for(int n = 0; n < (int)effects.size(); n++) effects[n].act();
 		display.updateEffects();
 		// acts all effects
 		displayMinimap(); // changes sub screen display

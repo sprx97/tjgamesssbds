@@ -14,9 +14,6 @@ class Display{
 		void addeffect(Effect e);
 		void deleffect(Effect e);
 		void updateEffects();
-		void pauseEffects();
-		void unpauseEffects();
-		void stopEffects();
 		vector<Effect>* getEffects();
 		Scoreboard *score;
 };
