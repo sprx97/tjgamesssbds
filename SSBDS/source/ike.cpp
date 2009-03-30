@@ -8,7 +8,7 @@
 using std::vector;
 
 // constructor
-Ike::Ike(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,"ike",AI) {
+Ike::Ike(int xpos, int ypos, int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,"ike",AI) {
 	shieldstr = 64;
 	runspeed = 2.75;
 	handx = 14;

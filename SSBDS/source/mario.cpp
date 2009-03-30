@@ -8,7 +8,7 @@
 using std:: vector;
 
 // constructor
-Mario::Mario(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,"mario",AI) {
+Mario::Mario(int xpos, int ypos, int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,"mario",AI) {
 	shieldstr = 64;
 	runspeed = 3.75;
 	handx = 29;

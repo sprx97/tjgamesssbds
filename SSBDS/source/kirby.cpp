@@ -8,7 +8,7 @@
 using std::vector;
 
 //constructor
-Kirby::Kirby(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,"kirby",AI) {
+Kirby::Kirby(int xpos, int ypos, int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,"kirby",AI) {
 	shieldstr = 64;
 	runspeed = 3.5;
 	handx = 24;
