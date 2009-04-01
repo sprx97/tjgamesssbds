@@ -21,6 +21,8 @@ Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> listplayers, Displa
 			leftside = 22;
 			gravity = 3;
 			jumpmax = 2;
+			initFrames();
+			initSprite();
 		} // initializes all of the variables
 	// initializers
 		void Mewtwo::playsound(int sndnum) {}

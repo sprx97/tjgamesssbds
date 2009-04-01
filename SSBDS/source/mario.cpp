@@ -21,6 +21,8 @@ Mario::Mario(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display 
 	leftside = 24;
 	gravity = 3;
 	jumpmax = 2;
+	initFrames();
+	initSprite();
 } // initializes all of the variables
 // initializers
 void Mario::playsound(int sndnum) {

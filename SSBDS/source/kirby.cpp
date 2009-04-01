@@ -21,6 +21,8 @@ Kirby::Kirby(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display 
 	rockcount = 0;
 	gravity = 3;
 	jumpmax = 6;
+	initFrames();
+	initSprite();
 } // initializes all of the variables
 // initializers
 void Kirby::initFrames() {

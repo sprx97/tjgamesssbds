@@ -44,8 +44,6 @@ Fighter::Fighter(int xpos, int ypos, int num, vector<Fighter*> listplayers, Disp
 	grabtimeleft = 0;
 	initAtkbox();
 	initDefbox();
-	initFrames();
-	initSprite();
 } // initializes all of the variables
 // virtual methods
 void Fighter::initDefbox() {

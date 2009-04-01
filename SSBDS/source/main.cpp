@@ -884,6 +884,9 @@ void match(int param) {
 	else if(gamemode == GAMEMODE_STOCK) stock = param;
 	
 	characterSelect(); // select characters
+	for(int n = 0; n < players.size(); n++) {
+		players[n] -> players = players;
+	}
 	stageSelect(); // select stage
 	initFX(); // inits the special FX
 	initProjectiles(); // inits the projectiles

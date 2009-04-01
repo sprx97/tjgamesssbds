@@ -24,6 +24,8 @@ Ike::Ike(int xpos, int ypos, int num, vector<Fighter*> listplayers, Display *dis
 	leftside = 13;
 	gravity = 3;
 	jumpmax = 2;
+	initFrames();
+	initSprite();
 } // initializes all of the variables
 // initializers
 void Ike::playsound(int sndnum) {
