@@ -941,7 +941,9 @@ void match(int param) {
 		// checks to see if any player hit another
 		scrollScreen(); // scrolls the screen
 		for(int n = 0; n < (int)projectiles.size(); n++) {
-			projectiles[n].act();
+			if(projectiles[n].act()) {
+				removeProj(&projectiles[n]);
+			}
 			for(int m = 0; m < (int)players.size(); m++) {
 				if(projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);
 			}

@@ -26,5 +26,6 @@ bool getCStickStylus();
 bool getShieldGrabOn();
 void* getProj();//FIXME: Hack
 void removeProj(void* projectile);
+void Pause();
 
 #endif

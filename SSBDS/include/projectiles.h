@@ -23,7 +23,7 @@ class Projectile {
 		int owner;
 		Stage* mystage;
 		Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage* mine, Display *d);
-		void act();
+		bool act();
 		void removeSelf();
 		Fighter* checkHits(Fighter* other);
 };

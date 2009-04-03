@@ -41,7 +41,7 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 18, 24, 20, ANIM_LOOP, -1);
 	}
 }
-void Projectile::act() {
+bool Projectile::act() {
 	x += dx;
 	y += dy;
 	if(y > maxy) dy*=-1;
@@ -49,7 +49,8 @@ void Projectile::act() {
 	PA_SetSpriteXY(MAIN_SCREEN, num, (int)(x-display->scrollx), (int)(y-display->scrolly));
 	if(x+64-display->scrollx < 0 || x-display->scrollx > 256 || y+64-display->scrolly < 0 || y-display->scrolly > 192) PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
 	time++;
-	if(time > length) removeSelf();
+	if(time > length) return true;
+	return false;
 }
 __attribute__((__deprecated__))
 void Projectile::removeSelf() {
