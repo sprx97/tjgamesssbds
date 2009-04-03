@@ -71,7 +71,7 @@ extern const unsigned char pokemonstadiumminimap_Tiles[4096] __attribute__ ((ali
 extern PAGfx_struct pokemonstadiumminimap; // background pointer
 
 extern const unsigned short projectilesprites_Pal[19] __attribute__ ((aligned (4))) ;
-extern const unsigned short charsel_Pal[235] __attribute__ ((aligned (4))) ;
+extern const unsigned short charsel_Pal[204] __attribute__ ((aligned (4))) ;
 extern const unsigned short stagesel_Pal[245] __attribute__ ((aligned (4))) ;
 extern const unsigned short specialFX_Pal[242] __attribute__ ((aligned (4))) ;
 extern const unsigned short charprev_Pal[250] __attribute__ ((aligned (4))) ;
