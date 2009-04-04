@@ -1322,7 +1322,6 @@ void Fighter::move() {
 } // moves the sprite
 void Fighter::jaywalk() {}
 void Fighter::setDirection(int rl) {
-	int olddirection = direction;
 	if(action == STUN) {
 		if(kx > 0) direction = RIGHT;
 		else if(kx < 0) direction = LEFT;

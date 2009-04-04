@@ -1,6 +1,6 @@
 // Game designed by TJgames of TJHSST
 // Head Developer(s): Jeremy Vercillo, Daniel Johnson
-// Assistant Developer(s): Tyler Haines, Patrick Stalcup
+// Assistant Developer(s): Dylan Ladwig, Tyler Haines, Patrick Stalcup
 // Head Advisor: Andrew Kim
 // 6/08 - ???
 
@@ -102,18 +102,16 @@ bool getShieldGrabOn(){
 void* getProj(){
 	return &projectiles;
 }
-void removeProj(void* pr) {
-	Projectile* proj = (Projectile*)pr;
+void removeProj(int prnum) {
 	vector<Projectile> temp;
 	for(int n = 0; n < (int)projectiles.size(); n++) {
 		Projectile p = projectiles[n];
-		if(p.x != proj->x || p.y != proj->y) {
+		if(p.num != prnum) {
 			temp.push_back(p);
 		}
 	}
 	projectiles = temp;
-	PA_SetSpriteXY(MAIN_SCREEN, proj->num, -64, -64);
-	delete proj;
+	PA_SetSpriteXY(MAIN_SCREEN, prnum, -64, -64);
 }
 bool custom_action(int action, int typecheck) {
 	if(customcontrols[action] == BUTTON_A) {
@@ -884,7 +882,7 @@ void match(int param) {
 	else if(gamemode == GAMEMODE_STOCK) stock = param;
 	
 	characterSelect(); // select characters
-	for(int n = 0; n < players.size(); n++) {
+	for(int n = 0; n < (int)players.size(); n++) {
 		players[n] -> players = players;
 	}
 	stageSelect(); // select stage
@@ -942,7 +940,7 @@ void match(int param) {
 		scrollScreen(); // scrolls the screen
 		for(int n = 0; n < (int)projectiles.size(); n++) {
 			if(projectiles[n].act()) {
-				removeProj(&projectiles[n]);
+				removeProj(projectiles[n].num);
 			}
 			for(int m = 0; m < (int)players.size(); m++) {
 				if(projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);

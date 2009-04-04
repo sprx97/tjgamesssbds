@@ -54,7 +54,7 @@ bool Projectile::act() {
 }
 __attribute__((__deprecated__))
 void Projectile::removeSelf() {
-	removeProj(this);
+	removeProj(num);
 //	vector<Projectile>* current;
 //	current = ((vector<Projectile>*)getProj());
 //	vector<Projectile> temp;
