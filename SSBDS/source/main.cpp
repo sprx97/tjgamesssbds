@@ -478,7 +478,7 @@ void stageSelect() {
 		PA_WaitForVBL();
 	}
 }
-void characterSelect() {
+void characterSelect(bool train = false) {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/blank.gif");
 	// blank background
 	
@@ -546,7 +546,7 @@ void characterSelect() {
 		// loops around selection number: max number of players is 1
 		PA_OutputText(SUB_SCREEN, 7, 23, "Select for player %d", selecting+1);
 		// prints who is being selected for... like I said: cursors will come later
-		if(Pad.Newpress.Start && humanselected != -1 && cpu1selected != -1) {
+		if(Pad.Newpress.Start && humanselected != -1) {
 // if start is pressed and both players are ready
 			AS_SoundQuickPlay(menuconfirm);
 			// menu confirmation sound byte
@@ -558,22 +558,25 @@ void characterSelect() {
 			else if(humanselected == MARIO) players.push_back(new Mario(512/2 -96 -32, 256/3 -32, 1, &players, &display));
 			else if(humanselected == IKE) players.push_back(new Ike(512/2 -96 -32, 256/3 -33, 1, &players, &display));		  
 			// adds a new player class (fighter*) for the human
-					
-			if(cpu1selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));
-			else if(cpu1selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));
-			else if(cpu1selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));
-			else if(cpu1selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));		 
+			
+			if(!train and !(cpu1selected == -1 and cpu2selected == -1 and cpu3selected == -1)) {				
+				if(cpu1selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));
+				else if(cpu1selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));
+				else if(cpu1selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));
+				else if(cpu1selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));		 
 
-			if(cpu2selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));
-			else if(cpu2selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));
-			else if(cpu2selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));
-			else if(cpu2selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));		 
+				if(cpu2selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));
+				else if(cpu2selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));
+				else if(cpu2selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));
+				else if(cpu2selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));		 
 
-			if(cpu3selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));
-			else if(cpu3selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));
-			else if(cpu3selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));
-			else if(cpu3selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));		 
-			// adds a new player class (fighter*) for the cpu1
+				if(cpu3selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));
+				else if(cpu3selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));
+				else if(cpu3selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));
+				else if(cpu3selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));		 
+				// adds a new player class (fighter*) for the cpu1
+			}
+			else players.push_back(new Sandbag(512/2 + 96 - 32, 256/3 -32, 2, &players, &display, true));			
 			
 			return;
 		}
@@ -965,7 +968,55 @@ void match(int param) {
 	}
 }
 void trainingMode() {
+	characterSelect(true); // select characters
+	for(int n = 0; n < (int)players.size(); n++) {
+		players[n] -> players = players;
+	}
+	stageSelect(); // select stage
+	initFX(); // inits the special FX
+	initProjectiles(); // inits the projectiles
+			
+	Stage stage = setStage(selectedStage); 
+	// sets the stage to the stage chosen in stageSelect
+	PA_InitText(MAIN_SCREEN,1); // inits text on the main screen (displays time)
+	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
+	initMinimap(selectedStage); // inits minimap
+	PA_InitText(SUB_SCREEN,1); // inits test on sub screen (displays percentages)
+	PA_SetTextCol(SUB_SCREEN, 31,31,31); // text color = white
 
+	fadeIn();
+																																												
+	while(true) {
+		PA_CheckLid(); // if the lid is closed it pauses
+		if(Pad.Newpress.Start) Pause(); 
+		// checks to see if the game was paused by start button
+		for(int n = 0; n < (int)players.size(); n++) players[n] -> act(); // all players act
+		for(int n = 0; n < (int)players.size(); n++) {
+			for(int m = 0; m < (int)players.size(); m++) {
+				if(m != n) {
+					players[m] = players[n] -> checkHits(players[m]);
+				}
+			}
+		}
+		// checks to see if any player hit another
+		scrollScreen(); // scrolls the screen
+		for(int n = 0; n < (int)projectiles.size(); n++) {
+			if(projectiles[n].act()) {
+				removeProj(projectiles[n].num);
+			}
+			for(int m = 0; m < (int)players.size(); m++) {
+				if(projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);
+			}
+		}
+		// acts and checks intersections of all projectiles
+		//for(int n = 0; n < (int)effects.size(); n++) effects[n].act();
+		display.updateEffects();
+		// acts all effects
+		displayMinimap(); // changes sub screen display
+		displayPercentages(); // displays percentages on sub screen
+		printMemoryUsage();
+		PA_WaitForVBL();
+	}
 } // training mode
 
 //More menu screens:
@@ -1374,6 +1425,9 @@ void mainMenu() {
 				options();
 				initMainMenu();
 			}
+		}
+		if(Pad.Newpress.Start) {
+			trainingMode();
 		}
 		printMemoryUsage();
 		PA_WaitForVBL();
