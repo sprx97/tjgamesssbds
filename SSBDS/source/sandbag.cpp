@@ -251,10 +251,8 @@ void Sandbag::act() {
 		dy = ky;
 		if(checkFloorCollision()) idle();
 	}
-	else {
-		if(checkFloorCollision()) idle();
-		else fall();
-	}
+	else if(action == FALL) if(checkFloorCollision()) idle();
+	else if(action == IDLE) idle();
 }
 Sandbag::~Sandbag() {
 	allatkbox.clear();
