@@ -669,7 +669,7 @@ void Fighter::act() {
 			else airlag = 2;
 		}
 		if(action == FALL) {
-			directionalInfluence();
+			if(!isCPU) directionalInfluence();
 			if(checkFloorCollision()) idle();
 		} // checks for stage collision when falling
 		if(aerial && action != AIRATTACK && action != AIRLAG && action != FTHROW && action != BTHROW && action != UTHROW && action != DTHROW) {
@@ -779,7 +779,7 @@ void Fighter::actAir() {
 	}
 	if((custom_action(ACTION_JUMP, PAD_NEWPRESS)) && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) doubleJump();  // uses second (3rd, 4th, etc) jump(s)
 	if(Stylus.Newpress && getCStickStylus()) airAttackStylus();
-	directionalInfluence();
+	if(!isCPU) directionalInfluence();
 }
 void Fighter::actGround() {
 	if(tiltlag <= 0) {
