@@ -253,6 +253,7 @@ void Sandbag::act() {
 	}
 	else if(action == FALL) if(checkFloorCollision()) idle();
 	else if(action == IDLE) idle();
+	move();
 }
 Sandbag::~Sandbag() {
 	allatkbox.clear();

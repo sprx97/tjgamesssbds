@@ -927,7 +927,7 @@ void Fighter::crouch() {
 void Fighter::fall() {
 	aerial = true;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FALL], endframes[FALL], framespeeds[FALL], ANIM_LOOP, -1);
-	directionalInfluence();
+	if(!isCPU) directionalInfluence();
 	dy = 0;
 	dx = 0;
 	action = FALL;
