@@ -1299,7 +1299,7 @@ void Fighter::move() {
 			DI = 0;
 			ymomentum = 0;
 		}
-		checkLedgeCollision();
+		if(!isCPU) checkLedgeCollision();
 		checkFloorCollision();
 		checkWallCollision();
 		checkCeilingCollision();
