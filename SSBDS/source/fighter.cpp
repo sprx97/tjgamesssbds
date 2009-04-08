@@ -1194,7 +1194,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	k = other.getKnockback();
 	hitstun = (int) (k.length * 3 * (1+(percentage/100)));
 	kx = (1+(percentage/100)) * k.dx * mult;
-	ky = (1+(percentage/100)) * k.dy;
+	ky = (1+(percentage/100)) * k.dy - gravity;
 	dx = dy = DI = fastfall = 0;
 	CAPE = false;
 	lasthitby = hitter;
