@@ -57,7 +57,6 @@ void Fighter::initDefbox() {
 	if(!file) while(true) {}
 	char line[64];
 	while(true) {
-		Hitbox tempbox;
 		fgets(line, 64, file);
 		int frame = atoi(strtok(line, " \t"));
 		if(frame == -1) break;					
@@ -80,7 +79,6 @@ void Fighter::initAtkbox() {
 	if(!file) while(true) {}
 	char line[64];
 	while(true) {
-		Hitbox tempbox;
 		fgets(line, 64, file);
 
 		int frame = atoi(strtok(line, " \t"));
@@ -95,6 +93,7 @@ void Fighter::initAtkbox() {
 		int dmg = atoi(strtok(NULL, " \t"));
 
 		allatkbox[frame].addCircle(createAtkbox(xpos, (int)(ypos)%64, radius, Knockback(kbx, kby, kblen), dmg));
+		allatkbox[frame].enabled = true;
 	}
 	fclose(file);
 }
@@ -354,6 +353,11 @@ void Fighter::act() {
 	std::map<int, int> customcontrols = getcustomcontrols();
 	if(effectwait > 0) effectwait--;
 	if(ledgewait > 0) ledgewait--;
+	if(delay <= 0) {
+		for(int n = 0; n < (int)allatkbox.size(); n++) {
+			allatkbox[n].enabled = true;
+		}
+	}
 	if(isCPU) {
 		actCPU();
 		return;
@@ -1200,6 +1204,8 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	lasthitby = hitter;
 }
 Fighter* Fighter::checkHits(Fighter* other) {
+	if(!allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled) return other;
+	allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled = false;
 	if(getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if(action == HOLD || action == GRABATK) {}
 		else if(action == GRAB) {

@@ -9,6 +9,7 @@ class Hitbox {
 	vector<Circle> circles; // Circles in the hitbox
 	int contact; // which circle in circles made contact
 	public:
+		bool enabled;
 		void addCircle(Circle toadd);
 		// adds a circle
 		vector<Circle> getCircles();
