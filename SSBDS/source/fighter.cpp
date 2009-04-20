@@ -1232,6 +1232,16 @@ Fighter* Fighter::checkHits(Fighter* other) {
 			else other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, charnum, chargecount);
 		}
 	}
+	else if(getAtkbox().hits(other -> getAtkbox())) {
+		if(getAtkbox().getHitCircle(other -> getAtkbox()).priority > (other -> getAtkbox()).getHitCircle(getAtkbox()).priority) {
+			if(direction == LEFT) other -> takeDamage(getAtkbox().getHitCircle(other -> getAtkbox()), 1, charnum, chargecount);
+			else other -> takeDamage(getAtkbox().getHitCircle(other -> getAtkbox()), -1, charnum, chargecount);
+		}
+		else if(getAtkbox().getHitCircle(other -> getAtkbox()).priority == (other -> getAtkbox()).getHitCircle(getAtkbox()).priority) {
+			idle();
+			other -> idle();
+		} // clashing hits
+	}
 	return other;
 }
 Hitbox Fighter::getAtkbox() { 

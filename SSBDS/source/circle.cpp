@@ -8,14 +8,16 @@ Circle::Circle(double xpos, double ypos, double r, int f) {
 	radius = r;
 	damage = 0;
 	setKnockback(0,0,0);
+	priority = -1;
 } // creates a circle with no knockback and damge -> Defboxes
-Circle::Circle(double xpos, double ypos, double r, Knockback knock, double d, int f) {
+Circle::Circle(double xpos, double ypos, double r, Knockback knock, double d, int f, int pr) {
 	fx = f;
 	x = xpos;
 	y = ypos;
 	radius = r;
 	damage = (d/3.0);
 	k = knock;
+	priority = pr;
 } // creates a circle with knockback and damage -> Atkboxes
 double Circle::getX() { return x; }
 double Circle::getY() { return y; }
