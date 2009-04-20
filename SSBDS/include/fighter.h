@@ -137,7 +137,7 @@ class Fighter {
 		Fighter* checkHits(Fighter* other);
 		Hitbox getAtkbox();
 		virtual Hitbox getDefbox(int framenum);
-		Circle createAtkbox(double extrax, double extray, double radius, Knockback k, int damage);
+		Circle createAtkbox(double extrax, double extray, double radius, Knockback k, int damage, int prior = 0);
 		void airAttack();
 		void airAttackStylus();
 		void smashAttack();

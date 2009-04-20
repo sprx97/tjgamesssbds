@@ -86,13 +86,14 @@ void Fighter::initAtkbox() {
 		double xpos = atof(strtok(NULL, " \t"));
 		double ypos = atof(strtok(NULL, " \t"));
 		double radius = atof(strtok(NULL, " \t"));
-
 		double kbx = atof(strtok(NULL, " \t"));
 		double kby = atof(strtok(NULL, " \t"));
 		int kblen = atoi(strtok(NULL, " \t"));
 		int dmg = atoi(strtok(NULL, " \t"));
+		int prior = atoi(strtok(NULL, "\t"));
 
-		allatkbox[frame].addCircle(createAtkbox(xpos, (int)(ypos)%64, radius, Knockback(kbx, kby, kblen), dmg));
+
+		allatkbox[frame].addCircle(createAtkbox(xpos, (int)(ypos)%64, radius, Knockback(kbx, kby, kblen), dmg, prior));
 		allatkbox[frame].enabled = true;
 	}
 	fclose(file);
@@ -1270,8 +1271,8 @@ Hitbox Fighter::getDefbox(int framenum) {
 	}
 	return defbox;
 }
-Circle Fighter::createAtkbox(double extrax, double extray, double radius, Knockback k, int damage) {
-	Circle temp(64 - extrax,  extray, radius, k, damage);
+Circle Fighter::createAtkbox(double extrax, double extray, double radius, Knockback k, int damage, int prior) {
+	Circle temp(64 - extrax,  extray, radius, k, damage, prior);
 	return temp;
 }
 void Fighter::airAttack() {
