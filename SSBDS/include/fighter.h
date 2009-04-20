@@ -22,6 +22,7 @@ class Fighter {
 		Fighter(int xpos, int ypos, int num, vector<Fighter*> *listplayers, Display *disp, string n, bool AI = false);
 	// variables
 		double weight;
+		double w2value;
 		double shieldstr;
 		int myledge;
 		double runspeed;
