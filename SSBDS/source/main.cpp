@@ -551,6 +551,7 @@ void characterSelect(bool train = false) {
 			AS_SoundQuickPlay(menuconfirm);
 			// menu confirmation sound byte
 			fadeOut();
+			for(int n = 0; n < 120; n++) PA_WaitForVBL(); // wait for sound to finish
 			PA_ResetSpriteSys(); // restes all sprites
 			PA_OutputText(SUB_SCREEN, 7, 23, "                     "); // clears text
 			if(humanselected == KIRBY) players.push_back(new Kirby(512/2 -96 -32, 256/3 -32, 1, &players, &display));
@@ -577,7 +578,7 @@ void characterSelect(bool train = false) {
 				// adds a new player class (fighter*) for the cpu1
 			}
 			else players.push_back(new Sandbag(512/2 + 96 - 32, 256/3 -32, 2, &players, &display, true));			
-			
+						
 			return;
 		}
 		if(Stylus.Newpress) {
