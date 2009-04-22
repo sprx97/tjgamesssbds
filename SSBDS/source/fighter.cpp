@@ -99,8 +99,14 @@ void Fighter::initAtkbox() {
 	fclose(file);
 }
 void Fighter::initSprite() {
+	bool alreadymade = false;
+	for(uint8 n = 0; n < players.size(); n++) {
+		if(players[n] -> name == name) alreadymade = true;
+	}
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, SPRITENUM-100, name.c_str());
-	PA_FatLoadSprite(MYCHAR, name.c_str());
+	if(!alreadymade) {
+		PA_FatLoadSprite(MYCHAR, name.c_str());
+	}
 	PA_CreateSprite(MAIN_SCREEN, SPRITENUM, (void*)sprite_gfx[MYCHAR], OBJ_SIZE_64X64, COLOR256, SPRITENUM-100, -64, -64);
 	PA_LoadSpritePal(MAIN_SCREEN, 14-(SPRITENUM-100), (void*)shield_Pal);
 	PA_CreateSprite(MAIN_SCREEN, 30+(SPRITENUM-100), (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 14-(SPRITENUM-100), -64, -64);
