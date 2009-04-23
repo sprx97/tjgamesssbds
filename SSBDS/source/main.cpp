@@ -10,8 +10,8 @@
 
 #define DEBUG_ON // turns on printing of information to screen
 //#define SLOPEDSTAGES_ON // Castle Seige and Corneria
-#define LAN_ON // REMEMBER TO CHANGE MAKEFILE TOO!!!!
-//#define MP3_ON
+//#define LAN_ON // CHANGE MAKEFILE TOO!!!!
+#define MP3_ON
 // turns certain features on and off
 
 //PALib:
@@ -1342,7 +1342,9 @@ void extras() {
 
 } // extras menu, uncoded
 
+#ifdef LAN_ON
 #import "LAN.cpp"
+#endif
 
 //randomly placed helper method:
 double distance(int x1, int y1, int x2, int y2) {
@@ -1500,7 +1502,7 @@ int main(int argc, char ** argv) {
 	PA_VBLFunctionInit(AS_SoundVBL); // easy way to make sure that AS_SoundVBL() is called every frame
     AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
 	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
-	AS_SetMP3Loop(true);
+//	AS_SetMP3Loop(true);
 	// required both for MP3 and Sound
 	
 	initControls();
