@@ -53,7 +53,7 @@ Now here are what all the important files are/do in this project.
 	- /gifs
 		- gif files loaded to be screen backgrounds
 	- /music
-		- mp3 files for background music; not working ATM
+		- mp3 files for background music
 	- /hitboxes
 		- variables for hitboxes of characters (txt files) 
 - /SSBDS/makefile
