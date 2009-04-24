@@ -15,6 +15,7 @@ Directions
 ----------
 
 1. Go to [the PALib website][main] and download/install the latest version of PAlib. This is a pain, but necessary
+	- Helpful [installation guide][guide]
 2. read up and learn as much about PAlib as you can. Otherwise this whole project will be completely over your head; it's different from most CS projects
 	- [main page][main] for PAlib
 	- [PAlib forum][forum]
@@ -28,38 +29,59 @@ Directions
 [forum]:    http://forum.palib.info/index.php?action=forum "PALib Forum"
 [docs]:     http://palib.info/Doc/PAlibDoc%20Eng/modules.html "PALib Function Documentation"
 [tutorial]: http://www.palib.info/wiki/doku.php "PALib Tutorial/Wiki"
+[guide]:    http://forum.palib.info/index.php?topic=6319.0 "Installation guide for PAlib"
 
-Now here are what all the important files are/do in this project.
+Files
+-----
 
-- /SSBDS/data
+- /SSBDS/data/
 	- all the .raw files (sound FX) are stored here. They are then converted into and loaded as .h files.
-- /SSBDS/source
+- /SSBDS/source/
 	- all of the source code for the project
-	- /gfx
+	- The code itself should be pretty well commented, but for more information try looking at the PAlib examples, wiki, etc.
+	- gfx/
 		- Just the graphics files that are included by main.cpp (in .c form)
 		- Modifying this is slightly more difficult, but see the palib examples and wiki if you want to try to learn
-	- /main.cpp
-		- The main code file that is compiled by the makefile. This is the code that you will be editing. 
-		- The file itself should be pretty well commented, but for more information try looking at the PAlib examples, wiki, etc.
-	- /computerserver
+	- main.cpp: Contains the main game logic, game types, and initialization
+	- circle.cpp: represents a circle, usually part of a hitbox
+	- display.cpp
+	- effect.cpp: a visual effect that will stay on the screen for a period of time
+	- fighter.cpp: the base class for the characters 
+		- Implements many of the character functions, along with the AI and input
+	- Characters:
+		- ike.cpp: Ike, a swordsman from fire emblem
+		- kirby.cpp: Kirby, a fluffy pufffball
+		- mario.cpp: Mario, our favorite plumber (unless you like a different plumber)
+		- mewtwo.cpp: Mewtwo, the powerful psychic pokemon that is the result of genetic experimentation
+		- sandbag.cpp: Sandbag, a simple dummy character for use in training mode
+	- global.cpp: implements generic functions that are useful throughout the code
+	- hitbox.cpp: represents a hitbox
+	- knockback.cpp
+	- projectiles.cpp: represents a flying/falling/other disconnected-from-player attack
+	- scoreboard.cpp: draws? and keeps track of deaths/kills/SDs
+	- stage.cpp: represents a stage. This is extended by various other stages
+	- stages.cpp: the code and data for the various stages
+	- computerserver/
 		- Contains a computer server to host DS's that I made. It isn't used anymore, but I included it nevertheless.
-	- /hiboxmaker.java
+	- hiboxmaker.java
 		- a GUI I made to create hitboxes for characters... slightly outdated; don't worry about it for now.
-- /SSBDS/SSBDS_Files
+- /SSBDS/includes/
+	- contains the definitions for the classes that are implemented (see above list)
+- /SSBDS/SSBDS\_Files/
 	- External files that are loaded by the ROM
 	- must be loaded onto your flashcard along with the ROM
-	- /sprites
+	- sprites/
 		- .bin files for character sprites; very large files (I'm working on cutting them down but it involves editing the main.cpp, too)
-	- /gifs
+	- gifs/
 		- gif files loaded to be screen backgrounds
-	- /music
+	- music/
 		- mp3 files for background music
-	- /hitboxes
+	- hitboxes/
 		- variables for hitboxes of characters (txt files) 
-- /SSBDS/makefile
+- /SSBDS/Makefile
 	- the file containing build instructions. Set up PAlib, then CD into the /SSBDS directory and type "make" to compile the ROM.
 - /SSBDS/SSBDS.NDS
 	- the ROM file... pretty simple. Just load this onto your flashcard if you just want to play the game.
-	- You also need to load /SSBDS_Files into the root of your flashcard
+	- You also need to load /SSBDS\_Files into the root of your flashcard
 
 Everything else is just framework for the makefile or not used; don't worry about the other files unless you really know what you're doing and how to use them.
