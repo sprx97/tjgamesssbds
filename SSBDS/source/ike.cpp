@@ -13,7 +13,7 @@ Ike::Ike(int xpos, int ypos, int num, vector<Fighter*> *listplayers, Display *di
 	w2value = 0.28;
 	shieldstr = 64;
 	runspeed = 2.75;
-	handx = 14;
+	handx = 22;
 	handy = 8;
 	eruptioncharge = 0;
 	quickdrawcharge = 0;
