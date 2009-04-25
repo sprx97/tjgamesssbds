@@ -13,7 +13,7 @@ Mario::Mario(int xpos, int ypos, int num, vector<Fighter*> *listplayers, Display
 	w2value = 0.0;
 	shieldstr = 64;
 	runspeed = 3.75;
-	handx = 29;
+	handx = 25;
 	handy = 19;
 	fluddcharge = 0;
 	MYCHAR = MARIO;
