@@ -437,40 +437,16 @@ void stageSelect() {
 	PA_StartSpriteAnimEx(SUB_SCREEN, CORNERIA, CORNERIA, CORNERIA, 1, ANIM_LOOP, -1);
 #endif
 	// loads sprites just like in characterSelect()
-	
-	int selected = -1; // which stage has been selected, by the static const ints
-	
-	while(true) {
-		if(Pad.Newpress.Start && selected != -1) {
-// if start is pressed and a stage is selected
-			AS_SoundQuickPlay(menuconfirm);
-// menu confirmation sound
-			fadeOut();
-			
-			PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites
-			
-			//new way:
-			selectedStage=selected;
-			// set selectedStage based on selected
 		
-			return;
-		}
+	while(true) {
 		if(Stylus.Newpress) {
 			for(int n = 0; n < 10; n++) { // through all possible stages
 				if(PA_SpriteTouched(n)) {
-					AS_SoundQuickPlay(menuconfirm);
-					// menu confirm sound
-
-					if(n == 1) openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/finaldestinationprev.gif");
-					if(n == 2) openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/pokemonstadiumprev.gif");
-#ifdef SLOPEDSTAGES_ON
-					if(n == 3) openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/castleseigeprev.gif");
-					if(n == 4) openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/corneriaprev.gif");
-#endif
-					// stage preview depending on what the new stage is
-					
-					selected = n; // sets selected stage, just like in characterSelect()
-
+					AS_SoundQuickPlay(menuconfirm); // menu confirm sound
+					fadeOut();
+					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites
+					selectedStage = n; // sets selected stage, just like in characterSelect()
+					return;
 				}
 			}
 		}
