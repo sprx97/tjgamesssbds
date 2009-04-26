@@ -3,7 +3,7 @@
 
 #include "stage.h"
 
-extern const int FINALDESTINATION, POKEMONSTADIUM, CASTLESEIGE, CORNERIA;
+extern const int FINALDESTINATION, POKEMONSTADIUM, CASTLESIEGE, CORNERIA;
 // stage shortcuts just like character shortcuts
 
 class FinalDestination: public Stage {
@@ -17,11 +17,11 @@ class PokemonStadium: public Stage {
 		void Initialize(); // initializes the pokemon stadium stage
 }; // the stage Pokemon Stadium
 #ifdef SLOPEDSTAGES_ON
-class CastleSeige: public Stage {
+class CastleSiege: public Stage {
 	public:
-		CastleSeige();
-		void Initialize(); // initializes Castle Seige
-}; // the stage casle seige
+		CastleSiege();
+		void Initialize(); // initializes Castle Siege
+}; // the stage Castle Siege
 class Corneria: public Stage {
 	public:
 		Corneria();

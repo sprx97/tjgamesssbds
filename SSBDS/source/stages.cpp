@@ -1,6 +1,6 @@
 #include "stages.h"
 #include "stage.h"
-const int FINALDESTINATION = 1, POKEMONSTADIUM = 2, CASTLESEIGE = 3, CORNERIA = 4;
+const int FINALDESTINATION = 1, POKEMONSTADIUM = 2, CASTLESIEGE = 3, CORNERIA = 4;
 // stage shortcuts just like character shortcuts
 
 FinalDestination::FinalDestination() { Initialize(); }
@@ -54,9 +54,9 @@ void PokemonStadium::Initialize() {
 	ledges.push_back(Ledge(512-42, 154, "left"));
 } // initializes the pokemon stadium stage
 #ifdef SLOPEDSTAGES_ON
-CastleSeige::CastleSeige() { Initialize(); }
-void CastleSeige::Initialize() {
-	name = "castleseige";
+CastleSiege::CastleSiege() { Initialize(); }
+void CastleSiege::Initialize() {
+	name = "castlesiege";
 	width = 512;
 	height = 384;
 	topdeath = 0-192;
@@ -86,7 +86,7 @@ void CastleSeige::Initialize() {
 	floors.push_back(Floor(302, 270-128, 408-302, true));
 	walls.push_back(Wall(48, 350-128, 100, "left"));
 	walls.push_back(Wall(442, 350-128, 100, "right"));
-} // initializes Castle Seige
+} // initializes Castle Siege
 Corneria::Corneria() { Initialize(); }
 void Corneria::Initialize() {
 	name = "corneria";

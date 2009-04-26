@@ -9,7 +9,7 @@
 // made for profit, just for fun.
 
 #define DEBUG_ON // turns on printing of information to screen
-//#define SLOPEDSTAGES_ON // Castle Seige and Corneria
+//#define SLOPEDSTAGES_ON // Castle Siege and Corneria
 //#define LAN_ON // CHANGE MAKEFILE TOO!!!!
 #define MP3_ON
 // turns certain features on and off
@@ -279,9 +279,9 @@ Stage setStage(int selStage) {
 #ifdef SLOPEDSTAGES_ON
 	if(selStage == CASTLESIEGE) {
 		// background
-		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, castleseige);
-		picked = CastleSeige();
-	} // loads castle seige if it was chosen
+		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, castlesiege);
+		picked = CastleSiege();
+	} // loads castle siege if it was chosen
 	if(selStage == CORNERIA) {
 		// background
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, corneria);
@@ -385,8 +385,8 @@ void stageSelect() {
 	PA_CreateSprite(SUB_SCREEN, POKEMONSTADIUM, (void*)stagesel, OBJ_SIZE_64X64, COLOR256, 0, 64, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, POKEMONSTADIUM, POKEMONSTADIUM, POKEMONSTADIUM, 1, ANIM_LOOP, -1);
 #ifdef SLOPEDSTAGES_ON
-	PA_CreateSprite(SUB_SCREEN, CASTLESEIGE, (void*)stagesel, OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
-	PA_StartSpriteAnimEx(SUB_SCREEN, CASTLESEIGE, CASTLESEIGE, CASTLESEIGE, 1, ANIM_LOOP, -1);
+	PA_CreateSprite(SUB_SCREEN, CASTLESIEGE, (void*)stagesel, OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
+	PA_StartSpriteAnimEx(SUB_SCREEN, CASTLESIEGE, CASTLESIEGE, CASTLESIEGE, 1, ANIM_LOOP, -1);
 	PA_CreateSprite(SUB_SCREEN, CORNERIA, (void*)stagesel, OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, CORNERIA, CORNERIA, CORNERIA, 1, ANIM_LOOP, -1);
 #endif
