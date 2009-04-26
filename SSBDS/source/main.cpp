@@ -36,9 +36,6 @@ using namespace std;
 //example:
 using std::vector;
 
-__attribute__((__deprecated__))
-const double PI=3.1415926; // DEPRECATED: use M_PI (from math.h) instead
-
 //Project classes:
 #include "global.h"
 #include "effect.h"
@@ -264,56 +261,13 @@ void openGif(int screen, string path) {
 
 #import "minimap.cpp" // minimap for during battles
 
-__attribute__((__deprecated__))
-string stagename; // the name of the current stage.
-//This is deprecated because using a string is excessive for transmiting stage names
-
 int selectedStage = -1; //the stage currently selected
 
-__attribute__((__deprecated__))
-Stage setStage(string name) {
-	//WARNING: this method is deprecated and is not/should not be called
-	//changes made here will not take effect unless you are calling this
-	//for some good reason. This method wil leave soon. Use the one below 
-	//which takes an int.
-	PA_ResetBgSysScreen(MAIN_SCREEN); // resets bg on the main screen
-	Stage picked; // the stage which is chosen
-	if(name == "finaldestination") {
-//		PA_Init8bitBg(MAIN_SCREEN, 3);
-//		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/finaldestinationbackground.gif");
-		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, finaldestination);
-		picked = FinalDestination();
-	} // loads final destination if it was chosen
-	if(name == "pokemonstadium") {
-		// background
-		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, pokemonstadium);
-		picked = PokemonStadium();
-	} // loads pokemon stadium if it was chosen
-#ifdef SLOPEDSTAGES_ON
-	if(name == "castleseige") {
-		// background
-		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, castleseige);
-		picked = CastleSeige();
-	} // loads castle seige if it was chosen
-	if(name == "corneria") {
-		// background
-		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, corneria);
-		picked = Corneria();
-	} // loads corneria if it was chosen
-#endif
-	for(int n = 0; n < (int)players.size(); n++) {
-		players[n] -> setStage(&picked);
-	} // sets the stage of the players to the picked stage
-	return picked; // returns the picked stage
-} // displays the stage on the main screen
-
-//The REAL way to set up a stage:
 Stage setStage(int selStage) {
 	PA_ResetBgSysScreen(MAIN_SCREEN); // resets bg on the main screen
 	Stage picked; // the stage which is chosen
 	if(selStage == FINALDESTINATION) {
-//		PA_Init8bitBg(MAIN_SCREEN, 3);
-//		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/finaldestinationbackground.gif");
+		// background
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, finaldestination);
 		picked = FinalDestination();
 	} // loads final destination if it was chosen
