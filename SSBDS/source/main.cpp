@@ -210,32 +210,6 @@ void printMemoryUsage() {
 } 
 // prints memory usage to main screen. requires text to be initialized.
 // only prints if debugging
-void fadeOut() {
-   	for(int i = 0; i >= -31; i--) {
-		PA_SetBrightness(MAIN_SCREEN, i);
-		PA_SetBrightness(SUB_SCREEN, i);
-		PA_WaitForVBL();
-	} // slowly darkens the screen into black
-} // fades both screens out
-void fadeIn() {
-   	for(int i = -31; i <= 0; i++) {
-		PA_SetBrightness(MAIN_SCREEN, i);
-		PA_SetBrightness(SUB_SCREEN, i);
-		PA_WaitForVBL();
-	} // slowly brightens the screen to normal
-} // fades both screens in
-void flash() {
-	for(int i = 1; i <= 31; i+=3) {
-		PA_SetBrightness(MAIN_SCREEN, i);
-		PA_SetBrightness(SUB_SCREEN, i);
-		PA_WaitForVBL();
-	} // brightens the screen to white realy quickly
-	for(int i = 31; i >= 0; i--) {
-		PA_SetBrightness(MAIN_SCREEN, i);
-		PA_SetBrightness(SUB_SCREEN, i);
-		PA_WaitForVBL();
-	} // darkens the screen to normal
-} // flashes the screen brightly
 
 char* gifbuffer = NULL; // the array which stores the gif being printed
 void openGif(int screen, string path) {
@@ -258,12 +232,39 @@ void openGif(int screen, string path) {
 	} // loads the gif if the image file exists
 } // opens the gif at path onto screen
 
+void fadeOut() {
+   	for(int i = 0; i >= -31; i--) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		PA_WaitForVBL();
+	} // slowly darkens the screen into black
+	PA_ResetBgSys();
+} // fades both screens out
+void fadeIn() {
+   	for(int i = -31; i <= 0; i++) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		PA_WaitForVBL();
+	} // slowly brightens the screen to normal
+} // fades both screens in
+void flash() {
+	for(int i = 1; i <= 31; i+=3) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		PA_WaitForVBL();
+	} // brightens the screen to white realy quickly
+	for(int i = 31; i >= 0; i--) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		PA_WaitForVBL();
+	} // darkens the screen to normal
+} // flashes the screen brightly
+
 #import "minimap.cpp" // minimap for during battles
 
 int selectedStage = -1; //the stage currently selected
 
 Stage setStage(int selStage) {
-	PA_ResetBgSysScreen(MAIN_SCREEN); // resets bg on the main screen
 	Stage picked; // the stage which is chosen
 	if(selStage == FINALDESTINATION) {
 		// background
@@ -374,7 +375,16 @@ void saveControls() {
 //Menu screens:
 // selecting char/stage
 void stageSelect() {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif"); // blank background
+	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
+	// opens the gif from the path on the sub screen
+
+	PA_Init8bitBg(MAIN_SCREEN, 3);
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
+	// opens the gif from the path on the main screen
+	
+	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
+	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white	
 	
 	fadeIn();
 	
@@ -408,13 +418,21 @@ void stageSelect() {
 	}
 }
 void characterSelect(bool train = false) {
+	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// blank background
+	// opens the gif from the path on the sub screen
+
+	PA_Init8bitBg(MAIN_SCREEN, 3);
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
+	// opens the gif from the path on the main screen
 	
-	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
-	
+	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
+	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
+
 	PA_InitText(SUB_SCREEN, 0); // init text on sub screen
-	PA_SetTextCol(SUB_SCREEN, 0,0,0); // text color of black
+	PA_SetTextCol(SUB_SCREEN, 0,0,0); // text color of black		
+
+	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
 
 	PA_LoadSpritePal(SUB_SCREEN, 0, (void*)charsel_Pal);
 	// creates a paleete... see mainMenu() for more details
@@ -647,10 +665,6 @@ void scrollScreen() {
 }
 
 void displayResults() {		
-	PA_ResetBg(MAIN_SCREEN);
-	PA_ResetBg(SUB_SCREEN);
-	// resets the background for both screens
-	
 	PA_Init8bitBg(MAIN_SCREEN, 3);
 	PA_Init8bitBg(SUB_SCREEN, 3);
 	// initializes a gif on both screens
@@ -834,8 +848,11 @@ void match(int param) {
 	// initializes scoreboard
 	score = Scoreboard(players.size()); // initializes a new scoreboard
 
+	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width/2+128);
+	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height/2+96);
+
 	fadeIn();
-		
+
 	AS_SoundQuickPlay(three);
 	for(int n = 0; n < 60; n++) PA_WaitForVBL();
 	AS_SoundQuickPlay(two);
@@ -864,7 +881,7 @@ void match(int param) {
 		}
 		for(int n = 0; n < (int)players.size(); n++) {
 			if(score.getDeaths(n)+sdcost*score.getSDs(n) < stock) players[n] -> act();
-			else {
+			if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock) {
 				players[n] -> beDead();
 				if((players[n] -> isCPU) == false) {
 					if(!camchanged) {
@@ -893,9 +910,7 @@ void match(int param) {
 			}
 		}
 		// acts and checks intersections of all projectiles
-		//for(int n = 0; n < (int)effects.size(); n++) effects[n].act();
-		display.updateEffects();
-		// acts all effects
+		display.updateEffects(); // acts all effects
 		displayMinimap(); // changes sub screen display
 		displayPercentages(); // displays percentages on sub screen
 		if(gamemode == GAMEMODE_STOCK) displayLives(stock);
@@ -964,8 +979,17 @@ void trainingMode() {
 
 //More menu screens:
 void controlOptions() {
+	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
+	// opens the gif from the path on the sub screen
+
+	PA_Init8bitBg(MAIN_SCREEN, 3);
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
+	// opens the gif from the path on the main screen
 	
+	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
+	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
+		
 	PA_InitText(SUB_SCREEN, 0);
 	PA_SetTextCol(SUB_SCREEN, 0, 0, 0); // black text
 	
@@ -1079,8 +1103,17 @@ void controlOptions() {
 	}
 } // edit custom controls
 void cameraOptions() {
+	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
+	// opens the gif from the path on the sub screen
+
+	PA_Init8bitBg(MAIN_SCREEN, 3);
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
+	// opens the gif from the path on the main screen
 	
+	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
+	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
+		
 	PA_InitText(SUB_SCREEN, 0);
 	PA_SetTextCol(SUB_SCREEN, 0, 0, 0); // black text
 	
@@ -1109,8 +1142,17 @@ void cameraOptions() {
 	}
 } // edit camera options
 void gameOptions() {
+	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
+	// opens the gif from the path on the sub screen
+
+	PA_Init8bitBg(MAIN_SCREEN, 3);
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
+	// opens the gif from the path on the main screen
 	
+	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
+	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
+		
 	PA_InitText(SUB_SCREEN, 0);
 	PA_SetTextCol(SUB_SCREEN, 0, 0, 0); // black text
 
@@ -1201,10 +1243,16 @@ void gameOptions() {
 	}
 } // edit match style
 void initOptions() {
+	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens gif background. no need to reinit, just loads over the old gif for this screen.
+	// opens the gif from the path on the sub screen
+
+	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// puts main menu on top screen while in submenus
+	// opens the gif from the path on the main screen
+	
+	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
+	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
 
 	PA_InitText(SUB_SCREEN, 0);
 	PA_SetTextCol(SUB_SCREEN, 0, 0, 0);
@@ -1257,7 +1305,6 @@ void options() {
 		if(Pad.Newpress.B) {
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
-			PA_ResetBg(SUB_SCREEN); // gets rid of bgs
 			return; // back
 		}
 		printMemoryUsage();
@@ -1348,7 +1395,6 @@ void mainMenu() {
 	}
 }
 void titleScreen() {
-	PA_ResetBgSys(); // clears all bgs on both screens
 	PA_ResetSpriteSys(); // clears all sprites on both screens
 
 	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
@@ -1398,12 +1444,7 @@ int main(int argc, char ** argv) {
 	PA_FatSetBasePath("/SSBDS_Files");  // Set a base path
 	// initializes external file system. very important!!!
 
-	PA_SetBrightness(MAIN_SCREEN, -31);
-	PA_SetBrightness(SUB_SCREEN, -31);
-	// screen brightness (not related to backlight setting)
-	// -31 = all black
-	// 31 = all white
-	// 0 = normal
+	fadeOut();
 
 	PA_VBLFunctionInit(AS_SoundVBL); // easy way to make sure that AS_SoundVBL() is called every frame
     AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);

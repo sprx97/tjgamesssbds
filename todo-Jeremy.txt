@@ -1,4 +1,3 @@
-add "loading..." to fadeOut()
 music in more places (like stages)
 Graphic display of damage percents
 Fix Sloped Stages

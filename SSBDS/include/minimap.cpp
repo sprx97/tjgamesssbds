@@ -1,6 +1,4 @@
 void initMinimap(int selStage) {
-	PA_ResetBgSysScreen(SUB_SCREEN);
-
 	if(selStage == FINALDESTINATION) {
 		PA_EasyBgLoad(SUB_SCREEN, 3, finaldestinationminimap);
 	}
