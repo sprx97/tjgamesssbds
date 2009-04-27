@@ -39,60 +39,64 @@ void displayPercentages() {
 	PA_OutputText(SUB_SCREEN, 0, 21, "                                           ");
 	PA_OutputText(SUB_SCREEN, 0, 23, "                                           ");
 	// clears the text
-	if(players.size() >=1) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_RED);
-		int damage = (int)(players[0]->getDamagePercent());
-		PA_OutputText(SUB_SCREEN, 0, 0, "%d %", damage);
-	} // displays damage percent of player 1
-	if(players.size() >= 2) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_BLUE);
-		int damage = (int)(players[1]->getDamagePercent());
-		stringstream ss;
-		ss << damage;
-		int length = ss.str().size();
-		PA_OutputText(SUB_SCREEN, 30-length, 0, "%d %", damage);
-	} // displays damage percent of player 2
-	if(players.size() >= 3) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_YELLOW);
-		int damage = (int)(players[2]->getDamagePercent());
-		PA_OutputText(SUB_SCREEN, 0, 21, "%d %", damage);
-	} // damage of player 3
-	if(players.size() >= 4) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_GREEN);
-		int damage = (int)(players[3]->getDamagePercent());
-		stringstream ss;
-		ss << damage;
-		int length = ss.str().size();
-		PA_OutputText(SUB_SCREEN, 30-length, 21, "%d %", damage);
+	for(int n = 0; n < (int)players.size(); n++) {
+		if(players[n] -> SPRITENUM-100 == 1) {
+			PA_SetTextTileCol(SUB_SCREEN, TEXT_RED);
+			int damage = (int)(players[n]->getDamagePercent());
+			PA_OutputText(SUB_SCREEN, 0, 0, "%d %", damage);
+		} // displays damage percent of player 1
+		else if(players[n] -> SPRITENUM-100 == 2) {
+			PA_SetTextTileCol(SUB_SCREEN, TEXT_BLUE);
+			int damage = (int)(players[n]->getDamagePercent());
+			stringstream ss;
+			ss << damage;
+			int length = ss.str().size();
+			PA_OutputText(SUB_SCREEN, 30-length, 0, "%d %", damage);
+		} // displays damage percent of player 2
+		else if(players[n] -> SPRITENUM-100 == 3) {
+			PA_SetTextTileCol(SUB_SCREEN, TEXT_YELLOW);
+			int damage = (int)(players[n]->getDamagePercent());
+			PA_OutputText(SUB_SCREEN, 0, 21, "%d %", damage);
+		} // damage of player 3
+		else if(players[n] -> SPRITENUM-100 == 4) {
+			PA_SetTextTileCol(SUB_SCREEN, TEXT_GREEN);
+			int damage = (int)(players[n]->getDamagePercent());
+			stringstream ss;
+			ss << damage;
+			int length = ss.str().size();
+			PA_OutputText(SUB_SCREEN, 30-length, 21, "%d %", damage);
+		}
 	}
 } // displays damage percents on the sub screen
 void displayLives(int stock) {
 	PA_OutputText(SUB_SCREEN, 0, 1, "                                               ");
 	PA_OutputText(SUB_SCREEN, 0, 22, "                                               ");
-	if(players.size() >= 1) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_RED);
-		int lives = stock - score.getDeaths(0) - sdcost*score.getSDs(0);
-		PA_OutputText(SUB_SCREEN, 0, 1, "x%d", lives);
-	}
-	if(players.size() >= 2) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_BLUE);
-		int lives = stock-score.getDeaths(1) - sdcost*score.getSDs(1);
-		stringstream ss;
-		ss << lives;
-		int length = ss.str().size();
-		PA_OutputText(SUB_SCREEN, 31-length, 1, "x%d", lives);
-	}
-	if(players.size() >= 3) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_YELLOW);
-		int lives = stock-score.getDeaths(2) - sdcost*score.getSDs(2);
-		PA_OutputText(SUB_SCREEN, 0, 22, "x%d", lives);
-	}
-	if(players.size() >= 4) {
-		PA_SetTextTileCol(SUB_SCREEN, TEXT_GREEN);
-		int lives = stock-score.getDeaths(3) - sdcost*score.getSDs(3);
-		stringstream ss;
-		ss << lives;
-		int length = ss.str().size();
-		PA_OutputText(SUB_SCREEN, 31-length, 22, "x%d", lives);
+	for(int n = 0; n < (int)players.size(); n++) {
+		if(players[n] -> SPRITENUM-100 == 1) {
+			PA_SetTextTileCol(SUB_SCREEN, TEXT_RED);
+			int lives = stock - score.getDeaths(n) - sdcost*score.getSDs(n);
+			PA_OutputText(SUB_SCREEN, 0, 1, "x%d", lives);
+		}
+		else if(players[n] -> SPRITENUM-100 == 2) {
+			PA_SetTextTileCol(SUB_SCREEN, TEXT_BLUE);
+			int lives = stock-score.getDeaths(n) - sdcost*score.getSDs(n);
+			stringstream ss;
+			ss << lives;
+			int length = ss.str().size();
+			PA_OutputText(SUB_SCREEN, 31-length, 1, "x%d", lives);
+		}
+		else if(players[n] -> SPRITENUM-100 == 3) {
+			PA_SetTextTileCol(SUB_SCREEN, TEXT_YELLOW);
+			int lives = stock-score.getDeaths(n) - sdcost*score.getSDs(n);
+			PA_OutputText(SUB_SCREEN, 0, 22, "x%d", lives);
+		}
+		else if(players[n] -> SPRITENUM-100 == 4) {
+			PA_SetTextTileCol(SUB_SCREEN, TEXT_GREEN);
+			int lives = stock-score.getDeaths(n) - sdcost*score.getSDs(n);
+			stringstream ss;
+			ss << lives;
+			int length = ss.str().size();
+			PA_OutputText(SUB_SCREEN, 31-length, 22, "x%d", lives);
+		}
 	}
 }

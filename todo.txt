@@ -1,0 +1,9 @@
+add "loading..." to fadeOut()
+music in more places (like stages)
+Graphic display of damage percents
+Fix Sloped Stages
+Credits Screen
+Character Colors
+
+Known Bugs:
+- 4 players doesn't work (sprite pal/img assignment related)

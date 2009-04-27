@@ -1,4 +1,4 @@
-#include <PA9.h> // DS functions that we use come from here
+ #include <PA9.h> // DS functions that we use come from here
 #include "hitbox.h"
 #include "knockback.h"
 #include "circle.h"
@@ -39,6 +39,7 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	aerial = true;
 	delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 	dx = dy = fastfall = DI = 0.0;
+	kx = ky = 0;
 	percentage = 0;
 	ymomentum = 0.0;
 	momentumtime = 0;
@@ -122,15 +123,15 @@ void Fighter::actCPU() {
 	double Cy = 0;
 	for(int n = 0; n < (int)players.size(); n++) {
 		if(players[n] -> charnum != charnum) {
-			double dx = (players[n] -> x) - x;
-			double dy = (players[n] -> y) - y;
-			double distance = sqrt(dx*dx + dy*dy);
+			double deltax = (players[n] -> x) - x;
+			double deltay = (players[n] -> y) - y;
+			double distance = sqrt(deltax*deltax + deltay*deltay);
 			if(distance < Cdistance) {
 				Cenemy = n;
 				Cdistance = distance;
-				Cx = dx;
-				Cy = dy;
-				Cangle = atan2(dy, dx) * 180 / M_PI; // from -180 to 180
+				Cx = deltax;
+				Cy = deltay;
+				Cangle = atan2(deltay, deltax) * 180 / M_PI; // from -180 to 180
 			}
 		}
 	}

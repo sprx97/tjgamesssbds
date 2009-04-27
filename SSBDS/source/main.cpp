@@ -688,20 +688,28 @@ void displayResults() {
 	if(draw) {} // doesn't display a main screen bg
 	else {
 		if(players[winner] -> name == "kirby") {
-			if(players[winner] -> charnum == 0) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin1.gif");
-			if(players[winner] -> charnum == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin2.gif");
+			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin1.gif");
+			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin2.gif");
+			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin3.gif");
+			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin4.gif");
 		}
 		if(players[winner] -> name == "mewtwo") {
-			if(players[winner] -> charnum == 0) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin1.gif");
-			if(players[winner] -> charnum == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin2.gif");
+			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin1.gif");
+			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin2.gif");
+			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin3.gif");
+			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin4.gif");			
  		}
 		if(players[winner] -> name == "mario") {
-			if(players[winner] -> charnum == 0) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin1.gif");
-			if(players[winner] -> charnum == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin2.gif");
+			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin1.gif");
+			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin2.gif");
+			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin3.gif");
+			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin4.gif");
 		}
 		if(players[winner] -> name == "ike") {
-			if(players[winner] -> charnum == 0) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin1.gif");
-			if(players[winner] -> charnum == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin2.gif");
+			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin1.gif");
+			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin2.gif");
+			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin1.gif");
+			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin2.gif");
 		}
 	} 
 	// displays the series icon of the winner in the winner's color
@@ -1264,11 +1272,6 @@ void extras() {
 #import "LAN.cpp"
 #endif
 
-//randomly placed helper method:
-double distance(int x1, int y1, int x2, int y2) {
-	return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-}
-
 // (Even more) pre-game menus
 void initMainMenu() {
 	PA_Init8bitBg(SUB_SCREEN, 3);
@@ -1300,7 +1303,7 @@ void mainMenu() {
 		if(Stylus.Newpress) {
 			int x = Stylus.X;
 			int y = Stylus.Y;
-			if(distance(x, y, 64, 74) <= 48) {
+			if(x > 105 && x < 228 && y > 38 && y < 64) {
 				AS_SoundQuickPlay(menuconfirm);
 				AS_MP3Stop(); // stops bg music
 				fadeOut();
@@ -1313,7 +1316,7 @@ void mainMenu() {
 					initMainMenu();
 				}
 			}
-			else if(distance(x, y, 126, 141) <= 48) {				
+			else if(x > 82 && x < 205 && y > 70 && y < 99) {				
 				AS_SoundQuickPlay(menuconfirm);
 				AS_MP3Stop(); // stops bg music
 				fadeOut();
@@ -1322,14 +1325,14 @@ void mainMenu() {
 #endif
 				initMainMenu();
 			}
-			else if(distance(x, y, 188, 72) <= 48) {				
+			else if(x > 60 && x < 183 && y > 104 && y < 131) {				
 				AS_SoundQuickPlay(menuconfirm);
 				AS_MP3Stop(); // stops bg music
 				fadeOut();
 				extras();
 				initMainMenu();
 			}
-			else if(distance(x, y, 256, 192) <= 48) {
+			else if(x > 38 && x < 162 && y > 136 && y < 164) {
 				AS_SoundQuickPlay(menuconfirm);
 				AS_MP3Stop(); // stops bg music
 				fadeOut();
