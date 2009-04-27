@@ -1487,7 +1487,7 @@ bool Fighter::checkFloorCollision() {
 		PA_OutputText(MAIN_SCREEN, 0, 1, "Rise: %d", (int)(rise));
 #endif
 		if(aerial) {
-			if(!(Pad.Held.Down && currfloor.isPlatform()) && dy+ymomentum+gravity > 0 && y+bottomside-rise <= currfloor.y && y+bottomside-rise + gravity + fastfall + dy + ymomentum > currfloor.y && x+rightside + dx + DI > currfloor.x && x+leftside + dx + DI < currfloor.x + currfloor.length) {
+			if(!(Pad.Held.Down && !isCPU && currfloor.isPlatform()) && dy+ymomentum+gravity > 0 && y+bottomside-rise <= currfloor.y && y+bottomside-rise + gravity + fastfall + dy + ymomentum > currfloor.y && x+rightside + dx + DI > currfloor.x && x+leftside + dx + DI < currfloor.x + currfloor.length) {
 				aerial = false;
 				y = currfloor.y-bottomside+rise;
 				dy = DI = fastfall = ymomentum = 0;
@@ -1497,7 +1497,7 @@ bool Fighter::checkFloorCollision() {
 			} // if you land on the floor
 		} // checks for landing 
 		else {
-			if(!(Pad.Held.Down && currfloor.isPlatform())) {
+			if(!(Pad.Held.Down && !isCPU && currfloor.isPlatform())) {
 				if(x+rightside + dx >= currfloor.x && x+leftside + dx < currfloor.x + currfloor.length) {
 					if(((y+bottomside >= currfloor.y-currfloor.totalrise() && y+bottomside <= currfloor.y+currfloor.totalrise() && currfloor.totalrise() >= 0) 
 								|| (y+bottomside <= currfloor.y-currfloor.totalrise() && y+bottomside >= currfloor.y+currfloor.totalrise() && currfloor.totalrise() < 0))) {

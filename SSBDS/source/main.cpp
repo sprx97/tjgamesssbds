@@ -509,7 +509,7 @@ void characterSelect(bool train = false) {
 			else if(humanselected == IKE) players.push_back(new Ike(1, &players, &display));		  
 			// adds a new player class (fighter*) for the human
 			
-			if(!train and !(cpu1selected == -1 and cpu2selected == -1 and cpu3selected == -1)) {				
+			if(!train && !(cpu1selected == -1 && cpu2selected == -1 && cpu3selected == -1)) {				
 				if(cpu1selected == KIRBY) players.push_back(new Kirby(2, &players, &display, true));
 				else if(cpu1selected == MEWTWO) players.push_back(new Mewtwo(2, &players, &display, true));
 				else if(cpu1selected == MARIO) players.push_back(new Mario(2, &players, &display, true));

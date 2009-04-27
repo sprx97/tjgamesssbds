@@ -3,6 +3,7 @@ Graphic display of damage percents
 Fix Sloped Stages
 Credits Screen
 Character Colors
+Use cursors in character select
 
 Known Bugs:
 - 4 players doesn't work (sprite pal/img assignment related)
