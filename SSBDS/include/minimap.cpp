@@ -28,7 +28,7 @@ void initMinimap(int selStage) {
 } // initializes the minimap display on the sub screen
 void displayMinimap() {
 	for(int n = 0; n < (int)players.size(); n++) {
-		PA_SetSpriteXY(SUB_SCREEN, n+1, (int)((players[n] -> x)/4) + 64, (int)((players[n] -> y)/4) + 32 + 56 + 4);
+		if(!(players[n] -> isdead)) PA_SetSpriteXY(SUB_SCREEN, n+1, (int)((players[n] -> x)/4) + 64, (int)((players[n] -> y)/4) + 32 + 56 + 4);
 	}
 	// displays the sprites in the correct position on a scaled down map
 	PA_SetSpriteXY(SUB_SCREEN, 0, (int)(scrollx/4) + 64, (int)(scrolly/4) + 24 + 56 + 4);
@@ -36,6 +36,7 @@ void displayMinimap() {
 } // displays the minimap
 void displayPercentages() {
 	PA_OutputText(SUB_SCREEN, 0, 0, "                                           ");
+	PA_OutputText(SUB_SCREEN, 0, 21, "                                           ");
 	PA_OutputText(SUB_SCREEN, 0, 23, "                                           ");
 	// clears the text
 	if(players.size() >=1) {
@@ -54,7 +55,7 @@ void displayPercentages() {
 	if(players.size() >= 3) {
 		PA_SetTextTileCol(SUB_SCREEN, TEXT_YELLOW);
 		int damage = (int)(players[2]->getDamagePercent());
-		PA_OutputText(SUB_SCREEN, 0, 23, "%d %", damage);
+		PA_OutputText(SUB_SCREEN, 0, 21, "%d %", damage);
 	} // damage of player 3
 	if(players.size() >= 4) {
 		PA_SetTextTileCol(SUB_SCREEN, TEXT_GREEN);
@@ -62,7 +63,7 @@ void displayPercentages() {
 		stringstream ss;
 		ss << damage;
 		int length = ss.str().size();
-		PA_OutputText(SUB_SCREEN, 30-length, 23, "%d %", damage);
+		PA_OutputText(SUB_SCREEN, 30-length, 21, "%d %", damage);
 	}
 } // displays damage percents on the sub screen
 void displayLives(int stock) {

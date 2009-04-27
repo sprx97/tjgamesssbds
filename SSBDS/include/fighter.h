@@ -19,7 +19,7 @@ static const int ATTACK = -1, AIRATTACK = -2, AIRLAG = -3, TILTLAG = -4, RELEASE
 class Fighter {
 	public:
 		//constructor
-		Fighter(int xpos, int ypos, int num, vector<Fighter*> *listplayers, Display *disp, string n, bool AI = false);
+		Fighter(int num, vector<Fighter*> *listplayers, Display *disp, string n, bool AI = false);
 	// variables
 		double weight;
 		double w2value;
@@ -41,6 +41,7 @@ class Fighter {
 		vector<Hitbox> alldefbox;
 		int leftside, rightside, topside, bottomside;
 		bool isCPU;
+		bool isdead;
 		int SPRITENUM;
 		double gravity;
 		int jumpmax;
@@ -147,6 +148,7 @@ class Fighter {
 		virtual void directionalInfluence(int dx = 0); // acts in the air based on key presses
 		bool checkForDeath();
 		void respawn();
+		void beDead();
 		bool ledgenotinuse(int lnum);
 		bool checkLedgeCollision();
 		bool checkFloorCollision();

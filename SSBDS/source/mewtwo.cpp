@@ -8,7 +8,7 @@
 using std::vector;
 
 // constructor
-Mewtwo::Mewtwo(int xpos, int ypos, int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(xpos,ypos,num,listplayers,disp,"mewtwo",AI) {
+Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num,listplayers,disp,"mewtwo",AI) {
 	weight = 1.01; // same as lucario for now
 	w2value = -0.4; // same as lucario for now
 	shieldstr = 64;

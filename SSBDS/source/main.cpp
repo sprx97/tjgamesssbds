@@ -11,7 +11,6 @@
 #define DEBUG_ON // turns on printing of information to screen
 //#define SLOPEDSTAGES_ON // Castle Siege and Corneria
 //#define LAN_ON // CHANGE MAKEFILE TOO!!!!
-#define MP3_ON
 // turns certain features on and off
 
 //PALib:
@@ -375,7 +374,7 @@ void saveControls() {
 //Menu screens:
 // selecting char/stage
 void stageSelect() {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/blank.gif"); // blank background
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif"); // blank background
 	
 	fadeIn();
 	
@@ -409,8 +408,10 @@ void stageSelect() {
 	}
 }
 void characterSelect(bool train = false) {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/blank.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// blank background
+	
+	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
 	
 	PA_InitText(SUB_SCREEN, 0); // init text on sub screen
 	PA_SetTextCol(SUB_SCREEN, 0,0,0); // text color of black
@@ -478,35 +479,36 @@ void characterSelect(bool train = false) {
 		// prints who is being selected for... like I said: cursors will come later
 		if(Pad.Newpress.Start && humanselected != -1) {
 // if start is pressed and both players are ready
-			AS_SoundQuickPlay(menuconfirm);
-			// menu confirmation sound byte
+			AS_SoundQuickPlay(menuconfirm); // menu confirmation sound byte
+			AS_MP3Stop();
 			fadeOut();
 			PA_ResetSpriteSys(); // restes all sprites
 			PA_OutputText(SUB_SCREEN, 7, 23, "                     "); // clears text
-			if(humanselected == KIRBY) players.push_back(new Kirby(512/2 -96 -32, 256/3 -32, 1, &players, &display));
-			else if(humanselected == MEWTWO) players.push_back(new Mewtwo(512/2 -96 -32, 256/3 -32, 1, &players, &display));
-			else if(humanselected == MARIO) players.push_back(new Mario(512/2 -96 -32, 256/3 -32, 1, &players, &display));
-			else if(humanselected == IKE) players.push_back(new Ike(512/2 -96 -32, 256/3 -33, 1, &players, &display));		  
+			
+			if(humanselected == KIRBY) players.push_back(new Kirby(1, &players, &display));
+			else if(humanselected == MEWTWO) players.push_back(new Mewtwo(1, &players, &display));
+			else if(humanselected == MARIO) players.push_back(new Mario(1, &players, &display));
+			else if(humanselected == IKE) players.push_back(new Ike(1, &players, &display));		  
 			// adds a new player class (fighter*) for the human
 			
 			if(!train and !(cpu1selected == -1 and cpu2selected == -1 and cpu3selected == -1)) {				
-				if(cpu1selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));
-				else if(cpu1selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));
-				else if(cpu1selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));
-				else if(cpu1selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 2, &players, &display, true));		 
+				if(cpu1selected == KIRBY) players.push_back(new Kirby(2, &players, &display, true));
+				else if(cpu1selected == MEWTWO) players.push_back(new Mewtwo(2, &players, &display, true));
+				else if(cpu1selected == MARIO) players.push_back(new Mario(2, &players, &display, true));
+				else if(cpu1selected == IKE) players.push_back(new Ike(2, &players, &display, true));		 
 
-				if(cpu2selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));
-				else if(cpu2selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));
-				else if(cpu2selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));
-				else if(cpu2selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 3, &players, &display, true));		 
+				if(cpu2selected == KIRBY) players.push_back(new Kirby(3, &players, &display, true));
+				else if(cpu2selected == MEWTWO) players.push_back(new Mewtwo(3, &players, &display, true));
+				else if(cpu2selected == MARIO) players.push_back(new Mario(3, &players, &display, true));
+				else if(cpu2selected == IKE) players.push_back(new Ike(3, &players, &display, true));		 
 
-				if(cpu3selected == KIRBY) players.push_back(new Kirby(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));
-				else if(cpu3selected == MEWTWO) players.push_back(new Mewtwo(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));
-				else if(cpu3selected == MARIO) players.push_back(new Mario(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));
-				else if(cpu3selected == IKE) players.push_back(new Ike(512/2 +96 -32, 256/3 -32, 4, &players, &display, true));		 
+				if(cpu3selected == KIRBY) players.push_back(new Kirby(4, &players, &display, true));
+				else if(cpu3selected == MEWTWO) players.push_back(new Mewtwo(4, &players, &display, true));
+				else if(cpu3selected == MARIO) players.push_back(new Mario(4, &players, &display, true));
+				else if(cpu3selected == IKE) players.push_back(new Ike(4, &players, &display, true));		 
 				// adds a new player class (fighter*) for the cpu1
 			}
-			else players.push_back(new Sandbag(512/2 + 96 - 32, 256/3 -32, 2, &players, &display, true));			
+			else players.push_back(new Sandbag(2, &players, &display, true));			
 			
 			return;
 		}
@@ -599,18 +601,20 @@ void Pause() {
 } // pauses the game; will add pause menu later
 void scrollScreen() {
 	if(cameratype == CAMERATYPE_FOLLOWALL) {
-		double maxx = players[0] -> x;
-		double minx = players[0] -> x;
-		double maxy = players[0] -> y;
-		double miny = players[0] -> y;
+		double maxx = -10000;
+		double minx = 10000;
+		double maxy = -10000;
+		double miny = 10000;
 		// initializes min and max x and y
 		for(int n = 0; n < (int)players.size(); n++) {
-			double x = players[n] -> x;
-			double y = players[n] -> y;
-			if(x > maxx) maxx = x;
-			if(x < minx) minx = x;
-			if(y > maxy) maxy = y;
-			if(y < miny) miny = y;
+			if(score.getDeaths(n)+sdcost*score.getSDs(n) < stocklimit && gamemode == GAMEMODE_STOCK) {
+				double x = players[n] -> x;
+				double y = players[n] -> y;
+				if(x > maxx) maxx = x;
+				if(x < minx) minx = x;
+				if(y > maxy) maxy = y;
+				if(y < miny) miny = y;
+			}
 		} // finds the minimum and maximum x and y position
 		scrollx = (maxx + minx) / 2;
 		scrolly = (maxy + miny) / 2;
@@ -678,42 +682,26 @@ void displayResults() {
 	}
 	// calculates winner
 	
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/smashball.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// loads an image on the sub screen
 	
 	if(draw) {} // doesn't display a main screen bg
 	else {
 		if(players[winner] -> name == "kirby") {
-			if(players[winner] -> charnum == 0) { 
-				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/kirbywin1.gif");
-			}
-			if(players[winner] -> charnum == 1) {
-				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/kirbywin2.gif");
-			}
+			if(players[winner] -> charnum == 0) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin1.gif");
+			if(players[winner] -> charnum == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin2.gif");
 		}
 		if(players[winner] -> name == "mewtwo") {
-			if(players[winner] -> charnum == 0) {
-				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/pokemonwin1.gif");
-			}
-			if(players[winner] -> charnum == 1) {
-				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/pokemonwin2.gif");
-			}
+			if(players[winner] -> charnum == 0) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin1.gif");
+			if(players[winner] -> charnum == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin2.gif");
  		}
 		if(players[winner] -> name == "mario") {
-			if(players[winner] -> charnum == 0) {
-				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/mariowin1.gif");
-			}
-			if(players[winner] -> charnum == 1) {
-				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/mariowin2.gif");
-			}
+			if(players[winner] -> charnum == 0) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin1.gif");
+			if(players[winner] -> charnum == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin2.gif");
 		}
 		if(players[winner] -> name == "ike") {
-			if(players[winner] -> charnum == 0) {
-				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/fireemblemwin1.gif");
-			}
-			if(players[winner] -> charnum == 1) {
-				openGif(MAIN_SCREEN, "SSBDS_Files/gifs/fireemblemwin2.gif");
-			}
+			if(players[winner] -> charnum == 0) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin1.gif");
+			if(players[winner] -> charnum == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin2.gif");
 		}
 	} 
 	// displays the series icon of the winner in the winner's color
@@ -792,6 +780,9 @@ void displayResults() {
 	}
  }
 
+int oldcam = cameratype;
+bool camchanged = false;
+
 void gameOver() {
 	AS_SoundQuickPlay(game);
 	// end of game sound clip
@@ -804,6 +795,8 @@ void gameOver() {
 	if(gamemode == GAMEMODE_TIME) PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
 	for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
 	fadeOut();
+	cameratype = oldcam;
+	camchanged = false;
 	return displayResults();
 }
 
@@ -843,7 +836,7 @@ void match(int param) {
 	for(int n = 0; n < 60; n++) PA_WaitForVBL();
 	AS_SoundQuickPlay(go);
 	// counts down to start game
-																																										
+	
 	while(true) {
 		PA_CheckLid(); // if the lid is closed it pauses
 		if(Pad.Newpress.Start) Pause(); 
@@ -861,12 +854,24 @@ void match(int param) {
 			}
 			if (playersstillalive==1) return gameOver();
 		}
-		for(int n = 0; n < (int)players.size(); n++) players[n] -> act(); // all players act
 		for(int n = 0; n < (int)players.size(); n++) {
-			for(int m = 0; m < (int)players.size(); m++) {
-				if(m != n) {
-					players[m] = players[n] -> checkHits(players[m]);
+			if(score.getDeaths(n)+sdcost*score.getSDs(n) < stock) players[n] -> act();
+			else {
+				players[n] -> beDead();
+				if((players[n] -> isCPU) == false) {
+					if(!camchanged) {
+						oldcam = cameratype;
+						camchanged = true;
+					}
+					cameratype = CAMERATYPE_FOLLOWALL;
 				}
+			}
+		} // all players act
+		for(int n = 0; n < (int)players.size(); n++) {
+			if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock) continue;
+			for(int m = 0; m < (int)players.size(); m++) {
+				if(score.getDeaths(m)+sdcost*score.getSDs(m) >= stock) continue;
+				if(m != n) players[m] = players[n] -> checkHits(players[m]);
 			}
 		}
 		// checks to see if any player hit another
@@ -951,12 +956,8 @@ void trainingMode() {
 
 //More menu screens:
 void controlOptions() {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menubg.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	
-#ifdef MP3_ON
-	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
-#endif
-
 	PA_InitText(SUB_SCREEN, 0);
 	PA_SetTextCol(SUB_SCREEN, 0, 0, 0); // black text
 	
@@ -1070,12 +1071,8 @@ void controlOptions() {
 	}
 } // edit custom controls
 void cameraOptions() {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menubg.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	
-#ifdef MP3_ON
-	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
-#endif
-
 	PA_InitText(SUB_SCREEN, 0);
 	PA_SetTextCol(SUB_SCREEN, 0, 0, 0); // black text
 	
@@ -1104,12 +1101,8 @@ void cameraOptions() {
 	}
 } // edit camera options
 void gameOptions() {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menubg.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	
-#ifdef MP3_ON
-	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
-#endif
-
 	PA_InitText(SUB_SCREEN, 0);
 	PA_SetTextCol(SUB_SCREEN, 0, 0, 0); // black text
 
@@ -1200,15 +1193,10 @@ void gameOptions() {
 	}
 } // edit match style
 void initOptions() {
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menubg.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
-	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/menu.gif");
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// puts main menu on top screen while in submenus
-
-#ifdef MP3_ON
-	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
-	// plays main menu music
-#endif
 
 	PA_InitText(SUB_SCREEN, 0);
 	PA_SetTextCol(SUB_SCREEN, 0, 0, 0);
@@ -1287,13 +1275,12 @@ void initMainMenu() {
 	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
 	// opens gif background. no need to reinit, just loads over the old gif for this screen.
-	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/title2.gif");
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	//put title screen on top screen when at main menu.
 
-#ifdef MP3_ON
-	AS_MP3StreamPlay("/SSBDS_Files/music/Menu.mp3");
+	AS_MP3StreamPlay("/SSBDS_Files/music/menu.mp3");
 	// plays main menu music
-#endif
+
 	PA_ResetSpriteSysScreen(MAIN_SCREEN);
 
 	PA_InitText(MAIN_SCREEN, 0);
@@ -1315,9 +1302,7 @@ void mainMenu() {
 			int y = Stylus.Y;
 			if(distance(x, y, 64, 74) <= 48) {
 				AS_SoundQuickPlay(menuconfirm);
-#ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
-#endif
 				fadeOut();
 				if(gamemode == GAMEMODE_TIME) {
 					match(timelimit);
@@ -1330,9 +1315,7 @@ void mainMenu() {
 			}
 			else if(distance(x, y, 126, 141) <= 48) {				
 				AS_SoundQuickPlay(menuconfirm);
-#ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
-#endif
 				fadeOut();
 #ifdef LAN_ON
 				LAN();
@@ -1341,18 +1324,14 @@ void mainMenu() {
 			}
 			else if(distance(x, y, 188, 72) <= 48) {				
 				AS_SoundQuickPlay(menuconfirm);
-#ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
-#endif
 				fadeOut();
 				extras();
 				initMainMenu();
 			}
 			else if(distance(x, y, 256, 192) <= 48) {
 				AS_SoundQuickPlay(menuconfirm);
-#ifdef MP3_ON
 				AS_MP3Stop(); // stops bg music
-#endif
 				fadeOut();
 				options();
 				initMainMenu();
@@ -1370,29 +1349,23 @@ void titleScreen() {
 	PA_ResetSpriteSys(); // clears all sprites on both screens
 
 	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
-	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/title2.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/title.gif");
 	// opens the gif from the path on the sub screen
 
 	PA_Init8bitBg(MAIN_SCREEN, 3);
-	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/blank.gif");
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// opens the gif from the path on the main screen
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
 
-#ifdef MP3_ON	
-	AS_MP3StreamPlay("SSBDS_Files/music/MeleeThemeRemix.mp3");
-	// title screen music
-#endif
+	AS_MP3StreamPlay("SSBDS_Files/music/title.mp3"); // title screen music
+
 	fadeIn();
 		
 	while(true) {
 		if(Stylus.Newpress) { // if the stylus is pressed
-			AS_SoundQuickPlay(menuconfirm);
-			// menu confirm sound byte
-#ifdef MP3_ON
-			AS_MP3Stop();
-			// stops sound
-#endif						
+			AS_SoundQuickPlay(menuconfirm); // menu confirm sound byte
+			AS_MP3Stop(); // stops sound
 			fadeOut();
 			PA_ResetSpriteSys(); // resets sprites
 			return mainMenu();

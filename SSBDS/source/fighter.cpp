@@ -13,15 +13,15 @@
 
 using std::vector;
 
-Fighter::Fighter(int xpos, int ypos, int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI){
+Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI){
 	name=n;
 	display=disp;
 	players=*listplayers;
 	shieldstr = 64;
 	myledge = -1;
 	acceleration = 0;
-	x = xpos;
-	y = ypos;
+	x = 0;
+	y = 0;
 	hangtime = 0;
 	ledgewait = 0;
 	CAPE = false;
@@ -29,6 +29,7 @@ Fighter::Fighter(int xpos, int ypos, int num, vector<Fighter*>* listplayers, Dis
 	effectwait = 0;
 	chargecount = 0;
 	isCPU = AI;
+	isdead = false;
 	lasthitby = -1;
 	SPRITENUM = num + 100;
 	charnum = players.size();
@@ -798,6 +799,7 @@ void Fighter::actGround() {
 			action = TILTLAG;
 			tiltlag = 5;
 		}
+		else if(custom_action(ACTION_SHIELD, PAD_HELD)) shield();
 		else idle();
 	}
 } // acts on the ground based on key presses	
@@ -1410,7 +1412,7 @@ bool Fighter::checkForDeath() {
 	}
 	return false;
 }
-void Fighter::respawn() {
+void Fighter::respawn() {	
 	lasthitby = -1;
 	x = startx;
 	y = starty;
@@ -1422,6 +1424,15 @@ void Fighter::respawn() {
 	dx = dy = fastfall = DI = 0.0;
 	percentage = 0;
 	shieldstr = 64;
+}
+void Fighter::beDead() {
+	PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, -64, -64);
+	PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM+30, -64, -64);
+	PA_SetSpriteXY(SUB_SCREEN, charnum+1, -64, -64);
+	percentage = 0;
+	x = 10000;
+	y = 10000;
+	isdead = true;
 }
 bool Fighter::ledgenotinuse(int lnum) {
 	for(int n = 0; n < (int)players.size(); n++) {

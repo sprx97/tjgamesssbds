@@ -10,7 +10,7 @@ class Ike: public Fighter {
 	int eruptioncharge;
 	public:
 		// constructor
-		Ike(int xpos, int ypos, int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false);
+		Ike(int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false);
 		// initializes all of the variables
 		// initializers
 		void playsound(int sndnum);

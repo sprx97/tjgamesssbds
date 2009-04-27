@@ -9,7 +9,7 @@ class Mario: public Fighter {
 	int fluddcharge;
 	public:
 		// constructor
-		Mario(int xpos, int ypos, int num, vector<Fighter*> *listplayers, Display *disp, bool AI = false); // initializes all of the variables
+		Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI = false); // initializes all of the variables
 		// initializers
 		void playsound(int sndnum);
 		void initFrames();

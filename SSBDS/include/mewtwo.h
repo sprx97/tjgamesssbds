@@ -9,7 +9,7 @@ class Mewtwo: public Fighter {
 	public:
 		int shadowballcharge;
 		// constructor
-		Mewtwo(int xpos, int ypos, int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false);
+		Mewtwo(int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false);
 		// initializes all of the variables
 		// initializers
 		void playsound(int sndnum);
