@@ -26,11 +26,18 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	leftside = 13;
 	gravity = 3;
 	jumpmax = 2;
+	initPalettes();
 	initFrames();
 	initSprite();
-	fall();
+	idle();
 } // initializes all of the variables
 // initializers
+void Ike::initPalettes() {
+	palettes.push_back("ike");
+	palettes.push_back("ike");
+	palettes.push_back("ike");
+	palettes.push_back("ike");
+}
 void Ike::playsound(int sndnum) {
 	if(sndnum == BAIR) AS_SoundQuickPlay(ikebair);
 	if(sndnum == DASHATTACK) AS_SoundQuickPlay(ikedashattack);

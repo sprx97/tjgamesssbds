@@ -23,11 +23,18 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	leftside = 24;
 	gravity = 3;
 	jumpmax = 2;
+	initPalettes();
 	initFrames();
 	initSprite();
-	fall();
+	idle();
 } // initializes all of the variables
 // initializers
+void Mario::initPalettes() {
+	palettes.push_back("mario");
+	palettes.push_back("mario");
+	palettes.push_back("mario");
+	palettes.push_back("mario");
+}
 void Mario::playsound(int sndnum) {
 	if(sndnum == JUMP) AS_SoundQuickPlay(mariojump);
 	if(sndnum == DOUBLEJUMP) AS_SoundQuickPlay(mariodoublejump);

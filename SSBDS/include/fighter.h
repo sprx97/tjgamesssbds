@@ -65,6 +65,7 @@ class Fighter {
 		vector<int> framespeeds;
 		vector<Fighter*> players;
 		vector<Effect> effects;
+		vector<const char*> palettes;
 		Fighter* grabbedenemy;
 		Fighter* grabbedby;
 		int grabtimeleft;
@@ -87,6 +88,7 @@ class Fighter {
 		virtual void dthrow();
 		virtual void bthrow();
 		virtual void fthrow();
+		virtual void initPalettes();
 		virtual void initFrames();
 		void release(int dir);
 		void released(int dir);

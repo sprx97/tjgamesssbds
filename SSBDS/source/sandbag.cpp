@@ -22,9 +22,16 @@ Sandbag::Sandbag(int num, vector<Fighter*> *listplayers, Display *disp, bool AI)
 	leftside = 19;
 	gravity = 2.5;
 	jumpmax = 0;
+	initPalettes();
 	initFrames();
 	initSprite();
 	fall();
+}
+void Sandbag::initPalettes() {
+	palettes.push_back("sandbag");
+	palettes.push_back("sandbag");
+	palettes.push_back("sandbag");
+	palettes.push_back("sandbag");
 }
 void Sandbag::initFrames() {
 	//LAND

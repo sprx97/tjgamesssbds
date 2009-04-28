@@ -23,11 +23,18 @@ Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	rockcount = 0;
 	gravity = 3;
 	jumpmax = 6;
+	initPalettes();
 	initFrames();
 	initSprite();
-	fall();
+	idle();
 } // initializes all of the variables
 // initializers
+void Kirby::initPalettes() {
+	palettes.push_back("kirbypink");
+	palettes.push_back("kirbyblue");
+	palettes.push_back("kirbyyellow");
+	palettes.push_back("kirbygreen");
+}
 void Kirby::initFrames() {
 	//LAND
 	startframes.push_back(0);

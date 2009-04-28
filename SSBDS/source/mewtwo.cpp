@@ -23,13 +23,20 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	leftside = 22;
 	gravity = 3;
 	jumpmax = 2;
+	initPalettes();
 	initFrames();
 	initSprite();
-	fall();
+	idle();
 } // initializes all of the variables
 // initializers
 void Mewtwo::playsound(int sndnum) {}
 // sounds
+void Mewtwo::initPalettes() {
+	palettes.push_back("mewtwo");
+	palettes.push_back("mewtwo");
+	palettes.push_back("mewtwo");
+	palettes.push_back("mewtwo");
+}
 void Mewtwo::initFrames() {
 	// LAND
 	startframes.push_back(0);

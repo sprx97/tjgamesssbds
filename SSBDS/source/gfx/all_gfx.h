@@ -32,8 +32,6 @@ extern const unsigned char stagesel[40960] __attribute__ ((aligned (4))) ;
 extern const unsigned char specialFX[73728] __attribute__ ((aligned (4))) ;
 extern const unsigned char charminis[2560] __attribute__ ((aligned (4))) ;
 
-
-
 extern const int finaldestination_Info[3]; // BgMode, Width, Height
 extern const unsigned short finaldestination_Map[8192] __attribute__ ((aligned (4))) ;
 extern const unsigned char finaldestination_Tiles[40384] __attribute__ ((aligned (4))) ;

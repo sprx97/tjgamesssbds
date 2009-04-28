@@ -35,7 +35,7 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	charnum = players.size();
 	startx = x;
 	starty = y;
-	aerial = true;
+	aerial = false;
 	delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 	dx = dy = fastfall = DI = 0.0;
 	kx = ky = 0;
@@ -101,12 +101,13 @@ void Fighter::initAtkbox() {
 	fclose(file);
 }
 void Fighter::initSprite() {
-	bool alreadymade = false;
+	int alreadymade = 0;
 	for(uint8 n = 0; n < players.size(); n++) {
-		if(players[n] -> name == name) alreadymade = true;
+		if(players[n] -> name == name) alreadymade++;
 	}
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, SPRITENUM-100, name.c_str());
-	if(!alreadymade) {
+//	PA_FatEasyLoadSpritePal(MAIN_SCREEN, SPRITENUM-100, name.c_str());
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, SPRITENUM-100, palettes[alreadymade]);
+	if(alreadymade == 0) {
 		PA_FatLoadSprite(MYCHAR, name.c_str());
 	}
 	PA_CreateSprite(MAIN_SCREEN, SPRITENUM, (void*)sprite_gfx[MYCHAR], OBJ_SIZE_64X64, COLOR256, SPRITENUM-100, -64, -64);
@@ -115,7 +116,7 @@ void Fighter::initSprite() {
 	PA_SetSpriteRotEnable(MAIN_SCREEN, 30+(SPRITENUM-100), SPRITENUM-100);
 }
 void Fighter::initFrames(){}//implemented in subclasses
-
+void Fighter::initPalettes(){}//implemented in subclasses
 //CPU helper methods
 int Fighter::cpu_getTarget(){
 	int Cenemy = -1;
@@ -1369,8 +1370,14 @@ void Fighter::move() {
 void Fighter::jaywalk() {}
 void Fighter::setDirection(int rl) {
 	if(action == STUN) {
-		if(kx > 0) direction = RIGHT;
-		else if(kx < 0) direction = LEFT;
+		if(kx > 0) {
+			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
+			direction = RIGHT;
+		}
+		else if(kx < 0) {
+			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
+			direction = LEFT;
+		}
 	}
 	if(rl == 0) {
 		if(Pad.Held.Right) {
@@ -1503,18 +1510,41 @@ bool Fighter::checkFloorCollision() {
 #ifdef DEBUG_ON
 		PA_OutputText(MAIN_SCREEN, 0, 1, "Rise: %d", (int)(rise));
 #endif
-		if(aerial) {
-			if(!(Pad.Held.Down && !isCPU && currfloor.isPlatform()) && dy+ymomentum+gravity > 0 && y+bottomside-rise <= currfloor.y && y+bottomside-rise + gravity + fastfall + dy + ymomentum > currfloor.y && x+rightside + dx + DI > currfloor.x && x+leftside + dx + DI < currfloor.x + currfloor.length) {
-				aerial = false;
-				y = currfloor.y-bottomside+rise;
-				dy = DI = fastfall = ymomentum = 0;
-				airdodgecount = 0;
-				jumpcount = 0;
-				return true;
-			} // if you land on the floor
-		} // checks for landing 
+		if(!isCPU) {
+			if(aerial) {
+				if(!(Pad.Held.Down && currfloor.isPlatform()) && dy+ymomentum+gravity > 0 && y+bottomside-rise <= currfloor.y && y+bottomside-rise + gravity + fastfall + dy + ymomentum > currfloor.y && x+rightside + dx + DI > currfloor.x && x+leftside + dx + DI < currfloor.x + currfloor.length) {
+					aerial = false;
+					y = currfloor.y-bottomside+rise;
+					dy = DI = fastfall = ymomentum = 0;
+					airdodgecount = 0;
+					jumpcount = 0;
+					return true;
+				} // if you land on the floor
+			} // checks for landing 
+			else {
+				if(!(Pad.Held.Down && currfloor.isPlatform())) {
+					if(x+rightside + dx >= currfloor.x && x+leftside + dx < currfloor.x + currfloor.length) {
+						if(((y+bottomside >= currfloor.y-currfloor.totalrise() && y+bottomside <= currfloor.y+currfloor.totalrise() && currfloor.totalrise() >= 0) 
+									|| (y+bottomside <= currfloor.y-currfloor.totalrise() && y+bottomside >= currfloor.y+currfloor.totalrise() && currfloor.totalrise() < 0))) {
+							y = currfloor.y-bottomside+rise;
+							return true;
+						} // stays on the ledge
+					}
+				}
+			} // checks for falling off
+		}
 		else {
-			if(!(Pad.Held.Down && !isCPU && currfloor.isPlatform())) {
+			if(aerial) {
+				if(dy+ymomentum+gravity > 0 && y+bottomside-rise <= currfloor.y && y+bottomside-rise + gravity + fastfall + dy + ymomentum > currfloor.y && x+rightside + dx + DI > currfloor.x && x+leftside + dx + DI < currfloor.x + currfloor.length) {
+					aerial = false;
+					y = currfloor.y-bottomside+rise;
+					dy = DI = fastfall = ymomentum = 0;
+					airdodgecount = 0;
+					jumpcount = 0;
+					return true;
+				}
+			}
+			else {
 				if(x+rightside + dx >= currfloor.x && x+leftside + dx < currfloor.x + currfloor.length) {
 					if(((y+bottomside >= currfloor.y-currfloor.totalrise() && y+bottomside <= currfloor.y+currfloor.totalrise() && currfloor.totalrise() >= 0) 
 								|| (y+bottomside <= currfloor.y-currfloor.totalrise() && y+bottomside >= currfloor.y+currfloor.totalrise() && currfloor.totalrise() < 0))) {
@@ -1523,7 +1553,7 @@ bool Fighter::checkFloorCollision() {
 					} // stays on the ledge
 				}
 			}
-		} // checks for falling off
+		}
 	}
 	return false;
 }

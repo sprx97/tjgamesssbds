@@ -7,6 +7,7 @@ class Sandbag: public Fighter {
 	public:
 		Sandbag(int num, std::vector<Fighter*> *listplayers, Display *display, bool AI = false);
 		void act();
+		void initPalettes();
 		void initFrames();
 		~Sandbag();
 };

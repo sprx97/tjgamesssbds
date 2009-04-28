@@ -14,6 +14,7 @@ class Ike: public Fighter {
 		// initializes all of the variables
 		// initializers
 		void playsound(int sndnum);
+		void initPalettes();
 		void initFrames();
 		// actions
 		void bside();
