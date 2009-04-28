@@ -22,16 +22,6 @@ extern const unsigned short numbers_Pal[9] __attribute__ ((aligned (4))) ;
 extern const unsigned short shield_Pal[90] __attribute__ ((aligned (4))) ;
 extern const unsigned char shield_Sprite[4096] __attribute__ ((aligned (4))) ;
 
-extern const unsigned char menusolo[4096] __attribute__ ((aligned (4))) ;
-extern const unsigned char menulan[4096] __attribute__ ((aligned (4))) ;
-extern const unsigned char menuextras[4096] __attribute__ ((aligned (4))) ;
-extern const unsigned char menuoptions[4096] __attribute__ ((aligned (4))) ;
-
-extern const unsigned short menusolo_Pal[203];
-extern const unsigned short menulan_Pal[201];
-extern const unsigned short menuoptions_Pal[201];
-extern const unsigned short menuextras_Pal[196];
-
 extern const unsigned short charminis_Pal[243] __attribute__ ((aligned (4))) ;
 extern const unsigned char visibleminimap_Sprite[4096] __attribute__ ((aligned (4))) ;
 
@@ -41,6 +31,7 @@ extern const unsigned char charsel[32768] __attribute__ ((aligned (4))) ;
 extern const unsigned char stagesel[40960] __attribute__ ((aligned (4))) ;
 extern const unsigned char specialFX[73728] __attribute__ ((aligned (4))) ;
 extern const unsigned char charminis[2560] __attribute__ ((aligned (4))) ;
+
 
 
 extern const int finaldestination_Info[3]; // BgMode, Width, Height

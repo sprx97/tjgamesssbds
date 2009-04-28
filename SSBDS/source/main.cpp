@@ -830,7 +830,7 @@ void match(int param) {
 	// counts down to start game
 	
 	while(true) {
-		PA_CheckLid(); // if the lid is closed it pauses
+		if(PA_CheckLid()) Pause(); // if the lid is closed it pauses
 		if(Pad.Newpress.Start) Pause(); // checks to see if the game was paused by start button
 		if (gamemode==GAMEMODE_TIME){
 			if(time-60 == 0) {

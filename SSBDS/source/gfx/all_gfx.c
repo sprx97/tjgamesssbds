@@ -7,6 +7,7 @@ extern "C" {
 #endif
 
 #include "all_gfx.h"
+#include "damageicons.c"
 
 #include "numbers.c"
 #include "numbers.pal.c"
@@ -20,15 +21,6 @@ extern "C" {
 #include "stagesel.pal.c"
 #include "charminis.c"
 #include "charminis.pal.c"
-
-#include "menusolo.c"
-#include "menulan.c"
-#include "menuoptions.c"
-#include "menuextras.c"
-#include "menusolo.pal.c"
-#include "menulan.pal.c"
-#include "menuoptions.pal.c"
-#include "menuextras.pal.c"
 
 #include "specialFX.c"
 	
