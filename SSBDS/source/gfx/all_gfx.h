@@ -16,6 +16,9 @@
 } PAGfx_struct;
 #endif
 
+extern const unsigned char numbers_Sprite[11264] __attribute__ ((aligned (4))) ;  // Pal : numbers_Pal
+extern const unsigned short numbers_Pal[9] __attribute__ ((aligned (4))) ;
+
 extern const unsigned short shield_Pal[90] __attribute__ ((aligned (4))) ;
 extern const unsigned char shield_Sprite[4096] __attribute__ ((aligned (4))) ;
 

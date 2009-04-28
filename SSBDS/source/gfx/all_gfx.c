@@ -8,6 +8,9 @@ extern "C" {
 
 #include "all_gfx.h"
 
+#include "numbers.c"
+#include "numbers.pal.c"
+
 #include "shield.c"
 #include "shield.pal.c"
 

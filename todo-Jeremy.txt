@@ -1,5 +1,5 @@
 music in more places (like stages)
-Graphic display of damage percents
+Graphic display of lives
 Fix Sloped Stages
 Credits Screen
 Character Colors
@@ -7,3 +7,4 @@ Use cursors in character select
 
 Known Bugs:
 - 4 players doesn't work (sprite pal/img assignment related)
+- Percentages go crazy when game is paused (but fix when unpaused)

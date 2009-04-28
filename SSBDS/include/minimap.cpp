@@ -1,3 +1,4 @@
+int DAMAGE_LOW = 1, DAMAGE_MID = 12, DAMAGE_HIGH = 23, DAMAGE_HIGHER = 34;
 void initMinimap(int selStage) {
 	if(selStage == FINALDESTINATION) {
 		PA_EasyBgLoad(SUB_SCREEN, 3, finaldestinationminimap);
@@ -23,6 +24,36 @@ void initMinimap(int selStage) {
 	PA_LoadSpritePal(SUB_SCREEN, 0, (void*)visibleminimap_Pal);
 	PA_CreateSprite(SUB_SCREEN, 0, (void*)visibleminimap_Sprite, OBJ_SIZE_64X64, COLOR256, 0, -64, -64);
 	// loads the sprite icons for the minimap
+
+	PA_LoadSpritePal(SUB_SCREEN, 2, (void*)numbers_Pal);
+	for(int n = 0; n < (int)players.size(); n++) {
+		int x = 0;
+		int y = 0;
+		if(players[n]->SPRITENUM-100 == 1) {
+			x = 0;
+			y = 0;
+		}
+		else if(players[n]->SPRITENUM-100 == 2) {
+			x = 216;
+			y = 0;
+		}
+		else if(players[n]->SPRITENUM-100 == 3) {
+			x = 0;
+			y = 176;
+		}
+		else if(players[n]->SPRITENUM-100 == 4) {
+			x = 216;
+			y = 176;
+		}
+		PA_CreateSprite(SUB_SCREEN, 50 + (n+1)*4, (void*)numbers_Sprite, OBJ_SIZE_16X16, COLOR256, 2, x, y);
+		PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4, 0, 0, 20, ANIM_LOOP, -1);
+		PA_CreateSprite(SUB_SCREEN, 50 + (n+1)*4 + 1, (void*)numbers_Sprite, OBJ_SIZE_16X16, COLOR256, 2, x+8, y);
+		PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+1, 1, 1, 20, ANIM_LOOP, -1);
+		PA_CreateSprite(SUB_SCREEN, 50 + (n+1)*4 + 2, (void*)numbers_Sprite, OBJ_SIZE_16X16, COLOR256, 2, x+16, y);
+		PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+2, 1, 1, 20, ANIM_LOOP, -1);
+		PA_CreateSprite(SUB_SCREEN, 50 + (n+1)*4 + 3, (void*)numbers_Sprite, OBJ_SIZE_16X16, COLOR256, 2, x+24, y);		
+		PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+3, 1, 1, 20, ANIM_LOOP, -1);	
+	}
 } // initializes the minimap display on the sub screen
 void displayMinimap() {
 	for(int n = 0; n < (int)players.size(); n++) {
@@ -33,36 +64,31 @@ void displayMinimap() {
 	// displays a box representing the current screen
 } // displays the minimap
 void displayPercentages() {
-	PA_OutputText(SUB_SCREEN, 0, 0, "                                           ");
-	PA_OutputText(SUB_SCREEN, 0, 21, "                                           ");
-	PA_OutputText(SUB_SCREEN, 0, 23, "                                           ");
-	// clears the text
 	for(int n = 0; n < (int)players.size(); n++) {
-		if(players[n] -> SPRITENUM-100 == 1) {
-			PA_SetTextTileCol(SUB_SCREEN, TEXT_RED);
-			int damage = (int)(players[n]->getDamagePercent());
-			PA_OutputText(SUB_SCREEN, 0, 0, "%d %", damage);
-		} // displays damage percent of player 1
-		else if(players[n] -> SPRITENUM-100 == 2) {
-			PA_SetTextTileCol(SUB_SCREEN, TEXT_BLUE);
-			int damage = (int)(players[n]->getDamagePercent());
-			stringstream ss;
-			ss << damage;
-			int length = ss.str().size();
-			PA_OutputText(SUB_SCREEN, 30-length, 0, "%d %", damage);
-		} // displays damage percent of player 2
-		else if(players[n] -> SPRITENUM-100 == 3) {
-			PA_SetTextTileCol(SUB_SCREEN, TEXT_YELLOW);
-			int damage = (int)(players[n]->getDamagePercent());
-			PA_OutputText(SUB_SCREEN, 0, 21, "%d %", damage);
-		} // damage of player 3
-		else if(players[n] -> SPRITENUM-100 == 4) {
-			PA_SetTextTileCol(SUB_SCREEN, TEXT_GREEN);
-			int damage = (int)(players[n]->getDamagePercent());
-			stringstream ss;
-			ss << damage;
-			int length = ss.str().size();
-			PA_OutputText(SUB_SCREEN, 30-length, 21, "%d %", damage);
+		int damage = (int)(players[n]->getDamagePercent());
+		if(damage > 300) {
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4, DAMAGE_HIGHER-1, DAMAGE_HIGHER-1, 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+1, DAMAGE_HIGHER+(int)(damage/100), DAMAGE_HIGHER+(int)(damage%100), 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+2, DAMAGE_HIGHER+(int)((damage%100)/10), DAMAGE_HIGHER+(int)((damage/10)%10), 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+3, DAMAGE_HIGHER+(int)(damage%10), DAMAGE_HIGHER+(int)(damage%10), 20, ANIM_LOOP, -1);
+		}
+		else if(damage > 200) {
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4, DAMAGE_HIGH-1, DAMAGE_HIGH-1, 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+1, DAMAGE_HIGH+(int)(damage/100), DAMAGE_HIGH+(int)(damage%100), 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+2, DAMAGE_HIGH+(int)((damage%100)/10), DAMAGE_HIGH+(int)((damage/10)%10), 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+3, DAMAGE_HIGH+(int)(damage%10), DAMAGE_HIGH+(int)(damage%10), 20, ANIM_LOOP, -1);
+		}
+		else if(damage > 100) {
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4, DAMAGE_MID-1, DAMAGE_MID-1, 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+1, DAMAGE_MID+(int)(damage/100), DAMAGE_MID+(int)(damage%100), 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+2, DAMAGE_MID+(int)((damage%100)/10), DAMAGE_MID+(int)((damage/10)%10), 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+3, DAMAGE_MID+(int)(damage%10), DAMAGE_MID+(int)(damage%10), 20, ANIM_LOOP, -1);				
+		}
+		else {
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4, DAMAGE_LOW-1, DAMAGE_LOW-1, 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+1, DAMAGE_LOW+(int)(damage/100), DAMAGE_LOW+(int)(damage%100), 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+2, DAMAGE_LOW+(int)((damage%100)/10), DAMAGE_LOW+(int)((damage/10)%10), 20, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+3, DAMAGE_LOW+(int)(damage%10), DAMAGE_LOW+(int)(damage%10), 20, ANIM_LOOP, -1);				
 		}
 	}
 } // displays damage percents on the sub screen
