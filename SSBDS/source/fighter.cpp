@@ -115,12 +115,11 @@ void Fighter::initSprite() {
 	PA_SetSpriteRotEnable(MAIN_SCREEN, 30+(SPRITENUM-100), SPRITENUM-100);
 }
 void Fighter::initFrames(){}//implemented in subclasses
-void Fighter::actCPU() {
-	int Cenemy = 0;
-	double Cdistance = 10000000;
-	double Cangle = 0;
-	double Cx = 0;
-	double Cy = 0;
+
+//CPU helper methods
+int Fighter::cpu_getTarget(){
+	int Cenemy = -1;
+	double Cdistance = 10000000; //I don't like this, but it works
 	for(int n = 0; n < (int)players.size(); n++) {
 		if(players[n] -> charnum != charnum) {
 			double deltax = (players[n] -> x) - x;
@@ -129,13 +128,12 @@ void Fighter::actCPU() {
 			if(distance < Cdistance) {
 				Cenemy = n;
 				Cdistance = distance;
-				Cx = deltax;
-				Cy = deltay;
-				Cangle = atan2(deltay, deltax) * 180 / M_PI; // from -180 to 180
 			}
 		}
 	}
-	// finds disttance to it.
+	return Cenemy;
+}
+void Fighter::cpu_obeyRules(){
 	if(action == BSIDE) bside();
 	if(action == BUP) bup();
 	if(action == BDOWN) bdown();
@@ -150,8 +148,6 @@ void Fighter::actCPU() {
 			else idle();
 		}
 		if(checkFloorCollision()) idle();
-		if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
-		else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 	}
 	else if(hitstun > 0) {
 		if(y != stage->getFloors()[0].y ) aerial = true;
@@ -178,20 +174,13 @@ void Fighter::actCPU() {
 			else idle();
 		}
 		if(checkFloorCollision()) idle();
-		if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
-		else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 	}
-	else {
+	else{
 		if(landinglag > 0) {
 			landinglag--;
 			if(landinglag == 0) idle();
 		}
 		if(delay > 0) delay--;
-		if(action == JUMP || action == DOUBLEJUMP) {
-			if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
-			else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
-			// act in air
-		}
 		if(action == DODGE && delay <= 0) shield();
 		if(action == AIRDODGE && delay <= 0) fall();
 		if(action == ROLL && delay <= 0) {
@@ -204,14 +193,12 @@ void Fighter::actCPU() {
 				direction = LEFT;
 				PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 			}
-			//don't shield when done rolling right now
-			//shield();
-			idle();
-		}
-		//FIXME: is this even possible for a CPU?
+			shield();
+		}//done rolling
 		if(action == RELEASED || action == RELEASE) {
 			if(delay <= 0) idle();
 		}
+		if(action == ATTACK && delay <= 0) idle();
 		if(action == SLIDE && delay <= 0) idle();
 		if(action == SLIDE) {
 			if(dx > 0) {
@@ -221,14 +208,6 @@ void Fighter::actCPU() {
 			else if(dx < 0) {
 				dx += .25;
 				if(dx >= 0) dx = 0;
-			}
-		}
-		if(action == JAB) {
-
-		}
-		if(action == ATTACK) {
-			if(delay <= 0) {
-				idle();
 			}
 		}
 		if(action == DASHATTACK) {
@@ -245,14 +224,51 @@ void Fighter::actCPU() {
 				delay = 0;
 			}
 			else if(delay <= 0) fall();
+		}// checks for stage collision with aerial
+		if((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
+		if(action == FALL) {
+			if(checkFloorCollision()) idle();
+		}
+		if(action == SHIELD) {
+			//shield shrinks/breaks
+			shieldstr -= (65-shieldstr)/50;
+			if(shieldstr <= 0) {
+				AS_SoundQuickPlay(shieldbreak);
+				hitstun = 300;
+				stun();
+			}
+			PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM-100, (int)(2048-24*shieldstr), (int)(2048-24*shieldstr));
+		}
+	}
+}//do all AI actions that would be cheating to skip
+void Fighter::actCPU() {
+	//Pick a target
+	int Cenemy = cpu_getTarget();
+	double Cx = (players[n] -> x) - x;
+	double Cy = (players[n] -> y) - y;
+	double Cangle = atan2(Cy, Cx) * 180 / M_PI; // from -180 to 180
+	cpu_obeyRules(); //do all AI actions that would be cheating to skip
+	//do actions that require thinking, strategy, or input
+	if(hitstun > 0){
+		if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
+		else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
+	}
+	else {
+		if(action == JUMP || action == DOUBLEJUMP) {
 			if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
 			else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
-		} // checks for stage collision with aerial				
-		if((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
+			// act in air
+		}
+		if(action == JAB) {
+
+		}
+		if(action == AIRATTACK) {
+			if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
+			else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
+		}
 		if(action == FALL) {
 			if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
 			else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
-			if(checkFloorCollision()) idle();
 			else if(Cangle < -45 && Cangle > -135 && jumpcount < jumpmax) {
 				if(Cx > 0) setDirection(RIGHT);
 				if(Cx < 0) setDirection(LEFT);
@@ -284,25 +300,25 @@ void Fighter::actCPU() {
 			}//too far away
 		}
 		if(action == SHIELD) {
-			//shield shrinks/breaks
-			shieldstr -= (65-shieldstr)/50;
-			if(shieldstr <= 0) {
-				AS_SoundQuickPlay(shieldbreak);
-				hitstun = 300;
-				stun();
-			}
-			PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM-100, (int)(2048-24*shieldstr), (int)(2048-24*shieldstr));
+			//What should I do?
+			//I dunno. Why don't you guess?
+
+			int randn=PA_Rand()%10; //0-9
 			//should I grab?
 			//grab();
 			//should I dodge?
-			//dodge();
+			if(randn==0)
+				dodge();
 			//should I stop shielding?
-			//idle();
+			else if(randn==1||randn==2)
+				idle();
 			//should I roll?
-			//roll();
+			else if(randn==3)
+				roll();
+			//Otherwise, just keep shielding
 		}
 		if(action == RUN) {
-			if((Cdistance < 30) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();					
+			if((Cdistance < 30) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();
 			else if(Cangle < -45 && Cangle > -135 && jumpcount == 0) {
 				if(Cx > 0) setDirection(RIGHT);
 				if(Cx < 0) setDirection(LEFT);
@@ -317,7 +333,7 @@ void Fighter::actCPU() {
 			// or slide
 		}
 		if(action == IDLE) {
-			if(Cdistance < 30) {
+			if(Cdistance < 50) {
 				if(Cangle > -45 && Cangle < 45){
 					setDirection(RIGHT);
 					smashright();
@@ -346,7 +362,7 @@ void Fighter::actCPU() {
 			// or dtilt
 			// or bdown
 		}
-		if(action == HANG) {
+		if(action == HANG) {//FIXME: make sure AI can fall off ledge if it forgets to come up
 			if(PA_RandMax(100) > 98) {
 				myledge = -1;
 				int randn=PA_Rand()%3;
