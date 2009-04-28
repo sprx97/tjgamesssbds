@@ -244,8 +244,9 @@ void Fighter::cpu_obeyRules(){
 void Fighter::actCPU() {
 	//Pick a target
 	int Cenemy = cpu_getTarget();
-	double Cx = (players[n] -> x) - x;
-	double Cy = (players[n] -> y) - y;
+	double Cx = (players[Cenemy] -> x) - x;
+	double Cy = (players[Cenemy] -> y) - y;
+	double Cdistance = sqrt(Cx*Cx + Cy*Cy);
 	double Cangle = atan2(Cy, Cx) * 180 / M_PI; // from -180 to 180
 	cpu_obeyRules(); //do all AI actions that would be cheating to skip
 	//do actions that require thinking, strategy, or input
