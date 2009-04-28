@@ -38,6 +38,7 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	aerial = false;
 	delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 	dx = dy = fastfall = DI = 0.0;
+	k = Knockback(0, 0, 0);
 	kx = ky = 0;
 	percentage = 0;
 	ymomentum = 0.0;
@@ -814,7 +815,7 @@ void Fighter::actAir() {
 }
 void Fighter::actGround() {
 	if(tiltlag <= 0) {
-		if(custom_action(ACTION_GRAB, PAD_NEWPRESS) || custom_action(ACTION_SHIELD, PAD_NEWPRESS) || Pad.Held.Right || Pad.Held.Left || Pad.Held.Down || Pad.Held.Up || custom_action(ACTION_BASIC, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS) || custom_action(ACTION_JUMP, PAD_NEWPRESS)) {
+		if(custom_action(ACTION_GRAB, PAD_NEWPRESS) || custom_action(ACTION_SHIELD, PAD_NEWPRESS) || Pad.Newpress.Right || Pad.Newpress.Left || Pad.Newpress.Down || Pad.Newpress.Up || Pad.Held.Right || Pad.Held.Left || Pad.Held.Down || Pad.Held.Up || custom_action(ACTION_BASIC, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS) || custom_action(ACTION_JUMP, PAD_NEWPRESS)) {
 			action = TILTLAG;
 			tiltlag = 5;
 		}
