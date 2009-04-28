@@ -25,6 +25,7 @@ Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	jumpmax = 6;
 	initFrames();
 	initSprite();
+	fall();
 } // initializes all of the variables
 // initializers
 void Kirby::initFrames() {

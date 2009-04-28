@@ -28,6 +28,7 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	jumpmax = 2;
 	initFrames();
 	initSprite();
+	fall();
 } // initializes all of the variables
 // initializers
 void Ike::playsound(int sndnum) {

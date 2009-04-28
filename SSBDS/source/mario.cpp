@@ -25,6 +25,7 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	jumpmax = 2;
 	initFrames();
 	initSprite();
+	fall();
 } // initializes all of the variables
 // initializers
 void Mario::playsound(int sndnum) {

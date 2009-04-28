@@ -15,7 +15,7 @@ Circle::Circle(double xpos, double ypos, double r, Knockback knock, double d, in
 	x = xpos;
 	y = ypos;
 	radius = r;
-	damage = (d/3.0);
+	damage = d/2.0;
 	k = knock;
 	priority = pr;
 } // creates a circle with knockback and damage -> Atkboxes

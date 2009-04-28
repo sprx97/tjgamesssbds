@@ -24,6 +24,7 @@ Sandbag::Sandbag(int num, vector<Fighter*> *listplayers, Display *disp, bool AI)
 	jumpmax = 0;
 	initFrames();
 	initSprite();
+	fall();
 }
 void Sandbag::initFrames() {
 	//LAND

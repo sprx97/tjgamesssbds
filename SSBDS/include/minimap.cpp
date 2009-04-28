@@ -99,7 +99,7 @@ void displayLives(int stock) {
 		if(players[n] -> SPRITENUM-100 == 1) {
 			PA_SetTextTileCol(SUB_SCREEN, TEXT_RED);
 			int lives = stock - score.getDeaths(n) - sdcost*score.getSDs(n);
-			PA_OutputText(SUB_SCREEN, 0, 1, "x%d", lives);
+			PA_OutputText(SUB_SCREEN, 0, 2, "x%d", lives);
 		}
 		else if(players[n] -> SPRITENUM-100 == 2) {
 			PA_SetTextTileCol(SUB_SCREEN, TEXT_BLUE);
@@ -107,12 +107,12 @@ void displayLives(int stock) {
 			stringstream ss;
 			ss << lives;
 			int length = ss.str().size();
-			PA_OutputText(SUB_SCREEN, 31-length, 1, "x%d", lives);
+			PA_OutputText(SUB_SCREEN, 31-length, 2, "x%d", lives);
 		}
 		else if(players[n] -> SPRITENUM-100 == 3) {
 			PA_SetTextTileCol(SUB_SCREEN, TEXT_YELLOW);
 			int lives = stock-score.getDeaths(n) - sdcost*score.getSDs(n);
-			PA_OutputText(SUB_SCREEN, 0, 22, "x%d", lives);
+			PA_OutputText(SUB_SCREEN, 0, 21, "x%d", lives);
 		}
 		else if(players[n] -> SPRITENUM-100 == 4) {
 			PA_SetTextTileCol(SUB_SCREEN, TEXT_GREEN);
@@ -120,7 +120,7 @@ void displayLives(int stock) {
 			stringstream ss;
 			ss << lives;
 			int length = ss.str().size();
-			PA_OutputText(SUB_SCREEN, 31-length, 22, "x%d", lives);
+			PA_OutputText(SUB_SCREEN, 31-length, 21, "x%d", lives);
 		}
 	}
 }

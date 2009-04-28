@@ -35,7 +35,6 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	charnum = players.size();
 	startx = x;
 	starty = y;
-	action = FALL;
 	aerial = true;
 	delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 	dx = dy = fastfall = DI = 0.0;
@@ -44,6 +43,7 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	ymomentum = 0.0;
 	momentumtime = 0;
 	grabtimeleft = 0;
+	direction = RIGHT;
 	initAtkbox();
 	initDefbox();
 } // initializes all of the variables
@@ -796,13 +796,14 @@ void Fighter::actAir() {
 }
 void Fighter::actGround() {
 	if(tiltlag <= 0) {
-		if(custom_action(ACTION_GRAB, PAD_NEWPRESS) || custom_action(ACTION_SHIELD, PAD_NEWPRESS) || Pad.Held.Right || Pad.Held.Left || Pad.Newpress.Down || Pad.Newpress.Up || custom_action(ACTION_BASIC, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS) || custom_action(ACTION_JUMP, PAD_NEWPRESS)) {
+		if(custom_action(ACTION_GRAB, PAD_NEWPRESS) || custom_action(ACTION_SHIELD, PAD_NEWPRESS) || Pad.Held.Right || Pad.Held.Left || Pad.Held.Down || Pad.Held.Up || custom_action(ACTION_BASIC, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS) || custom_action(ACTION_JUMP, PAD_NEWPRESS)) {
 			action = TILTLAG;
 			tiltlag = 5;
 		}
 		else if(custom_action(ACTION_SHIELD, PAD_HELD)) shield();
 		else idle();
 	}
+	else idle();
 } // acts on the ground based on key presses	
 void Fighter::bside() {}
 void Fighter::bup() {}
@@ -1370,9 +1371,9 @@ void Fighter::setDirection(int rl) {
 		if(direction == LEFT) PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 	}
 } // flips the direction of the sprite if necessary
-void Fighter::directionalInfluence(int dx) {
-	if(dx != 0) {
-		DI = dx;
+void Fighter::directionalInfluence(int deltax) {
+	if(deltax != 0) {
+		DI = deltax;
 		fastfall = 0;
 	}
 	else {
@@ -1381,7 +1382,6 @@ void Fighter::directionalInfluence(int dx) {
 		if(Pad.Held.Down) fastfall = 2;
 		else fastfall = 0;
 		if(!Pad.Held.Right && !Pad.Held.Left || action == BDOWN) DI = 0;
-
 		//			if(Pad.Held.Down && (action != JUMP && action != DOUBLEJUMP)) fastfall = 1;
 		//			if(Pad.Held.Up) fastfall = 0;
 		// slightly influences direction

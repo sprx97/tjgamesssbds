@@ -25,6 +25,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	jumpmax = 2;
 	initFrames();
 	initSprite();
+	fall();
 } // initializes all of the variables
 // initializers
 void Mewtwo::playsound(int sndnum) {}

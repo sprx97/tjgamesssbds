@@ -589,33 +589,18 @@ void characterSelect(bool train = false) {
 
 // In-game functions:
 void Pause() {
-	for(int n = 0; n < (int)players.size(); n++) {
-		PA_SpriteAnimPause(MAIN_SCREEN, players[n] -> SPRITENUM, 1);
-	} // pauses all player animations
-	// - screen
-	// - sprite number
-	// - on/off (1/0)
-	for(int n = 0; n < (int)effects.size(); n++) {
-		PA_SpriteAnimPause(MAIN_SCREEN, effects[n].mynum, 1);
-	} // pauses all effect animations
-	for(int n = 0; n < (int)projectiles.size(); n++) {
-		PA_SpriteAnimPause(MAIN_SCREEN, projectiles[n].num, 1);
-	} // pauses all projectile animations
+	for(int n = 0; n < 128; n++) {
+		PA_SpriteAnimPause(MAIN_SCREEN, n, 1);
+		PA_SpriteAnimPause(SUB_SCREEN, n, 1);
+	}
 	PA_WaitForVBL();
-	PA_OutputText(MAIN_SCREEN, 12, 10, "PAUSED"); // prints that it's paused
-	while(!Pad.Newpress.Start) {
-		PA_WaitForVBL();
-	} // waits for unpause
-	PA_OutputText(MAIN_SCREEN, 12, 10, "          "); // clears text
-	for(int n = 0; n < (int)players.size(); n++) {
-		PA_SpriteAnimPause(MAIN_SCREEN, players[n] -> SPRITENUM, 0);
-	} // unpauses players
-	for(int n = 0; n < (int)effects.size(); n++) {
-		PA_SpriteAnimPause(MAIN_SCREEN, effects[n].mynum, 0);
-	} // unpauses effects
-	for(int n = 0; n < (int)projectiles.size(); n++) {
-		PA_SpriteAnimPause(MAIN_SCREEN, projectiles[n].num, 0);
-	} // unpauses projectiles
+	PA_OutputText(MAIN_SCREEN, 12, 10, "PAUSED");
+	while(!Pad.Newpress.Start) PA_WaitForVBL();
+	PA_OutputText(MAIN_SCREEN, 12, 10, "         ");
+	for(int n = 0; n < 128; n++) {
+		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
+		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
+	}
 } // pauses the game; will add pause menu later
 void scrollScreen() {
 	if(cameratype == CAMERATYPE_FOLLOWALL) {
@@ -667,22 +652,16 @@ void scrollScreen() {
 void displayResults() {		
 	PA_Init8bitBg(MAIN_SCREEN, 3);
 	PA_Init8bitBg(SUB_SCREEN, 3);
-	// initializes a gif on both screens
-	for(int n = 0; n < 5; n++) {
-		PA_StopSpriteAnim(SUB_SCREEN,n);
-		PA_DeleteSprite(SUB_SCREEN,n);
-	} // stops and deletes minimap object sprites
-	for(int n = 5; n < 20; n++) {
-		PA_StopSpriteAnim(MAIN_SCREEN, n);
-		PA_DeleteSprite(MAIN_SCREEN, n);
-	} // stops and deletes special effects
-	for(int n = 50; n < 55; n++) {
-		PA_StopSpriteAnim(MAIN_SCREEN, n);
-		PA_DeleteSprite(MAIN_SCREEN, n);
-	} // stops and deletes projectile sprites
+	for(int n = 0; n < 128; n++) PA_DeleteSprite(SUB_SCREEN, n);
+	for(int n = 5; n < 20; n++) PA_DeleteSprite(MAIN_SCREEN, n);
+	for(int n = 50; n < 55; n++) PA_DeleteSprite(MAIN_SCREEN, n);
 	for(int n = 0; n < (int)players.size(); n++) {
-		PA_SetSpriteXY(MAIN_SCREEN, players[n] -> SPRITENUM, -64,-64);
-	} // stops the characters from moving
+		players[n] -> fall();
+		players[n] -> idle(); 
+		// ensures that it goes into idling animation
+		PA_SetSpriteHflip(MAIN_SCREEN, players[n] -> SPRITENUM, 0);
+		PA_SetSpriteXY(MAIN_SCREEN, players[n] -> SPRITENUM, (int)(n*48) +48, 0);
+	} // moves character sprites into position above their scores
 	
 	int winner = 0; // winner of the game, based on location in players
 	bool draw = false; // whether or not the winners are tied
@@ -745,15 +724,6 @@ void displayResults() {
 		PA_OutputText(MAIN_SCREEN, (n*6)+9, 17, "%d", SDs);
 	}
 	// prints the scoreboard stats for each player
-	
-	for(int n = 0; n < (int)players.size(); n++) {
-		players[n] -> fall();
-		players[n] -> idle(); 
-		// ensures that it goes into idling animation
-		PA_SetSpriteHflip(MAIN_SCREEN, players[n] -> SPRITENUM, 0);
-		PA_SetSpriteXY(MAIN_SCREEN, players[n] -> SPRITENUM, (int)(n*48) +48, 0);
-	} 
-	// moves character sprites into position above their scores
 
 	fadeIn();
 
@@ -807,13 +777,10 @@ bool camchanged = false;
 
 void gameOver() {
 	AS_SoundQuickPlay(game);
-	// end of game sound clip
-	for(int n = 0; n < (int)players.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, players[n] -> SPRITENUM);
-	// stops sprite anim for all players
-	for(int n = 0; n < (int)projectiles.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, projectiles[n].num);
-	// stops all projectile animations
-	for(int n = 0; n < (int)effects.size(); n++) PA_StopSpriteAnim(MAIN_SCREEN, effects[n].mynum);
-	// stops all effect animations
+	for(int n = 0; n < 128; n++) {
+		PA_StopSpriteAnim(MAIN_SCREEN, n);
+		PA_StopSpriteAnim(SUB_SCREEN, n);
+	}
 	if(gamemode == GAMEMODE_TIME) PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
 	for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
 	fadeOut();
@@ -864,8 +831,7 @@ void match(int param) {
 	
 	while(true) {
 		PA_CheckLid(); // if the lid is closed it pauses
-		if(Pad.Newpress.Start) Pause(); 
-		// checks to see if the game was paused by start button
+		if(Pad.Newpress.Start) Pause(); // checks to see if the game was paused by start button
 		if (gamemode==GAMEMODE_TIME){
 			if(time-60 == 0) {
 				return gameOver();
