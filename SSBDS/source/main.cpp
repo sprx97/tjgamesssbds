@@ -681,28 +681,32 @@ void displayResults() {
 	if(draw) {} // doesn't display a main screen bg
 	else {
 		if(players[winner] -> name == "kirby") {
-			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin1.gif");
-			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin2.gif");
-			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin3.gif");
-			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirbywin4.gif");
+			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirby1.gif");
+			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirby2.gif");
+			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirby3.gif");
+			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/kirby4.gif");
+			AS_MP3StreamPlay("SSBDS_Files/music/victories/kirby.mp3");
 		}
 		if(players[winner] -> name == "mewtwo") {
-			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin1.gif");
-			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin2.gif");
-			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin3.gif");
-			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemonwin4.gif");			
- 		}
+			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemon1.gif");
+			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemon2.gif");
+			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemon3.gif");
+			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/pokemon4.gif");			
+			AS_MP3StreamPlay("SSBDS_Files/music/victories/pokemon.mp3");
+		}
 		if(players[winner] -> name == "mario") {
-			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin1.gif");
-			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin2.gif");
-			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin3.gif");
-			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariowin4.gif");
+			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariobros1.gif");
+			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariobros2.gif");
+			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariobros3.gif");
+			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/mariobros4.gif");
+			AS_MP3StreamPlay("SSBDS_Files/music/victories/mariobros.mp3");
 		}
 		if(players[winner] -> name == "ike") {
-			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin1.gif");
-			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin2.gif");
-			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin1.gif");
-			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblemwin2.gif");
+			if(players[winner] -> SPRITENUM-100 == 1) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblem1.gif");
+			if(players[winner] -> SPRITENUM-100 == 2) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblem2.gif");
+			if(players[winner] -> SPRITENUM-100 == 3) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblem3.gif");
+			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblem4.gif");
+			AS_MP3StreamPlay("SSBDS_Files/music/victories/fireemblem.mp3");
 		}
 	} 
 	// displays the series icon of the winner in the winner's color
@@ -752,6 +756,7 @@ void displayResults() {
 	while(true) {
 		if(Stylus.Newpress) {
 			AS_SoundQuickPlay(menuconfirm);
+			AS_MP3Stop();
 			fadeOut();
 			score.clear(); // clears the scoreboard
 			effects.clear(); // clears the effects
