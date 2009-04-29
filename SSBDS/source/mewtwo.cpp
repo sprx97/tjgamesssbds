@@ -33,9 +33,9 @@ void Mewtwo::playsound(int sndnum) {}
 // sounds
 void Mewtwo::initPalettes() {
 	palettes.push_back("mewtwo");
-	palettes.push_back("mewtwo");
-	palettes.push_back("mewtwo");
-	palettes.push_back("mewtwo");
+	palettes.push_back("mewtwoblue");
+	palettes.push_back("mewtwogreen");
+	palettes.push_back("mewtwored");
 }
 void Mewtwo::initFrames() {
 	// LAND
