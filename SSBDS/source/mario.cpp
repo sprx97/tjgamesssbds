@@ -30,10 +30,10 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 } // initializes all of the variables
 // initializers
 void Mario::initPalettes() {
-	palettes.push_back("mario");
-	palettes.push_back("mario");
-	palettes.push_back("mario");
-	palettes.push_back("mario");
+	palettes.push_back("mariored");
+	palettes.push_back("marioredwhite");
+	palettes.push_back("marioyellow");
+	palettes.push_back("marioblackwhite");
 }
 void Mario::playsound(int sndnum) {
 	if(sndnum == JUMP) AS_SoundQuickPlay(mariojump);
