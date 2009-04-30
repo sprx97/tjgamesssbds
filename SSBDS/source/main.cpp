@@ -675,6 +675,7 @@ void displayResults() {
 	}
 	// calculates winner
 	
+	openGif(MAIN_SCREEN, "SSBDS_Files/gifs/default.gif");
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// loads an image on the sub screen
 	
