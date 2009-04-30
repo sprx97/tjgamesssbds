@@ -14,7 +14,7 @@ Circle::Circle(double xpos, double ypos, double r, Knockback knock, double d, in
 	fx = f;
 	x = xpos;
 	y = ypos;
-	radius = r;
+	radius = r*2;
 	damage = d;
 	k = knock;
 	priority = pr;
