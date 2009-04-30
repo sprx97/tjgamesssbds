@@ -10,7 +10,7 @@
 
 #define DEBUG_ON // turns on printing of information to screen
 //#define SLOPEDSTAGES_ON // Castle Siege and Corneria
-#define LAN_ON // CHANGE MAKEFILE TOO!!!!
+//#define LAN_ON // CHANGE MAKEFILE TOO!!!!
 // turns certain features on and off
 
 //PALib:
