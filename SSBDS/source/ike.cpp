@@ -33,10 +33,10 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 } // initializes all of the variables
 // initializers
 void Ike::initPalettes() {
-	palettes.push_back("ike");
-	palettes.push_back("ike");
-	palettes.push_back("ike");
-	palettes.push_back("ike");
+	palettes.push_back("ikeblue");
+	palettes.push_back("ikewhite");
+	palettes.push_back("ikegold");
+	palettes.push_back("ikegreen");
 }
 void Ike::playsound(int sndnum) {
 	if(sndnum == BAIR) AS_SoundQuickPlay(ikebair);
