@@ -1,7 +1,6 @@
 - music in more places (like stages)
 - Fix Sloped Stages
 - Credits Screen
-- Use cursors in character select
 - LAN
 
 Known Bugs:
