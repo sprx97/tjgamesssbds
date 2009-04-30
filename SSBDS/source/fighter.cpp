@@ -334,17 +334,21 @@ void Fighter::actCPU() {
 			if(Cdistance < range) {
 				if(Cangle > -45 && Cangle < 45 && (int)PA_RandMax(100) > 100-level*10+5){
 					setDirection(RIGHT);
-					smashright();
+					if((int)PA_RandMax(100) > 75) smashright();
+					else ftilt();
 				}
 				else if(Cangle < -135 || Cangle > 135 && (int)PA_RandMax(100) > 100-level*10+5){ 
 					setDirection(LEFT);
-					smashleft();
+					if((int)PA_RandMax(100) > 75) smashleft();
+					else ftilt();
 				}
 				else if(Cangle < -45 && Cangle > -135 && (int)PA_RandMax(100) > 100-level*10+5){
-					smashup();
+					if((int)PA_RandMax(100) > 75) smashup();
+					else utilt();
 				}
 				else if(Cangle > 45 && Cangle < 135 && (int)PA_RandMax(100) > 100-level*10+5){
-					smashdown();
+					if((int)PA_RandMax(100) > 75) smashdown();
+					else dtilt();
 				}
 			}
 			else if(Cangle < -45 && Cangle > -135 && jumpcount == 0 && Cdistance > range) {
