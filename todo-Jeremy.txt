@@ -2,6 +2,7 @@
 - Fix Sloped Stages
 - Credits Screen
 - LAN
+- Clashing hits
 
 Known Bugs:
 - 4 players doesn't work (sprite pal/img assignment related)
