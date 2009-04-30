@@ -708,6 +708,7 @@ void displayResults() {
 			if(players[winner] -> SPRITENUM-100 == 4) openGif(MAIN_SCREEN, "SSBDS_Files/gifs/victories/fireemblem4.gif");
 			AS_MP3StreamPlay("SSBDS_Files/music/victories/fireemblem.mp3");
 		}
+		AS_SetMP3Loop(false);
 	} 
 	// displays the series icon of the winner in the winner's color
 	
@@ -758,6 +759,7 @@ void displayResults() {
 			AS_SoundQuickPlay(menuconfirm);
 			AS_MP3Stop();
 			fadeOut();
+			AS_SetMP3Loop(true);
 			score.clear(); // clears the scoreboard
 			effects.clear(); // clears the effects
 			for(int n = 0; n < (int)players.size(); n++) {

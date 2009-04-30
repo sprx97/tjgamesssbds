@@ -2,6 +2,7 @@ music in more places (like stages)
 Fix Sloped Stages
 Credits Screen
 Use cursors in character select
+Assign move priorities
 
 Known Bugs:
 - 4 players doesn't work (sprite pal/img assignment related)
