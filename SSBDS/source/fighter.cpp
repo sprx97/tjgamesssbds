@@ -244,6 +244,10 @@ void Fighter::cpu_obeyRules(){
 	}
 }//do all AI actions that would be cheating to skip
 void Fighter::actCPU() {
+	// temporary variables. Will be changable in future
+	int range = 40; 
+	int level = 1;
+	
 	//Pick a target
 	int Cenemy = cpu_getTarget();
 	double Cx = (players[Cenemy] -> x) - x;
@@ -269,28 +273,19 @@ void Fighter::actCPU() {
 			if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
 			else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 		}
-		if(action == FALL) {
-			if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
-			else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
-			else if(Cangle < -45 && Cangle > -135 && jumpcount < jumpmax) {
-				if(Cx > 0) setDirection(RIGHT);
-				if(Cx < 0) setDirection(LEFT);
-				doubleJump();
-			}
-		}
 		if(aerial && action != AIRATTACK && action != AIRLAG) {
 			// act air
-			if(Cdistance < 30) {
-				if(Cangle > -45 && Cangle < 45){
+			if(Cdistance < range) {
+				if(Cangle > -45 && Cangle < 45 && (int)PA_RandMax(100) > 100-level*10+5){
 					if (direction==RIGHT) fair();
 					else bair();
 				}
-				else if(Cangle < -135 || Cangle > 135){ 
+				else if(Cangle < -135 || Cangle > 135 && (int)PA_RandMax(100) > 100-level*10+5){ 
 					if (direction==RIGHT) bair();
 					else fair();
 				}
-				else if(Cangle < -45 && Cangle > -135) uair();
-				else if(Cangle > 45 && Cangle < 135) dair();
+				else if(Cangle < -45 && Cangle > -135 && (int)PA_RandMax(100) > 100-level*10+5) uair();
+				else if(Cangle > 45 && Cangle < 135 && (int)PA_RandMax(100) > 100-level*10+5) dair();
 			}
 			else {
 				if(Cangle < -45 && Cangle > -135 && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) {
@@ -321,7 +316,7 @@ void Fighter::actCPU() {
 			//Otherwise, just keep shielding
 		}
 		if(action == RUN) {
-			if((Cdistance < 30) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();
+			if((Cdistance < range) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();
 			else if(Cangle < -45 && Cangle > -135 && jumpcount == 0) {
 				if(Cx > 0) setDirection(RIGHT);
 				if(Cx < 0) setDirection(LEFT);
@@ -336,23 +331,23 @@ void Fighter::actCPU() {
 			// or slide
 		}
 		if(action == IDLE) {
-			if(Cdistance < 50) {
-				if(Cangle > -45 && Cangle < 45){
+			if(Cdistance < range) {
+				if(Cangle > -45 && Cangle < 45 && (int)PA_RandMax(100) > 100-level*10+5){
 					setDirection(RIGHT);
 					smashright();
 				}
-				else if(Cangle < -135 || Cangle > 135){ 
+				else if(Cangle < -135 || Cangle > 135 && (int)PA_RandMax(100) > 100-level*10+5){ 
 					setDirection(LEFT);
 					smashleft();
 				}
-				else if(Cangle < -45 && Cangle > -135){
+				else if(Cangle < -45 && Cangle > -135 && (int)PA_RandMax(100) > 100-level*10+5){
 					smashup();
 				}
-				else if(Cangle > 45 && Cangle < 135){
+				else if(Cangle > 45 && Cangle < 135 && (int)PA_RandMax(100) > 100-level*10+5){
 					smashdown();
 				}
 			}
-			else if(Cangle < -45 && Cangle > -135 && jumpcount == 0 && Cdistance > 50) {
+			else if(Cangle < -45 && Cangle > -135 && jumpcount == 0 && Cdistance > range) {
 				if(Cx > 0) setDirection(RIGHT);
 				if(Cx < 0) setDirection(LEFT);
 				jump();
