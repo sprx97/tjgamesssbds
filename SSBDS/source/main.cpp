@@ -652,7 +652,7 @@ void scrollScreen() {
 void displayResults() {		
 	PA_Init8bitBg(MAIN_SCREEN, 3);
 	PA_Init8bitBg(SUB_SCREEN, 3);
-	for(int n = 0; n < 128; n++) PA_DeleteSprite(SUB_SCREEN, n);
+	deleteMinimap();
 	for(int n = 5; n < 20; n++) PA_DeleteSprite(MAIN_SCREEN, n);
 	for(int n = 50; n < 55; n++) PA_DeleteSprite(MAIN_SCREEN, n);
 	for(int n = 0; n < (int)players.size(); n++) {
@@ -675,7 +675,6 @@ void displayResults() {
 	}
 	// calculates winner
 	
-	openGif(MAIN_SCREEN, "SSBDS_Files/gifs/default.gif");
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// loads an image on the sub screen
 	
@@ -767,7 +766,7 @@ void displayResults() {
 				PA_FatFreeSprite(players[n] -> MYCHAR);
 				delete players[n];
 			} // deletes the sprites of all players
-			PA_FatFreeSprBuffers();
+			PA_FatInitAllBuffers();
 			players.clear(); // clears players vector
 			for(int n = 0; n < 16; n++) AS_SoundStop(n);
 			// stop sounds

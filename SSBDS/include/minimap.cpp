@@ -96,6 +96,10 @@ void initMinimap(int selStage) {
 		PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+3, 1, 1, 20, ANIM_LOOP, -1);	
 	}
 } // initializes the minimap display on the sub screen
+void deleteMinimap() {
+	for(int n = 0; n < 128; n++) PA_DeleteSprite(SUB_SCREEN, n);
+	
+}
 void displayMinimap() {
 	for(int n = 0; n < (int)players.size(); n++) {
 		if(!(players[n] -> isdead)) PA_SetSpriteXY(SUB_SCREEN, n+1, (int)((players[n] -> x)/4) + 64, (int)((players[n] -> y)/4) + 32 + 56 + 4);
