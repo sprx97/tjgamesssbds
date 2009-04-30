@@ -1238,17 +1238,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 Fighter* Fighter::checkHits(Fighter* other) {
 	if(!allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled) return other;
 	allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled = false;
-	if(getAtkbox().hits(other -> getAtkbox())) {
-		if(getAtkbox().getHitCircle(other -> getAtkbox()).priority > (other -> getAtkbox()).getHitCircle(getAtkbox()).priority) {
-			if(direction == LEFT) other -> takeDamage(getAtkbox().getHitCircle(other -> getAtkbox()), 1, charnum, chargecount);
-			else other -> takeDamage(getAtkbox().getHitCircle(other -> getAtkbox()), -1, charnum, chargecount);
-		}
-		else if(getAtkbox().getHitCircle(other -> getAtkbox()).priority == (other -> getAtkbox()).getHitCircle(getAtkbox()).priority) {
-			idle();
-			other -> idle();
-		} // clashing hits
-	}
-	else if(getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
+	if(getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if(action == HOLD || action == GRABATK) {}
 		else if(action == GRAB) {
 			if(direction == RIGHT) other -> grabbed((int)(x+handx), (int)y);
@@ -1271,6 +1261,16 @@ Fighter* Fighter::checkHits(Fighter* other) {
 			if(direction == LEFT) other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, charnum, chargecount);
 			else other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, charnum, chargecount);
 		}
+	}
+	else if(getAtkbox().hits(other -> getAtkbox())) {
+		if(getAtkbox().getHitCircle(other -> getAtkbox()).priority < (other -> getAtkbox()).getHitCircle(getAtkbox()).priority) {
+			if(direction == LEFT) other -> takeDamage(getAtkbox().getHitCircle(other -> getAtkbox()), 1, charnum, chargecount);
+			else other -> takeDamage(getAtkbox().getHitCircle(other -> getAtkbox()), -1, charnum, chargecount);
+		}
+		else if(getAtkbox().getHitCircle(other -> getAtkbox()).priority == (other -> getAtkbox()).getHitCircle(getAtkbox()).priority) {
+			idle();
+			other -> idle();
+		} // clashing hits
 	}
 	return other;
 }
