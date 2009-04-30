@@ -10,7 +10,7 @@
 
 #define DEBUG_ON // turns on printing of information to screen
 //#define SLOPEDSTAGES_ON // Castle Siege and Corneria
-//#define LAN_ON // CHANGE MAKEFILE TOO!!!!
+#define LAN_ON // CHANGE MAKEFILE TOO!!!!
 // turns certain features on and off
 
 //PALib:
@@ -1422,8 +1422,21 @@ int main(int argc, char ** argv) {
 	PA_VBLFunctionInit(AS_SoundVBL); // easy way to make sure that AS_SoundVBL() is called every frame
     AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
 	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
-//	AS_SetMP3Loop(true);
+	AS_SetMP3Loop(true);
 	// required both for MP3 and Sound
+
+#ifdef LAN_ON	
+	if(!IPC_Init()) {
+		PA_OutputText(MAIN_SCREEN, 0, 0, "IPC INIT FAILED");
+		while(true) {}
+	}
+	IPC_SetChannelCallback(0, &LWIFI_IPC_Callback);
+	PA_VBLFunctionInit(customVBL);
+	// inits/preps DS <-> DS	
+			
+	LOBBY_Init();
+	LOBBY_SetStreamHandler(0x0001, &receive);
+#endif
 	
 	initControls();
 	
