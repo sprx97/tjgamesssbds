@@ -1,8 +1,8 @@
-music in more places (like stages)
-Fix Sloped Stages
-Credits Screen
-Use cursors in character select
-Assign move priorities
+- music in more places (like stages)
+- Fix Sloped Stages
+- Credits Screen
+- Use cursors in character select
+- LAN
 
 Known Bugs:
 - 4 players doesn't work (sprite pal/img assignment related)
