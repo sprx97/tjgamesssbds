@@ -4,7 +4,6 @@
 #include "display.h"
 #include "projectiles.h"
 #include "fighter.h"
-#include "gfx/all_sounds.c"
 using std:: vector;
 
 // constructor
@@ -29,6 +28,16 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	idle();
 } // initializes all of the variables
 // initializers
+void Mario::initSounds() {
+	PA_FatLoadSfx("mariojump", "mariojump");
+	PA_FatLoadSfx("mariodoublejump", "mariodoublejump");
+	PA_FatLoadSfx("mariutilt", "mariutilt");
+	PA_FatLoadSfx("mariodashattack", "mariodashattack");
+	PA_FatLoadSfx("mariodsmash", "mariodsmash");
+	PA_FatLoadSfx("mariousmash", "mariousmash");
+	PA_FatLoadSfx("mariobup", "mariobup");
+	PA_FatLoadSfx("mariobneut", "mariobneut");
+}
 void Mario::initPalettes() {
 	palettes.push_back("mariored");
 	palettes.push_back("marioredwhite");
@@ -36,12 +45,12 @@ void Mario::initPalettes() {
 	palettes.push_back("marioblackwhite");
 }
 void Mario::playsound(int sndnum) {
-	if(sndnum == JUMP) AS_SoundQuickPlay(mariojump);
-	if(sndnum == DOUBLEJUMP) AS_SoundQuickPlay(mariodoublejump);
-	if(sndnum == UTILT) AS_SoundQuickPlay(marioutilt);
-	if(sndnum == DASHATTACK) AS_SoundQuickPlay(mariodashattack);
-	if(sndnum == SMASHDOWN) AS_SoundQuickPlay(mariodsmash);
-	if(sndnum == SMASHUP) AS_SoundQuickPlay(mariousmash);
+	if(sndnum == JUMP) PA_FatPlaySfx("mariojump");
+	if(sndnum == DOUBLEJUMP) PA_FatPlaySfx("mariodoublejump");
+	if(sndnum == UTILT) PA_FatPlaySfx("marioutilt");
+	if(sndnum == DASHATTACK) PA_FatPlaySfx("mariodashattack");
+	if(sndnum == SMASHDOWN) PA_FatPlaySfx("mariodsmash");
+	if(sndnum == SMASHUP) PA_FatPlaySfx("mariousmash");
 }
 void Mario::initFrames() {
 	// LAND
@@ -259,7 +268,7 @@ void Mario::bup() {
 		DI = 0;
 		setDirection();
 		action = BUP;
-		AS_SoundQuickPlay(mariobup);
+		PA_FatPlaySfx("mariobup");
 	}
 	else {
 		if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 142) {
@@ -322,7 +331,7 @@ void Mario::bneut() {
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 133 && delay == 1) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 134, 134, 10, ANIM_LOOP, -1);
 		delay = 60/10 * 1;
-		AS_SoundQuickPlay(mariobneut);
+		PA_FatPlaySfx("mariobneut");
 		int directionmodifier = 1;
 		if(direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;

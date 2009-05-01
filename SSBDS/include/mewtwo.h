@@ -13,6 +13,7 @@ class Mewtwo: public Fighter {
 		// initializes all of the variables
 		// initializers
 		void playsound(int sndnum);
+		void initSounds();
 		// sounds
 		void initPalettes();
 		void initFrames();

@@ -4,7 +4,6 @@
 #include "projectiles.h"
 #include <PA9.h>
 #include <vector>
-#include "gfx/all_sounds.c"
 using std::vector;
 
 // constructor
@@ -27,6 +26,8 @@ Sandbag::Sandbag(int num, vector<Fighter*> *listplayers, Display *disp, bool AI)
 	initSprite();
 	fall();
 }
+void Sandbag::initSounds() {}
+void Sandbag::playsound(int sndnum) {}
 void Sandbag::initPalettes() {
 	palettes.push_back("sandbag");
 	palettes.push_back("sandbag");

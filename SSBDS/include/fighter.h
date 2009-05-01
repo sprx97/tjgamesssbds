@@ -133,6 +133,7 @@ class Fighter {
 		void slide();
 		void hang();
 	// Sound playing
+		virtual void initSounds();
 		virtual void playsound(int sndnum);
 	// constant methods
 		void setStage(Stage *s);

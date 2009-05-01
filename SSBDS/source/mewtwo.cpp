@@ -4,7 +4,6 @@
 #include "display.h"
 #include "projectiles.h"
 #include "fighter.h"
-//#include "gfx/all_sounds.c"
 using std::vector;
 
 // constructor
@@ -29,6 +28,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	idle();
 } // initializes all of the variables
 // initializers
+void Mewtwo::initSounds() {}
 void Mewtwo::playsound(int sndnum) {}
 // sounds
 void Mewtwo::initPalettes() {

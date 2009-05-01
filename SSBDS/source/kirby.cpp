@@ -4,7 +4,6 @@
 #include "projectiles.h"
 #include <PA9.h>
 #include <vector>
-#include "gfx/all_sounds.c"
 using std::vector;
 
 //constructor
@@ -29,6 +28,17 @@ Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	idle();
 } // initializes all of the variables
 // initializers
+void Kirby::initSounds() {
+	PA_FatLoadSfx("kirbydoublejump", "kirbydoublejump");
+	PA_FatLoadSfx("kirbydsmash", "kirbydsmash");
+	PA_FatLoadSfx("kirbyfsmash", "kirbyfsmash");
+	PA_FatLoadSfx("kirbyftilt", "kirbyftilt");
+	PA_FatLoadSfx("kirbyjump", "kirbyjump");
+	PA_FatLoadSfx("kirbyusmash", "kirbyusmash");
+	PA_FatLoadSfx("kirbybside", "kirbybside");
+	PA_FatLoadSfx("kirbybup1", "kirbybup1");
+	PA_FatLoadSfx("kirbybup2", "kirbybup2");
+}
 void Kirby::initPalettes() {
 	palettes.push_back("kirbypink");
 	palettes.push_back("kirbyblue");
@@ -223,18 +233,18 @@ void Kirby::initFrames() {
 }
 // sounds
 void Kirby::playsound(int sndnum) {
-	if(sndnum == DOUBLEJUMP) AS_SoundQuickPlay(kirbydoublejump);
-	if(sndnum == SMASHDOWN) AS_SoundQuickPlay(kirbydsmash);
-	if(sndnum == SMASHLEFT || sndnum == SMASHRIGHT) AS_SoundQuickPlay(kirbyfsmash);
-	if(sndnum == FTILT) AS_SoundQuickPlay(kirbyftilt);
-	if(sndnum == JUMP) AS_SoundQuickPlay(kirbyjump);
-	if(sndnum == SMASHUP) AS_SoundQuickPlay(kirbyusmash);
+	if(sndnum == DOUBLEJUMP) PA_FatPlaySfx("kirbydoublejump");
+	if(sndnum == SMASHDOWN) PA_FatPlaySfx("kirbydsmash");
+	if(sndnum == SMASHLEFT || sndnum == SMASHRIGHT) PA_FatPlaySfx("kirbyfsmash");
+	if(sndnum == FTILT) PA_FatPlaySfx("kirbyftilt");
+	if(sndnum == JUMP) PA_FatPlaySfx("kirbyjump");
+	if(sndnum == SMASHUP) PA_FatPlaySfx("kirbyusmash");
 }
 // actions
 void Kirby::bside() {
 	if(action != BSIDE) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 178, 186, 15, ANIM_ONESHOT);
-		AS_SoundQuickPlay(kirbybside);
+		PA_FatPlaySfx("kirbybside");
 		delay = 60/15 * 9;
 		setDirection();
 		dx = 0;
@@ -250,7 +260,7 @@ void Kirby::bside() {
 void Kirby::bup() {
 	if(action != BUP) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 190, 199, 20, ANIM_ONESHOT);
-		AS_SoundQuickPlay(kirbybup1);
+		PA_FatPlaySfx("kirbybup1");
 		aerial = true;
 		delay = 60/20 * 10;
 		dy = -6;
@@ -263,7 +273,7 @@ void Kirby::bup() {
 	else {
 		if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 199) {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 200, 200, 20, ANIM_LOOP, -1);
-			AS_SoundQuickPlay(kirbybup2);
+			PA_FatPlaySfx("kirbybup2");
 			delay = 60/20 * 1;
 			dy = 4;
 		}

@@ -9,7 +9,6 @@
 #include <math.h>
 #include <map> // maps
 #include "gfx/all_gfx.h" //may want to reduce this later
-#include "gfx/all_sounds.c" // all sound effects (just small ones, not MP3s)
 
 using std::vector;
 
@@ -235,7 +234,7 @@ void Fighter::cpu_obeyRules(){
 			//shield shrinks/breaks
 			shieldstr -= (65-shieldstr)/50;
 			if(shieldstr <= 0) {
-				AS_SoundQuickPlay(shieldbreak);
+				PA_FatPlaySfx("shieldbreak");
 				hitstun = 300;
 				stun();
 			}
@@ -709,7 +708,7 @@ void Fighter::act() {
 		if(action == SHIELD) {
 			shieldstr -= (65-shieldstr)/50;
 			if(shieldstr <= 0) {
-				AS_SoundQuickPlay(shieldbreak);
+				PA_FatPlaySfx("shieldbreak");
 				hitstun = 300;
 				stun();
 			}
@@ -1187,6 +1186,7 @@ void Fighter::hang() {
 	hangtime = 0;
 }
 // Sound playing
+void Fighter::initSounds() {}
 void Fighter::playsound(int sndnum) {}
 // constant methods
 void Fighter::setStage(Stage *s) { 
@@ -1206,15 +1206,15 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	if(effectwait <= 0) {	
 		if(other.fx == FX_NONE) {		
 			if(other.damage + (int)((charge/225) * (.5*other.damage)) <= 6/3) {
-				AS_SoundQuickPlay(hit1);
+				PA_FatPlaySfx("hit1");
 				display -> addeffect(Effect(x, y, FX_WEAKERHIT, charnum, display->scrollx, display->scrolly));
 			}
 			else if(other.damage + (int)((charge/225) * (.5*other.damage)) > 6/3 && other.damage + (int)((charge/225) * (.5*other.damage)) <= 12/3) {
-				AS_SoundQuickPlay(hit2);
+				PA_FatPlaySfx("hit2");
 				display -> addeffect(Effect(x, y, FX_WEAKHIT, charnum, display->scrollx, display->scrolly));
 			}
 			else {
-				AS_SoundQuickPlay(hit3);
+				PA_FatPlaySfx("hit3");
 				display -> addeffect(Effect(x, y, FX_STRONGHIT, charnum, display->scrollx, display->scrolly));
 			}
 		}
@@ -1423,7 +1423,7 @@ bool Fighter::checkForDeath() {
 			deathy = 0+(int)display->scrolly-10;
 		} // died off top
 		display -> addeffect(Effect(deathx, deathy, FX_DEATH, charnum, display->scrollx, display->scrolly));
-		AS_SoundQuickPlay(deathsound);
+		PA_FatPlaySfx("death");
 		return true;
 	}
 	return false;

@@ -4,7 +4,6 @@
 #include "display.h"
 #include "projectiles.h"
 #include "fighter.h"
-#include "gfx/all_sounds.c"
 using std::vector;
 
 // constructor
@@ -32,6 +31,19 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	idle();
 } // initializes all of the variables
 // initializers
+void Ike::initSounds() {
+	PA_FatLoadSfx("ikebair", "ikebair");
+	PA_FatLoadSfx("ikedashattack", "ikedashattack");
+	PA_FatLoadSfx("ikefair", "ikefair");
+	PA_FatLoadSfx("ikefsmash", "ikefsmash");
+	PA_FatLoadSfx("ikeftilt", "ikeftilt");
+	PA_FatLoadSfx("ikejump", "ikejump");
+	PA_FatLoadSfx("ikeutilt", "ikeutilt");
+	PA_FatLoadSfx("ikebside", "ikebside");
+	PA_FatLoadSfx("ikebup", "ikebup");
+	PA_FatLoadSfx("ikebneut", "ikebneut");
+	PA_FatLoadSfx("ikebdown", "ikebdown");
+}
 void Ike::initPalettes() {
 	palettes.push_back("ikeblue");
 	palettes.push_back("ikewhite");
@@ -39,13 +51,13 @@ void Ike::initPalettes() {
 	palettes.push_back("ikegreen");
 }
 void Ike::playsound(int sndnum) {
-	if(sndnum == BAIR) AS_SoundQuickPlay(ikebair);
-	if(sndnum == DASHATTACK) AS_SoundQuickPlay(ikedashattack);
-	if(sndnum == FAIR) AS_SoundQuickPlay(ikefair);
-	if(sndnum == SMASHLEFT || sndnum == SMASHRIGHT) AS_SoundQuickPlay(ikefsmash);
-	if(sndnum == FTILT) AS_SoundQuickPlay(ikeftilt);
-	if(sndnum == JUMP) AS_SoundQuickPlay(ikejump);
-	if(sndnum == UTILT) AS_SoundQuickPlay(ikeutilt);
+	if(sndnum == BAIR) PA_FatPlaySfx("ikebair");
+	if(sndnum == DASHATTACK) PA_FatPlaySfx("ikedashattack");
+	if(sndnum == FAIR) PA_FatPlaySfx("ikefair");
+	if(sndnum == SMASHLEFT || sndnum == SMASHRIGHT) PA_FatPlaySfx("ikefsmash");
+	if(sndnum == FTILT) PA_FatPlaySfx("ikeftilt");
+	if(sndnum == JUMP) PA_FatPlaySfx("ikejump");
+	if(sndnum == UTILT) PA_FatPlaySfx("ikeutilt");
 }
 void Ike::initFrames() {
 	// LAND
@@ -248,7 +260,7 @@ void Ike::bside() {
 	}
 	else if(custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 110, 110, 12, ANIM_LOOP, -1);
-		AS_SoundQuickPlay(ikebside);
+		PA_FatPlaySfx("ikebside");
 		delay = quickdrawcharge/2;
 		if(direction == RIGHT) dx = 2*(int)(quickdrawcharge / 20) + 4;
 		else dx = -1*2*(int)(quickdrawcharge / 20) - 4;
@@ -290,7 +302,7 @@ void Ike::bup() {
 	}
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 127, 127, 15, ANIM_LOOP, -1);
-		AS_SoundQuickPlay(ikebup);
+		PA_FatPlaySfx("ikebup");
 		delay = 60/15 * 1;
 	}
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 127) {
@@ -322,7 +334,7 @@ void Ike::bup() {
 void Ike::bdown() {
 	if(action != BDOWN) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 139, 142, 10, ANIM_UPDOWN, 5);
-		AS_SoundQuickPlay(ikebdown);
+		PA_FatPlaySfx("ikebdown");
 		delay = 60/10 * 5;
 		setDirection();
 		dx = 0;
@@ -354,7 +366,7 @@ void Ike::bneut() {
 	}
 	else if((custom_action(ACTION_SPECIAL, PAD_RELEASED) && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99) || (eruptioncharge == 300 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99)) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 100, 109, 10, ANIM_LOOP, -1);
-		AS_SoundQuickPlay(ikebneut);
+		PA_FatPlaySfx("ikebneut");
 		delay = 60/10 * 10;
 	}
 	else if(checkFloorCollision() && aerial) dy = 0;

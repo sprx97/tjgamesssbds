@@ -12,6 +12,7 @@ class Kirby: public Fighter {
 		void initFrames();
 		// sounds
 		void playsound(int sndnum);
+		void initSounds();
 		// actions
 		void bside();
 		void bup();

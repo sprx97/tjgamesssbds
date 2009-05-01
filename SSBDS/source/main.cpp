@@ -27,7 +27,6 @@
 
 //Data Files:
 #include "gfx/all_gfx.c" // all image files
-#include "gfx/all_sounds.c" // all sound effects (just small ones, not MP3s)
 
 //Allow us to skip us to skip the std:: prefix on tandard types
 using namespace std;
@@ -239,6 +238,8 @@ void fadeOut() {
 		PA_WaitForVBL();
 	} // slowly darkens the screen into black
 	PA_ResetBgSys();
+	for(int n = 0; n < 120; n++) PA_WaitForVBL();
+	PA_FatFreeSfxBuffers();
 } // fades both screens out
 void fadeIn() {
    	for(int i = -31; i <= 0; i++) {
@@ -385,9 +386,7 @@ void stageSelect() {
 	
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white	
-	
-	fadeIn();
-	
+		
 	PA_LoadSpritePal(SUB_SCREEN, 0, (void*)stagesel_Pal);
 	PA_CreateSprite(SUB_SCREEN, FINALDESTINATION, (void*)stagesel, OBJ_SIZE_64X64, COLOR256, 0, 0, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, FINALDESTINATION, FINALDESTINATION, FINALDESTINATION, 1, ANIM_LOOP, -1);
@@ -400,12 +399,16 @@ void stageSelect() {
 	PA_StartSpriteAnimEx(SUB_SCREEN, CORNERIA, CORNERIA, CORNERIA, 1, ANIM_LOOP, -1);
 #endif
 	// loads sprites just like in characterSelect()
+
+	PA_FatLoadSfx("confirm", "menuconfirm");
+
+	fadeIn();
 		
 	while(true) {
 		if(Stylus.Newpress) {
 			for(int n = 0; n < 10; n++) { // through all possible stages
 				if(PA_SpriteTouched(n)) {
-					AS_SoundQuickPlay(menuconfirm); // menu confirm sound
+					PA_FatPlaySfx("confirm"); // menu confirm sound
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites
 					selectedStage = n; // sets selected stage, just like in characterSelect()
@@ -431,8 +434,6 @@ void characterSelect(bool train = false) {
 
 	PA_InitText(SUB_SCREEN, 0); // init text on sub screen
 	PA_SetTextCol(SUB_SCREEN, 0,0,0); // text color of black		
-
-	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
 
 	PA_LoadSpritePal(SUB_SCREEN, 0, (void*)charsel_Pal);
 	// creates a paleete... see mainMenu() for more details
@@ -468,8 +469,17 @@ void characterSelect(bool train = false) {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, 3, 0, 0, 1, ANIM_LOOP, -1);	
 	// loads and animates character previews on top screen.
 
+	PA_FatLoadSfx("ffa", "free_for_all");
+	PA_FatLoadSfx("confirm", "menuconfirm");
+	PA_FatLoadSfx("kirby", "kirbyname");
+//	PA_FatLoadSfx("mewtwo", "mewtwoname");
+	PA_FatLoadSfx("mario", "marioname");
+	PA_FatLoadSfx("ike", "ikename");
+
+	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
+
 	fadeIn();
-	AS_SoundQuickPlay(free_for_all);
+	PA_FatPlaySfx("ffa");
 	// plays free for all sound byte
 
 	int humanselected = -1; // which character was chosen for the human
@@ -497,7 +507,7 @@ void characterSelect(bool train = false) {
 		// prints who is being selected for... like I said: cursors will come later
 		if(Pad.Newpress.Start && humanselected != -1) {
 // if start is pressed and both players are ready
-			AS_SoundQuickPlay(menuconfirm); // menu confirmation sound byte
+			PA_FatPlaySfx("confirm");
 			AS_MP3Stop();
 			fadeOut();
 			PA_ResetSpriteSys(); // restes all sprites
@@ -536,10 +546,10 @@ void characterSelect(bool train = false) {
 			for(int n = 0; n < 10; n++) { // through the last character number
 				if(PA_SpriteTouched(n)) {
 					spritetouched = true;
-					if(n == KIRBY) AS_SoundQuickPlay(kirbyname);
-//					else if(n == MEWTWO) AS_SoundQuickPlay(mewtwoname);
-					else if(n == MARIO) AS_SoundQuickPlay(marioname);
-					else if(n == IKE) AS_SoundQuickPlay(ikename);
+					if(n == KIRBY) PA_FatPlaySfx("kirby");
+//					else if(n == MEWTWO) PA_FatPlaySfx("mewtwo");
+					else if(n == MARIO) PA_FatPlaySfx("mario");
+					else if(n == IKE) PA_FatPlaySfx("ike");
 					// plays a sound byte of the player's name
 					if(selecting == 0) {
 						humanselected = n;
@@ -677,6 +687,14 @@ void displayResults() {
 	
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// loads an image on the sub screen
+
+	PA_FatLoadSfx("nc", "nocontest");
+	PA_FatLoadSfx("kirby", "kirbyname");
+//	PA_FatLoadSfx("mewtwo", "mewtwoname");
+	PA_FatLoadSfx("mario", "marioname");
+	PA_FatLoadSfx("ike", "ikename");
+	PA_FatLoadSfx("winneris", "thewinneris");
+	PA_FatLoadSfx("confirm", "menuconfirm");
 	
 	if(draw) {} // doesn't display a main screen bg
 	else {
@@ -733,21 +751,20 @@ void displayResults() {
 	fadeIn();
 
 	if(draw) {
-		AS_SoundQuickPlay(nocontest);
+		PA_FatPlaySfx("nc");
 		for(int n = 0; n < 90; n++) {
 			PA_WaitForVBL();
 		}
 	} // plays a sound clip saying nobody won
 	else {
-		AS_SoundQuickPlay(thewinneris);
+		PA_FatPlaySfx("winneris");
 		for(int n = 0; n < 80; n++) {
 			PA_WaitForVBL();
 		}
-		if(players[winner] -> name == "kirby") AS_SoundQuickPlay(kirbyname);
-//		else if(players[winner] -> name == "mewtwo") AS_SoundQuickPlay(mewtwoname);
-		else if(players[winner] -> name == "mario") AS_SoundQuickPlay(marioname);
-		else if(players[winner] -> name == "ike") AS_SoundQuickPlay(ikename);
-//		else if(players[winner] -> name == "shadow") AS_SoundQuickPlay(shadowname);
+		if(players[winner] -> name == "kirby") PA_FatPlaySfx("kirby");
+//		else if(players[winner] -> name == "mewtwo") PA_FatPlaySfx("mewtwo");
+		else if(players[winner] -> name == "mario") PA_FatPlaySfx("mario");
+		else if(players[winner] -> name == "ike") PA_FatPlaySfx("ike");
 						
 		for(int n = 0; n < 60; n++) {
 			PA_WaitForVBL();
@@ -756,7 +773,7 @@ void displayResults() {
 
 	while(true) {
 		if(Stylus.Newpress) {
-			AS_SoundQuickPlay(menuconfirm);
+			PA_FatPlaySfx("confirm");
 			AS_MP3Stop();
 			fadeOut();
 			AS_SetMP3Loop(true);
@@ -783,7 +800,7 @@ int oldcam = cameratype;
 bool camchanged = false;
 
 void gameOver() {
-	AS_SoundQuickPlay(game);
+	PA_FatPlaySfx("game");
 	for(int n = 0; n < 128; n++) {
 		PA_StopSpriteAnim(MAIN_SCREEN, n);
 		PA_StopSpriteAnim(SUB_SCREEN, n);
@@ -825,15 +842,31 @@ void match(int param) {
 	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width/2+128);
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height/2+96);
 
+	for(int n = 0; n < (int)players.size(); n++) {
+		players[n] -> initSounds();
+	}
+	
+	PA_FatLoadSfx("game", "game");
+	PA_FatLoadSfx("3", "three");
+	PA_FatLoadSfx("2", "two");
+	PA_FatLoadSfx("1", "one");
+	PA_FatLoadSfx("go", "go");
+	
+	PA_FatLoadSfx("shieldbreak", "shieldbreak");
+	PA_FatLoadSfx("hit1", "hit1");
+	PA_FatLoadSfx("hit2", "hit2");
+	PA_FatLoadSfx("hit3", "hit3");
+	PA_FatLoadSfx("death", "deathsound");
+
 	fadeIn();
 
-	AS_SoundQuickPlay(three);
+	PA_FatPlaySfx("3");
 	for(int n = 0; n < 60; n++) PA_WaitForVBL();
-	AS_SoundQuickPlay(two);
+	PA_FatPlaySfx("2");
 	for(int n = 0; n < 60; n++) PA_WaitForVBL();
-	AS_SoundQuickPlay(one);
+	PA_FatPlaySfx("1");
 	for(int n = 0; n < 60; n++) PA_WaitForVBL();
-	AS_SoundQuickPlay(go);
+	PA_FatPlaySfx("go");
 	// counts down to start game
 	
 	while(true) {
@@ -1301,6 +1334,9 @@ void initMainMenu() {
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	//put title screen on top screen when at main menu.
 
+	PA_FatLoadSfx("no", "menuno");
+	PA_FatLoadSfx("confirm", "menuconfirm");
+
 	AS_MP3StreamPlay("/SSBDS_Files/music/menu.mp3");
 	// plays main menu music
 
@@ -1315,7 +1351,7 @@ void mainMenu() {
 	initMainMenu();
 	while(true) {
 		if(Pad.Newpress.B) {
-			AS_SoundQuickPlay(menuno);
+			PA_FatPlaySfx("no");
 			fadeOut();
 			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
 			return; // back to title screen
@@ -1324,7 +1360,7 @@ void mainMenu() {
 			int x = Stylus.X;
 			int y = Stylus.Y;
 			if(x > 105 && x < 228 && y > 38 && y < 64) {
-				AS_SoundQuickPlay(menuconfirm);
+				PA_FatPlaySfx("confirm");
 				AS_MP3Stop(); // stops bg music
 				fadeOut();
 				if(gamemode == GAMEMODE_TIME) {
@@ -1337,7 +1373,7 @@ void mainMenu() {
 				}
 			}
 			else if(x > 82 && x < 205 && y > 70 && y < 99) {				
-				AS_SoundQuickPlay(menuconfirm);
+				PA_FatPlaySfx("confirm");
 				AS_MP3Stop(); // stops bg music
 				fadeOut();
 #ifdef LAN_ON
@@ -1346,14 +1382,14 @@ void mainMenu() {
 				initMainMenu();
 			}
 			else if(x > 60 && x < 183 && y > 104 && y < 131) {				
-				AS_SoundQuickPlay(menuconfirm);
+				PA_FatPlaySfx("confirm");
 				AS_MP3Stop(); // stops bg music
 				fadeOut();
 				extras();
 				initMainMenu();
 			}
 			else if(x > 38 && x < 162 && y > 136 && y < 164) {
-				AS_SoundQuickPlay(menuconfirm);
+				PA_FatPlaySfx("confirm");
 				AS_MP3Stop(); // stops bg music
 				fadeOut();
 				options();
@@ -1380,13 +1416,15 @@ void titleScreen() {
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
 
+	PA_FatLoadSfx("confirm", "menuconfirm");
+
 	AS_MP3StreamPlay("SSBDS_Files/music/title.mp3"); // title screen music
 
 	fadeIn();
 		
 	while(true) {
 		if(Stylus.Newpress) { // if the stylus is pressed
-			AS_SoundQuickPlay(menuconfirm); // menu confirm sound byte
+			PA_FatPlaySfx("confirm"); // menu confirm sound byte
 			AS_MP3Stop(); // stops sound
 			fadeOut();
 			PA_ResetSpriteSys(); // resets sprites
