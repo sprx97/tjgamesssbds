@@ -235,16 +235,22 @@ void fadeOut() {
    	for(int i = 0; i >= -31; i--) {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
+		AS_SetMP3Volume((i+31)*4);
+		for(int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i+31)*4);
+		PA_WaitForVBL();
 		PA_WaitForVBL();
 	} // slowly darkens the screen into black
+	AS_MP3Stop();
 	PA_ResetBgSys();
-	for(int n = 0; n < 120; n++) PA_WaitForVBL();
 	PA_FatFreeSfxBuffers();
 } // fades both screens out
 void fadeIn() {
    	for(int i = -31; i <= 0; i++) {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
+		AS_SetMP3Volume((i+31)*4);
+		for(int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i+31)*4);
+		PA_WaitForVBL();
 		PA_WaitForVBL();
 	} // slowly brightens the screen to normal
 } // fades both screens in
@@ -508,7 +514,6 @@ void characterSelect(bool train = false) {
 		if(Pad.Newpress.Start && humanselected != -1) {
 // if start is pressed and both players are ready
 			PA_FatPlaySfx("confirm");
-			AS_MP3Stop();
 			fadeOut();
 			PA_ResetSpriteSys(); // restes all sprites
 			PA_OutputText(SUB_SCREEN, 7, 23, "                     "); // clears text
@@ -774,7 +779,6 @@ void displayResults() {
 	while(true) {
 		if(Stylus.Newpress) {
 			PA_FatPlaySfx("confirm");
-			AS_MP3Stop();
 			fadeOut();
 			AS_SetMP3Loop(true);
 			score.clear(); // clears the scoreboard
@@ -1361,7 +1365,6 @@ void mainMenu() {
 			int y = Stylus.Y;
 			if(x > 105 && x < 228 && y > 38 && y < 64) {
 				PA_FatPlaySfx("confirm");
-				AS_MP3Stop(); // stops bg music
 				fadeOut();
 				if(gamemode == GAMEMODE_TIME) {
 					match(timelimit);
@@ -1374,7 +1377,6 @@ void mainMenu() {
 			}
 			else if(x > 82 && x < 205 && y > 70 && y < 99) {				
 				PA_FatPlaySfx("confirm");
-				AS_MP3Stop(); // stops bg music
 				fadeOut();
 #ifdef LAN_ON
 				LAN();
@@ -1383,14 +1385,12 @@ void mainMenu() {
 			}
 			else if(x > 60 && x < 183 && y > 104 && y < 131) {				
 				PA_FatPlaySfx("confirm");
-				AS_MP3Stop(); // stops bg music
 				fadeOut();
 				extras();
 				initMainMenu();
 			}
 			else if(x > 38 && x < 162 && y > 136 && y < 164) {
 				PA_FatPlaySfx("confirm");
-				AS_MP3Stop(); // stops bg music
 				fadeOut();
 				options();
 				initMainMenu();
@@ -1425,7 +1425,6 @@ void titleScreen() {
 	while(true) {
 		if(Stylus.Newpress) { // if the stylus is pressed
 			PA_FatPlaySfx("confirm"); // menu confirm sound byte
-			AS_MP3Stop(); // stops sound
 			fadeOut();
 			PA_ResetSpriteSys(); // resets sprites
 			return mainMenu();

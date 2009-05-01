@@ -31,7 +31,7 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 void Mario::initSounds() {
 	PA_FatLoadSfx("mariojump", "mariojump");
 	PA_FatLoadSfx("mariodoublejump", "mariodoublejump");
-	PA_FatLoadSfx("mariutilt", "mariutilt");
+	PA_FatLoadSfx("marioutilt", "marioutilt");
 	PA_FatLoadSfx("mariodashattack", "mariodashattack");
 	PA_FatLoadSfx("mariodsmash", "mariodsmash");
 	PA_FatLoadSfx("mariousmash", "mariousmash");
