@@ -10,7 +10,6 @@
 
 #define DEBUG_ON // turns on printing of information to screen
 //#define SLOPEDSTAGES_ON // Castle Siege and Corneria
-//#define LAN_ON // CHANGE MAKEFILE TOO!!!!
 // turns certain features on and off
 
 //PALib:
@@ -1326,10 +1325,6 @@ void extras() {
 
 } // extras menu, uncoded
 
-#ifdef LAN_ON
-#import "LAN.cpp"
-#endif
-
 // (Even more) pre-game menus
 void initMainMenu() {
 	PA_Init8bitBg(SUB_SCREEN, 3);
@@ -1379,9 +1374,7 @@ void mainMenu() {
 			else if(x > 82 && x < 205 && y > 70 && y < 99) {				
 				PA_FatPlaySfx("confirm");
 				fadeOut();
-#ifdef LAN_ON
-				LAN();
-#endif
+				runNdsFile("SSBDS_Files/ROMS/LAN.nds");
 				initMainMenu();
 			}
 			else if(x > 60 && x < 183 && y > 104 && y < 131) {				
@@ -1462,19 +1455,6 @@ int main(int argc, char ** argv) {
 	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
 	AS_SetMP3Loop(true);
 	// required both for MP3 and Sound
-
-#ifdef LAN_ON	
-	if(!IPC_Init()) {
-		PA_OutputText(MAIN_SCREEN, 0, 0, "IPC INIT FAILED");
-		while(true) {}
-	}
-	IPC_SetChannelCallback(0, &LWIFI_IPC_Callback);
-	PA_VBLFunctionInit(customVBL);
-	// inits/preps DS <-> DS	
-			
-	LOBBY_Init();
-	LOBBY_SetStreamHandler(0x0001, &receive);
-#endif
 	
 	initControls();
 		
