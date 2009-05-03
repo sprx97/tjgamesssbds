@@ -15,6 +15,7 @@
 
 //PALib:
 #include <PA9.h> // DS functions that we use come from here
+#include "nds_loader_arm9.h" // loading externa ROMs
 
 //C++ Library Functions:
 #include <math.h> // math!
@@ -1476,7 +1477,7 @@ int main(int argc, char ** argv) {
 #endif
 	
 	initControls();
-	
+		
 	while(true) titleScreen(); // permanently runs the game
 	return 0; //never happens, but then again, DS games don't quit
 } // End of main()
