@@ -110,9 +110,8 @@ void Fighter::initSprite() {
 		PA_FatLoadSprite(MYCHAR, name.c_str());
 	}
 	PA_CreateSprite(MAIN_SCREEN, SPRITENUM, (void*)sprite_gfx[MYCHAR], OBJ_SIZE_64X64, COLOR256, SPRITENUM-100, -64, -64);
-	PA_LoadSpritePal(MAIN_SCREEN, 14-(SPRITENUM-100), (void*)shield_Pal);
-	PA_CreateSprite(MAIN_SCREEN, 30+(SPRITENUM-100), (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 14-(SPRITENUM-100), -64, -64);
-	PA_SetSpriteRotEnable(MAIN_SCREEN, 30+(SPRITENUM-100), SPRITENUM-100);
+	PA_CreateSprite(MAIN_SCREEN, SPRITENUM-4, (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 13, -64, -64);
+	PA_SetSpriteRotEnable(MAIN_SCREEN, SPRITENUM-4, SPRITENUM-100);
 }
 void Fighter::initFrames(){}//implemented in subclasses
 void Fighter::initPalettes(){}//implemented in subclasses
@@ -1582,12 +1581,12 @@ bool Fighter::checkCeilingCollision() {
 void Fighter::scroll(double scrollx, double scrolly) {
 	if(x - scrollx > 256 || x - scrollx < 0-64 || y - scrolly > 192 || y - scrolly < 0-64) {
 		PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, -64, -64);
-		PA_SetSpriteXY(MAIN_SCREEN, 30+(SPRITENUM-100), -64, -64);
+		PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM-4, -64, -64);
 	}
 	else {
 		PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x - (int)(scrollx), (int)y - (int)(scrolly));
-		if(action == SHIELD) PA_SetSpriteXY(MAIN_SCREEN, 30+(SPRITENUM-100), (int)x - (int)(scrollx), (int)y - (int)(scrolly));
-		else PA_SetSpriteXY(MAIN_SCREEN, 30+(SPRITENUM-100), -64, -64);
+		if(action == SHIELD) PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM-4, (int)x - (int)(scrollx), (int)y - (int)(scrolly));
+		else PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM-4, -64, -64);
 	}
 }
 Fighter::~Fighter() {}

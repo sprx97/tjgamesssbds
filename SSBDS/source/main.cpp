@@ -303,18 +303,18 @@ Stage setStage(int selStage) {
 
 //Set up sprite stuff:
 void initFX() {
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 4, "specialFX");
-	PA_FatLoadSprite(4, "specialFX");
-	for(int n = 5; n < 25; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[4], OBJ_SIZE_64X64, COLOR256, 4, -64, -64);
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "specialFX");
+	PA_FatLoadSprite(254, "specialFX");
+	for(int n = 5; n < 21; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[254], OBJ_SIZE_64X64, COLOR256, 15, -64, -64);
 	}
 	// loads all special effect sprites
 } // initializes special effects
 void initProjectiles() {
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 5, "projectiles");
-	PA_FatLoadSprite(5, "projectiles");
-	for(int n = 50; n < 55; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[5], OBJ_SIZE_64X64, COLOR256, 5, -64, -64);
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 14, "projectiles");
+	PA_FatLoadSprite(255, "projectiles");
+	for(int n = 50; n < 54; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[255], OBJ_SIZE_64X64, COLOR256, 14, -64, -64);
 	} // loads all projectile sprites
 } // initializes projectiles
 
@@ -421,6 +421,7 @@ void stageSelect() {
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites
 					PA_FatFreeSprite(31);
+					PA_FatFreePalette(0);
 					selectedStage = n; // sets selected stage, just like in characterSelect()
 					return;
 				}
@@ -523,7 +524,9 @@ void characterSelect(bool train = false) {
 			PA_ResetSpriteSys(); // restes all sprites
 			PA_FatFreeSprBuffers();
 			PA_OutputText(SUB_SCREEN, 7, 23, "                     "); // clears text
-			
+	
+			PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);
+										
 			if(humanselected == KIRBY) players.push_back(new Kirby(1, &players, &display));
 			else if(humanselected == MEWTWO) players.push_back(new Mewtwo(1, &players, &display));
 			else if(humanselected == MARIO) players.push_back(new Mario(1, &players, &display));
@@ -828,7 +831,7 @@ void match(int param) {
 	int time=0;
 	int stock=0;
 	if (gamemode==GAMEMODE_TIME) time = param*60*60 + 60; // minutes -> vblanks
-	else if(gamemode == GAMEMODE_STOCK) stock = param;
+	else if(gamemode == GAMEMODE_STOCK) stock = param;	
 	
 	characterSelect(); // select characters
 	for(int n = 0; n < (int)players.size(); n++) {
@@ -1439,6 +1442,8 @@ int main(int argc, char ** argv) {
 	PA_Init();    // Initializes PA_Lib 
 	PA_InitVBL(); // Initializes a standard VBlank (FPS handler)
 	PA_InitRand();
+
+	vramSetBankE(VRAM_E_MAIN_SPRITE);
 
 #ifdef DEBUG_ON
 	defaultExceptionHandler(); // "red screen of death" error, hopefully won't happen

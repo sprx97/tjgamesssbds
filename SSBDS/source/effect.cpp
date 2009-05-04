@@ -8,7 +8,7 @@ Effect::Effect(double xpos, double ypos, int t, int pn, double scrollx, double s
 	x = xpos, y = ypos;
 	type = t;
 	playernum = pn;
-	mynum = 5*playernum + 5;
+	mynum = 4*playernum + 5;
 	if(type == FX_AIRJUMP) mynum+=1;
 	else if(type == FX_DEATH) mynum+=2;
 	else { // all knockback sprites are the same spritenum
