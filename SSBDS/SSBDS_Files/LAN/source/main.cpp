@@ -5,42 +5,22 @@
 #include <lobby.h>
 // DS <-> DS
 
-#define DEBUG_ON
+#include "global.h"
 
-#define MAIN_SCREEN 1
-#define SUB_SCREEN 2
+#include <vector>
+
+#define DEBUG_ON
 
 #define ROOM_NAME "SSBDS"
 #define MAX_PLAYERS 2
 #define GAME_CODE 558
 #define GAME_VER 0
 
-char dat[10];
+char senddata[10];
 int playernum = -1;
+bool received = false;
 
-void fadeOut() {
-   	for(int i = 0; i >= -31; i--) {
-		PA_SetBrightness(MAIN_SCREEN, i);
-		PA_SetBrightness(SUB_SCREEN, i);
-		AS_SetMP3Volume((i+31)*4);
-		for(int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i+31)*4);
-		PA_WaitForVBL();
-		PA_WaitForVBL();
-	} // slowly darkens the screen into black
-	AS_MP3Stop();
-	PA_ResetBgSys();
-	PA_FatFreeSfxBuffers();
-} // fades both screens out
-void fadeIn() {
-   	for(int i = -31; i <= 0; i++) {
-		PA_SetBrightness(MAIN_SCREEN, i);
-		PA_SetBrightness(SUB_SCREEN, i);
-		AS_SetMP3Volume((i+31)*4);
-		for(int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i+31)*4);
-		PA_WaitForVBL();
-		PA_WaitForVBL();
-	} // slowly brightens the screen to normal
-} // fades both screens in
+//vector<Fighter*> players;
 
 void customVBL(void) {
 	IPC_RcvCompleteCheck();
@@ -49,12 +29,49 @@ void customVBL(void) {
 }
 
 void receive(unsigned char *data, int length, LPLOBBY_USER from) {
-
+	received = true;
+//	PA_SetSpriteXY(MAIN_SCREEN, players[0] -> SPRITENUM, data[0], data[1]);
+//	PA_SetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM, data[2]);
 }
 
-// Function: main()
-int main(int argc, char ** argv)
-{
+void waitForGame() {
+	while(playernum == -1) {
+		if(Pad.Newpress.Start) {
+			playernum = 0;
+			LOBBY_SetOwnName("Host");
+			LOBBY_CreateRoom(ROOM_NAME, MAX_PLAYERS, GAME_CODE, GAME_VER);
+		}
+		else if(Pad.Newpress.Select) {
+			playernum = 1;
+			LOBBY_SetOwnName("Client");
+			LOBBY_JoinRoom(LOBBY_GetRoomByGame(0, GAME_CODE));
+		}
+		PA_WaitForVBL();
+	}
+	while(LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))) != 2) PA_WaitForVBL();
+//	players.push_back(new Kirby(1, &players, &display));
+//	Stage stage = setStage(FINALDESTINATION);
+	
+	fadeIn();
+
+//	while(true) {
+//		if(playernum == 0) {
+//			players[0] -> act();
+//			senddata[0] = (int)(players[0] -> x);
+//			senddata[1] = (int)(players[0] -> y);
+//			senddata[2] = (int)(PA_GetSpriteAnimFrame(MAIN_SCREEN, players[0]->SPRITENUM);
+//			LOBBY_SendToUser(LOBBY_GetUserByID(0), 0x0001, (unsigned char*)senddata);
+//		}
+//		else if(playernum == 1) {
+//			while(!received) {}
+//			received = false;
+//		}
+//		scrollscreen();
+//		PA_WaitForVBL();
+//	}
+}
+
+int main(int argc, char ** argv) {
 	PA_Init();    // Initializes PA_Lib
 	PA_InitVBL(); // Initializes a standard VBL
 
@@ -92,10 +109,8 @@ int main(int argc, char ** argv)
 	LOBBY_SetStreamHandler(0x0001, &receive);
 
 	// Infinite loop to keep the program running
-	while (1)
-	{
-		PA_WaitForVBL();
+	while (1) {
+		waitForGame();
 	}
-	
 	return 0;
 } // End of main()

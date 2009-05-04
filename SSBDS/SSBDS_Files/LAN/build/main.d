@@ -1,4 +1,5 @@
-main.o: /Users/Jeremy/Desktop/tjgamesssbds/LAN/source/main.cpp \
+main.o:  \
+ /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/SSBDS_Files/LAN/source/main.cpp \
   /opt/local/devkitPro/PAlib/lib/include/nds/PA9.h \
   /opt/local/devkitPro/libnds/include/nds.h \
   /opt/local/devkitPro/libnds/include/nds/jtypes.h \
@@ -105,4 +106,5 @@ main.o: /Users/Jeremy/Desktop/tjgamesssbds/LAN/source/main.cpp \
   /opt/local/devkitPro/PAlib/lib/include/nds/arm9/PA_Fake16bit.h \
   /opt/local/devkitPro/liblobby/include/MessageQueue.h \
   /opt/local/devkitPro/liblobby/include/802.11.h \
-  /opt/local/devkitPro/liblobby/include/lobby.h
+  /opt/local/devkitPro/liblobby/include/lobby.h \
+  /Users/Jeremy/Desktop/tjgamesssbds/SSBDS/SSBDS_Files/LAN/include/global.h
