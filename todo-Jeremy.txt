@@ -4,6 +4,7 @@
 - LAN
 - Clashing hits
 - Convert all gfx to FAT
+- Collision map to replace/improve stage class...
 
 Known Bugs:
 - NONE
