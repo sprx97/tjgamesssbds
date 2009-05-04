@@ -919,11 +919,18 @@ void match(int param) {
 			}
 		} // all players act
 		for(int n = 0; n < (int)players.size(); n++) {
-			if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock) continue;
-			for(int m = 0; m < (int)players.size(); m++) {
-				if(score.getDeaths(m)+sdcost*score.getSDs(m) >= stock) continue;
-				if(m != n) players[m] = players[n] -> checkHits(players[m]);
+			if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock) {}
+			else {
+				for(int m = 0; m < (int)players.size(); m++) {
+					if(score.getDeaths(m)+sdcost*score.getSDs(m) >= stock) {}
+					else {
+						if(m != n) players[m] = players[n] -> checkHits(players[m]);
+					}
+				}
 			}
+		}
+		for(int n = 0; n < (int)players.size(); n++) {
+			players[n]->allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, players[n]->SPRITENUM)].enabled = false;
 		}
 		// checks to see if any player hit another
 		scrollScreen(); // scrolls the screen

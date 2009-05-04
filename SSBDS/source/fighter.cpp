@@ -1234,7 +1234,6 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 }
 Fighter* Fighter::checkHits(Fighter* other) {
 	if(!allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled) return other;
-	allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled = false;
 	if(getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if(action == HOLD || action == GRABATK) {}
 		else if(action == GRAB) {
