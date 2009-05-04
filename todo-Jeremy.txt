@@ -3,7 +3,7 @@
 - Credits Screen
 - LAN
 - Clashing hits
-- Convert all sfx/gfx to FAT
+- Convert all gfx to FAT
 
 Known Bugs:
-- 4 players doesn't work (sprite pal/img assignment related)
+- NONE
