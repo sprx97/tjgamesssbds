@@ -4,7 +4,8 @@
 - LAN
 - Clashing hits
 - Convert all gfx to FAT
-- Collision map to replace/improve stage class...
+- Collision map to replace/improve stage class
+- Offload some methods from main to global
 
 Known Bugs:
 - NONE
