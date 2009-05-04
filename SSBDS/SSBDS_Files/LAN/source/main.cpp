@@ -4,10 +4,30 @@
 #include <802.11.h>
 #include <lobby.h>
 // DS <-> DS
+#include "nds_loader_arm9.h"
 
+//C++ Library Functions:
+#include <math.h> // math!
+#include <vector> // vectors!
+#include <string> // strings!
+#include <sstream> // int to string
+#include <stdio.h> // standard file functions
+#include <stdlib.h> // standard C functions
+#include <map> // maps
+
+#include "../../../source/gfx/all_gfx.c"
+
+using namespace std;
+
+//Project classes:
 #include "global.h"
-
-#include <vector>
+#include "effect.h"
+#include "stages.h"
+#include "projectiles.h" // projectiles
+#include "fighters.h" // individual characters
+#include "fighter.h"
+#include "display.h"
+#include "scoreboard.h"
 
 #define DEBUG_ON
 
@@ -20,7 +40,179 @@ char senddata[10];
 int playernum = -1;
 bool received = false;
 
-//vector<Fighter*> players;
+//Global variables and definitions for what they mean:
+#define CAMERATYPE_FOLLOWUSER 0
+#define CAMERATYPE_FOLLOWALL 1
+int cameratype = CAMERATYPE_FOLLOWUSER;
+// the kind of camera used in battles
+
+#define GAMEMODE_TIME 0
+#define GAMEMODE_STOCK 1
+int gamemode = GAMEMODE_STOCK;
+int timelimit = 2;
+int stocklimit = 3;
+int sdcost = 1;
+// game settings
+
+vector<Fighter*> players;
+// stores all fighters for playing a match
+
+vector<Projectile> projectiles;
+// stores all projectiles
+
+Display display = Display();
+// stores all visual effects
+
+//FIXME still quite a few things use these
+#define effects (*display.getEffects())
+#define scrollx display.scrollx
+#define scrolly display.scrolly
+#define score (*display.score)
+
+map<int, int> customcontrols; // custom control mapping
+bool shieldgrabon; // use a while shielding to grab
+bool tapjumpon; // use up dpad to jump
+bool cstickstylus; // smashes and aerials with stylus
+
+//wrapper methods to get global variables from other classes
+//FIXME: these should probably exist somewhere other than main if they need
+//to be accessible to lots of other classes. maybe a customcontrols class or
+//global or something.
+map<int , int> getcustomcontrols(){
+	return customcontrols;
+}
+bool getTapJumpOn(){
+	return tapjumpon;
+}
+bool getCStickStylus(){
+	return cstickstylus;
+}
+bool getShieldGrabOn(){
+	return shieldgrabon;
+}
+void* getProj(){
+	return &projectiles;
+}
+void removeProj(int prnum) {
+	vector<Projectile> temp;
+	for(int n = 0; n < (int)projectiles.size(); n++) {
+		Projectile p = projectiles[n];
+		if(p.num != prnum) {
+			temp.push_back(p);
+		}
+	}
+	projectiles = temp;
+	PA_SetSpriteXY(MAIN_SCREEN, prnum, -64, -64);
+}
+bool custom_action(int action, int typecheck) {
+	if(customcontrols[action] == BUTTON_A) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.A) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.A) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.A) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_B) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.B) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.B) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.B) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_AB) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.A && Pad.Held.B) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.A && Pad.Newpress.B) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.A || Pad.Released.B) return true;
+		}	
+	}
+	else if(customcontrols[action] == BUTTON_X) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.X) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.X) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.X) return true;
+		}	
+	}
+	else if(customcontrols[action] == BUTTON_Y) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.Y) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.Y) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.Y) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_L) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.L) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.L) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.L) return true;
+		}	
+	}
+	else if(customcontrols[action] == BUTTON_R) {
+		if(typecheck == PAD_HELD) {
+			if(Pad.Held.R) return true;
+		}
+		else if(typecheck == PAD_NEWPRESS) {
+			if(Pad.Newpress.R) return true;
+		}
+		else if(typecheck == PAD_RELEASED) {
+			if(Pad.Released.R) return true;
+		}
+	}
+	else if(customcontrols[action] == BUTTON_NONE) {
+		return false;
+	}
+	if(action == ACTION_JUMP) return custom_action(ACTION_JUMP2, typecheck);
+	if(action == ACTION_SHIELD) return custom_action(ACTION_SHIELD2, typecheck);
+	return false;
+} // takes action and checks if it is done by custom controls
+
+void fadeOut() {
+   	for(int i = 0; i >= -31; i--) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		AS_SetMP3Volume((i+31)*4);
+		for(int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i+31)*4);
+		PA_WaitForVBL();
+		PA_WaitForVBL();
+	} // slowly darkens the screen into black
+	AS_MP3Stop();
+	PA_ResetBgSys();
+	PA_FatFreeSfxBuffers();
+} // fades both screens out
+void fadeIn() {
+   	for(int i = -31; i <= 0; i++) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		AS_SetMP3Volume((i+31)*4);
+		for(int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i+31)*4);
+		PA_WaitForVBL();
+		PA_WaitForVBL();
+	} // slowly brightens the screen to normal
+} // fades both screens in
 
 void customVBL(void) {
 	IPC_RcvCompleteCheck();

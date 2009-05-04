@@ -8,7 +8,7 @@
 #include <vector>
 #include <math.h>
 #include <map> // maps
-#include "gfx/all_gfx.h" //may want to reduce this later
+#include "../gfx/all_gfx.h" //may want to reduce this later
 
 using std::vector;
 

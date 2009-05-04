@@ -31,8 +31,7 @@
 //Allow us to skip us to skip the std:: prefix on tandard types
 using namespace std;
 //FIXME: should probably only use individual things, the above is considered bad practice
-//example:
-using std::vector;
+//example: using std::vector;
 
 //Project classes:
 #include "global.h"
