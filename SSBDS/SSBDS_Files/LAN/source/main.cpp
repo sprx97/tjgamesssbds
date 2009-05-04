@@ -214,6 +214,83 @@ void fadeIn() {
 	} // slowly brightens the screen to normal
 } // fades both screens in
 
+Stage setStage(int selStage) {
+	Stage picked; // the stage which is chosen
+	if(selStage == FINALDESTINATION) {
+		// background
+		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, finaldestination);
+		picked = FinalDestination();
+	} // loads final destination if it was chosen
+	if(selStage == POKEMONSTADIUM) {
+		// background
+		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, pokemonstadium);
+		picked = PokemonStadium();
+	} // loads pokemon stadium if it was chosen
+#ifdef SLOPEDSTAGES_ON
+	if(selStage == CASTLESIEGE) {
+		// background
+		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, castlesiege);
+		picked = CastleSiege();
+	} // loads castle siege if it was chosen
+	if(selStage == CORNERIA) {
+		// background
+		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, corneria);
+		picked = Corneria();
+	} // loads corneria if it was chosen
+#endif
+	for(int n = 0; n < (int)players.size(); n++) {
+		players[n] -> setStage(&picked);
+	} // sets the stage of the players to the picked stage
+	return picked; // returns the picked stage
+} // displays the stage on the main screen
+
+void scrollScreen() {
+	if(cameratype == CAMERATYPE_FOLLOWALL) {
+		double maxx = -10000;
+		double minx = 10000;
+		double maxy = -10000;
+		double miny = 10000;
+		// initializes min and max x and y
+		for(int n = 0; n < (int)players.size(); n++) {
+			if(score.getDeaths(n)+sdcost*score.getSDs(n) < stocklimit && gamemode == GAMEMODE_STOCK) {
+				double x = players[n] -> x;
+				double y = players[n] -> y;
+				if(x > maxx) maxx = x;
+				if(x < minx) minx = x;
+				if(y > maxy) maxy = y;
+				if(y < miny) miny = y;
+			}
+		} // finds the minimum and maximum x and y position
+		scrollx = (maxx + minx) / 2;
+		scrolly = (maxy + miny) / 2;
+		// scrolls so that the camera is centred between the min and max x and y
+	} // if the camera follows everyone
+	else if(cameratype == CAMERATYPE_FOLLOWUSER) {
+		scrollx = players[0] -> x;
+		scrolly = players[0] -> y;
+		// centers camera on user
+	} // if the camer follows the user
+	scrollx = scrollx - 128 + 32;
+	scrolly = scrolly - 96 + 32; 
+	// centers the camera on the sprites and screen
+	if(scrollx < -128) scrollx = -128;
+	if(scrolly < -192) scrolly = -192;
+	if(scrollx > 512-256+128) scrollx = 512-256+128;
+	if(scrolly > 256-192) scrolly = 256-192;
+	// wraps scrolling around
+	PA_LargeScrollX(MAIN_SCREEN, 0, 256+(int)scrollx);
+	PA_LargeScrollY(MAIN_SCREEN, 0, 256+(int)scrolly);
+	// scrolls the screen
+	for(int n = 0; n < (int)players.size(); n++) {
+		players[n] -> scroll(scrollx, scrolly);
+	} // scrolls the players
+	for(int n = 0; n < (int)effects.size(); n++) {
+		if(effects[n].type == FX_DEATH) {} // don't move sprite
+		else if(effects[n].type == FX_AIRJUMP) PA_SetSpriteXY(MAIN_SCREEN, effects[n].mynum, PA_GetSpriteX(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM), PA_GetSpriteY(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM)+32);
+		else PA_SetSpriteXY(MAIN_SCREEN, effects[n].mynum, PA_GetSpriteX(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM), PA_GetSpriteY(MAIN_SCREEN, players[effects[n].playernum] -> SPRITENUM));
+	} // scrolls the special effects
+}
+
 void customVBL(void) {
 	IPC_RcvCompleteCheck();
 	LOBBY_Update();
@@ -222,8 +299,8 @@ void customVBL(void) {
 
 void receive(unsigned char *data, int length, LPLOBBY_USER from) {
 	received = true;
-//	PA_SetSpriteXY(MAIN_SCREEN, players[0] -> SPRITENUM, data[0], data[1]);
-//	PA_SetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM, data[2]);
+	PA_SetSpriteXY(MAIN_SCREEN, players[0] -> SPRITENUM, data[0], data[1]);
+	PA_SetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM, data[2]);
 }
 
 void waitForGame() {
@@ -240,27 +317,29 @@ void waitForGame() {
 		}
 		PA_WaitForVBL();
 	}
-	while(LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))) != 2) PA_WaitForVBL();
-//	players.push_back(new Kirby(1, &players, &display));
-//	Stage stage = setStage(FINALDESTINATION);
+	while(LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))) != 2) {
+		PA_WaitForVBL();
+	}
+	players.push_back(new Kirby(1, &players, &display));
+	Stage stage = setStage(FINALDESTINATION);
 	
 	fadeIn();
 
-//	while(true) {
-//		if(playernum == 0) {
-//			players[0] -> act();
-//			senddata[0] = (int)(players[0] -> x);
-//			senddata[1] = (int)(players[0] -> y);
-//			senddata[2] = (int)(PA_GetSpriteAnimFrame(MAIN_SCREEN, players[0]->SPRITENUM);
-//			LOBBY_SendToUser(LOBBY_GetUserByID(0), 0x0001, (unsigned char*)senddata);
-//		}
-//		else if(playernum == 1) {
-//			while(!received) {}
-//			received = false;
-//		}
-//		scrollscreen();
-//		PA_WaitForVBL();
-//	}
+	while(true) {
+		if(playernum == 0) {
+			players[0] -> act();
+			senddata[0] = (int)(players[0] -> x);
+			senddata[1] = (int)(players[0] -> y);
+			senddata[2] = (int)(PA_GetSpriteAnimFrame(MAIN_SCREEN, players[0]->SPRITENUM));
+			LOBBY_SendToUser(LOBBY_GetUserByID(0), 0x0001, (unsigned char*)senddata, 10);
+		}
+		else if(playernum == 1) {
+			while(!received) {}
+			received = false;
+		}
+		scrollScreen();
+		PA_WaitForVBL();
+	}
 }
 
 int main(int argc, char ** argv) {
