@@ -677,6 +677,10 @@ void displayResults() {
 	PA_Init8bitBg(MAIN_SCREEN, 3);
 	PA_Init8bitBg(SUB_SCREEN, 3);
 	deleteMinimap();
+	for(int n = 0; n < 128; n++) {
+		PA_SetSpriteXY(MAIN_SCREEN, n, -64, -64);
+		PA_SetSpriteXY(SUB_SCREEN, n, -64, -64);
+	}
 	for(int n = 0; n < (int)players.size(); n++) {
 		PA_DeleteSprite(MAIN_SCREEN, (players[n]->SPRITENUM)-4);
 		players[n] -> fall();
