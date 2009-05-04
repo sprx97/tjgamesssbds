@@ -29,14 +29,20 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 } // initializes all of the variables
 // initializers
 void Mario::initSounds() {
-	PA_FatLoadSfx("mariojump", "mariojump");
-	PA_FatLoadSfx("mariodoublejump", "mariodoublejump");
-	PA_FatLoadSfx("marioutilt", "marioutilt");
-	PA_FatLoadSfx("mariodashattack", "mariodashattack");
-	PA_FatLoadSfx("mariodsmash", "mariodsmash");
-	PA_FatLoadSfx("mariousmash", "mariousmash");
-	PA_FatLoadSfx("mariobup", "mariobup");
-	PA_FatLoadSfx("mariobneut", "mariobneut");
+	int alreadymade = 0;
+	for(int n = 0; n < charnum; n++) {
+		if(players[n] -> MYCHAR == MARIO) alreadymade++;
+	}
+	if(alreadymade == 0) {
+		PA_FatLoadSfx("mariojump", "mariojump");
+		PA_FatLoadSfx("mariodoublejump", "mariodoublejump");
+		PA_FatLoadSfx("marioutilt", "marioutilt");
+		PA_FatLoadSfx("mariodashattack", "mariodashattack");
+		PA_FatLoadSfx("mariodsmash", "mariodsmash");
+		PA_FatLoadSfx("mariousmash", "mariousmash");
+		PA_FatLoadSfx("mariobup", "mariobup");
+		PA_FatLoadSfx("mariobneut", "mariobneut");
+	}
 }
 void Mario::initPalettes() {
 	palettes.push_back("mariored");

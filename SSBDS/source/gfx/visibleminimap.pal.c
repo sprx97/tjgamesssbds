@@ -1,1 +1,0 @@
-//Palette created using LyosX NDS converterconst unsigned short visibleminimap_Pal[2] __attribute__ ((aligned (4))) = {0x7C1F, 0x801F};

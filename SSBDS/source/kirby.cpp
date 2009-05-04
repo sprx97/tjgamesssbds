@@ -29,15 +29,21 @@ Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 } // initializes all of the variables
 // initializers
 void Kirby::initSounds() {
-	PA_FatLoadSfx("kirbydoublejump", "kirbydoublejump");
-	PA_FatLoadSfx("kirbydsmash", "kirbydsmash");
-	PA_FatLoadSfx("kirbyfsmash", "kirbyfsmash");
-	PA_FatLoadSfx("kirbyftilt", "kirbyftilt");
-	PA_FatLoadSfx("kirbyjump", "kirbyjump");
-	PA_FatLoadSfx("kirbyusmash", "kirbyusmash");
-	PA_FatLoadSfx("kirbybside", "kirbybside");
-	PA_FatLoadSfx("kirbybup1", "kirbybup1");
-	PA_FatLoadSfx("kirbybup2", "kirbybup2");
+	int alreadymade = 0;
+	for(int n = 0; n < charnum; n++) {
+		if(players[n] -> MYCHAR == KIRBY) alreadymade++;
+	}
+	if(alreadymade == 0) {
+		PA_FatLoadSfx("kirbydoublejump", "kirbydoublejump");
+		PA_FatLoadSfx("kirbydsmash", "kirbydsmash");
+		PA_FatLoadSfx("kirbyfsmash", "kirbyfsmash");
+		PA_FatLoadSfx("kirbyftilt", "kirbyftilt");
+		PA_FatLoadSfx("kirbyjump", "kirbyjump");
+		PA_FatLoadSfx("kirbyusmash", "kirbyusmash");
+		PA_FatLoadSfx("kirbybside", "kirbybside");
+		PA_FatLoadSfx("kirbybup1", "kirbybup1");
+		PA_FatLoadSfx("kirbybup2", "kirbybup2");
+	}
 }
 void Kirby::initPalettes() {
 	palettes.push_back("kirbypink");

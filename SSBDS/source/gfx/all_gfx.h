@@ -16,21 +16,10 @@
 } PAGfx_struct;
 #endif
 
-extern const unsigned char numbers_Sprite[11264] __attribute__ ((aligned (4))) ;  // Pal : numbers_Pal
-extern const unsigned short numbers_Pal[9] __attribute__ ((aligned (4))) ;
-
 extern const unsigned short shield_Pal[90] __attribute__ ((aligned (4))) ;
 extern const unsigned char shield_Sprite[4096] __attribute__ ((aligned (4))) ;
 
-extern const unsigned short charminis_Pal[243] __attribute__ ((aligned (4))) ;
-extern const unsigned char visibleminimap_Sprite[4096] __attribute__ ((aligned (4))) ;
-
-extern const unsigned char projectilesprites[122880] __attribute__ ((aligned (4))) ;
 extern const unsigned char charprev[40960] __attribute__ ((aligned (4))) ;
-extern const unsigned char charsel[32768] __attribute__ ((aligned (4))) ;
-extern const unsigned char stagesel[40960] __attribute__ ((aligned (4))) ;
-extern const unsigned char specialFX[73728] __attribute__ ((aligned (4))) ;
-extern const unsigned char charminis[2560] __attribute__ ((aligned (4))) ;
 
 extern const int finaldestination_Info[3]; // BgMode, Width, Height
 extern const unsigned short finaldestination_Map[8192] __attribute__ ((aligned (4))) ;
@@ -62,17 +51,12 @@ extern const unsigned short pokemonstadiumminimap_Map[768] __attribute__ ((align
 extern const unsigned char pokemonstadiumminimap_Tiles[4096] __attribute__ ((aligned (4))) ;  // Pal : pokemonstadiumminimap_Pal
 extern PAGfx_struct pokemonstadiumminimap; // background pointer
 
-extern const unsigned short projectilesprites_Pal[19] __attribute__ ((aligned (4))) ;
-//extern const unsigned short charsel_Pal[204] __attribute__ ((aligned (4))) ;
-extern const unsigned short stagesel_Pal[245] __attribute__ ((aligned (4))) ;
-extern const unsigned short specialFX_Pal[242] __attribute__ ((aligned (4))) ;
 extern const unsigned short charprev_Pal[250] __attribute__ ((aligned (4))) ;
 
 extern const unsigned short corneria_Pal[166] __attribute__ ((aligned (4))) ;
 extern const unsigned short finaldestination_Pal[237] __attribute__ ((aligned (4))) ;
 extern const unsigned short pokemonstadium_Pal[215] __attribute__ ((aligned (4))) ;
 extern const unsigned short castleseige_Pal[201] __attribute__ ((aligned (4))) ;
-extern const unsigned short visibleminimap_Pal[2] __attribute__ ((aligned (4))) ;
 
 extern const unsigned short finaldestinationminimap_Pal[226] __attribute__ ((aligned (4))) ;
 extern const unsigned short pokemonstadiumminimap_Pal[233] __attribute__ ((aligned (4))) ;

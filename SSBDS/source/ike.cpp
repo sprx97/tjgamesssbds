@@ -32,17 +32,23 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 } // initializes all of the variables
 // initializers
 void Ike::initSounds() {
-	PA_FatLoadSfx("ikebair", "ikebair");
-	PA_FatLoadSfx("ikedashattack", "ikedashattack");
-	PA_FatLoadSfx("ikefair", "ikefair");
-	PA_FatLoadSfx("ikefsmash", "ikefsmash");
-	PA_FatLoadSfx("ikeftilt", "ikeftilt");
-	PA_FatLoadSfx("ikejump", "ikejump");
-	PA_FatLoadSfx("ikeutilt", "ikeutilt");
-	PA_FatLoadSfx("ikebside", "ikebside");
-	PA_FatLoadSfx("ikebup", "ikebup");
-	PA_FatLoadSfx("ikebneut", "ikebneut");
-	PA_FatLoadSfx("ikebdown", "ikebdown");
+	int alreadymade = 0;
+	for(int n = 0; n < charnum; n++) {
+		if(players[n] -> MYCHAR == IKE) alreadymade++;
+	}
+	if(alreadymade == 0) {
+		PA_FatLoadSfx("ikebair", "ikebair");
+		PA_FatLoadSfx("ikedashattack", "ikedashattack");
+		PA_FatLoadSfx("ikefair", "ikefair");
+		PA_FatLoadSfx("ikefsmash", "ikefsmash");
+		PA_FatLoadSfx("ikeftilt", "ikeftilt");
+		PA_FatLoadSfx("ikejump", "ikejump");
+		PA_FatLoadSfx("ikeutilt", "ikeutilt");
+		PA_FatLoadSfx("ikebside", "ikebside");
+		PA_FatLoadSfx("ikebup", "ikebup");
+		PA_FatLoadSfx("ikebneut", "ikebneut");
+		PA_FatLoadSfx("ikebdown", "ikebdown");
+	}
 }
 void Ike::initPalettes() {
 	palettes.push_back("ikeblue");

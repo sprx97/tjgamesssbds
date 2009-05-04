@@ -7,32 +7,12 @@ extern "C" {
 #endif
 
 #include "all_gfx.h"
-#include "damageicons.c"
-
-#include "numbers.c"
-#include "numbers.pal.c"
 
 #include "shield.c"
 #include "shield.pal.c"
-
-#include "charsel.c"
-#include "charsel.pal.c"
-#include "stagesel.c"
-#include "stagesel.pal.c"
-#include "charminis.c"
-#include "charminis.pal.c"
-
-#include "specialFX.c"
-	
-#include "specialFX.pal.c"
 	
 #include "charprev.c"
 #include "charprev.pal.c"
-
-#include "projectilesprites.c"
-#include "projectilesprites.pal.c"
-
-#include "visibleminimap.c"
 
 #include "corneria.c"
 #include "finaldestination.c"
@@ -43,7 +23,6 @@ extern "C" {
 #include "pokemonstadium.pal.c"
 #include "castleseige.pal.c"
 #include "finaldestination.pal.c"
-#include "visibleminimap.pal.c"
 
 #include "finaldestinationminimap.c"
 #include "finaldestinationminimap.pal.c"

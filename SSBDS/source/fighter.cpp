@@ -105,7 +105,6 @@ void Fighter::initSprite() {
 	for(uint8 n = 0; n < players.size(); n++) {
 		if(players[n] -> name == name) alreadymade++;
 	}
-//	PA_FatEasyLoadSpritePal(MAIN_SCREEN, SPRITENUM-100, name.c_str());
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, SPRITENUM-100, palettes[alreadymade]);
 	if(alreadymade == 0) {
 		PA_FatLoadSprite(MYCHAR, name.c_str());

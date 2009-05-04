@@ -8,7 +8,7 @@
 // belong to Nintendo and other 3rd party companies. This is a fan made game; it not
 // made for profit, just for fun.
 
-#define DEBUG_ON // turns on printing of information to screen
+//#define DEBUG_ON // turns on printing of information to screen
 //#define SLOPEDSTAGES_ON // Castle Siege and Corneria
 // turns certain features on and off
 
@@ -303,16 +303,18 @@ Stage setStage(int selStage) {
 
 //Set up sprite stuff:
 void initFX() {
-	PA_LoadSpritePal(MAIN_SCREEN, 15, (void*)specialFX_Pal);
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 4, "specialFX");
+	PA_FatLoadSprite(4, "specialFX");
 	for(int n = 5; n < 25; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)specialFX, OBJ_SIZE_64X64, COLOR256, 15, -64, -64);
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[4], OBJ_SIZE_64X64, COLOR256, 4, -64, -64);
 	}
 	// loads all special effect sprites
 } // initializes special effects
 void initProjectiles() {
-	PA_LoadSpritePal(MAIN_SCREEN, 14, (void*)projectilesprites_Pal);
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 5, "projectiles");
+	PA_FatLoadSprite(5, "projectiles");
 	for(int n = 50; n < 55; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)projectilesprites, OBJ_SIZE_64X64, COLOR256, 14, -64, -64);
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[5], OBJ_SIZE_64X64, COLOR256, 5, -64, -64);
 	} // loads all projectile sprites
 } // initializes projectiles
 
@@ -393,15 +395,16 @@ void stageSelect() {
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white	
 		
-	PA_LoadSpritePal(SUB_SCREEN, 0, (void*)stagesel_Pal);
-	PA_CreateSprite(SUB_SCREEN, FINALDESTINATION, (void*)stagesel, OBJ_SIZE_64X64, COLOR256, 0, 0, 0);
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "stagesel");
+	PA_FatLoadSprite(31, "stagesel");
+	PA_CreateSprite(SUB_SCREEN, FINALDESTINATION, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 0, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, FINALDESTINATION, FINALDESTINATION, FINALDESTINATION, 1, ANIM_LOOP, -1);
-	PA_CreateSprite(SUB_SCREEN, POKEMONSTADIUM, (void*)stagesel, OBJ_SIZE_64X64, COLOR256, 0, 64, 0);
+	PA_CreateSprite(SUB_SCREEN, POKEMONSTADIUM, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 64, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, POKEMONSTADIUM, POKEMONSTADIUM, POKEMONSTADIUM, 1, ANIM_LOOP, -1);
 #ifdef SLOPEDSTAGES_ON
-	PA_CreateSprite(SUB_SCREEN, CASTLESIEGE, (void*)stagesel, OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
+	PA_CreateSprite(SUB_SCREEN, CASTLESIEGE, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, CASTLESIEGE, CASTLESIEGE, CASTLESIEGE, 1, ANIM_LOOP, -1);
-	PA_CreateSprite(SUB_SCREEN, CORNERIA, (void*)stagesel, OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
+	PA_CreateSprite(SUB_SCREEN, CORNERIA, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, CORNERIA, CORNERIA, CORNERIA, 1, ANIM_LOOP, -1);
 #endif
 	// loads sprites just like in characterSelect()
@@ -417,6 +420,7 @@ void stageSelect() {
 					PA_FatPlaySfx("confirm"); // menu confirm sound
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites
+					PA_FatFreeSprite(31);
 					selectedStage = n; // sets selected stage, just like in characterSelect()
 					return;
 				}
@@ -441,10 +445,11 @@ void characterSelect(bool train = false) {
 	PA_InitText(SUB_SCREEN, 0); // init text on sub screen
 	PA_SetTextCol(SUB_SCREEN, 0,0,0); // text color of black		
 
-	PA_LoadSpritePal(SUB_SCREEN, 0, (void*)charsel_Pal);
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "charsel");
+	PA_FatLoadSprite(0, "charsel");
 	// creates a paleete... see mainMenu() for more details
 	// loads palette with all character selection icons, so it only uses 1 palette for all the sprites
-	PA_CreateSprite(SUB_SCREEN, KIRBY, (void*)charsel, OBJ_SIZE_64X64, COLOR256, 0, 0, 0);
+	PA_CreateSprite(SUB_SCREEN, KIRBY, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 0, 0);
 	// creates a sprite... see mainMenu() 
 	PA_StartSpriteAnimEx(SUB_SCREEN, KIRBY, KIRBY, KIRBY, 1, ANIM_LOOP, -1);
 	// animates a sprite Arguments are:
@@ -455,13 +460,13 @@ void characterSelect(bool train = false) {
 	// - FPS of animation (doesn't matter in this case b/c it's the same frame the whole time)
 	// - the type of animation, in this casea loop
 	// - how long to loop for (-1 is infinite)	
-	PA_CreateSprite(SUB_SCREEN, MEWTWO, (void*)charsel, OBJ_SIZE_64X64, COLOR256, 0, 64, 0);
+	PA_CreateSprite(SUB_SCREEN, MEWTWO, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 64, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, MEWTWO, MEWTWO, MEWTWO, 1, ANIM_LOOP, -1);
 	// another sprite
-	PA_CreateSprite(SUB_SCREEN, MARIO, (void*)charsel, OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
+	PA_CreateSprite(SUB_SCREEN, MARIO, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, MARIO, MARIO, MARIO, 1, ANIM_LOOP, -1);
 	// a third sprite
-	PA_CreateSprite(SUB_SCREEN, IKE, (void*)charsel, OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
+	PA_CreateSprite(SUB_SCREEN, IKE, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, IKE, IKE, IKE, 1, ANIM_LOOP, -1);
 
 	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);
@@ -516,6 +521,7 @@ void characterSelect(bool train = false) {
 			PA_FatPlaySfx("confirm");
 			fadeOut();
 			PA_ResetSpriteSys(); // restes all sprites
+			PA_FatFreeSprBuffers();
 			PA_OutputText(SUB_SCREEN, 7, 23, "                     "); // clears text
 			
 			if(humanselected == KIRBY) players.push_back(new Kirby(1, &players, &display));
@@ -872,7 +878,7 @@ void match(int param) {
 	for(int n = 0; n < 60; n++) PA_WaitForVBL();
 	PA_FatPlaySfx("go");
 	// counts down to start game
-	
+		
 	while(true) {
 		if(PA_CheckLid()) Pause(); // if the lid is closed it pauses
 		if(Pad.Newpress.Start) Pause(); // checks to see if the game was paused by start button
