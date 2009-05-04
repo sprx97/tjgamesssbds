@@ -677,9 +677,8 @@ void displayResults() {
 	PA_Init8bitBg(MAIN_SCREEN, 3);
 	PA_Init8bitBg(SUB_SCREEN, 3);
 	deleteMinimap();
-	for(int n = 5; n < 20; n++) PA_DeleteSprite(MAIN_SCREEN, n);
-	for(int n = 50; n < 55; n++) PA_DeleteSprite(MAIN_SCREEN, n);
 	for(int n = 0; n < (int)players.size(); n++) {
+		PA_DeleteSprite(MAIN_SCREEN, (players[n]->SPRITENUM)-4);
 		players[n] -> fall();
 		players[n] -> idle(); 
 		// ensures that it goes into idling animation
@@ -792,6 +791,10 @@ void displayResults() {
 			AS_SetMP3Loop(true);
 			score.clear(); // clears the scoreboard
 			effects.clear(); // clears the effects
+			for(int n = 0; n < 128; n++) {
+				PA_DeleteSprite(MAIN_SCREEN, n);
+				PA_DeleteSprite(SUB_SCREEN, n);
+			}
 			for(int n = 0; n < (int)players.size(); n++) {
 				PA_FatFreeSprite(players[n] -> MYCHAR);
 				delete players[n];
