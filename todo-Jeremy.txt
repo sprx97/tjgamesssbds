@@ -4,7 +4,7 @@
 - LAN
 - Clashing hits
 - Convert all gfx to FAT
-- Collision map to replace/improve stage class
+- Collision maps to improve stage class-character collisions
 - Offload some methods from main to global
 	- class for custom controls
 	- class for screen functions (scroll, fade, flash)
