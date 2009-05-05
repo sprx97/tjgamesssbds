@@ -1287,7 +1287,7 @@ Hitbox Fighter::getDefbox(int framenum) {
 	}
 	return defbox;
 }
-Circle Fighter::createAtkbox(double extrax, double extray, double radius, Knockback k, int damage, int prior) {
+Circle Fighter::createAtkbox(double extrax, double extray, double radius, Knockback k, double damage, int prior) {
 	Circle temp(64 - extrax,  extray, radius, k, damage, prior);
 	return temp;
 }

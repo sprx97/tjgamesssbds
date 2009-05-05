@@ -295,9 +295,9 @@ void Kirby::bup() {
 				int directionmodifier = 1;
 				if(direction ==RIGHT) directionmodifier = -1;
 				Hitbox tempbox;
-				tempbox.addCircle(createAtkbox(36, 805%64, 22, Knockback((-2*directionmodifier), -.5, 4), 1));
-				tempbox.addCircle(createAtkbox(30, 794%63, 22, Knockback((-2*directionmodifier), -.5, 4), 1));
-				tempbox.addCircle(createAtkbox(47, 812%64, 10, Knockback((-2*directionmodifier), -.5, 4), 1));
+				tempbox.addCircle(createAtkbox(36, 805%64, 22, Knockback((-2*directionmodifier), -.5, 4), .3));
+				tempbox.addCircle(createAtkbox(30, 794%63, 22, Knockback((-2*directionmodifier), -.5, 4), .3));
+				tempbox.addCircle(createAtkbox(47, 812%64, 10, Knockback((-2*directionmodifier), -.5, 4), .3));
 				((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -5*directionmodifier, 0, 20, FINALCUTTER, charnum, tempbox, stage, display));
 			}
 		}
