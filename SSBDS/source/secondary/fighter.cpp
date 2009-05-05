@@ -1388,6 +1388,10 @@ void Fighter::directionalInfluence(int deltax) {
 		DI = deltax;
 		fastfall = 0;
 	}
+	else if(MYCHAR == MEWTWO && action == BUP) {
+		DI = 0;
+		fastfall = 0;
+	}
 	else {
 		if(Pad.Held.Right) DI = 1;
 		if(Pad.Held.Left) DI = -1;

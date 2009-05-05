@@ -15,6 +15,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	handx = 16;
 	handy = 12;
 	shadowballcharge = 0;
+	upcount = downcount = leftcount = rightcount = 0;
 	MYCHAR = MEWTWO;
 	topside = 8;
 	bottomside = 52;
@@ -246,7 +247,7 @@ void Mewtwo::bup() {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 119, 122, 10, ANIM_ONESHOT);
 		aerial = true;
 		delay = 60/10 * 4;
-		dy = 0;
+		dy = -gravity; // hovers
 		dx = 0;
 		DI = 0;
 		fastfall = 0;
@@ -257,12 +258,18 @@ void Mewtwo::bup() {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 122, 125, 10, ANIM_ONESHOT);
 		aerial = true;
 		delay = 60/10 * 4;
-		y += -200;
+		x += (rightcount-leftcount)*5;
+		y += (downcount-upcount)*5;
 	}
 	else if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125 && delay == 1) {
+		upcount = downcount = rightcount = leftcount = 0;
 		if(!checkFloorCollision()) fall();
 		else idle();
 	}
+	if(Pad.Held.Up) upcount += 1;
+	if(Pad.Held.Down) downcount += 1;
+	if(Pad.Held.Right) rightcount += 1;
+	if(Pad.Held.Left) leftcount += 1;
 }
 void Mewtwo::bdown() {
 	if(action != BDOWN || (custom_action(ACTION_SPECIAL, PAD_HELD) && delay == 1)) {
@@ -301,7 +308,6 @@ void Mewtwo::bneut() {
 		else if(shadowballcharge == 120) {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 134, 15, ANIM_LOOP, -1);
 			delay = 60/15 * 3;
-			int SHADOWBALL_SIZE = -1;
 			int directionmodifier = 1;
 			if(direction == RIGHT) directionmodifier = -1;
 			Hitbox tempbox;
@@ -336,8 +342,7 @@ void Mewtwo::bneut() {
 			rad = 8;
 			kbmod = 3;
 		}
-//				tempbox.addCircle(createAtkbox(32, 32, rad, Knockback((-3*directionmodifier/kbmod), -1.5/kbmod, 8), shadowballcharge*2));
-		tempbox.addCircle(createAtkbox(32, 32, rad, Knockback((-3*directionmodifier), -1.5, 8), 120));
+		tempbox.addCircle(createAtkbox(32, 32, rad, Knockback(-3*directionmodifier/kbmod, -1.5/kbmod, 8), 5 + (int)(shadowballcharge/6)));
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_SIZE, charnum, tempbox, stage, display));
 		shadowballcharge = 0;
 	}

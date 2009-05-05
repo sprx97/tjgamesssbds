@@ -8,6 +8,10 @@
 class Mewtwo: public Fighter {
 	public:
 		int shadowballcharge;
+		int upcount;
+		int downcount;
+		int leftcount;
+		int rightcount;
 		// constructor
 		Mewtwo(int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false);
 		// initializes all of the variables
