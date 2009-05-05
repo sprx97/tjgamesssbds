@@ -52,21 +52,6 @@ bool Projectile::act() {
 	if(time > length) return true;
 	return false;
 }
-__attribute__((__deprecated__))
-void Projectile::removeSelf() {
-	removeProj(num);
-//	vector<Projectile>* current;
-//	current = ((vector<Projectile>*)getProj());
-//	vector<Projectile> temp;
-//	for(int n = 0; n < (int)current->size(); n++) {
-//		Projectile p = (*current)[n];
-//		if(p.x != x || p.y != y) {
-//			temp.push_back(p);
-//		}
-//	}
-//	current = temp;
-//	PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
-}
 Fighter* Projectile::checkHits(Fighter* other) {
 	Hitbox temp = hit; 
 	Hitbox atkbox;
@@ -92,7 +77,7 @@ Fighter* Projectile::checkHits(Fighter* other) {
 		}
 		else {
 			other -> takeDamage(atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, owner, 0);
-			if(TYPE != FINALCUTTER && TYPE != IKESWORD) removeSelf();
+			if(TYPE != FINALCUTTER && TYPE != IKESWORD) removeProj(num);
 		}
 	}
 	return other;
