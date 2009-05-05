@@ -303,7 +303,7 @@ void receive(unsigned char *data, int length, LPLOBBY_USER from) {
 	PA_SetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM, data[2]);
 }
 
-void waitForGame() {
+void LANGame() {
 	while(playernum == -1) {
 		if(Pad.Newpress.Start) {
 			playernum = 0;
@@ -381,7 +381,7 @@ int main(int argc, char ** argv) {
 
 	// Infinite loop to keep the program running
 	while (1) {
-		waitForGame();
+		LANGame();
 	}
 	return 0;
 } // End of main()
