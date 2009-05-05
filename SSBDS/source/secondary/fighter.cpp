@@ -169,7 +169,7 @@ void Fighter::cpu_obeyRules(){
 		}
 		if(hitstun == 0) {
 			action = STUN;
-			if(aerial) fall();
+			if(!checkFloorCollision()) fall();
 			else idle();
 		}
 		if(checkFloorCollision()) idle();
