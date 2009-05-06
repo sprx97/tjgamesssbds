@@ -38,6 +38,7 @@ class Wall {
 class Stage {
 	public:
 	// variables
+		Stage();
 		int width, height; // width and height of the image of the stage
 		int leftdeath, rightdeath, topdeath, bottomdeath;
 		// where a person dies of the edges of the stage

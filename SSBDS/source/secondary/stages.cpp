@@ -3,7 +3,8 @@
 const int FINALDESTINATION = 1, POKEMONSTADIUM = 2, CASTLESIEGE = 3, CORNERIA = 4;
 // stage shortcuts just like character shortcuts
 
-FinalDestination::FinalDestination() { Initialize(); }
+FinalDestination::~FinalDestination() {}
+FinalDestination::FinalDestination() : Stage() {}
 void FinalDestination::Initialize() {
 	name = "finaldestination";
 	width = 512;
@@ -27,7 +28,8 @@ void FinalDestination::Initialize() {
 	ledges.push_back(Ledge(64, 132, "left"));
 	ledges.push_back(Ledge(512-64, 132, "right"));
 } // initializes all the variables for final destination
-PokemonStadium::PokemonStadium() { Initialize(); }
+PokemonStadium::~PokemonStadium() {}
+PokemonStadium::PokemonStadium() : Stage() {}
 void PokemonStadium::Initialize() {
 	name = "pokemonstadium";
 	width = 512;
@@ -53,8 +55,8 @@ void PokemonStadium::Initialize() {
 	ledges.push_back(Ledge(42, 154, "right"));
 	ledges.push_back(Ledge(512-42, 154, "left"));
 } // initializes the pokemon stadium stage
-#ifdef SLOPEDSTAGES_ON
-CastleSiege::CastleSiege() { Initialize(); }
+CastleSiege::~CastleSiege() {}
+CastleSiege::CastleSiege() : Stage() {}
 void CastleSiege::Initialize() {
 	name = "castlesiege";
 	width = 512;
@@ -87,7 +89,8 @@ void CastleSiege::Initialize() {
 	walls.push_back(Wall(48, 350-128, 100, "left"));
 	walls.push_back(Wall(442, 350-128, 100, "right"));
 } // initializes Castle Siege
-Corneria::Corneria() { Initialize(); }
+Corneria::~Corneria() {}
+Corneria::Corneria() : Stage() {}
 void Corneria::Initialize() {
 	name = "corneria";
 	width = 512; height = 256;
@@ -132,4 +135,3 @@ void Corneria::Initialize() {
 	}
 	// 2 floors are sloped
 } // initializes Corneria
-#endif
