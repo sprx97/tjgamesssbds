@@ -31,10 +31,10 @@ extern const unsigned short pokemonstadium_Map[8192] __attribute__ ((aligned (4)
 extern const unsigned char pokemonstadium_Tiles[35072] __attribute__ ((aligned (4))) ;
 extern PAGfx_struct pokemonstadium; // background pointer
 
-extern const int castleseige_Info[3]; // BgMode, Width, Height
-extern const unsigned int castleseige_Map[8192] __attribute__ ((aligned (4))) ;
-extern const unsigned char castleseige_Tiles[92480] __attribute__ ((aligned (4))) ;
-extern PAGfx_struct castleseige; // background pointer
+extern const int castlesiege_Info[3]; // BgMode, Width, Height
+extern const unsigned int castlesiege_Map[8192] __attribute__ ((aligned (4))) ;
+extern const unsigned char castlesiege_Tiles[92480] __attribute__ ((aligned (4))) ;
+extern PAGfx_struct castlesiege; // background pointer
 
 extern const int corneria_Info[3]; // BgMode, Width, Height
 extern const unsigned short corneria_Map[8192] __attribute__ ((aligned (4))) ;
@@ -56,7 +56,7 @@ extern const unsigned short charprev_Pal[250] __attribute__ ((aligned (4))) ;
 extern const unsigned short corneria_Pal[166] __attribute__ ((aligned (4))) ;
 extern const unsigned short finaldestination_Pal[237] __attribute__ ((aligned (4))) ;
 extern const unsigned short pokemonstadium_Pal[215] __attribute__ ((aligned (4))) ;
-extern const unsigned short castleseige_Pal[201] __attribute__ ((aligned (4))) ;
+extern const unsigned short castlesiege_Pal[201] __attribute__ ((aligned (4))) ;
 
 extern const unsigned short finaldestinationminimap_Pal[226] __attribute__ ((aligned (4))) ;
 extern const unsigned short pokemonstadiumminimap_Pal[233] __attribute__ ((aligned (4))) ;

@@ -1,9 +1,9 @@
 //Background converted using Mollusk's PAGfx Converter
-//This Background uses castleseige_Pal
+//This Background uses castlesiege_Pal
 
-const int castleseige_Info[3] = {5, 1024, 512}; // BgMode, Width, Height
+const int castlesiege_Info[3] = {5, 1024, 512}; // BgMode, Width, Height
 
-const unsigned int castleseige_Map[8192] __attribute__ ((aligned (4))) = {
+const unsigned int castlesiege_Map[8192] __attribute__ ((aligned (4))) = {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -518,7 +518,7 @@ const unsigned int castleseige_Map[8192] __attribute__ ((aligned (4))) = {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-const unsigned char castleseige_Tiles[92480] __attribute__ ((aligned (4))) = {
+const unsigned char castlesiege_Tiles[92480] __attribute__ ((aligned (4))) = {
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 

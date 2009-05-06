@@ -17,11 +17,11 @@ extern "C" {
 #include "corneria.c"
 #include "finaldestination.c"
 #include "pokemonstadium.c"
-#include "castleseige.c"
+#include "castlesiege.c"
 
 #include "corneria.pal.c"
 #include "pokemonstadium.pal.c"
-#include "castleseige.pal.c"
+#include "castlesiege.pal.c"
 #include "finaldestination.pal.c"
 
 #include "finaldestinationminimap.c"
@@ -34,7 +34,7 @@ PAGfx_struct pokemonstadiumminimap = {(void*)pokemonstadiumminimap_Map, 768, (vo
 
 PAGfx_struct finaldestination = {(void*)finaldestination_Map, 8192, (void*)finaldestination_Tiles, 40384, (void*)finaldestination_Pal, (int*)finaldestination_Info };
 PAGfx_struct pokemonstadium = {(void*)pokemonstadium_Map, 8192, (void*)pokemonstadium_Tiles, 35072, (void*)pokemonstadium_Pal, (int*)pokemonstadium_Info };
-PAGfx_struct castleseige = {(void*)castleseige_Map, 8192, (void*)castleseige_Tiles, 92480, (void*)castleseige_Pal, (int*)castleseige_Info };
+PAGfx_struct castlesiege = {(void*)castlesiege_Map, 8192, (void*)castlesiege_Tiles, 92480, (void*)castlesiege_Pal, (int*)castlesiege_Info };
 PAGfx_struct corneria = {(void*)corneria_Map, 8192, (void*)corneria_Tiles, 35328, (void*)corneria_Pal, (int*)corneria_Info };
 
 #ifdef __cplusplus
