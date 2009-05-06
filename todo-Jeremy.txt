@@ -10,4 +10,4 @@
 	- class for screen functions (scroll, fade, flash)
 
 Known Bugs:
-- NONE
+- Winner of stock match is calculated by kills/deaths/sds, not by survival
