@@ -266,10 +266,18 @@ void Mewtwo::bup() {
 		if(!checkFloorCollision()) fall();
 		else idle();
 	}
-	if(Pad.Held.Up) upcount += 1;
-	if(Pad.Held.Down) downcount += 1;
-	if(Pad.Held.Right) rightcount += 1;
-	if(Pad.Held.Left) leftcount += 1;
+	if(!isCPU) {
+		if(Pad.Held.Up) upcount += 1;
+		if(Pad.Held.Down) downcount += 1;
+		if(Pad.Held.Right) rightcount += 1;
+		if(Pad.Held.Left) leftcount += 1;
+	}
+	else {
+		Floor mainfloor = stage -> getFloors()[0];
+		if(y > mainfloor.y) upcount += 1;
+		if(x > mainfloor.x + mainfloor.length) leftcount += 1;
+		if(x < mainfloor.x) rightcount += 1;
+	}
 }
 void Mewtwo::bdown() {
 	if(action != BDOWN || (custom_action(ACTION_SPECIAL, PAD_HELD) && delay == 1)) {
