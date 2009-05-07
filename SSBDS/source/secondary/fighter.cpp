@@ -320,14 +320,8 @@ void Fighter::actCPU() {
 				}
 				Cx=x-ledges[minledge].x;
 				Cy=y-ledges[minledge].y;
-				if(Cx > 0) {
-					setDirection(RIGHT);
-					directionalInfluence(-1);
-				}
-				if(Cx < 0) {
-					setDirection(LEFT);
-					directionalInfluence(1);
-				}
+				if(Cx > 0) directionalInfluence(-1);
+				if(Cx < 0) directionalInfluence(1);
 				if(Cy>0) {
 					if(jumpcount < jumpmax) doubleJump();
 					else {
