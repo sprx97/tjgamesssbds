@@ -686,13 +686,20 @@ void displayResults() {
 	
 	int winner = 0; // winner of the game, based on location in players
 	bool draw = false; // whether or not the winners are tied
-	for(int n = 1; n < (int)players.size(); n++) {
-		if(score.getTotal(n) > score.getTotal(winner)) {
-			draw = false;
-			winner = n;
-		} // if the winner's score is surpassed, there is a new leader
-		else if(score.getTotal(n) == score.getTotal(winner)) draw = true;
-		// or if the winner's score is equaled, there is a draw
+	if(gamemode == GAMEMODE_TIME) {
+		for(int n = 1; n < (int)players.size(); n++) {
+			if(score.getTotal(n) > score.getTotal(winner)) {
+				draw = false;
+				winner = n;
+			} // if the winner's score is surpassed, there is a new leader
+			else if(score.getTotal(n) == score.getTotal(winner)) draw = true;
+			// or if the winner's score is equaled, there is a draw
+		}
+	}
+	else if(gamemode == GAMEMODE_STOCK) {
+		for(int n = 1; n < (int)players.size(); n++) {
+			if(score.getSDs(n)*sdcost + score.getDeaths(n) < stocklimit) winner = n;
+		}
 	}
 	// calculates winner
 	

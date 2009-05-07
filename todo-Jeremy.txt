@@ -13,6 +13,5 @@
 - More Characters/stages
 
 Known Bugs:
-- Winner of stock match is calculated by kills/deaths/sds, not by survival
 - Kirby AI's BUP doesn't work
 - Mewtwo AI's BUP doesn't work
