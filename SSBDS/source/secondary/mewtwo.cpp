@@ -251,6 +251,7 @@ void Mewtwo::bup() {
 		dx = 0;
 		DI = 0;
 		fastfall = 0;
+		upcount = downcount = leftcount = rightcount = 0;
 		action = BUP;
 		setDirection();
 	}

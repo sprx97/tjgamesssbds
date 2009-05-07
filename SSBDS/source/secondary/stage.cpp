@@ -49,6 +49,7 @@ Wall::Wall(int xpos, int ypos, int l, string d) {
 
 
 //stage methods:
+Stage::Stage() {}
 void Stage::Initialize() {} 
 // each subclass has it's own initialization code
 string Stage::getName() { return name; }

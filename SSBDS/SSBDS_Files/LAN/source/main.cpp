@@ -226,7 +226,6 @@ Stage setStage(int selStage) {
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, pokemonstadium);
 		picked = PokemonStadium();
 	} // loads pokemon stadium if it was chosen
-#ifdef SLOPEDSTAGES_ON
 	if(selStage == CASTLESIEGE) {
 		// background
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, castlesiege);
@@ -237,7 +236,6 @@ Stage setStage(int selStage) {
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, corneria);
 		picked = Corneria();
 	} // loads corneria if it was chosen
-#endif
 	for(int n = 0; n < (int)players.size(); n++) {
 		players[n] -> setStage(&picked);
 	} // sets the stage of the players to the picked stage

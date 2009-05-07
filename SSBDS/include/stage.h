@@ -49,6 +49,7 @@ class Stage {
 		vector<int> spawnx; // where the x coords of the spawn points are
 		vector<int> spawny; // where the y coords of the spawn points are
 	// methods
+		Stage();
 		virtual void Initialize();
 		// each subclass has it's own initialization code
 		string getName();
