@@ -254,12 +254,28 @@ void Fighter::actCPU() {
 	cpu_obeyRules(); //do all AI actions that would be cheating to skip
 	//do actions that require thinking, strategy, or input
 	if(hitstun > 0){
-		if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
-		else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
+		if(Cangle < 90 && Cangle > -90) directionalInfluence(-1);
+		else if(Cangle > 90 || Cangle < -90) directionalInfluence(1);
 	}
 	else {
 		if(action == JUMP || action == DOUBLEJUMP) {
-			if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
+			if(x < stage->getFloors()[0].x || x > stage->getFloors()[0].x + stage->getFloors()[0].length) {
+				vector<Ledge> ledges = stage->getLedges();
+				double mindist = 10000000;
+				int minledge = 0;
+				for(int i = 0; i < (int)ledges.size(); i++) {
+					double tempdist = sqrt((ledges[i].x-x)*(ledges[i].x-x) + (ledges[i].y-y)*(ledges[i].y-y));
+					if(tempdist < mindist) {
+						mindist = tempdist;
+						minledge = i;
+					}
+				}
+				Cx = x-ledges[minledge].x;
+				Cy = y-ledges[minledge].y;
+				if(Cx > 0) directionalInfluence(-1);
+				if(Cx < 0) directionalInfluence(1);
+			}
+			else if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
 			else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 			// act in air
 		}
@@ -267,12 +283,61 @@ void Fighter::actCPU() {
 
 		}
 		if(action == AIRATTACK) {
+			if(x < stage->getFloors()[0].x || x > stage->getFloors()[0].x + stage->getFloors()[0].length) {
+				vector<Ledge> ledges = stage->getLedges();
+				double mindist = 10000000;
+				int minledge = 0;
+				for(int i = 0; i < (int)ledges.size(); i++) {
+					double tempdist = sqrt((ledges[i].x-x)*(ledges[i].x-x) + (ledges[i].y-y)*(ledges[i].y-y));
+					if(tempdist < mindist) {
+						mindist = tempdist;
+						minledge = i;
+					}
+				}
+				Cx = x-ledges[minledge].x;
+				Cy = y-ledges[minledge].y;
+				if(Cx > 0) directionalInfluence(-1);
+				if(Cx < 0) directionalInfluence(1);
+			}
+
 			if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
 			else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 		}
 		if(aerial && action != AIRATTACK && action != AIRLAG) {
 			// act air
-			if(Cdistance < range) {
+			// Am I in danger?
+			if(x < stage->getFloors()[0].x || x > stage->getFloors()[0].x + stage->getFloors()[0].length){
+				//Find closest ledge
+				vector<Ledge> ledges=stage->getLedges();
+				double mindist=1000000;
+				int minledge=0;
+				for( int i = 0; i<(int)ledges.size(); i++){
+					double tempdist=sqrt((ledges[i].x-x)*(ledges[i].x-x) + (ledges[i].y-y)*(ledges[i].y-y));
+					if(tempdist<mindist){
+						mindist=tempdist;
+						minledge=i;
+					}
+				}
+				Cx=x-ledges[minledge].x;
+				Cy=y-ledges[minledge].y;
+				if(Cx > 0) {
+					setDirection(RIGHT);
+					directionalInfluence(-1);
+				}
+				if(Cx < 0) {
+					setDirection(LEFT);
+					directionalInfluence(1);
+				}
+				if(Cy>0) {
+					if(jumpcount < jumpmax) doubleJump();
+					else {
+						if(Cx > 0) setDirection(RIGHT);
+						else if(Cx < 0) setDirection(LEFT);
+						bup();
+					}
+				} //The ledge is above me
+			}
+			else if(Cdistance < range) {
 				if(Cangle > -45 && Cangle < 45 && (int)PA_RandMax(100) > 100-level*10+5){
 					if (direction==RIGHT) fair();
 					else bair();
@@ -1334,7 +1399,7 @@ void Fighter::move() {
 			DI = 0;
 			ymomentum = 0;
 		}
-		if(!isCPU) checkLedgeCollision();
+		checkLedgeCollision();
 		checkFloorCollision();
 		checkWallCollision();
 		checkCeilingCollision();
