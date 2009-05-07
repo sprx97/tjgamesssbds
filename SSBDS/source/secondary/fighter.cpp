@@ -303,7 +303,7 @@ void Fighter::actCPU() {
 			if(Cangle < 90 && Cangle > -90) directionalInfluence(1);
 			else if(Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 		}
-		if(aerial && action != AIRATTACK && action != AIRLAG) {
+		if(aerial && action != AIRATTACK && action != AIRLAG && action != JUMP && action != DOUBLEJUMP) {
 			// act air
 			// Am I in danger?
 			if(x < stage->getFloors()[0].x || x > stage->getFloors()[0].x + stage->getFloors()[0].length){
