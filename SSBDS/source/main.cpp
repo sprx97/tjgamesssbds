@@ -9,6 +9,7 @@
 // made for profit, just for fun.
 
 //#define DEBUG_ON // turns on printing of information to screen
+//#define SLOPEDSTAGES_ON // Castle Siege and Corneria
 // turns certain features on and off
 
 //PALib:
@@ -281,6 +282,7 @@ Stage setStage(int selStage) {
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, pokemonstadium);
 		picked = PokemonStadium();
 	} // loads pokemon stadium if it was chosen
+#ifdef SLOPEDSTAGES_ON
 	if(selStage == CASTLESIEGE) {
 		// background
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, castlesiege);
@@ -291,6 +293,7 @@ Stage setStage(int selStage) {
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, corneria);
 		picked = Corneria();
 	} // loads corneria if it was chosen
+#endif
 	for(int n = 0; n < (int)players.size(); n++) {
 		players[n] -> setStage(&picked);
 	} // sets the stage of the players to the picked stage
@@ -397,10 +400,12 @@ void stageSelect() {
 	PA_StartSpriteAnimEx(SUB_SCREEN, FINALDESTINATION, FINALDESTINATION, FINALDESTINATION, 1, ANIM_LOOP, -1);
 	PA_CreateSprite(SUB_SCREEN, POKEMONSTADIUM, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 64, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, POKEMONSTADIUM, POKEMONSTADIUM, POKEMONSTADIUM, 1, ANIM_LOOP, -1);
+#ifdef SLOPEDSTAGES_ON
 	PA_CreateSprite(SUB_SCREEN, CASTLESIEGE, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, CASTLESIEGE, CASTLESIEGE, CASTLESIEGE, 1, ANIM_LOOP, -1);
 	PA_CreateSprite(SUB_SCREEN, CORNERIA, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, CORNERIA, CORNERIA, CORNERIA, 1, ANIM_LOOP, -1);
+#endif
 	// loads sprites just like in characterSelect()
 
 	PA_FatLoadSfx("confirm", "menuconfirm");

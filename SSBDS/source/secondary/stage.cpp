@@ -2,8 +2,6 @@
 #include <vector>
 using std::vector;
 
-Stage::Stage() { Initialize(); }
-
 //ledge methods:
 Ledge::Ledge(int xpos, int ypos, string dir) {
 	x = xpos;
