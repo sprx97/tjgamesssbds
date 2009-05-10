@@ -829,12 +829,7 @@ void Fighter::act() {
 				idle();
 			}
 		}
-		else {
-			acceleration = 0;
-#ifdef DEBUG_ON
-			PA_OutputText(MAIN_SCREEN, 0, 4, "                                ");
-#endif
-		}
+		else acceleration = 0;
 		if(action == IDLE) {
 			actGround();
 			setDirection();
@@ -1043,13 +1038,7 @@ void Fighter::run(int d) {
 	}
 	if(action == RUN) {
 		acceleration += .05*runspeed;
-		if(acceleration > runspeed) {
-			acceleration = runspeed;
-#ifdef DEBUG_ON
-			PA_OutputText(MAIN_SCREEN, 0, 4, "                                 ");
-			PA_OutputText(MAIN_SCREEN, 0, 4, "Max Speed");
-#endif
-		}
+		if(acceleration > runspeed) acceleration = runspeed;
 	}
 	action = RUN;
 	playsound(RUN);
@@ -1558,9 +1547,6 @@ bool Fighter::checkFloorCollision() {
 		double rise;
 		if(currfloor.slopes.size() == 0) rise = 0;
 		else rise = currfloor.getrise((int)x);
-#ifdef DEBUG_ON
-		PA_OutputText(MAIN_SCREEN, 0, 1, "Rise: %d", (int)(rise));
-#endif
 		if(!isCPU) {
 			if(aerial) {
 				if(!(Pad.Held.Down && currfloor.isPlatform()) && dy+ymomentum+gravity > 0 && y+bottomside-rise <= currfloor.y && y+bottomside-rise + gravity + fastfall + dy + ymomentum > currfloor.y && x+rightside + dx + DI > currfloor.x && x+leftside + dx + DI < currfloor.x + currfloor.length) {

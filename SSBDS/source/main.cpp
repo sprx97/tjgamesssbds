@@ -8,9 +8,6 @@
 // belong to Nintendo and other 3rd party companies. This is a fan made game; it not
 // made for profit, just for fun.
 
-//#define DEBUG_ON // turns on printing of information to screen
-// turns certain features on and off
-
 //PALib:
 #include <PA9.h> // DS functions that we use come from here
 #include "nds_loader_arm9.h" // loading externa ROMs
@@ -191,22 +188,6 @@ bool custom_action(int action, int typecheck) {
 	if(action == ACTION_SHIELD) return custom_action(ACTION_SHIELD2, typecheck);
 	return false;
 } // takes action and checks if it is done by custom controls
-
-//Graphics functions.:
-//FIXME: Should these move to display?
-void printMemoryUsage() {
-#ifdef DEBUG_ON
-	PA_OutputText(MAIN_SCREEN, 0, 5, "                                                  ");
-	PA_OutputText(MAIN_SCREEN, 0, 7, "                                                  ");
-	PA_OutputText(MAIN_SCREEN, 0, 9, "                                                  ");
-	struct mallinfo info = mallinfo(); // memory allocation info
-	PA_OutputText(MAIN_SCREEN,0,5,"Memory in use: %d bytes", info.usmblks + info.uordblks);
-	PA_OutputText(MAIN_SCREEN,0,7,"Total heap size: %d bytes", info.arena);
-	PA_OutputText(MAIN_SCREEN,0,9,"Memory in free: %d bytes", info.fsmblks + info.fordblks);
-#endif
-} 
-// prints memory usage to main screen. requires text to be initialized.
-// only prints if debugging
 
 char* gifbuffer = NULL; // the array which stores the gif being printed
 void openGif(int screen, string path) {
@@ -421,7 +402,6 @@ void stageSelect() {
 				}
 			}
 		}
-		printMemoryUsage();
 		PA_WaitForVBL();
 	}
 }
@@ -600,7 +580,6 @@ void characterSelect(bool train = false) {
 				}
 			}	
 		}
-		printMemoryUsage();
 		PA_WaitForVBL();
 	}
 }
@@ -953,7 +932,6 @@ void match(int param) {
 		else if((int)((time/60)%60) == 0) PA_OutputText(MAIN_SCREEN, 13, 0, "%d:00",(int)((time/60)/60));
 		else PA_OutputText(MAIN_SCREEN, 13, 0, "%d:%d", (int)((time/60)/60), (int)((time/60)%60));		
 		// redisplays time
-		printMemoryUsage();
 		PA_WaitForVBL();
 		if (gamemode==GAMEMODE_TIME) time--; // another tick off the clock!
 		else time++; // time counts up if its not a time match
@@ -1006,7 +984,6 @@ void trainingMode() {
 		// acts all effects
 		displayMinimap(); // changes sub screen display
 		displayPercentages(); // displays percentages on sub screen
-		printMemoryUsage();
 		PA_WaitForVBL();
 	}
 } // training mode
@@ -1132,7 +1109,6 @@ void controlOptions() {
 			saveControls();
 			return;
 		}
-		printMemoryUsage();
 		PA_WaitForVBL();
 	}
 } // edit custom controls
@@ -1171,7 +1147,6 @@ void cameraOptions() {
 			return;
 		}
 		PA_OutputText(SUB_SCREEN, 0, 0, "Camera Mode: %s", camerastrs[cameratype]);
-		printMemoryUsage();
 		PA_WaitForVBL();
 	}
 } // edit camera options
@@ -1272,7 +1247,6 @@ void gameOptions() {
 			PA_ResetSpriteSysScreen(SUB_SCREEN);
 			return;
 		}
-		printMemoryUsage();
 		PA_WaitForVBL();
 	}
 } // edit match style
@@ -1341,7 +1315,6 @@ void options() {
 			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
 			return; // back
 		}
-		printMemoryUsage();
 		PA_WaitForVBL();
 	}
 } // options menu, in progress
@@ -1417,7 +1390,6 @@ void mainMenu() {
 		if(Pad.Newpress.Start) {
 			trainingMode();
 		}
-		printMemoryUsage();
 		PA_WaitForVBL();
 	}
 }
@@ -1447,7 +1419,6 @@ void titleScreen() {
 			PA_ResetSpriteSys(); // resets sprites
 			return mainMenu();
 		}
-		printMemoryUsage();
 		PA_WaitForVBL();
 	}
 }
@@ -1460,9 +1431,7 @@ int main(int argc, char ** argv) {
 
 	vramSetBankE(VRAM_E_MAIN_SPRITE);
 
-#ifdef DEBUG_ON
 	defaultExceptionHandler(); // "red screen of death" error, hopefully won't happen
-#endif
 
 	if(!fatInitDefault()) {
 		PA_InitText(MAIN_SCREEN, 0);

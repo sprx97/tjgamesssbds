@@ -29,8 +29,6 @@ using namespace std;
 #include "display.h"
 #include "scoreboard.h"
 
-#define DEBUG_ON
-
 #define ROOM_NAME "SSBDS"
 #define MAX_PLAYERS 2
 #define GAME_CODE 558
@@ -344,9 +342,7 @@ int main(int argc, char ** argv) {
 	PA_Init();    // Initializes PA_Lib
 	PA_InitVBL(); // Initializes a standard VBL
 
-#ifdef DEBUG_ON
 	defaultExceptionHandler();
-#endif
 
 	if(!fatInitDefault()) {
 		PA_InitText(MAIN_SCREEN, 0);
