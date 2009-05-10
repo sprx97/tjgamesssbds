@@ -458,7 +458,7 @@ void characterSelect(bool train = false) {
 	PA_FatLoadSfx("ffa", "free_for_all");
 	PA_FatLoadSfx("confirm", "menuconfirm");
 	PA_FatLoadSfx("kirby", "kirbyname");
-//	PA_FatLoadSfx("mewtwo", "mewtwoname");
+	PA_FatLoadSfx("mewtwo", "mewtwoname");
 	PA_FatLoadSfx("mario", "marioname");
 	PA_FatLoadSfx("ike", "ikename");
 
@@ -535,7 +535,7 @@ void characterSelect(bool train = false) {
 				if(PA_SpriteTouched(n)) {
 					spritetouched = true;
 					if(n == KIRBY) PA_FatPlaySfx("kirby");
-//					else if(n == MEWTWO) PA_FatPlaySfx("mewtwo");
+					else if(n == MEWTWO) PA_FatPlaySfx("mewtwo");
 					else if(n == MARIO) PA_FatPlaySfx("mario");
 					else if(n == IKE) PA_FatPlaySfx("ike");
 					// plays a sound byte of the player's name
@@ -687,7 +687,7 @@ void displayResults() {
 
 	PA_FatLoadSfx("nc", "nocontest");
 	PA_FatLoadSfx("kirby", "kirbyname");
-//	PA_FatLoadSfx("mewtwo", "mewtwoname");
+	PA_FatLoadSfx("mewtwo", "mewtwoname");
 	PA_FatLoadSfx("mario", "marioname");
 	PA_FatLoadSfx("ike", "ikename");
 	PA_FatLoadSfx("winneris", "thewinneris");
@@ -759,7 +759,7 @@ void displayResults() {
 			PA_WaitForVBL();
 		}
 		if(players[winner] -> name == "kirby") PA_FatPlaySfx("kirby");
-//		else if(players[winner] -> name == "mewtwo") PA_FatPlaySfx("mewtwo");
+		else if(players[winner] -> name == "mewtwo") PA_FatPlaySfx("mewtwo");
 		else if(players[winner] -> name == "mario") PA_FatPlaySfx("mario");
 		else if(players[winner] -> name == "ike") PA_FatPlaySfx("ike");
 						

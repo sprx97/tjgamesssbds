@@ -29,8 +29,12 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	idle();
 } // initializes all of the variables
 // initializers
-void Mewtwo::initSounds() {}
-void Mewtwo::playsound(int sndnum) {}
+void Mewtwo::initSounds() {
+
+}
+void Mewtwo::playsound(int sndnum) {
+
+}
 // sounds
 void Mewtwo::initPalettes() {
 	palettes.push_back("mewtwo");
@@ -259,26 +263,32 @@ void Mewtwo::bup() {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 122, 125, 10, ANIM_ONESHOT);
 		aerial = true;
 		delay = 60/10 * 4;
-		x += (rightcount-leftcount)*5;
-		y += (downcount-upcount)*5;
+		x += (rightcount-leftcount)*10;
+		y += (downcount-upcount)*10;
 	}
 	else if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125 && delay == 1) {
 		upcount = downcount = rightcount = leftcount = 0;
 		if(!checkFloorCollision()) fall();
 		else idle();
 	}
-	if(!isCPU) {
-		if(Pad.Held.Up) upcount += 1;
-		if(Pad.Held.Down) downcount += 1;
-		if(Pad.Held.Right) rightcount += 1;
-		if(Pad.Held.Left) leftcount += 1;
+	if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 120 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 121 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122) {
+		if(!isCPU) {
+			if(Pad.Held.Up) upcount += 1;
+			if(Pad.Held.Down) downcount += 1;
+			if(Pad.Held.Right) rightcount += 1;
+			if(Pad.Held.Left) leftcount += 1;
+		}
+		else {
+			Floor mainfloor = stage -> getFloors()[0];
+			if(y > mainfloor.y) upcount += 1;
+			if(x > mainfloor.x + mainfloor.length) leftcount += 1;
+			if(x < mainfloor.x) rightcount += 1;
+		}
 	}
-	else {
-		Floor mainfloor = stage -> getFloors()[0];
-		if(y > mainfloor.y) upcount += 1;
-		if(x > mainfloor.x + mainfloor.length) leftcount += 1;
-		if(x < mainfloor.x) rightcount += 1;
-	}
+	if(upcount > 10) upcount = 10;
+	if(downcount > 10) downcount = 10;
+	if(rightcount > 10) rightcount = 10;
+	if(leftcount > 10) leftcount = 10;
 }
 void Mewtwo::bdown() {
 	if(action != BDOWN || (custom_action(ACTION_SPECIAL, PAD_HELD) && delay == 1)) {
