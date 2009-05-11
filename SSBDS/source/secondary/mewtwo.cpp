@@ -30,10 +30,31 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 } // initializes all of the variables
 // initializers
 void Mewtwo::initSounds() {
-
+	int alreadymade = 0;
+	for(int n = 0; n < charnum; n++) {
+		if(players[n] -> MYCHAR == MEWTWO) alreadymade++;
+	}
+	if(alreadymade == 0) {
+		PA_FatLoadSfx("mewtwousmash", "mewtwousmash");
+		PA_FatLoadSfx("mewtwobair", "mewtwobair");
+		PA_FatLoadSfx("mewtwofair", "mewtwofair");
+		PA_FatLoadSfx("mewtwobneut", "mewtwobneut");
+		PA_FatLoadSfx("mewtwofsmash", "mewtwofsmash");
+		PA_FatLoadSfx("mewtwodair", "mewtwodair");
+		PA_FatLoadSfx("mewtwouair", "mewtwouair");
+		PA_FatLoadSfx("mewtwodoublejump", "mewtwodoublejump");
+		PA_FatLoadSfx("mewtwobdown", "mewtwobdown");
+		PA_FatLoadSfx("mewtwobup", "mewtwobup");
+	}
 }
 void Mewtwo::playsound(int sndnum) {
-
+	if(sndnum == SMASHUP) PA_FatPlaySfx("mewtwousmash");
+	if(sndnum == BAIR) PA_FatPlaySfx("mewtwobair");
+	if(sndnum == FAIR) PA_FatPlaySfx("mewtwofair");
+	if(sndnum == SMASHLEFT || sndnum == SMASHRIGHT) PA_FatPlaySfx("mewtwofsmash");
+	if(sndnum == DAIR) PA_FatPlaySfx("mewtwodair");
+	if(sndnum == UAIR) PA_FatPlaySfx("mewtwouair");
+	if(sndnum == DOUBLEJUMP) PA_FatPlaySfx("mewtwodoublejump");
 }
 // sounds
 void Mewtwo::initPalettes() {
@@ -265,6 +286,7 @@ void Mewtwo::bup() {
 		delay = 60/10 * 4;
 		x += (rightcount-leftcount)*10;
 		y += (downcount-upcount)*10;
+		PA_FatPlaySfx("mewtwobup");
 	}
 	else if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125 && delay == 1) {
 		upcount = downcount = rightcount = leftcount = 0;
@@ -297,6 +319,7 @@ void Mewtwo::bdown() {
 		if(aerial) dy = -gravity/2;
 		dx = 0;
 		action = BDOWN;
+		PA_FatPlaySfx("mewtwobdown");
 	}
 	else if(!custom_action(ACTION_SPECIAL, PAD_HELD)) {
 		if(checkFloorCollision()) idle();
@@ -335,6 +358,7 @@ void Mewtwo::bneut() {
 			shadowballcharge = 0;
 			action = BNEUT;
 			dx = 0;
+			PA_FatPlaySfx("mewtwobneut");
 		}
 	}
 	else if(custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
@@ -364,6 +388,7 @@ void Mewtwo::bneut() {
 		tempbox.addCircle(createAtkbox(32, 32, rad, Knockback(-3*directionmodifier/kbmod, -1.5/kbmod, 8), 5 + (int)(shadowballcharge/6)));
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_SIZE, charnum, tempbox, stage, display));
 		shadowballcharge = 0;
+		PA_FatPlaySfx("mewtwobneut");
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 132) {}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 133) {}
