@@ -27,6 +27,12 @@ void FinalDestination::Initialize() {
 	ceilings.push_back(Ceiling(64, 132, 512-64-64));
 	ledges.push_back(Ledge(64, 132, "left"));
 	ledges.push_back(Ledge(512-64, 132, "right"));
+	songnames.push_back("Final Destination");
+	songnames.push_back("Final Destination");
+	songartists.push_back("Super Smash Bros. Brawl");
+	songartists.push_back("Super Smash Bros. Melee");
+	songs.push_back("SSBDS_Files/music/stages/finaldestination1.mp3");
+	songs.push_back("SSBDS_Files/music/stages/finaldestination2.mp3");
 } // initializes all the variables for final destination
 PokemonStadium::~PokemonStadium() {}
 PokemonStadium::PokemonStadium() { Initialize(); }
@@ -54,6 +60,12 @@ void PokemonStadium::Initialize() {
 	ceilings.push_back(Ceiling(42, 216, 512-42-42));
 	ledges.push_back(Ledge(42, 154, "right"));
 	ledges.push_back(Ledge(512-42, 154, "left"));
+	songnames.push_back("Pokemon Gym / Evolution");
+	songnames.push_back("Battle Theme");
+	songartists.push_back("Pokemon Red/Blue/Yellow");
+	songartists.push_back("Pokemon Gold/Silver/Crystal");
+	songs.push_back("SSBDS_Files/music/stages/pokemonstadium1.mp3");
+	songs.push_back("SSBDS_Files/music/stages/pokemonstadium2.mp3");
 } // initializes the pokemon stadium stage
 CastleSiege::~CastleSiege() {}
 CastleSiege::CastleSiege() { Initialize(); }
@@ -88,6 +100,12 @@ void CastleSiege::Initialize() {
 	floors.push_back(Floor(302, 270-128, 408-302, true));
 	walls.push_back(Wall(48, 350-128, 100, "left"));
 	walls.push_back(Wall(442, 350-128, 100, "right"));
+	songnames.push_back("Ike's Theme");
+	songnames.push_back("Victory is Near");
+	songartists.push_back("Fire Emblem 10: Radiant Dawn");
+	songartists.push_back("Fire Emblem 9: Path of Radiance");
+	songs.push_back("SSBDS_Files/music/stages/castlesiege1.mp3");
+	songs.push_back("SSBDS_Files/music/stages/castlesiege2.mp3");
 } // initializes Castle Siege
 Corneria::~Corneria() {}
 Corneria::Corneria() { Initialize(); }
@@ -134,4 +152,10 @@ void Corneria::Initialize() {
 		floors[2].slopes.push_back(.38);
 	}
 	// 2 floors are sloped
+	songnames.push_back("Main Theme");
+	songnames.push_back("Fortuna");
+	songartists.push_back("Star Fox");
+	songartists.push_back("Star Fox Assault");
+	songs.push_back("SSBDS_Files/music/stages/corneria1.mp3");
+	songs.push_back("SSBDS_Files/music/stages/corneria2.mp3");
 } // initializes Corneria

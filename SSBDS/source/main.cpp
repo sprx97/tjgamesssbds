@@ -858,6 +858,12 @@ void match(int param) {
 	PA_FatLoadSfx("hit3", "hit3");
 	PA_FatLoadSfx("death", "deathsound");
 
+	int songnum = PA_RandMax(stage.songs.size()-1);
+	PA_SetTextTileCol(SUB_SCREEN, TEXT_WHITE);
+	PA_OutputText(SUB_SCREEN, 0, 22, (char*)(stage.songnames[songnum]));
+	PA_OutputText(SUB_SCREEN, 0, 23, (char*)(stage.songartists[songnum]));
+	AS_MP3StreamPlay((char*)(stage.songs[songnum]));
+
 	fadeIn();
 
 	PA_FatPlaySfx("3");

@@ -48,6 +48,9 @@ class Stage {
 		vector<Ledge> ledges; // ledges of the stage
 		vector<int> spawnx; // where the x coords of the spawn points are
 		vector<int> spawny; // where the y coords of the spawn points are
+		vector<const char*> songnames;
+		vector<const char*> songartists;
+		vector<const char*> songs;
 	// methods
 		Stage();
 		virtual void Initialize();
