@@ -1,6 +1,4 @@
-- music in more places (like stages)
-- more SFX
-- Fix Sloped Stages
+Short-Term Goals:
 - Credits Screen
 - LAN
 - Clashing hits
@@ -8,10 +6,14 @@
 - Offload some methods from main to global
 	- class for custom controls
 	- class for screen functions (scroll, fade, flash)
+
+Long-Term Goals:
 - Better AI
 - Balancing
 - More Characters/stages
+- more SFX
 
-Known Bugs:
+Bugs:
+- Sloped Stages don't work
 - Kirby AI's BUP doesn't work
 - Mewtwo AI's BUP doesn't work
