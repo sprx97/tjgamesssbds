@@ -1,4 +1,4 @@
-Short-Term Goals:
+Short-Term Major Goals:
 - Credits Screen
 - LAN
 - Clashing hits
@@ -8,7 +8,7 @@ Short-Term Goals:
 	- class for screen functions (scroll, fade, flash)
 - split minimap.cpp to a .h file (the "correct" way)
 
-Long-Term Goals:
+Long-Term Major Goals:
 - Better AI
 - Balancing
 - More Characters/stages
