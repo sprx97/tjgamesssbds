@@ -1,4 +1,4 @@
-Short-Term Major Goals:
+Major Goals:
 - Credits Screen
 - LAN
 - Clashing hits
@@ -7,12 +7,17 @@ Short-Term Major Goals:
 	- class for custom controls
 	- class for screen functions (scroll, fade, flash)
 - split minimap.cpp to a .h file (the "correct" way)
+- replay system
 
-Long-Term Major Goals:
+Minor Goals:
+- Skinnable menus
+- more SFX
+- Opening video/animation
+
+Ongoing Goals:
 - Better AI
 - Balancing
 - More Characters/stages
-- more SFX
 
 Bugs:
 - Sloped Stages don't work
