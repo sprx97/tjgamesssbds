@@ -21,5 +21,4 @@ Ongoing Goals:
 
 Bugs:
 - Sloped Stages don't work
-- Kirby AI's BUP doesn't work
-- Mewtwo AI's BUP doesn't work
+- AI Bups are glitchy
