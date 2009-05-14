@@ -841,7 +841,13 @@ void match(int param) {
 
 	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width/2+128);
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height/2+96);
-			
+
+	char* name = "";
+	sprintf(name, "SSBDS_Files/replays/%02d-%02d-%02d-%02d:%02d.re", PA_RTC.Month, PA_RTC.Day, PA_RTC.Year, PA_RTC.Hour, PA_RTC.Minutes);
+	
+	FILE* replay = fopen(name, "wb");
+	fclose(replay);
+				
 	PA_FatLoadSfx("game", "game");
 	PA_FatLoadSfx("3", "three");
 	PA_FatLoadSfx("2", "two");
@@ -854,11 +860,14 @@ void match(int param) {
 	PA_FatLoadSfx("hit3", "hit3");
 	PA_FatLoadSfx("death", "deathsound");
 
+	for(int n = 0; n < (int)players.size(); n++) {
+		players[n] -> initSounds();
+	}
+
 	int songnum = PA_RandMax(stage.songs.size()-1);
 	PA_SetTextTileCol(SUB_SCREEN, TEXT_WHITE);
 	PA_OutputText(SUB_SCREEN, 0, 22, (char*)(stage.songnames[songnum]));
 	PA_OutputText(SUB_SCREEN, 0, 23, (char*)(stage.songartists[songnum]));
-	AS_MP3StreamPlay((char*)(stage.songs[songnum]));
 
 	fadeIn();
 
@@ -870,6 +879,8 @@ void match(int param) {
 	for(int n = 0; n < 60; n++) PA_WaitForVBL();
 	PA_FatPlaySfx("go");
 	// counts down to start game
+
+	AS_MP3StreamPlay((char*)(stage.songs[songnum]));
 		
 	while(true) {
 		if(PA_CheckLid()) Pause(); // if the lid is closed it pauses
