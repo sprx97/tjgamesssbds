@@ -842,11 +842,12 @@ void match(int param) {
 	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width/2+128);
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height/2+96);
 
-//	char* name = "";
-//	sprintf(name, "/SSBDS_Files/replays/%02d-%02d-%02d-%02d:%02d.re", PA_RTC.Month, PA_RTC.Day, PA_RTC.Year, PA_RTC.Hour, PA_RTC.Minutes);
+	char* name = "";
+	sprintf(name, "/SSBDS_Files/replays/%02d-%02d-%02d-%02d:%02d.re", PA_RTC.Month, PA_RTC.Day, PA_RTC.Year, PA_RTC.Hour, PA_RTC.Minutes);
 	
-//	FILE* replay = fopen(name, "wb");
-//	fclose(replay);
+	FILE* replay = fopen(name, "wb");
+	fprintf(replay, "THIS IS A FILE, BITCH"); // <---- freezes game. 
+	fclose(replay);
 			
 	PA_FatLoadSfx("game", "game");
 	PA_FatLoadSfx("3", "three");
