@@ -841,11 +841,7 @@ void match(int param) {
 
 	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width/2+128);
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height/2+96);
-
-	for(int n = 0; n < (int)players.size(); n++) {
-		players[n] -> initSounds();
-	}
-	
+			
 	PA_FatLoadSfx("game", "game");
 	PA_FatLoadSfx("3", "three");
 	PA_FatLoadSfx("2", "two");
@@ -892,8 +888,8 @@ void match(int param) {
 			if (playersstillalive==1) return gameOver();
 		}
 		for(int n = 0; n < (int)players.size(); n++) {
-			if(score.getDeaths(n)+sdcost*score.getSDs(n) < stock) players[n] -> act();
-			if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock) {
+			if(gamemode != GAMEMODE_STOCK || score.getDeaths(n)+sdcost*score.getSDs(n) < stock) players[n] -> act();
+			if(gamemode == GAMEMODE_STOCK && score.getDeaths(n)+sdcost*score.getSDs(n) >= stock) {
 				players[n] -> beDead();
 				if((players[n] -> isCPU) == false) {
 					if(!camchanged) {
@@ -905,10 +901,10 @@ void match(int param) {
 			}
 		} // all players act
 		for(int n = 0; n < (int)players.size(); n++) {
-			if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock) {}
+			if(gamemode == GAMEMODE_STOCK && score.getDeaths(n)+sdcost*score.getSDs(n) >= stock) {}
 			else {
 				for(int m = 0; m < (int)players.size(); m++) {
-					if(score.getDeaths(m)+sdcost*score.getSDs(m) >= stock) {}
+					if(gamemode == GAMEMODE_STOCK && score.getDeaths(m)+sdcost*score.getSDs(m) >= stock) {}
 					else {
 						if(m != n) players[m] = players[n] -> checkHits(players[m]);
 					}
