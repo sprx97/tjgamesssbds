@@ -847,9 +847,10 @@ void match(int param) {
 	
 	FILE* replay = fopen(name, "wb");
 	if(replay) {
-		fprintf(replay, "THIS IS A FILE, BITCH"); // <---- freezes game. 
+		fprintf(replay, "THIS IS A FILE, BITCH");
 		fclose(replay);
 	}
+	// the file isn't creating/opening for some reason.
 			
 	PA_FatLoadSfx("game", "game");
 	PA_FatLoadSfx("3", "three");
