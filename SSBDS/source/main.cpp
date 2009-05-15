@@ -843,14 +843,14 @@ void match(int param) {
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height/2+96);
 
 	char* name = "";
-	sprintf(name, "/SSBDS_Files/replays/%02d-%02d-%02d-%02d:%02d.re", PA_RTC.Month, PA_RTC.Day, PA_RTC.Year, PA_RTC.Hour, PA_RTC.Minutes);
+	sprintf(name, "SSBDS_Files/replays/%02d-%02d-%02d-%02d:%02d.re", PA_RTC.Month, PA_RTC.Day, PA_RTC.Year, PA_RTC.Hour, PA_RTC.Minutes);
+	// problem -- File path is too long. I'm not sure what the limit is. I'd guess it's 32
 	
 	FILE* replay = fopen(name, "wb");
 	if(replay) {
 		fprintf(replay, "THIS IS A FILE, BITCH");
 		fclose(replay);
 	}
-	// the file isn't creating/opening for some reason.
 			
 	PA_FatLoadSfx("game", "game");
 	PA_FatLoadSfx("3", "three");
