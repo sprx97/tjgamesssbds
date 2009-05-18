@@ -58,14 +58,17 @@ void PokemonStadium::Initialize() {
 	walls.push_back(Wall(50, 154, 216-154, "left"));
 	walls.push_back(Wall(512-50, 154, 216-154, "right"));
 	ceilings.push_back(Ceiling(42, 216, 512-42-42));
-	ledges.push_back(Ledge(42, 154, "right"));
-	ledges.push_back(Ledge(512-42, 154, "left"));
+	ledges.push_back(Ledge(42, 154, "left"));
+	ledges.push_back(Ledge(512-42, 154, "right"));
 	songnames.push_back("Pokemon Gym / Evolution");
 	songnames.push_back("Battle Theme");
+	songnames.push_back("Lugia's Song");
 	songartists.push_back("Pokemon Red/Blue/Yellow");
 	songartists.push_back("Pokemon Gold/Silver/Crystal");
+	songartists.push_back("Pokemon 2000");
 	songs.push_back("SSBDS_Files/music/stages/pokemonstadium1.mp3");
 	songs.push_back("SSBDS_Files/music/stages/pokemonstadium2.mp3");
+	songs.push_back("SSBDS_Files/music/stages/pokemonstadium3.mp3");
 } // initializes the pokemon stadium stage
 CastleSiege::~CastleSiege() {}
 CastleSiege::CastleSiege() { Initialize(); }
