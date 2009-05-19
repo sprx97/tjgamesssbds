@@ -796,8 +796,28 @@ void displayResults() {
 	}
  }
 
+//typedef struct {
+//	vector<char> players;
+//	char gamemode;
+//	char gameparam;
+//	char stage;
+//	char sdcost;
+//	vector<vector<short> > xposs;
+//	vector<vector<short> > yposs;
+//	vector<vector<unsigned char> > frames;
+//} replay;
+
 int oldcam = cameratype;
 bool camchanged = false;
+//replay r;
+
+//void saveReplay() {
+//	char* name = "";
+//	sprintf(name, "SSBDS_Files/replays/%02d-%02d-20%02d-%02d%02d.rep", PA_RTC.Month, PA_RTC.Day, PA_RTC.Year, PA_RTC.Hour, PA_RTC.Minutes);
+//	FILE* replayfile = fopen(name, "wb");
+//	fwrite(&r, 1, sizeof(r), replayfile);
+//	fclose(replayfile);
+//}
 
 void gameOver() {
 	PA_FatPlaySfx("game");
@@ -808,6 +828,7 @@ void gameOver() {
 	if(gamemode == GAMEMODE_TIME) PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
 	for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
 	fadeOut();
+//	saveReplay();
 	cameratype = oldcam;
 	camchanged = false;
 	return displayResults();
@@ -842,13 +863,29 @@ void match(int param) {
 	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width/2+128);
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height/2+96);
 
-	char* name = "";
-	sprintf(name, "SSBDS_Files/replays/%02d%02d%02d%02d%02d.rep", PA_RTC.Month, PA_RTC.Day, PA_RTC.Year, PA_RTC.Hour, PA_RTC.Minutes);
+//	r.gamemode = gamemode;
+//	if(gamemode == GAMEMODE_TIME) r.gameparam = timelimit;
+//	else r.gameparam = stocklimit;
+//	r.stage = selectedStage;
+//	r.sdcost = sdcost;
+//	if(players.size() > 0) r.players.push_back(players[0]->MYCHAR);
+//	else r.players.push_back(-1);
+//	if(players.size() > 1) r.players.push_back(players[1]->MYCHAR);
+//	else r.players.push_back(-1);
+//	if(players.size() > 2) r.players.push_back(players[2]->MYCHAR);
+//	else r.players.push_back(-1);
+//	if(players.size() > 3) r.players.push_back(players[3]->MYCHAR);
+//	else r.players.push_back(-1);
 	
-	FILE* replay = fopen(name, "wb");
-	fprintf(replay, "This is a file");
-	fclose(replay);
-							
+//	vector<short> tempshort;
+//	vector<unsigned char> tempchar;
+	
+//	for(int n = 0; n < (int)(players.size()); n++) {
+//		r.xposs.push_back(tempshort);
+//		r.yposs.push_back(tempshort);
+//		r.frames.push_back(tempchar);
+//	}
+	
 	PA_FatLoadSfx("game", "game");
 	PA_FatLoadSfx("3", "three");
 	PA_FatLoadSfx("2", "two");
@@ -882,24 +919,14 @@ void match(int param) {
 	// counts down to start game
 
 	AS_MP3StreamPlay((char*)(stage.songs[songnum]));
-		
+
 	while(true) {
-		if(PA_CheckLid()) Pause(); // if the lid is closed it pauses
-		if(Pad.Newpress.Start) Pause(); // checks to see if the game was paused by start button
-		if (gamemode==GAMEMODE_TIME){
-			if(time-60 == 0) {
-				return gameOver();
-			}
-		}
+		if(Pad.Newpress.Start || PA_CheckLid()) Pause(); // checks to see if the game was paused by start button 
+		if (gamemode==GAMEMODE_TIME && time-60 == 0) return gameOver();
 		else if (gamemode==GAMEMODE_STOCK){
 			int playersstillalive=players.size(); //and while you're dying...
-			for(int n = 0; n < (int)players.size(); n++) {
-				if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock)
-					playersstillalive--;
-			}
-			if (playersstillalive==1) {
-				return gameOver();
-			}
+			for(int n = 0; n < (int)players.size(); n++) if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock) playersstillalive--;
+			if (playersstillalive==1) return gameOver();
 		}
 		for(int n = 0; n < (int)players.size(); n++) {
 			if(gamemode != GAMEMODE_STOCK || score.getDeaths(n)+sdcost*score.getSDs(n) < stock) players[n] -> act();
@@ -919,24 +946,16 @@ void match(int param) {
 			else {
 				for(int m = 0; m < (int)players.size(); m++) {
 					if(gamemode == GAMEMODE_STOCK && score.getDeaths(m)+sdcost*score.getSDs(m) >= stock) {}
-					else {
-						if(m != n) players[m] = players[n] -> checkHits(players[m]);
-					}
+					else if(m != n) players[m] = players[n] -> checkHits(players[m]);
 				}
 			}
 		}
-		for(int n = 0; n < (int)players.size(); n++) {
-			players[n]->allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, players[n]->SPRITENUM)].enabled = false;
-		}
+		for(int n = 0; n < (int)players.size(); n++) players[n]->allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, players[n]->SPRITENUM)].enabled = false;
 		// checks to see if any player hit another
 		scrollScreen(); // scrolls the screen
 		for(int n = 0; n < (int)projectiles.size(); n++) {
-			if(projectiles[n].act()) {
-				removeProj(projectiles[n].num);
-			}
-			for(int m = 0; m < (int)players.size(); m++) {
-				if(projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);
-			}
+			if(projectiles[n].act()) removeProj(projectiles[n].num);
+			for(int m = 0; m < (int)players.size(); m++) if(projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);
 		}
 		// acts and checks intersections of all projectiles
 		display.updateEffects(); // acts all effects
@@ -951,6 +970,11 @@ void match(int param) {
 		PA_WaitForVBL();
 		if (gamemode==GAMEMODE_TIME) time--; // another tick off the clock!
 		else time++; // time counts up if its not a time match
+//		for(int n = 0; n < (int)(players.size()); n++) {
+//			r.xposs[n].push_back((short)(players[n]->x));
+//			r.yposs[n].push_back((short)(players[n]->y));
+//			r.frames[n].push_back(PA_GetSpriteAnimFrame(MAIN_SCREEN, players[n]->SPRITENUM));
+//		}
 	}
 }
 void trainingMode() {
@@ -1465,7 +1489,6 @@ int main(int argc, char ** argv) {
     AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
 	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
 	AS_SetMP3Loop(true);
-	for(int n = 0; n < 16; n++) AS_SetSoundVolume(n, 48);
 	
 	initControls();
 		
