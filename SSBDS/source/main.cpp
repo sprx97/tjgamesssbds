@@ -796,28 +796,8 @@ void displayResults() {
 	}
  }
 
-//typedef struct {
-//	vector<char> players;
-//	char gamemode;
-//	char gameparam;
-//	char stage;
-//	char sdcost;
-//	vector<vector<short> > xposs;
-//	vector<vector<short> > yposs;
-//	vector<vector<unsigned char> > frames;
-//} replay;
-
 int oldcam = cameratype;
 bool camchanged = false;
-//replay r;
-
-//void saveReplay() {
-//	char* name = "";
-//	sprintf(name, "SSBDS_Files/replays/%02d-%02d-20%02d-%02d%02d.rep", PA_RTC.Month, PA_RTC.Day, PA_RTC.Year, PA_RTC.Hour, PA_RTC.Minutes);
-//	FILE* replayfile = fopen(name, "wb");
-//	fwrite(&r, 1, sizeof(r), replayfile);
-//	fclose(replayfile);
-//}
 
 void gameOver() {
 	PA_FatPlaySfx("game");
@@ -828,7 +808,6 @@ void gameOver() {
 	if(gamemode == GAMEMODE_TIME) PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
 	for(int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
 	fadeOut();
-//	saveReplay();
 	cameratype = oldcam;
 	camchanged = false;
 	return displayResults();
@@ -863,29 +842,6 @@ void match(int param) {
 	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width/2+128);
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height/2+96);
 
-//	r.gamemode = gamemode;
-//	if(gamemode == GAMEMODE_TIME) r.gameparam = timelimit;
-//	else r.gameparam = stocklimit;
-//	r.stage = selectedStage;
-//	r.sdcost = sdcost;
-//	if(players.size() > 0) r.players.push_back(players[0]->MYCHAR);
-//	else r.players.push_back(-1);
-//	if(players.size() > 1) r.players.push_back(players[1]->MYCHAR);
-//	else r.players.push_back(-1);
-//	if(players.size() > 2) r.players.push_back(players[2]->MYCHAR);
-//	else r.players.push_back(-1);
-//	if(players.size() > 3) r.players.push_back(players[3]->MYCHAR);
-//	else r.players.push_back(-1);
-	
-//	vector<short> tempshort;
-//	vector<unsigned char> tempchar;
-	
-//	for(int n = 0; n < (int)(players.size()); n++) {
-//		r.xposs.push_back(tempshort);
-//		r.yposs.push_back(tempshort);
-//		r.frames.push_back(tempchar);
-//	}
-	
 	PA_FatLoadSfx("game", "game");
 	PA_FatLoadSfx("3", "three");
 	PA_FatLoadSfx("2", "two");
@@ -970,11 +926,6 @@ void match(int param) {
 		PA_WaitForVBL();
 		if (gamemode==GAMEMODE_TIME) time--; // another tick off the clock!
 		else time++; // time counts up if its not a time match
-//		for(int n = 0; n < (int)(players.size()); n++) {
-//			r.xposs[n].push_back((short)(players[n]->x));
-//			r.yposs[n].push_back((short)(players[n]->y));
-//			r.frames[n].push_back(PA_GetSpriteAnimFrame(MAIN_SCREEN, players[n]->SPRITENUM));
-//		}
 	}
 }
 void trainingMode() {
