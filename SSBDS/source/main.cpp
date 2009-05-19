@@ -843,15 +843,12 @@ void match(int param) {
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height/2+96);
 
 	char* name = "";
-	sprintf(name, "SSBDS_Files/replays/%02d-%02d-%02d-%02d:%02d.re", PA_RTC.Month, PA_RTC.Day, PA_RTC.Year, PA_RTC.Hour, PA_RTC.Minutes);
-	// problem -- File path is too long. I'm not sure what the limit is. I'd guess it's 32
+	sprintf(name, "SSBDS_Files/replays/%02d%02d%02d%02d%02d.rep", PA_RTC.Month, PA_RTC.Day, PA_RTC.Year, PA_RTC.Hour, PA_RTC.Minutes);
 	
 	FILE* replay = fopen(name, "wb");
-	if(replay) {
-		fprintf(replay, "THIS IS A FILE, BITCH");
-		fclose(replay);
-	}
-			
+	fprintf(replay, "This is a file");
+	fclose(replay);
+							
 	PA_FatLoadSfx("game", "game");
 	PA_FatLoadSfx("3", "three");
 	PA_FatLoadSfx("2", "two");
@@ -900,7 +897,9 @@ void match(int param) {
 				if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock)
 					playersstillalive--;
 			}
-			if (playersstillalive==1) return gameOver();
+			if (playersstillalive==1) {
+				return gameOver();
+			}
 		}
 		for(int n = 0; n < (int)players.size(); n++) {
 			if(gamemode != GAMEMODE_STOCK || score.getDeaths(n)+sdcost*score.getSDs(n) < stock) players[n] -> act();
@@ -1466,7 +1465,7 @@ int main(int argc, char ** argv) {
     AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
 	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
 	AS_SetMP3Loop(true);
-	// required both for MP3 and Sound
+	for(int n = 0; n < 16; n++) AS_SetSoundVolume(n, 48);
 	
 	initControls();
 		
