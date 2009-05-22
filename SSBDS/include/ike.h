@@ -16,7 +16,6 @@ class Ike: public Fighter {
 		void playsound(int sndnum);
 		void initSounds();
 		void initPalettes();
-		void initFrames();
 		// actions
 		void bside();
 		void bup();

@@ -10,7 +10,6 @@ class Sandbag: public Fighter {
 		void playsound(int sndnum);
 		void initSounds();
 		void initPalettes();
-		void initFrames();
 		~Sandbag();
 };
 #endif

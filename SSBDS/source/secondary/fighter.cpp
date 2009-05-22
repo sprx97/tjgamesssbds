@@ -94,7 +94,6 @@ void Fighter::initAtkbox() {
 		int dmg = atoi(strtok(NULL, " \t"));
 		int prior = atoi(strtok(NULL, "\t"));
 
-
 		allatkbox[frame].addCircle(createAtkbox(xpos, (int)(ypos)%64, radius, Knockback(kbx, kby, kblen), dmg, prior));
 		allatkbox[frame].enabled = true;
 	}
@@ -113,7 +112,26 @@ void Fighter::initSprite() {
 	PA_CreateSprite(MAIN_SCREEN, SPRITENUM-4, (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 13, -64, -64);
 	PA_SetSpriteRotEnable(MAIN_SCREEN, SPRITENUM-4, SPRITENUM-100);
 }
-void Fighter::initFrames(){}//implemented in subclasses
+void Fighter::initFrames(){
+	char* start = "/SSBDS_Files/hitboxes/";
+	char* end = ".frame";
+	FILE* file = fopen((start+name+end).c_str(), "rb");
+	if(!file) while(true) {}
+	char line[64];
+	while(true) {
+		fgets(line, 64, file);
+		
+		int startframe = atoi(strtok(line, " \t"));
+		if(startframe == -1) break;
+		int endframe = atoi(strtok(NULL, " \t"));
+		int framespeed = atoi(strtok(NULL, " \t"));
+		
+		startframes.push_back(startframe);
+		endframes.push_back(endframe);
+		framespeeds.push_back(framespeed);
+	}
+	fclose(file);
+}//implemented in subclasses
 void Fighter::initPalettes(){}//implemented in subclasses
 //CPU helper methods
 int Fighter::cpu_getTarget(){

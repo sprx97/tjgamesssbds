@@ -9,7 +9,6 @@ class Kirby: public Fighter {
 		Kirby(int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false) ;// initializes all of the variables
 		// initializers
 		void initPalettes();
-		void initFrames();
 		// sounds
 		void playsound(int sndnum);
 		void initSounds();

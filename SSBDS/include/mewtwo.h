@@ -20,7 +20,6 @@ class Mewtwo: public Fighter {
 		void initSounds();
 		// sounds
 		void initPalettes();
-		void initFrames();
 		// actions
 		void bside();
 		void bup();

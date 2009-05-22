@@ -5,7 +5,6 @@ Major Goals:
 - Convert all gfx to FAT
 - split minimap.cpp to a .h file (the "correct" way)
 - replay system
-- load frame data from file (Fighter::initFrames)
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
 
 Minor Goals:

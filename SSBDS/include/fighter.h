@@ -89,7 +89,7 @@ class Fighter {
 		virtual void bthrow();
 		virtual void fthrow();
 		virtual void initPalettes();
-		virtual void initFrames();
+		void initFrames();
 		void release(int dir);
 		void released(int dir);
 		void grabbed(int otherx, int othery);
