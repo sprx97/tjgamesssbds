@@ -32,7 +32,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 void Mewtwo::initSounds() {
 	int alreadymade = 0;
 	for(int n = 0; n < charnum; n++) {
-		if(players[n] -> MYCHAR == MEWTWO) alreadymade++;
+		if(players[n] -> MYCHAR == MYCHAR) alreadymade++;
 	}
 	if(alreadymade == 0) {
 		PA_FatLoadSfx("mewtwousmash", "mewtwousmash");

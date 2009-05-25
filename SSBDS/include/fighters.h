@@ -3,3 +3,4 @@
 #include "mewtwo.h"
 #include "mario.h"
 #include "ike.h"
+#include "fox.h"

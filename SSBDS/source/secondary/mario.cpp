@@ -31,7 +31,7 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 void Mario::initSounds() {
 	int alreadymade = 0;
 	for(int n = 0; n < charnum; n++) {
-		if(players[n] -> MYCHAR == MARIO) alreadymade++;
+		if(players[n] -> MYCHAR == MYCHAR) alreadymade++;
 	}
 	if(alreadymade == 0) {
 		PA_FatLoadSfx("mariojump", "mariojump");

@@ -300,27 +300,33 @@ void receive(unsigned char *data, int length, LPLOBBY_USER from) {
 }
 
 void LANGame() {
+	fadeIn();
+	PA_InitText(MAIN_SCREEN, 0);
+	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);	
+	PA_OutputText(MAIN_SCREEN, 0, 0, "LAN game began");
 	while(playernum == -1) {
 		if(Pad.Newpress.Start) {
+			PA_OutputText(MAIN_SCREEN, 0, 1, "You are player 0, the host");
 			playernum = 0;
 			LOBBY_SetOwnName("Host");
 			LOBBY_CreateRoom(ROOM_NAME, MAX_PLAYERS, GAME_CODE, GAME_VER);
 		}
 		else if(Pad.Newpress.Select) {
+			PA_OutputText(MAIN_SCREEN, 0, 1, "You are player 1, the client");
 			playernum = 1;
 			LOBBY_SetOwnName("Client");
 			LOBBY_JoinRoom(LOBBY_GetRoomByGame(0, GAME_CODE));
 		}
 		PA_WaitForVBL();
 	}
+	PA_OutputText(MAIN_SCREEN, 0, 2, "Waiting for more players");
 	while(LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))) != 2) {
 		PA_WaitForVBL();
 	}
+	PA_OutputText(MAIN_SCREEN, 0, 3, "Opponent found!");
 	players.push_back(new Kirby(1, &players, &display));
 	Stage stage = setStage(FINALDESTINATION);
 	
-	fadeIn();
-
 	while(true) {
 		if(playernum == 0) {
 			players[0] -> act();
