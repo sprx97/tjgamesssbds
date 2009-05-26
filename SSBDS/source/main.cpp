@@ -441,7 +441,7 @@ void characterSelect(bool train = false) {
 	PA_StartSpriteAnimEx(SUB_SCREEN, MARIO, MARIO, MARIO, 1, ANIM_LOOP, -1);
 	PA_CreateSprite(SUB_SCREEN, IKE, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, IKE, IKE, IKE, 1, ANIM_LOOP, -1);
-	PA_CreateSprite(SUB_SCREEN, FOX, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 64, 0, 0);
+	PA_CreateSprite(SUB_SCREEN, FOX, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 0, 64);
 	PA_StartSpriteAnimEx(SUB_SCREEN, FOX, FOX, FOX, 1, ANIM_LOOP, -1);
 	
 	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);
