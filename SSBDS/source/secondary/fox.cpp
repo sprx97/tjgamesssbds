@@ -37,11 +37,11 @@ void Fox::initSounds() {
 	}
 }
 void Fox::initPalettes() {
-
+	palettes.push_back("fox");
 }
 // sounds
 void Fox::playsound(int sndnum) {
-	palettes.push_back("fox");
+
 }
 // actions
 void Fox::bside() {
