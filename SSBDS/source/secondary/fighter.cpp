@@ -663,8 +663,8 @@ void Fighter::act() {
 							airdodgecount++;
 						}
 					}
-					else if(((Pad.Held.Up && getTapJumpOn()) || custom_action(ACTION_JUMP, PAD_HELD) || custom_action(ACTION_JUMP, PAD_RELEASED)) && jumpcount < jumpmax) doubleJump();
-					else fall();
+					else if(((Pad.Held.Up && getTapJumpOn()) || (Pad.Released.Up && getTapJumpOn()) || custom_action(ACTION_JUMP, PAD_HELD) || custom_action(ACTION_JUMP, PAD_RELEASED)) && jumpcount < jumpmax) doubleJump();
+					else if(action != JUMP && action != DOUBLEJUMP) fall();
 				}
 			}
 		}
@@ -1068,7 +1068,7 @@ void Fighter::run(int d) {
 }
 void Fighter::shorthop() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHORTHOP], endframes[SHORTHOP], framespeeds[SHORTHOP], ANIM_LOOP, -1);
-	dy = -4;
+	dy = -jumpspeed/2;
 	fastfall = 0;
 	dx = 0;
 	delay = 60/framespeeds[SHORTHOP] * (endframes[SHORTHOP] - startframes[SHORTHOP] + 1);
@@ -1079,7 +1079,7 @@ void Fighter::shorthop() {
 }
 void Fighter::jump() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JUMP], endframes[JUMP], framespeeds[JUMP], ANIM_LOOP, -1);
-	dy = -6;
+	dy = -jumpspeed;
 	fastfall = 0;
 	dx = 0;
 	delay = 60/framespeeds[JUMP] * (endframes[JUMP] - startframes[JUMP] + 1);
@@ -1091,7 +1091,7 @@ void Fighter::jump() {
 void Fighter::doubleJump() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DOUBLEJUMP], endframes[DOUBLEJUMP], framespeeds[DOUBLEJUMP], ANIM_LOOP, -1);
 	action = DOUBLEJUMP;
-	dy = -3.5 - .5 * (jumpmax-jumpcount);
+	dy = -doublejumpspeed - .5 * (jumpmax-jumpcount-1);
 	fastfall = 0;
 	delay = 60/framespeeds[DOUBLEJUMP] * (endframes[DOUBLEJUMP] - startframes[DOUBLEJUMP] + 1);
 	jumpcount++;

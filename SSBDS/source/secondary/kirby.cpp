@@ -10,6 +10,8 @@ using std::vector;
 Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num,listplayers,disp,"kirby",AI) {
 	weight = 0.899;
 	w2value  = -0.44;
+	jumpspeed = 6;
+	doublejumpspeed = 3;
 	shieldstr = 64;
 	runspeed = 3.5;
 	handx = 24;
