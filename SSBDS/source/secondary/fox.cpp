@@ -7,7 +7,7 @@
 using std::vector;
 
 //constructor
-Fox::Fox(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num,listplayers,disp,"kirby",AI) {
+Fox::Fox(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num,listplayers,disp,"fox",AI) {
 	weight = .910;
 	w2value  = 3.41;
 	shieldstr = 64;
