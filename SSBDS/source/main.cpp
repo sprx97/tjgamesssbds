@@ -437,13 +437,13 @@ void characterSelect(bool train = false) {
 	// - how long to loop for (-1 is infinite)	
 	PA_CreateSprite(SUB_SCREEN, MEWTWO, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 64, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, MEWTWO, MEWTWO, MEWTWO, 1, ANIM_LOOP, -1);
-	// another sprite
 	PA_CreateSprite(SUB_SCREEN, MARIO, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, MARIO, MARIO, MARIO, 1, ANIM_LOOP, -1);
-	// a third sprite
 	PA_CreateSprite(SUB_SCREEN, IKE, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
 	PA_StartSpriteAnimEx(SUB_SCREEN, IKE, IKE, IKE, 1, ANIM_LOOP, -1);
-
+	PA_CreateSprite(SUB_SCREEN, FOX, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 64, 0, 0);
+	PA_StartSpriteAnimEx(SUB_SCREEN, FOX, FOX, FOX, 1, ANIM_LOOP, -1);
+	
 	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);
 	PA_CreateSprite(MAIN_SCREEN, 0, (void*)charprev, OBJ_SIZE_64X64, COLOR256, 0, 0, 128);
 	PA_StartSpriteAnimEx(MAIN_SCREEN, 0, 0, 0, 1, ANIM_LOOP, -1);
@@ -505,6 +505,7 @@ void characterSelect(bool train = false) {
 			else if(humanselected == MEWTWO) players.push_back(new Mewtwo(1, &players, &display));
 			else if(humanselected == MARIO) players.push_back(new Mario(1, &players, &display));
 			else if(humanselected == IKE) players.push_back(new Ike(1, &players, &display));		  
+			else if(humanselected == FOX) players.push_back(new Fox(1, &players, &display));
 			// adds a new player class (fighter*) for the human
 			
 			if(!train && !(cpu1selected == -1 && cpu2selected == -1 && cpu3selected == -1)) {				
@@ -512,17 +513,19 @@ void characterSelect(bool train = false) {
 				else if(cpu1selected == MEWTWO) players.push_back(new Mewtwo(2, &players, &display, true));
 				else if(cpu1selected == MARIO) players.push_back(new Mario(2, &players, &display, true));
 				else if(cpu1selected == IKE) players.push_back(new Ike(2, &players, &display, true));		 
+				else if(cpu1selected == FOX) players.push_back(new Fox(2, &players, &display, true));
 
 				if(cpu2selected == KIRBY) players.push_back(new Kirby(3, &players, &display, true));
 				else if(cpu2selected == MEWTWO) players.push_back(new Mewtwo(3, &players, &display, true));
 				else if(cpu2selected == MARIO) players.push_back(new Mario(3, &players, &display, true));
 				else if(cpu2selected == IKE) players.push_back(new Ike(3, &players, &display, true));		 
+				else if(cpu2selected == FOX) players.push_back(new Fox(3, &players, &display, true));
 
 				if(cpu3selected == KIRBY) players.push_back(new Kirby(4, &players, &display, true));
 				else if(cpu3selected == MEWTWO) players.push_back(new Mewtwo(4, &players, &display, true));
 				else if(cpu3selected == MARIO) players.push_back(new Mario(4, &players, &display, true));
 				else if(cpu3selected == IKE) players.push_back(new Ike(4, &players, &display, true));		 
-				// adds a new player class (fighter*) for the cpu1
+				else if(cpu3selected == FOX) players.push_back(new Fox(4, &players, &display, true));
 			}
 			else players.push_back(new Sandbag(2, &players, &display, true));			
 			
