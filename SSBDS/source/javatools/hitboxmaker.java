@@ -135,8 +135,8 @@
       {
          try
          {
-            PrintWriter out = new PrintWriter(new FileWriter("gfx/Hitboxes/" + charname + "." + atkdef + ".hit"));
-				PrintWriter simpleout = new PrintWriter(new FileWriter("gfx/Hitboxes/" + charname + "." + atkdef));
+            PrintWriter out = new PrintWriter(new FileWriter("../gfx/Hitboxes/" + charname + "." + atkdef + ".hit"));
+				PrintWriter simpleout = new PrintWriter(new FileWriter("../gfx/Hitboxes/" + charname + "." + atkdef));
 				for(int n = 0; n < hitboxes.size(); n++)
 					for(int m = 0; m < hitboxes.size(); m++)
 						if(hitboxes.get(n).compareTo(hitboxes.get(m)) < 0)
@@ -174,7 +174,7 @@
 		{
 			try
 			{
-				Scanner sc = new Scanner(new File("gfx/Hitboxes/" + charname + "." + atkdef));
+				Scanner sc = new Scanner(new File("../gfx/Hitboxes/" + charname + "." + atkdef));
 				while(sc.hasNext())
 				{
 					String line = sc.nextLine();
