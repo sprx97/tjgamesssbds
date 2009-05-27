@@ -497,7 +497,7 @@ void characterSelect(bool train = false) {
 			fadeOut();
 			PA_ResetSpriteSys(); // restes all sprites
 			PA_FatFreeSprBuffers();
-			PA_OutputText(SUB_SCREEN, 7, ma23, "                     "); // clears text
+			PA_OutputText(SUB_SCREEN, 7, 23, "                     "); // clears text
 	
 			PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);
 										

@@ -11,7 +11,7 @@ Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	weight = 0.899;
 	w2value  = -0.44;
 	jumpspeed = 6;
-	doublejumpspeed = 3;
+	doublejumpspeed = 4;
 	shieldstr = 64;
 	runspeed = 3.5;
 	handx = 24;
@@ -22,7 +22,7 @@ Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	rightside = 41;
 	leftside = 21;
 	rockcount = 0;
-	gravity = 3;
+	gravity = 2.5;
 	jumpmax = 6;
 	initPalettes();
 	initFrames();

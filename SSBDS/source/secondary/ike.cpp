@@ -11,7 +11,7 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	weight = 1.035;
 	w2value = 0.28;
 	jumpspeed = 7;
-	doublejumpspeed = 4;
+	doublejumpspeed = 4.5;
 	shieldstr = 64;
 	runspeed = 2.75;
 	handx = 30;
@@ -25,7 +25,7 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	bottomside = 47;
 	rightside = 37;
 	leftside = 13;
-	gravity = 3;
+	gravity = 2.5;
 	jumpmax = 2;
 	initPalettes();
 	initFrames();

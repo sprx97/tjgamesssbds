@@ -11,7 +11,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	weight = 1.01; // same as lucario for now
 	w2value = -0.4; // same as lucario for now
 	jumpspeed = 7;
-	doublejumpspeed = 4;
+	doublejumpspeed = 7;
 	shieldstr = 64;
 	runspeed = 4.5;
 	handx = 16;
@@ -23,7 +23,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	bottomside = 52;
 	rightside = 44;
 	leftside = 22;
-	gravity = 3;
+	gravity = 2.5;
 	jumpmax = 2;
 	initPalettes();
 	initFrames();
