@@ -11,3 +11,13 @@ SSBDS/SSBDS_Files/LAN/build
 SSBDS/SSBDS_Files/LAN/build/*
 SSBDS/SSBDS_Files/LAN/LAN.nds
 SSBDS/SSBDS_Files/LAN/LAN.ds.gba
+
+Rosters/*
+Rosters
+SSBDS\ Images/
+SSBDS\ Images/*
+SSBDSjobs.rtf
+SSBDSplot.rtf
+WAVS
+WAVS/*
+
