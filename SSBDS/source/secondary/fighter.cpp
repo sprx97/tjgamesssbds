@@ -150,11 +150,15 @@ int Fighter::cpu_getTarget(){
 	}
 	return Cenemy;
 }
-void Fighter::cpu_obeyRules(){
+void Fighter::obeyRules(){
 	if(action == BSIDE) bside();
 	if(action == BUP) bup();
 	if(action == BDOWN) bdown();
 	if(action == BNEUT) bneut();
+	if(action == FTHROW) fthrow();
+	if(action == BTHROW) bthrow();
+	if(action == DTHROW) dthrow();
+	if(action == UTHROW) uthrow();
 	if(hitstun > k.length*2) {
 		if(y != stage->getFloors()[0].y ) aerial = true;
 		hitstun--;
@@ -215,7 +219,10 @@ void Fighter::cpu_obeyRules(){
 		if(action == RELEASED || action == RELEASE) {
 			if(delay <= 0) idle();
 		}
-		if(action == ATTACK && delay <= 0) idle();
+		if(action == ATTACK && delay <= 0) {
+			chargecount = 0;
+			idle();
+		}
 		if(action == SLIDE && delay <= 0) idle();
 		if(action == SLIDE) {
 			if(dx > 0) {
@@ -235,8 +242,9 @@ void Fighter::cpu_obeyRules(){
 			if(delay <= 0) idle();
 		}
 		if(action == AIRATTACK) {
+			if(lcancel > 0) lcancel--;
 			if(checkFloorCollision()) {
-				if(delay > 0) land();
+				if(delay > 0 && lcancel <= 0) land();
 				else idle();
 				delay = 0;
 			}
@@ -256,6 +264,7 @@ void Fighter::cpu_obeyRules(){
 			}
 			PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM-100, (int)(2048-24*shieldstr), (int)(2048-24*shieldstr));
 		}
+		else if(shieldstr < 64) shieldstr += .1;
 	}
 }//do all AI actions that would be cheating to skip
 void Fighter::actCPU() {
@@ -269,7 +278,7 @@ void Fighter::actCPU() {
 	double Cy = (players[Cenemy] -> y) - y;
 	double Cdistance = sqrt(Cx*Cx + Cy*Cy);
 	double Cangle = atan2(Cy, Cx) * 180 / M_PI; // from -180 to 180
-	cpu_obeyRules(); //do all AI actions that would be cheating to skip
+	obeyRules(); //do all AI actions that would be cheating to skip
 	//do actions that require thinking, strategy, or input
 	if(hitstun > 0){
 		if(Cangle < 90 && Cangle > -90) directionalInfluence(-1);
@@ -451,6 +460,7 @@ void Fighter::actCPU() {
 	move();
 }
 void Fighter::act() {
+	obeyRules(); //do all AI actions that would be cheating to skip
 	std::map<int, int> customcontrols = getcustomcontrols();
 	if(effectwait > 0) effectwait--;
 	if(ledgewait > 0) ledgewait--;
@@ -463,58 +473,11 @@ void Fighter::act() {
 		actCPU();
 		return;
 	}
-	if(action == BSIDE) bside();
-	if(action == BUP) bup();
-	if(action == BDOWN) bdown();
-	if(action == BNEUT) bneut();
-	if(action == FTHROW) fthrow();
-	if(action == BTHROW) bthrow();
-	if(action == DTHROW) dthrow();
-	if(action == UTHROW) uthrow();
 	if(action == CHARGELEFT && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashleft();
 	if(action == CHARGERIGHT && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashright();
 	if(action == CHARGEUP && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashup();
 	if(action == CHARGEDOWN && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashdown();
-	if(hitstun > k.length*2) {
-		if(y != stage->getFloors()[0].y ) aerial = true;
-		hitstun--;
-		dx = kx;
-		dy = ky;
-		if(hitstun == 0) {
-			if(aerial) fall();
-			else idle();
-		}
-		if(checkFloorCollision()) idle();
-	}
-	else if(hitstun > 0) {
-		if(y != stage->getFloors()[0].y ) aerial = true;
-		hitstun--;
-		if(kx > 0) {
-			kx -= kx/(hitstun/3);
-			if(kx < 0) kx = 0;
-		}
-		else if(kx < 0) {
-			kx -= kx/(hitstun/3);
-			if(kx > 0) kx = 0;
-		}
-		if(ky > 0) {
-			ky -= ky/(hitstun/3);
-			if(ky < 0) ky = 0;
-		}
-		else if(ky < 0) {
-			ky -= ky/(hitstun/3);
-			if(ky > 0) ky = 0;
-		}
-		if(hitstun == 0) {
-			action = STUN;
-			if(aerial) fall();
-			else idle();
-		}
-		dx = kx;
-		dy = ky;
-		if(checkFloorCollision()) idle();
-	}
-	else {
+	if (hitstun <= 0) {
 		if(lasthitby != -1 && aerial == false) lasthitby = -1;
 		if(tiltlag > 0) {
 			tiltlag--;
@@ -705,8 +668,6 @@ void Fighter::act() {
 				}
 			}
 		}
-		if(action == DODGE && delay <= 0) shield();
-		if(action == AIRDODGE && delay <= 0) fall();
 		if(action == ROLL && delay <= 0) {
 			dx = 0;
 			if(direction == LEFT) {
@@ -722,50 +683,15 @@ void Fighter::act() {
 		if(action == RELEASE || action == RELEASED) {
 			if(delay <= 0) idle();
 		}
-		if(action == SLIDE && delay <= 0) {
-			idle();
-		}
-		if(action == SLIDE) {
-			if(dx > 0) {
-				dx -= .25;
-				if(dx <= 0) dx = 0;
-			}
-			else if(dx < 0) {
-				dx += .25;
-				if(dx >= 0) dx = 0;
-			}
-		}
 		if(action == JAB) {
 			if((custom_action(ACTION_BASIC, PAD_RELEASED) && delay > 100) || delay <= 0) {
 				idle();
 				delay = 0;
 			}
 		}
-		if(action == ATTACK) {
-			if(delay <= 0) {
-				chargecount = 0;
-				if(Pad.Held.Down) crouch();
-				else idle(); // idles when attack is done
-			}
-		} 
-		if(action == DASHATTACK) {
-			x += dx;
-			if(delay <= 0) idle();
-		}
-		if(action == BSIDE || action == BUP || action == BDOWN || action == BNEUT) {
-			if(delay <= 0) idle();
-		}
 		if(action == AIRATTACK) {
-			if(lcancel > 0) lcancel--;
-			if(checkFloorCollision()) {
-				if(delay > 0 && lcancel <= 0) land();
-				else idle();
-				delay = 0;
-			}
-			else if(custom_action(ACTION_SHIELD, PAD_RELEASED)) lcancel = 10;
-			else if(delay <= 0) fall();
+			if(custom_action(ACTION_SHIELD, PAD_RELEASED)) lcancel = 10;
 		} // checks for stage collision with aerial
-		if((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
 		if((action == DOUBLEJUMP || action == JUMP ) && (custom_action(ACTION_BASIC, PAD_NEWPRESS) || (Stylus.Newpress && getCStickStylus()) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS))) {
 			ymomentum = dy;
 			momentumtime = delay;
@@ -781,19 +707,11 @@ void Fighter::act() {
 			actAir();
 		} // acts in the air
 		if(action == SHIELD) {
-			shieldstr -= (65-shieldstr)/50;
-			if(shieldstr <= 0) {
-				PA_FatPlaySfx("shieldbreak");
-				hitstun = 300;
-				stun();
-			}
-			PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM-100, (int)(2048-24*shieldstr), (int)(2048-24*shieldstr));
 			if(!custom_action(ACTION_SHIELD, PAD_HELD)) idle();
 			if(Pad.Newpress.Left || Pad.Newpress.Right) roll();
 			if(Pad.Newpress.Down) dodge();
 			if(custom_action(ACTION_BASIC, PAD_NEWPRESS) && getShieldGrabOn()) grab();
 		}
-		else if(shieldstr < 64) shieldstr += .1;
 		if(action == GRAB) {
 			if(delay <= 0) {
 				if(custom_action(ACTION_SHIELD, PAD_HELD)) shield();
