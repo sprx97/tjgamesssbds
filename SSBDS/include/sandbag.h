@@ -3,6 +3,8 @@
 #include "display.h"
 #include "fighter.h"
 #include <vector>
+
+///A dummy fighter for testing purposes
 class Sandbag: public Fighter {
 	public:
 		Sandbag(int num, std::vector<Fighter*> *listplayers, Display *display, bool AI = false);

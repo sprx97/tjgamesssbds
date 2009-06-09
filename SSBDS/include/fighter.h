@@ -26,8 +26,8 @@ class Fighter {
 		//constructor
 		Fighter(int num, vector<Fighter*> *listplayers, Display *disp, string n, bool AI = false);
 	// variables
-		double jumpspeed;
-		double doublejumpspeed;
+		double jumpspeed; ///< stores how fast a fighter can jump off of the ground. Overwritten by subclasses
+		double doublejumpspeed; ///< stores how fast a fighter can jump from midair. Overwritten by subclasses
 		double weight;
 		double w2value;
 		double shieldstr;
