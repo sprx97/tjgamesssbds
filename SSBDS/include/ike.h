@@ -26,7 +26,7 @@ class Ike: public Fighter {
 		void jaywalk();
 		~Ike();
 	private:
-		int quickdrawcharge;
-		int eruptioncharge;
+		int quickdrawcharge; ///< counter for the charging of ike's quick charge (Side-B)
+		int eruptioncharge; ///< counter for the charging of ike's eruption (Neutral-B)
 };
 #endif
