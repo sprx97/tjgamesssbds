@@ -5,6 +5,7 @@
 #include <vector>
 using std::vector;
 
+/// A plumber who never seems to do any plumbing, Mario seems much more interested spending his time saving the princess. Or in this case fighting.
 class Mario: public Fighter {
 	public:
 		// constructor
