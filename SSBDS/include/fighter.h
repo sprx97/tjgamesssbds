@@ -77,7 +77,7 @@ class Fighter {
 		void initAtkbox();
 		void initSprite();
 		int cpu_getTarget();
-		void cpu_obeyRules();
+		void obeyRules();
 		virtual void actCPU();
 		virtual void act();
 		void actAir() ;
