@@ -5,6 +5,7 @@
 #include "display.h"
 #include <vector>
 
+/// A pokemon who likes to get angry for no apparent reason, Mewtwo is a master of psychic energy.
 class Mewtwo: public Fighter {
 	public:
 		int shadowballcharge;
