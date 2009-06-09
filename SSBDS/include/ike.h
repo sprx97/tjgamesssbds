@@ -6,8 +6,6 @@
 #include <vector>
 
 class Ike: public Fighter {
-	int quickdrawcharge;
-	int eruptioncharge;
 	public:
 		// constructor
 		Ike(int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false);
@@ -27,5 +25,8 @@ class Ike: public Fighter {
 		void dthrow();
 		void jaywalk();
 		~Ike();
+	private:
+		int quickdrawcharge;
+		int eruptioncharge;
 };
 #endif
