@@ -3,6 +3,8 @@
 #include "display.h"
 #include "fighter.h"
 #include <vector>
+
+/// Our favorite puffball. A fighter like the rest
 class Kirby: public Fighter {
 	public:	// constructor
 		Kirby(int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false) ;// initializes all of the variables
@@ -23,6 +25,6 @@ class Kirby: public Fighter {
 		void jaywalk();
 		~Kirby();
 	private:
-		int rockcount;
+		int rockcount; ///< How much longer the rock (Down-B) will last
 };
 #endif

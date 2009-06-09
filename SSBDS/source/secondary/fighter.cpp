@@ -1,4 +1,4 @@
- #include <PA9.h> // DS functions that we use come from here
+#include <PA9.h> // DS functions that we use come from here
 #include "hitbox.h"
 #include "knockback.h"
 #include "circle.h"
@@ -61,7 +61,7 @@ void Fighter::initDefbox() {
 	while(true) {
 		fgets(line, 64, file);
 		int frame = atoi(strtok(line, " \t"));
-		if(frame == -1) break;					
+		if(frame == -1) break;
 		double xpos = atof(strtok(NULL, " \t"));
 		double ypos = atof(strtok(NULL, " \t"));
 		double radius = atof(strtok(NULL, " \t"));
