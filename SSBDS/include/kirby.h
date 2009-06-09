@@ -4,7 +4,6 @@
 #include "fighter.h"
 #include <vector>
 class Kirby: public Fighter {
-	int rockcount;
 	public:	// constructor
 		Kirby(int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false) ;// initializes all of the variables
 		// initializers
@@ -23,5 +22,7 @@ class Kirby: public Fighter {
 		void dthrow();
 		void jaywalk();
 		~Kirby();
+	private:
+		int rockcount;
 };
 #endif
