@@ -5,6 +5,7 @@
 #include "display.h"
 #include <vector>
 
+/// Ike is a sword wielder who things the bigger is better when it comes to swords. And no, that's NOT what she said.
 class Ike: public Fighter {
 	public:
 		// constructor

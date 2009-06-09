@@ -5,6 +5,7 @@
 #include "display.h"
 #include <vector>
 
+/// Joining us from Star Fox, Fox McCloud is a fighter who isn't afraid to draw his gun.
 class Fox: public Fighter {
 	public:
 		// constructor
