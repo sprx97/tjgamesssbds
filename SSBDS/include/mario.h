@@ -6,7 +6,6 @@
 using std::vector;
 
 class Mario: public Fighter {
-	int fluddcharge;
 	public:
 		// constructor
 		Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI = false); // initializes all of the variables
@@ -25,5 +24,7 @@ class Mario: public Fighter {
 		void dthrow();
 		void jaywalk();
 		~Mario();
+	private:
+		int fluddcharge;
 };
 #endif
