@@ -15,7 +15,10 @@ static const int SHADOWBALL_SMALL = 0, SHADOWBALL_MEDIUM = 1, SHADOWBALL_LARGE =
 class Projectile {
 	public:
 		Display* display;
-		double x, y, dx, dy;
+		double x; ///< x position, in pixels
+		double y; ///< y position, in pixels
+		double dx; ///< velocity in the x direction, in pixels/frame
+		double dy; ///< velocity in the y direction, in pixels/frame
 		double maxy, miny; // for bouncing
 		Hitbox hit; ///< what part of this projectile can collide with others
 		int length;
