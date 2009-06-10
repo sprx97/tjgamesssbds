@@ -23,6 +23,7 @@
 
 //Data Files:
 #include "gfx/all_gfx.c" // all image files
+#include "efs_lib.h" // efs
 
 //Allow us to skip us to skip the std:: prefix on tandard types
 using namespace std;
@@ -1427,15 +1428,15 @@ int main(int argc, char ** argv) {
 
 	defaultExceptionHandler(); // "red screen of death" error, hopefully won't happen
 
-	if(!fatInitDefault()) {
-		PA_InitText(MAIN_SCREEN, 0);
-		PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);
-		PA_OutputText(MAIN_SCREEN, 0, 0, "FAT INIT FAILED!!!");
-		while(true) {}
-	} // Init for libfat. if it fails it freezes with an error
+	if(!EFS_Init(EFS_AND_FAT | EFS_DEFAULT_DEVICE, NULL)) {
+		PA_OutputText(0, 1, 1, "EFS init error !!!");
+		return 1;
+	}
 	PA_FatInitAllBuffers(); // Initialize all the memory buffers
-	PA_FatSetBasePath("/SSBDS_Files");  // Set a base path
+	PA_FatSetBasePath("SSBDS_Files");  // Set a base path
 	// initializes external file system. very important!!!
+
+
 
 	fadeOut();
 

@@ -15,7 +15,7 @@
 #include <stdlib.h> // standard C functions
 #include <map> // maps
 
-#include "../../../source/gfx/all_gfx.c"
+#include "../../../../source/gfx/all_gfx.c"
 
 using namespace std;
 
@@ -357,7 +357,7 @@ int main(int argc, char ** argv) {
 		while(true) {}
 	} // Init for libfat. if it fails it freezes with an error
 	PA_FatInitAllBuffers(); // Initialize all the memory buffers
-	PA_FatSetBasePath("/SSBDS_Files");  // Set a base path
+	PA_FatSetBasePath("SSBDS_Files");  // Set a base path
 	// initializes external file system. very important!!!
 
 	fadeOut();

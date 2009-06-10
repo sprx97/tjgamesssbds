@@ -17,7 +17,7 @@ ARM7_SELECTED = ARM7_MP3
 # If you're using EFS_lib, uncomment "USE_EFS = YES" here.
 #---------------------------------------------------------------------------------
 
-#USE_EFS = YES
+USE_EFS = YES
 
 PATH := $(DEVKITARM)/bin:$(PATH)
 PROGNAME = PAlib
@@ -45,7 +45,7 @@ ICON 	:= -b $(CURDIR)/../logo.bmp
 TARGET		:= $(shell basename $(CURDIR))
 BUILD		:= build
 SOURCES		:= gfx source source/secondary data
-INCLUDES	:= include build data
+INCLUDES	:= include include/secondary build data
 
 #---------------------------------------------------------------------------------
 # If you need to change other parts of the make process, see the PA_Makefile:
