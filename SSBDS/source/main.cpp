@@ -1366,7 +1366,7 @@ void mainMenu() {
 			else if(x > 82 && x < 205 && y > 70 && y < 99) {				
 				PA_FatPlaySfx("confirm");
 				fadeOut();
-				runNdsFile("/SSBDS_Files/LAN.nds");
+				runNdsFile("SSBDS_Files/LAN.nds");
 				initMainMenu();
 			}
 			else if(x > 60 && x < 183 && y > 104 && y < 131) {				
