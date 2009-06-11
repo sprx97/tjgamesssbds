@@ -10,15 +10,14 @@ Ledge::Ledge(int xpos, int ypos, string dir) {
 } // creates a new ledge
 
 //floor methods:
-Floor::Floor(int xpos, int ypos, int l, bool plat) {
+Floor::Floor(int xpos, int ypos, int l, int r, bool plat) {
 	x = xpos;
 	y = ypos;
 	length = l;
+	rise = r;
 	isplatform = plat;
 } // creates a new floor
-bool Floor::isPlatform() {
-	return isplatform;
-} // returns isplatform
+bool Floor::isPlatform() { return isplatform; } // returns isplatform
 double Floor::totalrise() {
 	double total = 0;
 	for (int n = 0; n < (int)slopes.size(); n++) {

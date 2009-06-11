@@ -188,6 +188,7 @@ class Fighter {
 		bool checkForDeath();
 		void respawn();
 		void beDead();
+		int onFloor();
 		bool ledgenotinuse(int lnum);
 		bool checkLedgeCollision();
 		bool checkFloorCollision();
