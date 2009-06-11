@@ -23,3 +23,5 @@ Ongoing Goals:
 Bugs:
 - Sloped Stages don't work
 - AI Bups are glitchy
+- LAN nds file doesn't bootload
+- sprites don't show on emulator
