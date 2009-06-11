@@ -1,0 +1,120 @@
+				if(frame == 41) {
+					tempbox.addCircle(Circle(53.0, 2663%64, 3.1622776601683795));
+					tempbox.addCircle(Circle(56.5, 2653%64, 3.0413812651491097));
+					tempbox.addCircle(Circle(57.0, 2659%64, 3.5355339059327378));
+				}
+				if(frame == 42) {
+					tempbox.addCircle(Circle(53.5, 2716%64, 2.0615528128088303));
+					tempbox.addCircle(Circle(56.5, 2727%64, 2.23606797749979));
+					tempbox.addCircle(Circle(58.5, 2718%64, 3.0413812651491097));
+					tempbox.addCircle(Circle(58.5, 2723%64, 2.5));
+				}
+				if(frame == 47) {
+					tempbox.addCircle(Circle(48.5, 3032%64, 7.0));
+				}
+				if(frame == 53) {
+					tempbox.addCircle(Circle(52.5, 3422%64, 6.800735254367722));
+				}
+				if(frame == 58) {
+					tempbox.addCircle(Circle(34.0, 3758%64, 7.0178344238090995));
+				}
+				if(frame == 69) {
+					tempbox.addCircle(Circle(52.5, 4443%64, 11.01135777277262));
+				}
+				if(frame == 70) {
+					tempbox.addCircle(Circle(51.0, 4508%64, 13.82931668593933));
+				}
+				if(frame == 71) {
+					tempbox.addCircle(Circle(50.0, 4572%64, 15.0));
+				}
+				if(frame == 72) {
+					tempbox.addCircle(Circle(51.5, 4635%64, 14.5));
+				}
+				if(frame == 73) {
+					tempbox.addCircle(Circle(52.0, 4699%64, 12.020815280171307));
+				}
+				if(frame == 74) {
+					tempbox.addCircle(Circle(51.0, 4763%64, 5.852349955359813));
+				}
+				if(frame == 84) {
+					tempbox.addCircle(Circle(21.5, 5402%64, 11.76860229593982));
+					tempbox.addCircle(Circle(47.0, 5402%64, 12.010412149464313));
+				}
+				if(frame == 85) {
+					tempbox.addCircle(Circle(21.0, 5468%64, 14.916433890176299));
+					tempbox.addCircle(Circle(45.5, 5467%64, 15.402921800749363));
+				}
+				if(frame == 86) {
+					tempbox.addCircle(Circle(20.0, 5533%64, 14.230249470757707));
+					tempbox.addCircle(Circle(47.5, 5531%64, 14.5));
+				}
+				if(frame == 95) {
+					tempbox.addCircle(Circle(34.5, 6119%64, 10.5));
+				}
+				if(frame == 96) {
+					tempbox.addCircle(Circle(34.5, 6161%64, 8.139410298049853));
+					tempbox.addCircle(Circle(35.0, 6181%64, 11.543396380615196));
+				}
+				if(frame == 99) {
+					tempbox.addCircle(Circle(47.0, 6380%64, 6.020797289396148));
+				}
+				if(frame == 100) {
+					tempbox.addCircle(Circle(49.5, 6444%64, 7.0710678118654755));
+				}
+				if(frame == 101) {
+					tempbox.addCircle(Circle(52.5, 6506%64, 8.631338250816034));
+				}
+				if(frame == 111) {
+					tempbox.addCircle(Circle(36.5, 7130%64, 19.5));
+				}
+				if(frame == 112) {
+					tempbox.addCircle(Circle(35.5, 7196%64, 24.0));
+				}
+				if(frame == 118) {
+					tempbox.addCircle(Circle(35.5, 7599%64, 8.0156097709407));
+				}
+				if(frame == 123) {
+					tempbox.addCircle(Circle(47.5, 7885%64, 5.522680508593631));
+				}
+				if(frame == 124) {
+					tempbox.addCircle(Circle(33.0, 7941%64, 7.0));
+				}
+				if(frame == 129) {
+					tempbox.addCircle(Circle(16.0, 8296%64, 6.0));
+				}
+				if(frame == 136) {
+					tempbox.addCircle(Circle(50.0, 8738%64, 14.508618128546908));
+				}
+				if(frame == 137) {
+					tempbox.addCircle(Circle(49.0, 8802%64, 12.5));
+				}
+				if(frame == 144) {
+					tempbox.addCircle(Circle(38.0, 9260%64, 6.800735254367722));
+				}
+				if(frame == 155) {
+					tempbox.addCircle(Circle(35.0, 9956%64, 25.544079548889602));
+				}
+				if(frame == 156) {
+					tempbox.addCircle(Circle(34.5, 10017%64, 25.811818998280614));
+				}
+				if(frame == 163) {
+					tempbox.addCircle(Circle(36.0, 10461%64, 12.0));
+				}
+				if(frame == 164) {
+					tempbox.addCircle(Circle(35.0, 10524%64, 26.9675731203236));
+				}
+				if(frame == 165) {
+					tempbox.addCircle(Circle(37.5, 10588%64, 28.00446392988089));
+				}
+				if(frame == 166) {
+					tempbox.addCircle(Circle(36.0, 10653%64, 26.23451924468981));
+				}
+				if(frame == 167) {
+					tempbox.addCircle(Circle(37.0, 10717%64, 26.800186566514792));
+				}
+				if(frame == 168) {
+					tempbox.addCircle(Circle(36.5, 10780%64, 26.51886121235224));
+				}
+				if(frame == 169) {
+					tempbox.addCircle(Circle(37.5, 10843%64, 16.5));
+				}

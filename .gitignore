@@ -8,10 +8,14 @@ SSBDS/SSBDS.ds.gba
 .todo
 SSBDS/source/gfx/images/pagfx
 SSBDS/source/gfx/images/pagfx/*
-SSBDS/SSBDS_Files/LAN/build
-SSBDS/SSBDS_Files/LAN/build/*
-SSBDS/SSBDS_Files/LAN/LAN.nds
-SSBDS/SSBDS_Files/LAN/LAN.ds.gba
+
+LAN/doc
+LAN/build
+LAN/build/*
+LAN/LAN.nds
+LAN/LAN.ds.gba
+LAN/source/gfx/images/pagfx
+LAN/source/gfx/images/pagfx/*
 
 Rosters/*
 Rosters
