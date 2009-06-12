@@ -1932,11 +1932,13 @@ bool Fighter::checkLedgeCollision() {
 	return false;
 }
 int Fighter::onFloor() {
+	double centerx = x + rightside/2.0;
+	double bottomy = y + bottomside;
 	vector<Floor> floors = stage->getFloors();
 	for(uint8 n = 0; n < floors.size(); n++) {
 		Floor currfloor = floors[n];
 		double slope = currfloor.rise*1.0/currfloor.width;
-		if ((currfloor.y+x*slope-y)<1){ //<FIXME: this should be using the center X and the bottom y, however that's achieved.
+		if ((currfloor.y+centerx*slope-bottomy)<1){
 			return n;
 		}
 	}
