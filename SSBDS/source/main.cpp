@@ -1314,12 +1314,16 @@ void options() {
 	}
 } // options menu, in progress
 void extras() {
-	openGif(SUB_SCREEN, "SSBDS_Files/gifs/default.gif");
 	for(int n = 1; n <= 10; n++) {
+		PA_Init8bitBg(SUB_SCREEN, 3);
+		PA_Init8bitBg(MAIN_SCREEN, 3);
+		openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 		char* screen = "";
-		sprintf(screen, "SSBDS_Files/gifs/credits/%d.gif", n);
+		sprintf(screen, "/SSBDS_Files/gifs/credits/%d.gif", n);
 		openGif(MAIN_SCREEN, screen);
-		for(int n = 0; n < 300; n++) PA_WaitForVBL();
+		fadeIn();
+		for(int m = 0; m < 300; m++) PA_WaitForVBL();
+		fadeOut();
 	}
 } // extras menu, only credits for now
 
@@ -1351,7 +1355,6 @@ void mainMenu() {
 		if(Pad.Newpress.B) {
 			PA_FatPlaySfx("no");
 			fadeOut();
-			PA_ResetSpriteSysScreen(SUB_SCREEN); // gets rid of menu sprites
 			return; // back to title screen
 		}
 		if(Stylus.Newpress) {
@@ -1379,7 +1382,7 @@ void mainMenu() {
 				PA_FatPlaySfx("confirm");
 				fadeOut();
 				extras();
-				initMainMenu();
+				return;
 			}
 			else if(x > 38 && x < 162 && y > 136 && y < 164) {
 				PA_FatPlaySfx("confirm");
