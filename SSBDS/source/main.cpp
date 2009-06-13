@@ -1314,8 +1314,14 @@ void options() {
 	}
 } // options menu, in progress
 void extras() {
-
-} // extras menu, uncoded
+	openGif(SUB_SCREEN, "SSBDS_Files/gifs/default.gif");
+	for(int n = 1; n <= 10; n++) {
+		char* screen = "";
+		sprintf(screen, "SSBDS_Files/gifs/credits/%d.gif", n);
+		openGif(MAIN_SCREEN, screen);
+		for(int n = 0; n < 300; n++) PA_WaitForVBL();
+	}
+} // extras menu, only credits for now
 
 // (Even more) pre-game menus
 void initMainMenu() {
