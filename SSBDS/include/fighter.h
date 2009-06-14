@@ -67,6 +67,7 @@ class Fighter {
 		int momentumtime;
 		int charnum;
 		string name;
+		string series;
 		vector<int> startframes;
 		vector<int> endframes;
 		vector<int> framespeeds;

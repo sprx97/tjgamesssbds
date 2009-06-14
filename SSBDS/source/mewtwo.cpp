@@ -19,6 +19,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	shadowballcharge = 0;
 	upcount = downcount = leftcount = rightcount = 0;
 	MYCHAR = MEWTWO;
+	series = "pokemon";
 	topside = 8;
 	bottomside = 52;
 	rightside = 44;

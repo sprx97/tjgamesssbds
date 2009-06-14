@@ -700,11 +700,11 @@ void displayResults() {
 	if(draw) {} // doesn't display a main screen bg
 	else {
 		char* musicfile = "";
-		sprintf(musicfile, "SSBDS_Files/music/victories/%s.mp3", (players[winner]->name).c_str());
+		sprintf(musicfile, "SSBDS_Files/music/victories/%s.mp3", (players[winner]->series).c_str());
 		AS_MP3StreamPlay(musicfile);
 		
 		char* bgfile = "";
-		sprintf(bgfile, "SSBDS_Files/gifs/victories/%s%d.gif", (players[winner]->name).c_str(), (players[winner]->SPRITENUM)-100);
+		sprintf(bgfile, "SSBDS_Files/gifs/victories/%s%d.gif", (players[winner]->series).c_str(), (players[winner]->SPRITENUM)-100);
 		openGif(MAIN_SCREEN, bgfile);
 		AS_SetMP3Loop(false);
 	} 

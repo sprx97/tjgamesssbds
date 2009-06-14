@@ -17,6 +17,7 @@ Fox::Fox(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	handx = 42;
 	handy = 11;
 	MYCHAR = FOX;
+	series = "starfox";
 	topside = 10;
 	bottomside = 45;
 	rightside = 45;
@@ -39,6 +40,9 @@ void Fox::initSounds() {
 	}
 }
 void Fox::initPalettes() {
+	palettes.push_back("fox");
+	palettes.push_back("fox");
+	palettes.push_back("fox");
 	palettes.push_back("fox");
 }
 // sounds

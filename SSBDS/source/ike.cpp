@@ -21,6 +21,7 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	CAPE = false;
 	COUNTER = false;
 	MYCHAR = IKE;
+	series = "fireemblem";
 	topside = 15;
 	bottomside = 47;
 	rightside = 37;
