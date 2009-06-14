@@ -8,6 +8,7 @@ SSBDS/SSBDS.ds.gba
 .todo
 SSBDS/source/gfx/images/pagfx
 SSBDS/source/gfx/images/pagfx/*
+SSBDS/efsroot/SSBDS_Files/LAN.nds
 
 LAN/doc
 LAN/build

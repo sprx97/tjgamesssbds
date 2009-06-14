@@ -424,7 +424,7 @@ void characterSelect(bool train = false) {
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
 	PA_FatLoadSprite(0, "cursors");
 	for(int n = 0; n < 4; n++) {
-		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, (n%2)*224, (n/2)*160);
+		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*64 +16, 160);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	}
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
@@ -441,11 +441,13 @@ void characterSelect(bool train = false) {
 
 	PA_FatLoadSfx("ffa", "free_for_all");
 	PA_FatLoadSfx("confirm", "menuconfirm");
+	PA_FatLoadSfx("no", "menuno");
 	PA_FatLoadSfx("kirby", "kirbyname");
 	PA_FatLoadSfx("mewtwo", "mewtwoname");
 	PA_FatLoadSfx("mario", "marioname");
 	PA_FatLoadSfx("ike", "ikename");
 	PA_FatLoadSfx("fox", "foxname");
+	char* names[] = {"kirby", "mewtwo", "mario", "ike", "fox"};
 
 	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
 
@@ -453,121 +455,55 @@ void characterSelect(bool train = false) {
 	PA_FatPlaySfx("ffa");
 	// plays free for all sound byte
 
-	int humanselected = -1; // which character was chosen for the human
-	int cpu1selected = -1; // which character was chosen for computer 1
-	int cpu2selected = -1;
-	int cpu3selected = -1;
-	int selecting = 0; // who is currently selecting the character 
-	// (I'll change to cursors like the previous smashes later)
-	// 0 = human, 1 = cpu1... 2 and 3 would be for other CPUs if I get that far
-
+	int selectedcursor = -1;
 	while(true) {
-		// changes who is choosing
-		if(Pad.Newpress.R){
-			selecting++;
-			if(selecting > 3) 
-				selecting = 0;
-		}
-		if(Pad.Newpress.L){
-			selecting--;
-			if(selecting < 0) 
-				selecting = 3;
-		}
-		// loops around selection number: max number of players is 1
-		PA_OutputText(SUB_SCREEN, 7, 23, "Select for player %d", selecting+1);
-		// prints who is being selected for... like I said: cursors will come later
-		if(Pad.Newpress.Start && humanselected != -1) {
-// if start is pressed and both players are ready
-			PA_FatPlaySfx("confirm");
-			fadeOut();
-			PA_ResetSpriteSys(); // restes all sprites
-			PA_FatFreeSprBuffers();
-			PA_OutputText(SUB_SCREEN, 7, 23, "                     "); // clears text
-	
-			PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);
-										
-			if(humanselected == KIRBY) players.push_back(new Kirby(1, &players, &display));
-			else if(humanselected == MEWTWO) players.push_back(new Mewtwo(1, &players, &display));
-			else if(humanselected == MARIO) players.push_back(new Mario(1, &players, &display));
-			else if(humanselected == IKE) players.push_back(new Ike(1, &players, &display));		  
-			else if(humanselected == FOX) players.push_back(new Fox(1, &players, &display));
-			// adds a new player class (fighter*) for the human
-			
-			if(!train && !(cpu1selected == -1 && cpu2selected == -1 && cpu3selected == -1)) {				
-				if(cpu1selected == KIRBY) players.push_back(new Kirby(2, &players, &display, true));
-				else if(cpu1selected == MEWTWO) players.push_back(new Mewtwo(2, &players, &display, true));
-				else if(cpu1selected == MARIO) players.push_back(new Mario(2, &players, &display, true));
-				else if(cpu1selected == IKE) players.push_back(new Ike(2, &players, &display, true));		 
-				else if(cpu1selected == FOX) players.push_back(new Fox(2, &players, &display, true));
-
-				if(cpu2selected == KIRBY) players.push_back(new Kirby(3, &players, &display, true));
-				else if(cpu2selected == MEWTWO) players.push_back(new Mewtwo(3, &players, &display, true));
-				else if(cpu2selected == MARIO) players.push_back(new Mario(3, &players, &display, true));
-				else if(cpu2selected == IKE) players.push_back(new Ike(3, &players, &display, true));		 
-				else if(cpu2selected == FOX) players.push_back(new Fox(3, &players, &display, true));
-
-				if(cpu3selected == KIRBY) players.push_back(new Kirby(4, &players, &display, true));
-				else if(cpu3selected == MEWTWO) players.push_back(new Mewtwo(4, &players, &display, true));
-				else if(cpu3selected == MARIO) players.push_back(new Mario(4, &players, &display, true));
-				else if(cpu3selected == IKE) players.push_back(new Ike(4, &players, &display, true));		 
-				else if(cpu3selected == FOX) players.push_back(new Fox(4, &players, &display, true));
-			}
-			else players.push_back(new Sandbag(2, &players, &display, true));			
-			
-			return;
-		}
 		if(Stylus.Newpress) {
-// if the screen is touched
-			bool spritetouched = false;
-			for(int n = 0; n < 10; n++) { // through the last character number
-				if(PA_SpriteTouched(n)) {
-					spritetouched = true;
-					if(n-4 == KIRBY) PA_FatPlaySfx("kirby");
-					else if(n-4 == MEWTWO) PA_FatPlaySfx("mewtwo");
-					else if(n-4 == MARIO) PA_FatPlaySfx("mario");
-					else if(n-4 == IKE) PA_FatPlaySfx("ike");
-					else if(n-4 == FOX) PA_FatPlaySfx("fox");
-					// plays a sound byte of the player's name
-					if(selecting == 0) {
-						humanselected = n-4;
-						PA_StartSpriteAnimEx(MAIN_SCREEN, 0, n, n, 1, ANIM_LOOP, -1);
-					}
-					else if(selecting == 1) {
-						cpu1selected = n-4;
-						PA_StartSpriteAnimEx(MAIN_SCREEN, 1, n, n, 1, ANIM_LOOP, -1);
-					}
-					else if(selecting == 2) {
-						cpu2selected = n-4;
-						PA_StartSpriteAnimEx(MAIN_SCREEN, 2, n, n, 1, ANIM_LOOP, -1);
-					}
-					else if(selecting == 3) {
-						cpu3selected = n-4;
-						PA_StartSpriteAnimEx(MAIN_SCREEN, 3, n, n, 1, ANIM_LOOP, -1);
-					}
-// changes the character number of the selecting player to the character 
-// that was clicked and changes the frame of that player's character preview
-// if kirby was clicked, the humanselected/cpu1selected = 1 (or static const int KIRBY)
-// I told you those public variables would come in handy
+			for(int n = 0; n < 4; n++) {
+				if(PA_SpriteTouched(n)) selectedcursor = n;
+			}
+		}
+		else if(Stylus.Held && selectedcursor != -1) {
+			PA_SetSpriteXY(SUB_SCREEN, selectedcursor, Stylus.X-16, Stylus.Y-16);
+		}
+		else if(Stylus.Released && selectedcursor != -1) {
+			int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor)+16;
+			int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor)+16;
+			for(int n = KIRBY; n <= FOX; n++) {
+				if(cx > PA_GetSpriteX(SUB_SCREEN, n+4) && cx < PA_GetSpriteX(SUB_SCREEN, n+4)+64 && cy > PA_GetSpriteY(SUB_SCREEN, n+4) && cy < PA_GetSpriteY(SUB_SCREEN, n+4)+64) {
+					PA_FatPlaySfx(names[n-1]);
 				}
 			}
-			if(!spritetouched) {
-				if(selecting == 0) {
-					humanselected = -1;
-					PA_StartSpriteAnimEx(MAIN_SCREEN, 0, -1, -1, 1, ANIM_LOOP, -1);
+			selectedcursor = -1;
+		}
+		if(Pad.Newpress.Start || Pad.Newpress.A) {
+			int selections[] = {-1, -1, -1, -1};
+			for(int n = 0; n < 4; n++) {
+				int x = PA_GetSpriteX(SUB_SCREEN, n)+16;
+				int y = PA_GetSpriteY(SUB_SCREEN, n)+16;
+				for(int m = KIRBY; m <= FOX; m++) {
+					if(x > PA_GetSpriteX(SUB_SCREEN, m+4) && x < PA_GetSpriteX(SUB_SCREEN, m+4)+64 && y > PA_GetSpriteY(SUB_SCREEN, m+4) && y < PA_GetSpriteY(SUB_SCREEN, m+4)+64) {
+						selections[n] = m;
+					}
 				}
-				else if(selecting == 1) {
-					cpu1selected = -1;
-					PA_StartSpriteAnimEx(MAIN_SCREEN, 1, -1, -1, 1, ANIM_LOOP, -1);
+			}
+			if(selections[0] != -1) {
+				PA_FatPlaySfx("confirm");
+				fadeOut();
+				PA_ResetSpriteSys();
+				PA_FatFreeSprBuffers();
+				for(int n = 0; n < 4; n++) {
+					bool isai = true;
+					if(n == 0) isai = false;
+					if(selections[n] == KIRBY) players.push_back(new Kirby(n+1, &players, &display, isai));
+					else if(selections[n] == MEWTWO) players.push_back(new Mewtwo(n+1, &players, &display, isai));
+					else if(selections[n] == MARIO) players.push_back(new Mario(n+1, &players, &display, isai));
+					else if(selections[n] == IKE) players.push_back(new Ike(n+1, &players, &display, isai));
+					else if(selections[n] == FOX) players.push_back(new Fox(n+1, &players, &display, isai));
 				}
-				else if(selecting == 2) {
-					cpu2selected = -1;
-					PA_StartSpriteAnimEx(MAIN_SCREEN, 2, -1, -1, 1, ANIM_LOOP, -1);
-				}
-				else if(selecting == 3) {
-					cpu3selected = -1;
-					PA_StartSpriteAnimEx(MAIN_SCREEN, 3, -1, -1, 1, ANIM_LOOP, -1);
-				}
-			}	
+				if(selections[1] == -1 && selections[2] == -1 && selections[3] == -1) players.push_back(new Sandbag(2, &players, &display, true));
+				return;
+			}
+			else PA_FatPlaySfx("no");
 		}
 		PA_WaitForVBL();
 	}
