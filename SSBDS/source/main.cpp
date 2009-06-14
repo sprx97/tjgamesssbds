@@ -421,40 +421,23 @@ void characterSelect(bool train = false) {
 	PA_InitText(SUB_SCREEN, 0); // init text on sub screen
 	PA_SetTextCol(SUB_SCREEN, 0,0,0); // text color of black		
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "charsel");
-	PA_FatLoadSprite(0, "charsel");
-	// creates a paleete... see mainMenu() for more details
-	// loads palette with all character selection icons, so it only uses 1 palette for all the sprites
-	PA_CreateSprite(SUB_SCREEN, KIRBY, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 0, 0);
-	// creates a sprite... see mainMenu() 
-	PA_StartSpriteAnimEx(SUB_SCREEN, KIRBY, KIRBY, KIRBY, 1, ANIM_LOOP, -1);
-	// animates a sprite Arguments are:
-	// - screen the sprite is on
-	// - reference number to the sprite
-	// - starting frame of sprite animation
-	// - ending frame of sprite animation
-	// - FPS of animation (doesn't matter in this case b/c it's the same frame the whole time)
-	// - the type of animation, in this casea loop
-	// - how long to loop for (-1 is infinite)	
-	PA_CreateSprite(SUB_SCREEN, MEWTWO, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 64, 0);
-	PA_StartSpriteAnimEx(SUB_SCREEN, MEWTWO, MEWTWO, MEWTWO, 1, ANIM_LOOP, -1);
-	PA_CreateSprite(SUB_SCREEN, MARIO, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
-	PA_StartSpriteAnimEx(SUB_SCREEN, MARIO, MARIO, MARIO, 1, ANIM_LOOP, -1);
-	PA_CreateSprite(SUB_SCREEN, IKE, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
-	PA_StartSpriteAnimEx(SUB_SCREEN, IKE, IKE, IKE, 1, ANIM_LOOP, -1);
-	PA_CreateSprite(SUB_SCREEN, FOX, (void*)sprite_gfx[0], OBJ_SIZE_64X64, COLOR256, 0, 0, 64);
-	PA_StartSpriteAnimEx(SUB_SCREEN, FOX, FOX, FOX, 1, ANIM_LOOP, -1);
-	
-	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);
-	PA_CreateSprite(MAIN_SCREEN, 0, (void*)charprev, OBJ_SIZE_64X64, COLOR256, 0, 0, 128);
-	PA_StartSpriteAnimEx(MAIN_SCREEN, 0, 0, 0, 1, ANIM_LOOP, -1);
-	PA_CreateSprite(MAIN_SCREEN, 1, (void*)charprev, OBJ_SIZE_64X64, COLOR256, 0, 64, 128);
-	PA_StartSpriteAnimEx(MAIN_SCREEN, 1, 0, 0, 1, ANIM_LOOP, -1);
-	PA_CreateSprite(MAIN_SCREEN, 2, (void*) charprev, OBJ_SIZE_64X64, COLOR256, 0, 128, 128);
-	PA_StartSpriteAnimEx(MAIN_SCREEN, 2, 0, 0, 1, ANIM_LOOP, -1);
-	PA_CreateSprite(MAIN_SCREEN, 3, (void*) charprev, OBJ_SIZE_64X64, COLOR256, 0, 192, 128);
-	PA_StartSpriteAnimEx(MAIN_SCREEN, 3, 0, 0, 1, ANIM_LOOP, -1);	
-	// loads and animates character previews on top screen.
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
+	PA_FatLoadSprite(0, "cursors");
+	for(int n = 0; n < 4; n++) {
+		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, (n%2)*224, (n/2)*160);
+		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
+	}
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
+	PA_FatLoadSprite(1, "charsel");
+	for(int n = KIRBY; n <= FOX; n++) {
+		PA_CreateSprite(SUB_SCREEN, 4+n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n-1)%4)*64, ((n-1)/4)*64);
+		PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, n, n, 1, ANIM_LOOP, -1);
+	}
+	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);	
+	for(int n = 0; n < 4; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)charprev, OBJ_SIZE_64X64, COLOR256, 0, 64*n, 128);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
+	}
 
 	PA_FatLoadSfx("ffa", "free_for_all");
 	PA_FatLoadSfx("confirm", "menuconfirm");
@@ -539,26 +522,26 @@ void characterSelect(bool train = false) {
 			for(int n = 0; n < 10; n++) { // through the last character number
 				if(PA_SpriteTouched(n)) {
 					spritetouched = true;
-					if(n == KIRBY) PA_FatPlaySfx("kirby");
-					else if(n == MEWTWO) PA_FatPlaySfx("mewtwo");
-					else if(n == MARIO) PA_FatPlaySfx("mario");
-					else if(n == IKE) PA_FatPlaySfx("ike");
-					else if(n == FOX) PA_FatPlaySfx("fox");
+					if(n-4 == KIRBY) PA_FatPlaySfx("kirby");
+					else if(n-4 == MEWTWO) PA_FatPlaySfx("mewtwo");
+					else if(n-4 == MARIO) PA_FatPlaySfx("mario");
+					else if(n-4 == IKE) PA_FatPlaySfx("ike");
+					else if(n-4 == FOX) PA_FatPlaySfx("fox");
 					// plays a sound byte of the player's name
 					if(selecting == 0) {
-						humanselected = n;
+						humanselected = n-4;
 						PA_StartSpriteAnimEx(MAIN_SCREEN, 0, n, n, 1, ANIM_LOOP, -1);
 					}
 					else if(selecting == 1) {
-						cpu1selected = n;
+						cpu1selected = n-4;
 						PA_StartSpriteAnimEx(MAIN_SCREEN, 1, n, n, 1, ANIM_LOOP, -1);
 					}
 					else if(selecting == 2) {
-						cpu2selected = n;
+						cpu2selected = n-4;
 						PA_StartSpriteAnimEx(MAIN_SCREEN, 2, n, n, 1, ANIM_LOOP, -1);
 					}
 					else if(selecting == 3) {
-						cpu3selected = n;
+						cpu3selected = n-4;
 						PA_StartSpriteAnimEx(MAIN_SCREEN, 3, n, n, 1, ANIM_LOOP, -1);
 					}
 // changes the character number of the selecting player to the character 
@@ -1290,6 +1273,7 @@ void options() {
 	}
 } // options menu, in progress
 void extras() {
+//	AS_MP3StreamPlay("/SSBDS_Files/music/credits.mp3");
 	for(int n = 1; n <= 10; n++) {
 		PA_Init8bitBg(SUB_SCREEN, 3);
 		PA_Init8bitBg(MAIN_SCREEN, 3);
