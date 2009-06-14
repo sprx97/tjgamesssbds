@@ -430,7 +430,7 @@ void characterSelect(bool train = false) {
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
 	PA_FatLoadSprite(1, "charsel");
 	for(int n = KIRBY; n <= FOX; n++) {
-		PA_CreateSprite(SUB_SCREEN, 4+n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n-1)%4)*64, ((n-1)/4)*64);
+		PA_CreateSprite(SUB_SCREEN, 4+n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n-1)%3)*80 + 16, ((n-1)/3)*72);
 		PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, n, n, 1, ANIM_LOOP, -1);
 	}
 	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);	
