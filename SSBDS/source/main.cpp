@@ -429,7 +429,7 @@ void characterSelect(bool train = false) {
 	}
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
 	PA_FatLoadSprite(1, "charsel");
-	for(int n = KIRBY; n <= FOX; n++) {
+	for(int n = KIRBY; n < MAX_CHAR; n++) {
 		PA_CreateSprite(SUB_SCREEN, 4+n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n-1)%3)*80 + 16, ((n-1)/3)*72);
 		PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, n, n, 1, ANIM_LOOP, -1);
 	}
@@ -468,7 +468,7 @@ void characterSelect(bool train = false) {
 		else if(Stylus.Released && selectedcursor != -1) {
 			int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor)+16;
 			int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor)+16;
-			for(int n = KIRBY; n <= FOX; n++) {
+			for(int n = KIRBY; n < MAX_CHAR; n++) {
 				if(cx > PA_GetSpriteX(SUB_SCREEN, n+4) && cx < PA_GetSpriteX(SUB_SCREEN, n+4)+64 && cy > PA_GetSpriteY(SUB_SCREEN, n+4) && cy < PA_GetSpriteY(SUB_SCREEN, n+4)+64) {
 					PA_FatPlaySfx(names[n-1]);
 				}
@@ -480,7 +480,7 @@ void characterSelect(bool train = false) {
 			for(int n = 0; n < 4; n++) {
 				int x = PA_GetSpriteX(SUB_SCREEN, n)+16;
 				int y = PA_GetSpriteY(SUB_SCREEN, n)+16;
-				for(int m = KIRBY; m <= FOX; m++) {
+				for(int m = KIRBY; m < MAX_CHAR; m++) {
 					if(x > PA_GetSpriteX(SUB_SCREEN, m+4) && x < PA_GetSpriteX(SUB_SCREEN, m+4)+64 && y > PA_GetSpriteY(SUB_SCREEN, m+4) && y < PA_GetSpriteY(SUB_SCREEN, m+4)+64) {
 						selections[n] = m;
 					}
