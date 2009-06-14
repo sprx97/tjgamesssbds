@@ -55,11 +55,11 @@ void Fox::initPalettes() {
 }
 // sounds
 void Fox::playsound(int sndnum) {
-	if(sndnum == FSMASH) FatPlaySfx("foxfsmash");
-	if(sndnum == DAIR) FatPlaySfx("foxdair");
-	if(sndnum == JAB) FatPlaySfx("foxjab");
-	if(sndnum == DASHATK) FatPlaySfx("foxdashatk");
-	if(sndnum == UTILT) FatPlaySfx("foxutilt");
+	if(sndnum == SMASHRIGHT || sndnum == SMASHLEFT) PA_FatPlaySfx("foxfsmash");
+	if(sndnum == DAIR) PA_FatPlaySfx("foxdair");
+	if(sndnum == JAB) PA_FatPlaySfx("foxjab");
+	if(sndnum == DASHATTACK) PA_FatPlaySfx("foxdashatk");
+	if(sndnum == UTILT) PA_FatPlaySfx("foxutilt");
 }
 // actions
 void Fox::bside() {
