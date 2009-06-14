@@ -36,7 +36,15 @@ void Fox::initSounds() {
 		if(players[n] -> MYCHAR == MYCHAR) alreadymade++;
 	}
 	if(alreadymade == 0) {
-	
+		PA_FatLoadSfx("foxfsmash", "foxfsmash");
+		PA_FatLoadSfx("foxbup", "foxbup");
+		PA_FatLoadSfx("foxdair", "foxdair");
+		PA_FatLoadSfx("foxjab", "foxjab");
+		PA_FatLoadSfx("foxdashatk", "foxdashatk");
+		PA_FatLoadSfx("foxbdown", "foxbdown");
+		PA_FatLoadSfx("foxbneut", "foxbneut");
+		PA_FatLoadSfx("foxbside", "foxbside");
+		PA_FatLoadSfx("foxutilt", "foxutilt");
 	}
 }
 void Fox::initPalettes() {
@@ -47,7 +55,11 @@ void Fox::initPalettes() {
 }
 // sounds
 void Fox::playsound(int sndnum) {
-
+	if(sndnum == FSMASH) FatPlaySfx("foxfsmash");
+	if(sndnum == DAIR) FatPlaySfx("foxdair");
+	if(sndnum == JAB) FatPlaySfx("foxjab");
+	if(sndnum == DASHATK) FatPlaySfx("foxdashatk");
+	if(sndnum == UTILT) FatPlaySfx("foxutilt");
 }
 // actions
 void Fox::bside() {
