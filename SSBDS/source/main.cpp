@@ -462,6 +462,7 @@ void characterSelect(bool train = false) {
 	PA_FatLoadSfx("mewtwo", "mewtwoname");
 	PA_FatLoadSfx("mario", "marioname");
 	PA_FatLoadSfx("ike", "ikename");
+	PA_FatLoadSfx("fox", "foxname");
 
 	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
 
@@ -542,6 +543,7 @@ void characterSelect(bool train = false) {
 					else if(n == MEWTWO) PA_FatPlaySfx("mewtwo");
 					else if(n == MARIO) PA_FatPlaySfx("mario");
 					else if(n == IKE) PA_FatPlaySfx("ike");
+					else if(n == FOX) PA_FatPlaySfx("fox");
 					// plays a sound byte of the player's name
 					if(selecting == 0) {
 						humanselected = n;
@@ -694,6 +696,7 @@ void displayResults() {
 	PA_FatLoadSfx("mewtwo", "mewtwoname");
 	PA_FatLoadSfx("mario", "marioname");
 	PA_FatLoadSfx("ike", "ikename");
+	PA_FatLoadSfx("fox", "foxname");
 	PA_FatLoadSfx("winneris", "thewinneris");
 	PA_FatLoadSfx("confirm", "menuconfirm");
 	
@@ -741,14 +744,8 @@ void displayResults() {
 		for(int n = 0; n < 80; n++) {
 			PA_WaitForVBL();
 		}
-		if(players[winner] -> name == "kirby") PA_FatPlaySfx("kirby");
-		else if(players[winner] -> name == "mewtwo") PA_FatPlaySfx("mewtwo");
-		else if(players[winner] -> name == "mario") PA_FatPlaySfx("mario");
-		else if(players[winner] -> name == "ike") PA_FatPlaySfx("ike");
-						
-		for(int n = 0; n < 60; n++) {
-			PA_WaitForVBL();
-		}
+		PA_FatPlaySfx((players[winner]->name).c_str());
+		for(int n = 0; n < 60; n++) PA_WaitForVBL();
 	} // plays a sound clip saying ther winner
 
 	while(true) {
