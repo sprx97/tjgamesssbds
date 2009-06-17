@@ -495,6 +495,7 @@ void characterSelect(bool train = false) {
 				fadeOut();
 				PA_ResetSpriteSys();
 				PA_FatFreeSprBuffers();
+				PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);				
 				for(int n = 0; n < 4; n++) {
 					bool isai = true;
 					if(n == 0) isai = false;
