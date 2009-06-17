@@ -68,10 +68,9 @@ void Fox::bside() {
 	if(action != BSIDE) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 118, 120, 20, ANIM_LOOP, -1);
 		delay = 60/20 * 3;
-		y -= 1;
-		aerial = true;
-		dy = -gravity;
-		dy = fastfall = DI = 0;
+		if(aerial) dy = -gravity;
+		else dy = 0;
+		ymomentum = fastfall = DI = 0;
 		setDirection();
 		action = BSIDE;
 	}
@@ -81,13 +80,15 @@ void Fox::bside() {
 		PA_FatPlaySfx("foxbside");
 		if(direction == RIGHT) dx = 20;
 		else dx = -20;
-		dy = -gravity;
+		if(aerial) dy = -gravity;
+		else dy = 0;
 	}
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 121) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 122, 123, 15, ANIM_LOOP, -1);
 		delay = 60/15 * 2;
 		dx = 0;
-		dy = -gravity;
+		if(aerial) dy = -gravity;
+		else dy = 0;
 	}
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 123) {
 		if(!checkFloorCollision()) fall();
@@ -98,10 +99,9 @@ void Fox::bup() {
 	if(action != BUP) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 124, 126, 15, ANIM_LOOP, -1);
 		delay = 60/15 * 3 * 5;
-		y -= 1;
-		aerial = true;
-		dy = -gravity;
-		dx = DI = fastfall = 0;
+		if(aerial) dy = -gravity;
+		else dy = 0;
+		ymomentum = dx = DI = fastfall = 0;
 		upcount = downcount = leftcount = rightcount = 0;
 		action = BUP;
 		setDirection();
@@ -117,6 +117,12 @@ void Fox::bup() {
 		else PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 0);		
 		PA_FatPlaySfx("foxbup");
 		aerial = true;
+	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129 && delay == 1) {
+		upcount = downcount = rightcount = leftcount = 0;
+		PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 0);
+		if(!checkFloorCollision()) fall();
+		else idle();
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 127 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 128 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129) {
 		x += (rightcount-leftcount)*10 / 15;
@@ -136,12 +142,7 @@ void Fox::bup() {
 			if(x < mainfloor.x) rightcount += 1;
 		}
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129 && delay == 1) {
-		upcount = downcount = rightcount = leftcount = 0;
-		PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 0);
-		if(!checkFloorCollision()) fall();
-		else idle();
-	}
+
 	if(upcount > 10) upcount = 10;
 	if(downcount > 10) downcount = 10;
 	if(rightcount > 10) rightcount = 10;
