@@ -468,11 +468,15 @@ void characterSelect(bool train = false) {
 		else if(Stylus.Released && selectedcursor != -1) {
 			int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor)+16;
 			int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor)+16;
+			bool onchar = false;
 			for(int n = KIRBY; n < MAX_CHAR; n++) {
 				if(cx > PA_GetSpriteX(SUB_SCREEN, n+4) && cx < PA_GetSpriteX(SUB_SCREEN, n+4)+64 && cy > PA_GetSpriteY(SUB_SCREEN, n+4) && cy < PA_GetSpriteY(SUB_SCREEN, n+4)+64) {
 					PA_FatPlaySfx(names[n-1]);
+					onchar = true;
+					PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, n, n, 1, ANIM_LOOP, -1);
 				}
 			}
+			if(!onchar) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
 			selectedcursor = -1;
 		}
 		if(Pad.Newpress.Start || Pad.Newpress.A) {

@@ -24,6 +24,7 @@ Fox::Fox(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	leftside = 25;
 	gravity = 2.5;
 	jumpmax = 2;
+	upcount = downcount = leftcount = rightcount = 0;
 	initPalettes();
 	initFrames();
 	initSprite();
@@ -63,10 +64,67 @@ void Fox::playsound(int sndnum) {
 }
 // actions
 void Fox::bside() {
-
+	if(action != BSIDE) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 118, 120, 20, ANIM_LOOP, -1);
+		delay = 60/20 * 3;
+		y -= 1;
+		aerial = true;
+		dy = -gravity;
+		dy = fastfall = DI = 0;
+		setDirection();
+		action = BSIDE;
+	}
+	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 120) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 121, 121, 20, ANIM_LOOP, -1);
+		delay = 60/20 * 5;
+		PA_FatPlaySfx("foxbside");
+		if(direction == RIGHT) dx = 8;
+		else dx = -8;
+	}
+	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 121) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 122, 123, 20, ANIM_LOOP, -1);
+		delay = 60/20 * 2;
+	}
 }
 void Fox::bup() {
-
+	if(action != BUP) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 124, 126, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 3 * 5;
+		y -= 1;
+		aerial = true;
+		dy = -gravity;
+		dx = DI = fastfall = 0;
+		upcount = downcount = leftcount = rightcount = 0;
+		action = BUP;
+		setDirection();
+	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 126 && delay == 1) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 127, 129, 10, ANIM_LOOP, -1);
+		delay = 60/10 * 3;
+		aerial = true;
+	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 127 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 128 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129) {
+		x += (rightcount-leftcount)*10;
+		y += (downcount-upcount)*10;
+	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM == 125) || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 126) {
+		if(!isCPU) {
+			if(Pad.Held.Up) upcount += 1;
+			if(Pad.Held.Down) downcount += 1;
+			if(Pad.Held.Right) rightcount += 1;
+			if(Pad.Held.Left) leftcount += 1;
+		}
+		else {
+			Floor mainfloor = stage -> getFloors()[0];
+			if(y > mainfloor.y) upcount += 1;
+			if(x > mainfloor.x + mainfloor.length) leftcount += 1;
+			if(x < mainfloor.x) rightcount += 1;
+		}
+	}
+	if(upcount > 10) upcount = 10;
+	if(downcount > 10) downcount = 10;
+	if(rightcount > 10) rightcount = 10;
+	if(leftcount > 10) leftcount = 10;
 }
 void Fox::bdown() {
 
