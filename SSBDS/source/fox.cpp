@@ -3,6 +3,7 @@
 #include "display.h"
 #include "projectiles.h"
 #include <PA9.h>
+#include <math.h>
 #include <vector>
 using std::vector;
 
@@ -76,14 +77,21 @@ void Fox::bside() {
 	}
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 120) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 121, 121, 20, ANIM_LOOP, -1);
-		delay = 60/20 * 5;
+		delay = 60/20 * 2;
 		PA_FatPlaySfx("foxbside");
-		if(direction == RIGHT) dx = 8;
-		else dx = -8;
+		if(direction == RIGHT) dx = 20;
+		else dx = -20;
+		dy = -gravity;
 	}
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 121) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 122, 123, 20, ANIM_LOOP, -1);
-		delay = 60/20 * 2;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 122, 123, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 2;
+		dx = 0;
+		dy = -gravity;
+	}
+	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 123) {
+		if(!checkFloorCollision()) fall();
+		else idle();
 	}
 }
 void Fox::bup() {
@@ -101,13 +109,20 @@ void Fox::bup() {
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 126 && delay == 1) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 127, 129, 10, ANIM_LOOP, -1);
 		delay = 60/10 * 3;
+		int ydiff = (downcount-upcount);
+		int xdiff = (rightcount-leftcount);
+		if(xdiff > 0) setDirection(RIGHT);
+		else setDirection(LEFT);
+		if(ydiff > 0) PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 1);
+		else PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 0);		
+		PA_FatPlaySfx("foxbup");
 		aerial = true;
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 127 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 128 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129) {
-		x += (rightcount-leftcount)*10;
-		y += (downcount-upcount)*10;
+		x += (rightcount-leftcount)*10 / 15;
+		y += (downcount-upcount)*10 / 15;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM == 125) || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 126) {
+	else if(delay < 40 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM == 125) || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 126)) {
 		if(!isCPU) {
 			if(Pad.Held.Up) upcount += 1;
 			if(Pad.Held.Down) downcount += 1;
@@ -120,6 +135,12 @@ void Fox::bup() {
 			if(x > mainfloor.x + mainfloor.length) leftcount += 1;
 			if(x < mainfloor.x) rightcount += 1;
 		}
+	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129 && delay == 1) {
+		upcount = downcount = rightcount = leftcount = 0;
+		PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 0);
+		if(!checkFloorCollision()) fall();
+		else idle();
 	}
 	if(upcount > 10) upcount = 10;
 	if(downcount > 10) downcount = 10;
