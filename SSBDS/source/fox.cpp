@@ -117,6 +117,7 @@ void Fox::bup() {
 		else PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 0);		
 		PA_FatPlaySfx("foxbup");
 		aerial = true;
+		dy = -gravity;
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129 && delay == 1) {
 		upcount = downcount = rightcount = leftcount = 0;
@@ -149,7 +150,39 @@ void Fox::bup() {
 	if(leftcount > 10) leftcount = 10;
 }
 void Fox::bdown() {
-
+	if(action != BDOWN) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 114, 114, 20, ANIM_LOOP, -1);
+		delay = 60/20 * 1;
+		dx = 0;
+		if(aerial) dy = -gravity/2;
+		else dy = 0;
+		ymomentum = fastfall = DI = 0;
+		PA_FatPlaySfx("foxbdown");
+		setDirection();
+		action = BDOWN;
+	}
+	else if(delay == 1 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 114 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 117)) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 115, 117, 20, ANIM_LOOP, -1);
+		delay = 60/20 * 3;
+		CAPE = true;
+		dx = 0;
+		ymomentum = fastfall = DI = 0;
+		if(aerial) dy = -gravity/2;
+		else dy = 0;
+		setDirection();
+	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 114 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 115 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 116 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 117) {
+		dx = 0;
+		ymomentum = fastfall = DI = 0;
+		if(aerial) dy = -gravity/2;
+		else dy = 0;
+		setDirection();
+	}
+	if(custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
+		CAPE = false;
+		if(checkFloorCollision()) idle();
+		else fall();
+	}
 }
 void Fox::bneut() {
 
@@ -161,7 +194,6 @@ void Fox::bthrow() {
 
 }
 void Fox::uthrow() {
-
 
 }
 void Fox::dthrow() {
