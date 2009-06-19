@@ -32,7 +32,7 @@ ADD_LIBS +=
 
 TEXT1 	:= SSBDS - LAN
 TEXT2 	:= Jeremy Vercillo of TJGames
-TEXT3 	:= Don't run this.
+TEXT3 	:= 
 ICON 	:= -b $(CURDIR)/../logo.bmp
 
 #---------------------------------------------------------------------------------

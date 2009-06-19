@@ -1340,13 +1340,11 @@ int main(int argc, char ** argv) {
 
 	if(!EFS_Init(EFS_AND_FAT | EFS_DEFAULT_DEVICE, NULL)) {
 		PA_OutputText(0, 1, 1, "EFS init error !!!");
-		return 1;
+		while(true) {}
 	}
 	PA_FatInitAllBuffers(); // Initialize all the memory buffers
 	PA_FatSetBasePath("SSBDS_Files");  // Set a base path
 	// initializes external file system. very important!!!
-
-
 
 	fadeOut();
 

@@ -37,7 +37,6 @@ using namespace std;
 
 char senddata[10];
 int playernum = -1;
-bool received = false;
 
 //Global variables and definitions for what they mean:
 #define CAMERATYPE_FOLLOWUSER 0
@@ -189,6 +188,27 @@ bool custom_action(int action, int typecheck) {
 	return false;
 } // takes action and checks if it is done by custom controls
 
+char* gifbuffer = NULL; // the array which stores the gif being printed
+void openGif(int screen, string path) {
+	delete gifbuffer; // clears the gif buffer
+	FILE* imgFile = fopen (path.c_str(), "rb"); // opens the file at path for reading	
+	if(imgFile) {
+		u32 imgSize;
+		fseek (imgFile, 0 , SEEK_END);
+		imgSize = ftell (imgFile);
+		rewind (imgFile);
+		// obtains file size
+	
+		gifbuffer = NULL;
+		gifbuffer = (char*) malloc (sizeof(char)*imgSize);
+		fread (gifbuffer, 1, imgSize, imgFile);
+		// allocate memory to store the image file
+	
+		fclose (imgFile); // close the file
+		PA_LoadGif(screen, (void *)gifbuffer); // Show gif on screen
+	} // loads the gif if the image file exists
+} // opens the gif at path onto screen
+
 void fadeOut() {
    	for(int i = 0; i >= -31; i--) {
 		PA_SetBrightness(MAIN_SCREEN, i);
@@ -294,26 +314,31 @@ void customVBL(void) {
 	AS_SoundVBL();
 }
 
-void receive(unsigned char *data, int length, LPLOBBY_USER from) {
-	received = true;
-	PA_SetSpriteXY(MAIN_SCREEN, players[0] -> SPRITENUM, data[0], data[1]);
-	PA_SetSpriteAnimFrame(MAIN_SCREEN, players[0] -> SPRITENUM, data[2]);
-}
+void Receive(unsigned char *data, int length, LPLOBBY_USER from) {
 
-void LANGame() {
+}
+void characterSelectLAN() {
 	fadeIn();
+
 	PA_InitText(MAIN_SCREEN, 0);
-	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);	
-	PA_OutputText(MAIN_SCREEN, 0, 0, "LAN game began");
+	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);
+	PA_OutputText(MAIN_SCREEN, 0, 0, "Starting LAN game.");
+	PA_OutputText(MAIN_SCREEN, 1, 1, "Press Start to host.");
+	PA_OutputText(MAIN_SCREEN, 1, 2, "Press Select to join");
+	
 	while(playernum == -1) {
 		if(Pad.Newpress.Start) {
-			PA_OutputText(MAIN_SCREEN, 0, 1, "You are player 0, the host");
+			PA_OutputText(MAIN_SCREEN, 0, 1, "                                 ");
+			PA_OutputText(MAIN_SCREEN, 0, 2, "                                 ");
+			PA_OutputText(MAIN_SCREEN, 0, 1, "You are the host.");
 			playernum = 0;
 			LOBBY_SetOwnName("Host");
 			LOBBY_CreateRoom(ROOM_NAME, MAX_PLAYERS, GAME_CODE, GAME_VER);
 		}
 		else if(Pad.Newpress.Select) {
-			PA_OutputText(MAIN_SCREEN, 0, 1, "You are player 1, the client");
+			PA_OutputText(MAIN_SCREEN, 0, 1, "                                 ");
+			PA_OutputText(MAIN_SCREEN, 0, 2, "                                 ");
+			PA_OutputText(MAIN_SCREEN, 0, 1, "You are the client.");
 			playernum = 1;
 			LOBBY_SetOwnName("Client");
 			LOBBY_JoinRoom(LOBBY_GetRoomByGame(0, GAME_CODE));
@@ -321,26 +346,10 @@ void LANGame() {
 		PA_WaitForVBL();
 	}
 	PA_OutputText(MAIN_SCREEN, 0, 2, "Waiting for more players");
-	while(LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))) != 2) {
-		PA_WaitForVBL();
-	}
-	PA_OutputText(MAIN_SCREEN, 0, 3, "Opponent found!");
-	players.push_back(new Kirby(1, &players, &display));
-	Stage stage = setStage(FINALDESTINATION);
+	while(LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))) != 2) PA_WaitForVBL();
+	PA_OutputText(MAIN_SCREEN, 0, 3, "Opponent(s) found!");
 	
 	while(true) {
-		if(playernum == 0) {
-			players[0] -> act();
-			senddata[0] = (int)(players[0] -> x);
-			senddata[1] = (int)(players[0] -> y);
-			senddata[2] = (int)(PA_GetSpriteAnimFrame(MAIN_SCREEN, players[0]->SPRITENUM));
-			LOBBY_SendToUser(LOBBY_GetUserByID(0), 0x0001, (unsigned char*)senddata, 10);
-		}
-		else if(playernum == 1) {
-			while(!received) {}
-			received = false;
-		}
-		scrollScreen();
 		PA_WaitForVBL();
 	}
 }
@@ -351,38 +360,32 @@ int main(int argc, char ** argv) {
 
 	defaultExceptionHandler();
 
-	if(!fatInitDefault()) {
-		PA_InitText(MAIN_SCREEN, 0);
-		PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);
-		PA_OutputText(MAIN_SCREEN, 0, 0, "FAT INIT FAILED!!!");
-		while(true) {}
-	} // Init for libfat. if it fails it freezes with an error
-	PA_FatInitAllBuffers(); // Initialize all the memory buffers
-	PA_FatSetBasePath("SSBDS_Files");  // Set a base path
-	// initializes external file system. very important!!!
-
-	fadeOut();
-
-	PA_VBLFunctionInit(AS_SoundVBL); // easy way to make sure that AS_SoundVBL() is called every frame
-    AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
-	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
-	AS_SetMP3Loop(true);
-	// required both for MP3 and Sound
-
+	PA_VBLFunctionInit(customVBL);
 	if(!IPC_Init()) {
 		PA_OutputText(MAIN_SCREEN, 0, 0, "IPC INIT FAILED");
 		while(true) {}
 	}
 	IPC_SetChannelCallback(0, &LWIFI_IPC_Callback);
-	PA_VBLFunctionInit(customVBL);
-	// inits/preps DS <-> DS	
-			
 	LOBBY_Init();
-	LOBBY_SetStreamHandler(0x0001, &receive);
+	// inits/preps DS <-> DS	
+
+	LOBBY_SetStreamHandler(0x0001, &Receive);
+
+	if(!EFS_Init(EFS_AND_FAT | EFS_DEFAULT_DEVICE, NULL)) {
+		PA_OutputText(0, 1, 1, "EFS init error !!!");
+		while(true) {}
+	}
+	PA_FatInitAllBuffers(); // Initialize all the memory buffers
+	PA_FatSetBasePath("SSBDS_Files");  // Set a base path
+
+	fadeOut();
+
+	AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
+	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
+	AS_SetMP3Loop(true);
+	// required both for MP3 and Sound
 
 	// Infinite loop to keep the program running
-	while (1) {
-		LANGame();
-	}
+	while (1) characterSelectLAN();
 	return 0;
 } // End of main()
