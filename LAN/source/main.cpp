@@ -324,7 +324,7 @@ void characterSelectLAN() {
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);
 	PA_OutputText(MAIN_SCREEN, 0, 0, "Starting LAN game.");
 	PA_OutputText(MAIN_SCREEN, 1, 1, "Press Start to host.");
-	PA_OutputText(MAIN_SCREEN, 1, 2, "Press Select to join");
+	PA_OutputText(MAIN_SCREEN, 1, 2, "Press Select to join.");
 	
 	while(playernum == -1) {
 		if(Pad.Newpress.Start) {
@@ -345,7 +345,7 @@ void characterSelectLAN() {
 		}
 		PA_WaitForVBL();
 	}
-	PA_OutputText(MAIN_SCREEN, 0, 2, "Waiting for more players");
+	PA_OutputText(MAIN_SCREEN, 0, 2, "Waiting for more players.");
 	while(LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))) != 2) PA_WaitForVBL();
 	PA_OutputText(MAIN_SCREEN, 0, 3, "Opponent(s) found!");
 	
@@ -362,7 +362,7 @@ int main(int argc, char ** argv) {
 
 	PA_VBLFunctionInit(customVBL);
 	if(!IPC_Init()) {
-		PA_OutputText(MAIN_SCREEN, 0, 0, "IPC INIT FAILED");
+		PA_OutputText(MAIN_SCREEN, 0, 0, "IPC INIT FAILED!!!");
 		while(true) {}
 	}
 	IPC_SetChannelCallback(0, &LWIFI_IPC_Callback);
@@ -372,7 +372,7 @@ int main(int argc, char ** argv) {
 	LOBBY_SetStreamHandler(0x0001, &Receive);
 
 	if(!EFS_Init(EFS_AND_FAT | EFS_DEFAULT_DEVICE, NULL)) {
-		PA_OutputText(0, 1, 1, "EFS init error !!!");
+		PA_OutputText(0, 1, 1, "EFS init error!!!");
 		while(true) {}
 	}
 	PA_FatInitAllBuffers(); // Initialize all the memory buffers
