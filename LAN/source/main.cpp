@@ -315,9 +315,52 @@ void customVBL(void) {
 }
 
 void Receive(unsigned char *data, int length, LPLOBBY_USER from) {
-
+	// process info from other DSes
 }
 void characterSelectLAN() {
+	PA_Init8bitBg(SUB_SCREEN, 3);
+	openGif(SUB_SCREEN, "SSBDS_Files/gifs/defaut.gif");
+	
+	PA_Init8bitBg(MAIN_SCREEN, 3);
+	openGif(MAIN_SCREEN, "SSBDS_Files/gifs/default.gif");
+	
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
+	PA_FatLoadSprite(0, "cursors");
+	for(int n = 0; n < 4; n++) {
+		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*64 + 16, 160);
+		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
+	}
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
+	PA_FatLoadSprite(1, "charsel");
+	for(int n = KIRBY; n < MAX_CHAR; n++) {
+		PA_CreateSprite(SUB_SCREEN, 4+n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n-1)%3)*80 + 16, ((n-1)/3)*72);
+		PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, n, n, 1, ANIM_LOOP, -1); 
+	}
+	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);
+	for(int n = 0; n < 4; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)charprev, OBJ_SIZE_64X64, COLOR256, 0, 64*n, 128);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
+	}
+
+	fadeIn();
+
+	int selectedcursor = -1;
+	while(true) {
+		if(Stylus.Newpress) {
+			for(int n = 0; n < 4; n++) {
+				if(PA_SpriteTouched(n) && (n == playernum || n >= LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))))) selectedcursor = n;
+			}
+		}
+		else if(Stylus.Held && selectedcursor != -1) {
+			PA_SetSpriteXY(SUB_SCREEN, selectedcursor, Stylus.X-16, Stylus.Y-16);
+			// send info to other DSes
+		}
+		// Other selection functions
+
+		PA_WaitForVBL();
+	}
+}
+void LANgame() {
 	fadeIn();
 
 	PA_InitText(MAIN_SCREEN, 0);
@@ -348,10 +391,10 @@ void characterSelectLAN() {
 	PA_OutputText(MAIN_SCREEN, 0, 2, "Waiting for more players.");
 	while(LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))) != 2) PA_WaitForVBL();
 	PA_OutputText(MAIN_SCREEN, 0, 3, "Opponent(s) found!");
+
+	fadeOut();
 	
-	while(true) {
-		PA_WaitForVBL();
-	}
+	characterSelectLAN();
 }
 
 int main(int argc, char ** argv) {
@@ -386,6 +429,6 @@ int main(int argc, char ** argv) {
 	// required both for MP3 and Sound
 
 	// Infinite loop to keep the program running
-	while (1) characterSelectLAN();
+	while (1) LANgame();
 	return 0;
 } // End of main()

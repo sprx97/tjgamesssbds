@@ -8,6 +8,10 @@
 /// Joining us from Star Fox, Fox McCloud is a fighter who isn't afraid to draw his gun.
 class Fox: public Fighter {
 	public:
+		int upcount;
+		int downcount;
+		int leftcount;
+		int rightcount;
 		// constructor
 		Fox(int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false);
 		// initializes all of the variables

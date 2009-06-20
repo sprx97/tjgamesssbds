@@ -67,6 +67,7 @@ class Fighter {
 		int momentumtime;
 		int charnum;
 		string name;
+		string series;
 		vector<int> startframes;
 		vector<int> endframes;
 		vector<int> framespeeds;
@@ -82,7 +83,7 @@ class Fighter {
 		void initAtkbox();
 		void initSprite();
 		int cpu_getTarget();
-		void obeyRules();
+		void cpu_obeyRules();
 		virtual void actCPU();
 		virtual void act();
 		void actAir();

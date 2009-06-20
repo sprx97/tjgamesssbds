@@ -19,6 +19,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	shadowballcharge = 0;
 	upcount = downcount = leftcount = rightcount = 0;
 	MYCHAR = MEWTWO;
+	series = "pokemon";
 	topside = 8;
 	bottomside = 52;
 	rightside = 44;
@@ -78,7 +79,7 @@ void Mewtwo::bside() {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 137, 141, 10, ANIM_LOOP, -1);
 		delay = 60/10 * 5;
 	}
-	else if(custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
+	if(custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
 		if(checkFloorCollision()) idle();
 		else fall();
 	}

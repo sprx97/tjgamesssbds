@@ -415,12 +415,6 @@ void characterSelect(bool train = false) {
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// opens the gif from the path on the main screen
 	
-	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
-	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
-
-	PA_InitText(SUB_SCREEN, 0); // init text on sub screen
-	PA_SetTextCol(SUB_SCREEN, 0,0,0); // text color of black		
-
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
 	PA_FatLoadSprite(0, "cursors");
 	for(int n = 0; n < 4; n++) {

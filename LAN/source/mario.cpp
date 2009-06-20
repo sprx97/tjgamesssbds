@@ -18,6 +18,7 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	handy = 19;
 	fluddcharge = 0;
 	MYCHAR = MARIO;
+	series = "mariobros";
 	topside = 17;
 	bottomside = 47;
 	rightside = 39;

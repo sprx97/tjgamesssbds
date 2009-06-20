@@ -17,6 +17,7 @@ Sandbag::Sandbag(int num, vector<Fighter*> *listplayers, Display *disp, bool AI)
 	handx = 0;
 	handy = 0;
 	MYCHAR = SANDBAG;
+	series = "smashbros";
 	topside = 6;
 	bottomside = 47;
 	rightside = 44;

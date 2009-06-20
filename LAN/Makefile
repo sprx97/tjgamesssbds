@@ -44,8 +44,8 @@ ICON 	:= -b $(CURDIR)/../logo.bmp
 
 TARGET		:= $(shell basename $(CURDIR))
 BUILD		:= build
-SOURCES		:= gfx source data
-INCLUDES	:= include build data
+SOURCES		:= source 
+INCLUDES	:= include build 
 
 #---------------------------------------------------------------------------------
 # If you need to change other parts of the make process, see the PA_Makefile:
