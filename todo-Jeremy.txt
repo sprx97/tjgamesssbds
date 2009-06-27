@@ -14,6 +14,7 @@ Minor Goals:
 - Offload some methods from main to global
 	- class for custom controls
 	- class for screen functions (scroll, fade, flash)
+- credits for stage images
 
 Ongoing Goals:
 - Better AI
@@ -24,4 +25,4 @@ Bugs:
 - Sloped Stages don't work
 - AI Bups are glitchy
 - LAN nds file doesn't bootload
-- sprites don't show on emulator
+- FAT sprites don't show on emulator
