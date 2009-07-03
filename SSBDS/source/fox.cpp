@@ -94,7 +94,6 @@ void Fox::bside() {
 		if(!checkFloorCollision()) fall();
 		else idle();
 	}
-	if(checkLedgeCollision()) hang();
 }
 void Fox::bup() {
 	if(action != BUP) {
@@ -148,7 +147,6 @@ void Fox::bup() {
 	if(downcount > 10) downcount = 10;
 	if(rightcount > 10) rightcount = 10;
 	if(leftcount > 10) leftcount = 10;
-	if(checkLedgeCollision()) hang();
 }
 void Fox::bdown() {
 	if(action != BDOWN) {
