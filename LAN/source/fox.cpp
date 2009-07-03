@@ -15,8 +15,8 @@ Fox::Fox(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	doublejumpspeed = 5;
 	shieldstr = 64;
 	runspeed = 5;
-	handx = 42;
-	handy = 11;
+	handx = 12;
+	handy = 4;
 	MYCHAR = FOX;
 	series = "starfox";
 	topside = 10;
@@ -94,6 +94,7 @@ void Fox::bside() {
 		if(!checkFloorCollision()) fall();
 		else idle();
 	}
+	if(checkLedgeCollision()) hang();
 }
 void Fox::bup() {
 	if(action != BUP) {
@@ -143,11 +144,11 @@ void Fox::bup() {
 			if(x < mainfloor.x) rightcount += 1;
 		}
 	}
-
 	if(upcount > 10) upcount = 10;
 	if(downcount > 10) downcount = 10;
 	if(rightcount > 10) rightcount = 10;
 	if(leftcount > 10) leftcount = 10;
+	if(checkLedgeCollision()) hang();
 }
 void Fox::bdown() {
 	if(action != BDOWN) {
