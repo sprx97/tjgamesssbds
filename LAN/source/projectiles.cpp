@@ -40,6 +40,9 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 	if(TYPE == IKESWORD) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 18, 24, 20, ANIM_LOOP, -1);
 	}
+	if(TYPE == FOXLASER) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 25, 25, 20, ANIM_LOOP, -1);
+	}
 }
 bool Projectile::act() {
 	x += dx;

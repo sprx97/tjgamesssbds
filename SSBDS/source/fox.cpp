@@ -184,7 +184,28 @@ void Fox::bdown() {
 	}
 }
 void Fox::bneut() {
-
+	if(action != BNEUT) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 110, 110, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 1;
+		action = BNEUT;
+	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 110 && delay == 1) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 111, 113, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 3;
+		PA_FatPlaySfx("foxbneut");
+		int directionmodifier = 1;
+		if(direction == RIGHT) directionmodifier = -1;
+		Hitbox tempbox;
+		tempbox.addCircle(createAtkbox(17, 32, 1, Knockback(0, 0, 0), 1));
+		tempbox.addCircle(createAtkbox(46, 32, 1, Knockback(0, 0, 0), 1));
+		Projectile p = Projectile(x, y, -10*directionmodifier, 0, 200, FOXLASER, charnum, tempbox, stage, display);
+		((vector<Projectile>*)getProj())->push_back(p);
+	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 113 && delay == 1) {
+		if(checkFloorCollision()) idle();
+		else fall();
+	}
+	else if(aerial && checkFloorCollision()) dy = 0;
 }
 void Fox::fthrow() {
 

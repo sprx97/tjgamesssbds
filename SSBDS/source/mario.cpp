@@ -172,7 +172,6 @@ void Mario::bneut() {
 		else fall();
 	}
 	else if(aerial && checkFloorCollision()) dy = 0;
-	else {}
 }
 void Mario::fthrow() {
 	if(action != FTHROW) {

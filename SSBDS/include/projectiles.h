@@ -8,7 +8,7 @@
 #include <vector>
 using std::vector;
 
-static const int SHADOWBALL_SMALL = 0, SHADOWBALL_MEDIUM = 1, SHADOWBALL_LARGE = 2, FINALCUTTER = 3, FIREBALL = 4, FLUDDWATER = 5, IKESWORD = 6;
+static const int SHADOWBALL_SMALL = 0, SHADOWBALL_MEDIUM = 1, SHADOWBALL_LARGE = 2, FINALCUTTER = 3, FIREBALL = 4, FLUDDWATER = 5, IKESWORD = 6, FOXLASER = 7;
 // shortcuts for projectiles
 
 /// Keeps track of anything flying/moving that isn't a Fighter
