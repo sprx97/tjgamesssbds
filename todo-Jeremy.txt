@@ -15,6 +15,7 @@ Minor Goals:
 	- class for custom controls
 	- class for screen functions (scroll, fade, flash)
 - credits for stage images
+- Fox's lasers (multiple projectile sprites per char)
 
 Ongoing Goals:
 - Better AI

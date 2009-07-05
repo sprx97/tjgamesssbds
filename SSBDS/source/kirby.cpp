@@ -374,9 +374,8 @@ void Kirby::dthrow() {
 	}
 }
 void Kirby::jaywalk() {
-	int frame = PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM);
-	if(frame == 82 && direction == RIGHT) x += 8;
-	if(frame == 82 && direction == LEFT) x -= 8;
+	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 82 && direction == RIGHT) x += 8;
+	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 82 && direction == LEFT) x -= 8;
 }
 Kirby::~Kirby() {
 	allatkbox.clear();
