@@ -217,7 +217,7 @@ void Fighter::cpu_obeyRules(){
 		}
 		if(action == ATTACK && delay <= 0) idle();
 		if(action == SLIDE && delay <= 0) idle();
-		if(action == SLIDE) {
+		if(action == SLIDE || action == CHARGEUP) {
 			if(dx > 0) {
 				dx -= .25;
 				if(dx <= 0) dx = 0;
