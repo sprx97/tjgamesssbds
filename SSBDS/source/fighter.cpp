@@ -1110,8 +1110,8 @@ void Fighter::jab() {
 	playsound(JAB);
 }
 void Fighter::dashAttack() {
-	if(Pad.Held.Left) dx = -1.5;
-	if(Pad.Held.Right) dx = 1.5;
+	if(direction == LEFT) dx = -1.5;
+	if(direction == RIGHT) dx = 1.5;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DASHATTACK], endframes[DASHATTACK], framespeeds[DASHATTACK], ANIM_LOOP, -1);
 	delay = 60/framespeeds[DASHATTACK] * (endframes[DASHATTACK]-startframes[DASHATTACK]+1);
 	action = DASHATTACK;
