@@ -314,8 +314,15 @@ void customVBL(void) {
 	AS_SoundVBL();
 }
 
+LPLOBBY_ROOM LOBBY_GetMyRoom() {
+	return LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF));
+}
+
 void Receive(unsigned char *data, int length, LPLOBBY_USER from) {
-	// process info from other DSes
+	int spr = (int)data[0];
+	int x = (int)data[1];
+	int y = (int)data[2];
+	PA_SetSpriteXY(MAIN_SCREEN, spr, x, y);
 }
 void characterSelectLAN() {
 	PA_Init8bitBg(SUB_SCREEN, 3);
@@ -348,12 +355,15 @@ void characterSelectLAN() {
 	while(true) {
 		if(Stylus.Newpress) {
 			for(int n = 0; n < 4; n++) {
-				if(PA_SpriteTouched(n) && (n == playernum || n >= LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))))) selectedcursor = n;
+				if(PA_SpriteTouched(n) && (n == playernum || n >= LOBBY_GetUsercountInRoom(LOBBY_GetMyRoom()))) selectedcursor = n;
 			}
 		}
 		else if(Stylus.Held && selectedcursor != -1) {
 			PA_SetSpriteXY(SUB_SCREEN, selectedcursor, Stylus.X-16, Stylus.Y-16);
-			// send info to other DSes
+			senddata[0] = (char)selectedcursor;
+			senddata[1] = (char)(Stylus.X-16);
+			senddata[2] = (char)(Stylus.Y-16);
+			LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0001, (unsigned char*)senddata, 10);
 		}
 		// Other selection functions
 
@@ -389,7 +399,7 @@ void LANgame() {
 		PA_WaitForVBL();
 	}
 	PA_OutputText(MAIN_SCREEN, 0, 2, "Waiting for more players.");
-	while(LOBBY_GetUsercountInRoom(LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF))) != 2) PA_WaitForVBL();
+	while(LOBBY_GetUsercountInRoom(LOBBY_GetMyRoom()) != 2) PA_WaitForVBL();
 	PA_OutputText(MAIN_SCREEN, 0, 3, "Opponent(s) found!");
 
 	fadeOut();
