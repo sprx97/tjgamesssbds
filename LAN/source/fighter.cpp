@@ -688,6 +688,7 @@ void Fighter::act() {
 				hangtime = 0;
 				ledgewait = 60;
 				myledge = -1;
+				jumpcount = 1;
 				fall();
 			}
 			else if(Pad.Newpress.Right || Pad.Newpress.Left) {
@@ -900,11 +901,6 @@ void Fighter::uthrow() {}
 void Fighter::dthrow() {}
 void Fighter::bthrow() {}
 void Fighter::fthrow() {}
-/*
-void Fighter::doAction(int actn) {
-	// all actions in one method	
-}
-*/
 void Fighter::release(int dir) {
 	action = RELEASE;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
