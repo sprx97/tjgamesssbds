@@ -1,6 +1,0 @@
-				if(frame == 41) {
-					tempbox.addCircle(Circle(55.5, 2656%64, 0.0));
-				}
-				if(frame == 208) {
-					tempbox.addCircle(Circle(49.5, 13347%64, 4.0));
-				}

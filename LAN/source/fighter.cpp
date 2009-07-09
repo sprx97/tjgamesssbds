@@ -1331,6 +1331,13 @@ Fighter* Fighter::checkHits(Fighter* other) {
 Hitbox Fighter::getAtkbox() { 
 	Hitbox temp = allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)]; 
 	Hitbox atkbox;
+	if(action == LAND || action == SHIELD || action == ROLL || action == DODGE || action == AIRDODGE || 
+	action == CROUCH || action == FALL || action == IDLE || action == RUN || action == SHORTHOP || 
+	action == JUMP || action == DOUBLEJUMP || action == CHARGELEFT || action == CHARGERIGHT || 
+	action == CHARGEUP || action == CHARGEDOWN || action == STUN || action == SLIDE || action == HANG || 
+	action == GRABBED || action == GRABATK || action == FTHROW || action == BTHROW || action == UTHROW || 
+	action == DTHROW || action == DEAD) 
+		return atkbox; // these actions don't have hitboxes; allows for reusing of sprites for attacking moves and other moves.
 	vector<Circle> circles = temp.getCircles();
 	for(uint8 n = 0; n < circles.size(); n++) {
 		Circle current = circles[n];

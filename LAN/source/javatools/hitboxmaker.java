@@ -135,7 +135,7 @@
       {
          try
          {
-            PrintWriter out = new PrintWriter(new FileWriter("../gfx/Hitboxes/" + charname + "." + atkdef + ".hit"));
+//            PrintWriter out = new PrintWriter(new FileWriter("../gfx/Hitboxes/" + charname + "." + atkdef + ".hit"));
 				PrintWriter simpleout = new PrintWriter(new FileWriter("../gfx/Hitboxes/" + charname + "." + atkdef));
 				for(int n = 0; n < hitboxes.size(); n++)
 					for(int m = 0; m < hitboxes.size(); m++)
@@ -150,17 +150,17 @@
 				for(int n = 0; n < hitboxes.size(); n++)
 				{
 					hitbox next = hitboxes.get(n);
-					simpleout.println(next.frame + "\t" + next.cx + "\t" + next.cy + "\t" + next.radius);
-					if(next.frame != lastframe)
-					{
-						if(lastframe != -1) out.print("\t\t\t\t}\n");
-						out.print("\t\t\t\tif(frame == " + next.frame + ") {\n");
-						lastframe = next.frame;
-					}
-					out.print("\t\t\t\t\ttempbox.addCircle(Circle(" + next.cx + ", " + (int)next.cy + "%64, " + next.radius + "));\n");
+					simpleout.println(next.frame + "\t" + next.cx + "\t" + next.cy + "\t" + next.radius + "\t0\t0\t0\t0\t0");
+//					if(next.frame != lastframe)
+//					{
+//						if(lastframe != -1) out.print("\t\t\t\t}\n");
+//						out.print("\t\t\t\tif(frame == " + next.frame + ") {\n");
+//						lastframe = next.frame;
+//					}
+//					out.print("\t\t\t\t\ttempbox.addCircle(Circle(" + next.cx + ", " + (int)next.cy + "%64, " + next.radius + "));\n");
 				}
-				out.print("\t\t\t\t}\n");
-            out.close();
+//				out.print("\t\t\t\t}\n");
+//            out.close();
 				simpleout.close();
 				JOptionPane.showMessageDialog(null, "Hitboxes saved!");
          }
