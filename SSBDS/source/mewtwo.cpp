@@ -14,8 +14,8 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	doublejumpspeed = 7;
 	shieldstr = 64;
 	runspeed = 4.5;
-	handx = 16;
-	handy = 12;
+	handx = 36;
+	handy = 18;
 	shadowballcharge = 0;
 	upcount = downcount = leftcount = rightcount = 0;
 	MYCHAR = MEWTWO;
@@ -62,33 +62,22 @@ void Mewtwo::playsound(int sndnum) {
 // sounds
 void Mewtwo::initPalettes() {
 	palettes.push_back("mewtwo");
-	palettes.push_back("mewtwoblue");
-	palettes.push_back("mewtwogreen");
-	palettes.push_back("mewtwored");
 }
 // actions
 void Mewtwo::bside() {
 	if(action != BSIDE) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 135, 136, 10, ANIM_LOOP, -1);
-		delay = 60/10 * 2;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 130, 135, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 6;
 		setDirection();
 		dx = 0;
 		action = BSIDE;
 	}
-	else if((PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 141 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 136) && delay == 1) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 137, 141, 10, ANIM_LOOP, -1);
-		delay = 60/10 * 5;
-	}
-	if(custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
-		if(checkFloorCollision()) idle();
-		else fall();
-	}
 }
 void Mewtwo::bup() {
 	if(action != BUP) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 119, 122, 10, ANIM_ONESHOT);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 122, 125, 12, ANIM_ONESHOT);
 		aerial = true;
-		delay = 60/10 * 4;
+		delay = 60/12 * 4;
 		dy = -gravity; // hovers
 		dx = 0;
 		DI = 0;
@@ -97,20 +86,20 @@ void Mewtwo::bup() {
 		action = BUP;
 		setDirection();
 	}
-	else if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122 && delay == 1) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 122, 125, 10, ANIM_ONESHOT);
+	else if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125 && delay == 1) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 126, 129, 12, ANIM_ONESHOT);
 		aerial = true;
-		delay = 60/10 * 4;
+		delay = 60/12 * 4;
 		x += (rightcount-leftcount)*10;
 		y += (downcount-upcount)*10;
 		PA_FatPlaySfx("mewtwobup");
 	}
-	else if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125 && delay == 1) {
+	else if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129 && delay == 1) {
 		upcount = downcount = rightcount = leftcount = 0;
 		if(!checkFloorCollision()) fall();
 		else idle();
 	}
-	if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 120 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 121 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122) {
+	if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 123 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125) {
 		if(!isCPU) {
 			if(Pad.Held.Up) upcount += 1;
 			if(Pad.Held.Down) downcount += 1;
@@ -131,7 +120,7 @@ void Mewtwo::bup() {
 }
 void Mewtwo::bdown() {
 	if(action != BDOWN || (custom_action(ACTION_SPECIAL, PAD_HELD) && delay == 1)) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 145, 10, ANIM_LOOP, -1);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 136, 138, 10, ANIM_LOOP, -1);
 		delay = 60/10 * 3;
 		if(aerial) dy = -gravity/2;
 		dx = 0;
@@ -147,40 +136,51 @@ void Mewtwo::bdown() {
 void Mewtwo::bneut() {
 	if(action != BNEUT) {
 		if(shadowballcharge < 40) {
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 126, 127, 15, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 140, 141, 15, ANIM_LOOP, -1);
 			delay = 60/15 * 2 * 5;
 			dx = 0;
 			action = BNEUT;				
 		}
 		else if(shadowballcharge < 80) {
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 128, 129, 15, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 142, 143, 15, ANIM_LOOP, -1);
 			delay = 60/15 * 2 * 5;
 			dx = 0;
 			action = BNEUT;
 		}
 		else if(shadowballcharge < 120) {
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 130, 131, 15, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 144, 145, 15, ANIM_LOOP, -1);
 			delay = 60/15 * 2 * 5;
 			dx = 0;
 			action = BNEUT;
 		}
 		else if(shadowballcharge == 120) {
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 134, 15, ANIM_LOOP, -1);
-			delay = 60/15 * 3;
-			int directionmodifier = 1;
-			if(direction == RIGHT) directionmodifier = -1;
-			Hitbox tempbox;
-			tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 240));
-			((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage, display));
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 147, 152, 20, ANIM_LOOP, -1);
+			delay = 60/20 * 6;
 			shadowballcharge = 0;
 			action = BNEUT;
 			dx = 0;
 			PA_FatPlaySfx("mewtwobneut");
 		}
 	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 148 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 149 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 150 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 151) {}	
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 147) {
+		if(delay == 1) {
+			int directionmodifier = 1;
+			if(direction == RIGHT) directionmodifier = -1;
+			Hitbox tempbox;
+			tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 240));
+			((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage, display));	
+		}
+	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 152) {
+		if(delay == 1) {
+			if(checkFloorCollision()) idle();
+			else fall();
+		}
+	}
 	else if(custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 134, 15, ANIM_LOOP, -1);
-		delay = 60/15 * 3;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 147, 152, 20, ANIM_LOOP, -1);
+		delay = 60/20 * 6;
 		int SHADOWBALL_SIZE = -1;
 		if(shadowballcharge >= 80) SHADOWBALL_SIZE = SHADOWBALL_LARGE;
 		else if(shadowballcharge >= 40) SHADOWBALL_SIZE = SHADOWBALL_MEDIUM;
@@ -207,124 +207,35 @@ void Mewtwo::bneut() {
 		shadowballcharge = 0;
 		PA_FatPlaySfx("mewtwobneut");
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 132) {}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 133) {}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 134) {
-		if(delay == 1) {
-			if(checkFloorCollision()) idle();
-			else fall();
-		}
-	}
 	else if(custom_action(ACTION_SHIELD, PAD_NEWPRESS)) shield();
 	else {
 		shadowballcharge+=1;
 		if(shadowballcharge > 120) shadowballcharge = 120;
-		if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 127) {
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 128, 129, 15, ANIM_LOOP, -1);
+		if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 141) {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 142, 143, 15, ANIM_LOOP, -1);
 			delay = 60/15 * 2 * 5;
 		}
-		else if(delay == 1 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 131)) {
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 130, 131, 15, ANIM_LOOP, -1);
+		else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 143) {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 144, 145, 15, ANIM_LOOP, -1);
 			delay = 60/15 * 2 * 5;
 		}				
+		else if(delay == 1 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 145 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM == 146))) {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 146, 146, 20, ANIM_LOOP, -1);
+			delay = 60/20 * 1 * 5;
+		}
 	}
 }
 void Mewtwo::fthrow() {
-	if(action != FTHROW) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 150, 154, 10, ANIM_LOOP, -1);
-		playsound(FTHROW);
-		delay = 60/15 * (154-150+1);
-		action = FTHROW;
-		int mult = -1;
-		grabbedenemy -> k = Knockback(2, -3, 12);
-		if(direction == RIGHT) {
-			mult = 1;
-		}
-		grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
-		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
-		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
-		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
-		grabbedenemy -> percentage += 10;
-		grabbedenemy -> stun();
-		grabbedenemy -> lasthitby = charnum;
-		grabbedenemy = NULL;
-	}
-	if(delay <= 0) idle();
+
 }
 void Mewtwo::bthrow() {
-	if(action != BTHROW) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 148, 149, 10, ANIM_LOOP, -1);
-		playsound(BTHROW);
-		delay = 60/10 * (149-148+1);
-		action = BTHROW;
-		int mult = 1;
-		grabbedenemy -> k = Knockback(2, -2, 14);
-		if(direction == RIGHT) {
-			mult = -1;
-		}
-		grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
-		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
-		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
-		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
-		grabbedenemy -> percentage += 7;
-		grabbedenemy -> stun();
-		grabbedenemy -> lasthitby = charnum;
-		grabbedenemy = NULL;
-	}
-	if(delay <= 0) idle();
+
 }
 void Mewtwo::uthrow() {
-	if(action != UTHROW) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 147, 147, 20, ANIM_LOOP, -1);
-		playsound(UTHROW);
-		delay = 60/20 * (147-147+1) * 5;
-		action = UTHROW;
-		grabbedenemy -> x = x;
-		grabbedenemy -> y = y-32;
-	}
-	else if(delay <= 0) {
-		grabbedenemy -> k = Knockback(0, -3.5, 10);
-		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
-		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx;
-		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
-		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
-		grabbedenemy -> percentage += 10;
-		grabbedenemy -> stun();
-		grabbedenemy -> lasthitby = charnum;
-		grabbedenemy = NULL;
-		idle();
-	}						
+		
 }
 void Mewtwo::dthrow() {
-	if(action != DTHROW) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 155, 155, 10, ANIM_LOOP, -1);
-		playsound(DTHROW);
-		delay = 60/10 * (155-155+1);
-		action = DTHROW;
-		if(direction == RIGHT) dx = 3;
-		else dx = -3;
-	}
-	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 155) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 156, 157, 10, ANIM_LOOP, -1);
-		delay = 60/10 * (157-156+1) * 5;
-		dx = 0;
-	}
-	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 157) {
-		int mult = -1;
-		grabbedenemy -> k = Knockback(1, -2, 12);
-		if(direction == RIGHT) {
-			mult = 1;
-		}
-		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
-		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
-		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
-		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
-		grabbedenemy -> percentage += 9;
-		grabbedenemy -> stun();
-		grabbedenemy -> lasthitby = charnum;
-		grabbedenemy = NULL;
-		idle();
-	}
+
 }
 void Mewtwo::jaywalk() {}
 Mewtwo::~Mewtwo() {
