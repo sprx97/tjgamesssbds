@@ -28,3 +28,5 @@ Bugs:
 - AI Bups are glitchy
 - LAN nds file doesn't bootload
 - FAT sprites don't show on emulator
+- Sometimes character can run in midair
+- Sometimes freezes after results screen
