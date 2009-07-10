@@ -14,7 +14,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	doublejumpspeed = 7;
 	shieldstr = 64;
 	runspeed = 4.5;
-	handx = 36;
+	handx = 43;
 	handy = 18;
 	shadowballcharge = 0;
 	upcount = downcount = leftcount = rightcount = 0;
@@ -230,9 +230,11 @@ void Mewtwo::fthrow() {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 156, 162, 20, ANIM_LOOP, -1);
 		delay = 60/20 * 7;
 		action = FTHROW;
-		playsound(FTHROW);
+		playsound(FTHROW);	
+	}
+	if(delay <= 0) {
 		int mult = -1;
-		grabbedenemy -> k = Knockback(1.5, -1.5, 10);
+		grabbedenemy -> k = Knockback(2, -2, 10);
 		if(direction == RIGHT) mult = 1;
 		grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
 		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
@@ -241,9 +243,14 @@ void Mewtwo::fthrow() {
 		grabbedenemy -> percentage += 10;
 		grabbedenemy -> stun();
 		grabbedenemy -> lasthitby = charnum;
-		grabbedenemy = NULL;		
+		grabbedenemy = NULL;	
+		idle();
 	}
-	if(delay <= 0) idle();
+	else {
+		if(direction == RIGHT) grabbedenemy -> dx = 1;
+		else grabbedenemy -> dx = -1;
+		grabbedenemy -> dy = -1;
+	}
 }
 void Mewtwo::bthrow() {
 	if(action != BTHROW) {
@@ -252,7 +259,7 @@ void Mewtwo::bthrow() {
 		action = BTHROW;
 		playsound(BTHROW);
 		int mult = 1;
-		grabbedenemy -> k = Knockback(2, -2, 7);
+		grabbedenemy -> k = Knockback(2, -2, 12);
 		if(direction == RIGHT) mult = -1;
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
 		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
@@ -271,7 +278,7 @@ void Mewtwo::uthrow() {
 		delay = 60/15 * 4;
 		playsound(UTHROW);
 		action = UTHROW;
-		grabbedenemy -> dy = -2;
+		grabbedenemy -> dy = -2.5;
 	}
 	if(delay <= 0) {
 		int mult = -1;

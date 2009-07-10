@@ -15,8 +15,8 @@ Fox::Fox(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	doublejumpspeed = 5;
 	shieldstr = 64;
 	runspeed = 5;
-	handx = 12;
-	handy = 4;
+	handx = 52;
+	handy = 20;
 	MYCHAR = FOX;
 	series = "starfox";
 	topside = 10;
