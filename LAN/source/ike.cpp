@@ -222,9 +222,7 @@ void Ike::fthrow() {
 	if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(2, -2, 7);
-		if(direction == RIGHT) {
-			mult = 1;
-		}
+		if(direction == RIGHT) mult = 1;
 		grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
 		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
 		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
@@ -249,9 +247,7 @@ void Ike::bthrow() {
 	if(delay <= 0) {
 		int mult = 1;
 		grabbedenemy -> k = Knockback(2, -2.5, 7);
-		if(direction == RIGHT) {
-			mult = -1;
-		}
+		if(direction == RIGHT) mult = -1;
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
 		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
 		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
@@ -278,9 +274,7 @@ void Ike::uthrow() {
 	if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(.5, -3, 6);
-		if(direction == RIGHT) {
-			mult = 1;
-		}
+		if(direction == RIGHT) mult = 1;
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
 		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
 		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
@@ -305,9 +299,7 @@ void Ike::dthrow() {
 	if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(1, -2.5, 7);
-		if(direction == RIGHT) {
-			mult = 1;
-		}
+		if(direction == RIGHT) mult = 1;
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
 		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
 		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;

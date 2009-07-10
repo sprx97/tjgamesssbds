@@ -78,8 +78,8 @@ void Fox::bside() {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 121, 121, 20, ANIM_LOOP, -1);
 		delay = 60/20 * 2;
 		PA_FatPlaySfx("foxbside");
-		if(direction == RIGHT) dx = 20;
-		else dx = -20;
+		if(direction == RIGHT) dx = 25;
+		else dx = -25;
 		if(aerial) dy = -gravity;
 		else dy = 0;
 	}
@@ -208,16 +208,109 @@ void Fox::bneut() {
 	else if(aerial && checkFloorCollision()) dy = 0;
 }
 void Fox::fthrow() {
-
+	if(action != FTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 135, 138, 12, ANIM_LOOP, -1);
+		playsound(FTHROW);
+		delay = 60/12 * 4;
+		action = FTHROW;
+		if(direction == RIGHT) {
+			dx = -2;
+			grabbedenemy -> dx = -2;
+		}
+		else {
+			dx = 2;
+			grabbedenemy -> dx = 2;
+		}
+	}
+	if(delay <= 0) {
+		int mult = -1;
+		grabbedenemy -> k = Knockback(1.5, -1.5, 7);
+		if(direction == RIGHT) mult = 1;
+		grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
+		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+		grabbedenemy -> percentage += 6;
+		grabbedenemy -> stun();
+		grabbedenemy -> lasthitby = charnum;
+		grabbedenemy = NULL;			
+		idle();	
+	}
 }
 void Fox::bthrow() {
-
+	if(action != BTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 139, 142, 15, ANIM_LOOP, -1);
+		playsound(BTHROW);
+		delay = 60/15 * 4;
+		action = BTHROW;
+		if(direction == RIGHT) grabbedenemy -> dx = -3;
+		else grabbedenemy -> dx = 3;
+		grabbedenemy -> dy = -1;
+	}
+	if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 142) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 145, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 3;
+		int mult = 1;
+		grabbedenemy -> k = Knockback(1.5, -2.5, 7);
+		if(direction == RIGHT) mult = -1;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
+		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+		grabbedenemy -> percentage += 6;
+		grabbedenemy -> stun();
+		grabbedenemy -> lasthitby = charnum;
+		grabbedenemy = NULL;	
+	}
+	else if(delay <= 0) {
+		grabbedenemy -> percentage += 2;
+		if(direction == RIGHT) setDirection(LEFT);
+		else setDirection(RIGHT);
+		idle();
+	}
 }
 void Fox::uthrow() {
-
+	if(action != UTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 146, 149, 12, ANIM_LOOP, -1);
+		delay = 60/12 * 4;
+		playsound(UTHROW);
+		action = UTHROW;
+		int mult = -1;
+		grabbedenemy -> k = Knockback(.5, -2.5, 6);
+		if(direction == RIGHT) mult = 1;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
+		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+		grabbedenemy -> percentage += 7;
+		grabbedenemy -> stun();
+		grabbedenemy -> lasthitby = charnum;
+		grabbedenemy = NULL;	
+		idle();		
+	}
 }
 void Fox::dthrow() {
-
+	if(action != DTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 100, 103, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 4;
+		playsound(DTHROW);
+		action = DTHROW;
+		grabbedenemy -> dy = -.25;
+	}
+	if(delay <= 0) {
+		int mult = -1;
+		grabbedenemy -> k = Knockback(.5, -2, 7);
+		if(direction == RIGHT) mult = 1;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
+		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+		grabbedenemy -> percentage += 5;
+		grabbedenemy -> stun();
+		grabbedenemy -> lasthitby = charnum;
+		grabbedenemy = NULL;
+		idle();
+	}
 }
 void Fox::jaywalk() {
 	if((PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 47 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 48) && direction == RIGHT) x += 4;
