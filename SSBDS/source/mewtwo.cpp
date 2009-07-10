@@ -226,16 +226,92 @@ void Mewtwo::bneut() {
 	}
 }
 void Mewtwo::fthrow() {
-
+	if(action != FTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 156, 162, 20, ANIM_LOOP, -1);
+		delay = 60/20 * 7;
+		action = FTHROW;
+		playsound(FTHROW);
+		int mult = -1;
+		grabbedenemy -> k = Knockback(1.5, -1.5, 10);
+		if(direction == RIGHT) mult = 1;
+		grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
+		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+		grabbedenemy -> percentage += 10;
+		grabbedenemy -> stun();
+		grabbedenemy -> lasthitby = charnum;
+		grabbedenemy = NULL;		
+	}
+	if(delay <= 0) idle();
 }
 void Mewtwo::bthrow() {
-
+	if(action != BTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 163, 166, 10, ANIM_LOOP, -1);
+		delay = 60/10 * 4;
+		action = BTHROW;
+		playsound(BTHROW);
+		int mult = 1;
+		grabbedenemy -> k = Knockback(2, -2, 7);
+		if(direction == RIGHT) mult = -1;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
+		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+		grabbedenemy -> percentage += 7;
+		grabbedenemy -> stun();
+		grabbedenemy -> lasthitby = charnum;
+		grabbedenemy = NULL;	
+	}
+	if(delay <= 0) idle();
 }
 void Mewtwo::uthrow() {
-		
+	if(action != UTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 174, 177, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 4;
+		playsound(UTHROW);
+		action = UTHROW;
+		grabbedenemy -> dy = -2;
+	}
+	if(delay <= 0) {
+		int mult = -1;
+		grabbedenemy -> k = Knockback(1, -2, 7);
+		if(direction == RIGHT) mult = 1;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
+		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+		grabbedenemy -> percentage += 8;
+		grabbedenemy -> stun();
+		grabbedenemy -> lasthitby = charnum;
+		grabbedenemy = NULL;
+		idle();	
+	}
 }
 void Mewtwo::dthrow() {
-
+	if(action != DTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 167, 167, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 1;
+		playsound(DTHROW);
+		action = DTHROW;
+		grabbedenemy -> dy = .25;
+	}
+	if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM == 167)) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 168, 173, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 6;
+		int mult = -1;
+		grabbedenemy -> k = Knockback(.5, -2, 7);
+		if(direction == RIGHT) mult = 1;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
+		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+		grabbedenemy -> percentage += 9;
+		grabbedenemy -> stun();
+		grabbedenemy -> lasthitby = charnum;
+		grabbedenemy = NULL;
+	}
+	if(delay <= 0) idle();
 }
 void Mewtwo::jaywalk() {}
 Mewtwo::~Mewtwo() {

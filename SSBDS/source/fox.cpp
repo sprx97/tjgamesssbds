@@ -286,8 +286,8 @@ void Fox::uthrow() {
 		grabbedenemy -> stun();
 		grabbedenemy -> lasthitby = charnum;
 		grabbedenemy = NULL;	
-		idle();		
 	}
+	if(delay <= 0) 	idle();
 }
 void Fox::dthrow() {
 	if(action != DTHROW) {
@@ -295,7 +295,7 @@ void Fox::dthrow() {
 		delay = 60/15 * 4;
 		playsound(DTHROW);
 		action = DTHROW;
-		grabbedenemy -> dy = -.25;
+		grabbedenemy -> dy = .25;
 	}
 	if(delay <= 0) {
 		int mult = -1;

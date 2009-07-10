@@ -6,7 +6,6 @@ Major Goals:
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
 - prevent actions after certain moves (bup, airdodge, some bsides)
-- add throws and palettes for fox and mewtwo
 
 Minor Goals:
 - Skinnable menus
