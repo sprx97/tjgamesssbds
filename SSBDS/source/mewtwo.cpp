@@ -301,9 +301,12 @@ void Mewtwo::dthrow() {
 		delay = 60/15 * 1;
 		playsound(DTHROW);
 		action = DTHROW;
+		dy = -gravity-.25;
+		if(direction == RIGHT) grabbedenemy -> dx = -.5;
+		else grabbedenemy -> dx = .5;
 		grabbedenemy -> dy = .25;
 	}
-	if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM == 167)) {
+	if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 167) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 168, 173, 15, ANIM_LOOP, -1);
 		delay = 60/15 * 6;
 		int mult = -1;

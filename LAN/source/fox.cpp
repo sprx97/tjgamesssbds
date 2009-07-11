@@ -15,8 +15,8 @@ Fox::Fox(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	doublejumpspeed = 5;
 	shieldstr = 64;
 	runspeed = 5;
-	handx = 12;
-	handy = 4;
+	handx = 42;
+	handy = 20;
 	MYCHAR = FOX;
 	series = "starfox";
 	topside = 10;
@@ -286,8 +286,8 @@ void Fox::uthrow() {
 		grabbedenemy -> stun();
 		grabbedenemy -> lasthitby = charnum;
 		grabbedenemy = NULL;	
-		idle();		
 	}
+	if(delay <= 0) 	idle();
 }
 void Fox::dthrow() {
 	if(action != DTHROW) {
@@ -295,7 +295,7 @@ void Fox::dthrow() {
 		delay = 60/15 * 4;
 		playsound(DTHROW);
 		action = DTHROW;
-		grabbedenemy -> dy = -.25;
+		grabbedenemy -> dy = .25;
 	}
 	if(delay <= 0) {
 		int mult = -1;
