@@ -31,8 +31,8 @@ ADD_LIBS +=
 #---------------------------------------------------------------------------------
 
 TEXT1 	:= Super Smash Bros: Dueling Sprites
-TEXT2 	:= TJGames - www.tjgames.org
-TEXT3 	:= Jeremy Vercillo
+TEXT2 	:= TJGames
+TEXT3 	:= www.tjgames.org
 ICON 	:= -b $(CURDIR)/../logo.bmp
 
 #---------------------------------------------------------------------------------

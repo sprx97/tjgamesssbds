@@ -74,6 +74,24 @@ bool shieldgrabon; // use a while shielding to grab
 bool tapjumpon; // use up dpad to jump
 bool cstickstylus; // smashes and aerials with stylus
 
+int getFreeRAM(){
+    int q = 2*1024*1024;
+    int size = q;
+    void *ptr;
+
+    do{
+        ptr = malloc(size);
+        if(ptr) free(ptr);
+        else size -= q;
+        q /= 2;
+        size += q;
+    }while(q > 0);
+
+	malloc(size);
+
+    return size;
+}
+
 //wrapper methods to get global variables from other classes
 //FIXME: these should probably exist somewhere other than main if they need
 //to be accessible to lots of other classes. maybe a customcontrols class or
@@ -1159,6 +1177,14 @@ void initOptions() {
 	PA_OutputText(SUB_SCREEN, 4, 2, "Game Options");
 	
 	PA_OutputText(SUB_SCREEN, 0, 0, " ** ");
+
+	int n = 4;
+	int free = 1024*1024*4;
+	do {
+		free = getFreeRAM();
+		PA_OutputText(SUB_SCREEN, 0, n, "%d", free);
+		n++;
+	} while(free > 0);
 
 	fadeIn();
 }
