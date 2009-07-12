@@ -74,6 +74,7 @@ bool shieldgrabon; // use a while shielding to grab
 bool tapjumpon; // use up dpad to jump
 bool cstickstylus; // smashes and aerials with stylus
 
+vector<void*> RAM;
 int getFreeRAM(){
     int q = 2*1024*1024;
     int size = q;
@@ -87,7 +88,7 @@ int getFreeRAM(){
         size += q;
     }while(q > 0);
 
-	malloc(size);
+	RAM.push_back(malloc(size));
 
     return size;
 }
@@ -1179,12 +1180,15 @@ void initOptions() {
 	PA_OutputText(SUB_SCREEN, 0, 0, " ** ");
 
 	int n = 4;
-	int free = 1024*1024*4;
+	int freeblks = 1024*1024*4;
 	do {
-		free = getFreeRAM();
-		PA_OutputText(SUB_SCREEN, 0, n, "%d", free);
+		freeblks = getFreeRAM();
+		PA_OutputText(SUB_SCREEN, 0, n, "%d", freeblks);
 		n++;
-	} while(free > 0);
+	} while(freeblks > 0);
+
+	for(int n = 0; n < (int)(RAM.size()); n++) free(RAM[n]);
+	RAM.clear();
 
 	fadeIn();
 }
