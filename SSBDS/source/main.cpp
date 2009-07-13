@@ -406,7 +406,7 @@ void stageSelect() {
 		PA_WaitForVBL();
 	}
 }
-void characterSelect(bool train = false) {
+bool characterSelect(bool train = false) {
 	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// opens the gif from the path on the sub screen
@@ -500,9 +500,16 @@ void characterSelect(bool train = false) {
 					else if(selections[n] == FOX) players.push_back(new Fox(n+1, &players, &display, isai));
 				}
 				if(selections[1] == -1 && selections[2] == -1 && selections[3] == -1) players.push_back(new Sandbag(2, &players, &display, true));
-				return;
+				return true;
 			}
 			else PA_FatPlaySfx("no");
+		}
+		if(Pad.Newpress.B) {
+			PA_FatPlaySfx("no");
+			fadeOut();
+			PA_ResetSpriteSys();
+			PA_FatFreeSprBuffers();
+			return false;
 		}
 		PA_WaitForVBL();
 	}
@@ -712,13 +719,13 @@ void gameOver() {
 }
 
 // Game modes/logic
-void match(int param) {
+bool match(int param) {
 	int time=0;
 	int stock=0;
 	if (gamemode==GAMEMODE_TIME) time = param*60*60 + 60; // minutes -> vblanks
 	else if(gamemode == GAMEMODE_STOCK) stock = param;	
 	
-	characterSelect(); // select characters
+	if(!characterSelect()) return false; // select characters; return to main if canceled
 	for(int n = 0; n < (int)players.size(); n++) {
 		players[n] -> players = players;
 	}
@@ -776,11 +783,17 @@ void match(int param) {
 
 	while(true) {
 		if(Pad.Newpress.Start || PA_CheckLid()) Pause(); // checks to see if the game was paused by start button 
-		if (gamemode==GAMEMODE_TIME && time-60 == 0) return gameOver();
+		if (gamemode==GAMEMODE_TIME && time-60 == 0) {
+			gameOver();
+			return true;
+		}
 		else if (gamemode==GAMEMODE_STOCK){
 			int playersstillalive=players.size(); //and while you're dying...
 			for(int n = 0; n < (int)players.size(); n++) if(score.getDeaths(n)+sdcost*score.getSDs(n) >= stock) playersstillalive--;
-			if (playersstillalive==1) return gameOver();
+			if (playersstillalive==1) {
+				gameOver();
+				return true;
+			}
 		}
 		for(int n = 0; n < (int)players.size(); n++) {
 			if(gamemode != GAMEMODE_STOCK || score.getDeaths(n)+sdcost*score.getSDs(n) < stock) players[n] -> act();
@@ -1259,11 +1272,11 @@ void mainMenu() {
 				PA_FatPlaySfx("confirm");
 				fadeOut();
 				if(gamemode == GAMEMODE_TIME) {
-					match(timelimit);
+					while(match(timelimit)) {}
 					initMainMenu();
 				}
 				else if(gamemode == GAMEMODE_STOCK) {
-					match(stocklimit);
+					while(match(stocklimit)) {}
 					initMainMenu();
 				}
 			}

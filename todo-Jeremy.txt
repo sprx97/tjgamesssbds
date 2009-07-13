@@ -1,4 +1,4 @@
-Major Goals - Things that break the balance of the game or new features that I want to add:
+Major Goals - Things that break the balance/memory of the game or new features that I want to add:
 - LAN
 - Clashing hits
 - Convert all gfx to FAT
@@ -6,9 +6,8 @@ Major Goals - Things that break the balance of the game or new features that I w
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
 - No Immediate respawn
-- B-button on charsel screen
-- return to charsel after match
 - Separate hand variables for grabs and hanging
+- Loading Screen (between screens)
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
