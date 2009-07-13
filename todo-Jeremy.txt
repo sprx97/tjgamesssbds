@@ -27,6 +27,6 @@ Ongoing Goals - Things that will never be complete, but still need to be worked 
 Bugs - Things that are broken because of bad code:
 - Sloped Stages don't work
 - AI Bups are glitchy
-- LAN nds file doesn't bootload
+- LAN nds file doesn't bootload through EFS
 - FAT sprites don't show on emulator
 - Sometimes freezes after results screen

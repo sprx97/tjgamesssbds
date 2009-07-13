@@ -1272,18 +1272,18 @@ void mainMenu() {
 				PA_FatPlaySfx("confirm");
 				fadeOut();
 				if(gamemode == GAMEMODE_TIME) {
-					while(match(timelimit)) {}
+					while(match(timelimit)) {PA_ResetSpriteSysScreen(MAIN_SCREEN);}
 					initMainMenu();
 				}
 				else if(gamemode == GAMEMODE_STOCK) {
-					while(match(stocklimit)) {}
+					while(match(stocklimit)) {PA_ResetSpriteSysScreen(MAIN_SCREEN);}
 					initMainMenu();
 				}
 			}
 			else if(x > 82 && x < 205 && y > 70 && y < 99) {				
 				PA_FatPlaySfx("confirm");
 				fadeOut();
-				runNdsFile("SSBDS_Files/LAN.nds");
+				runNdsFile("LAN.nds");
 				initMainMenu();
 			}
 			else if(x > 60 && x < 183 && y > 104 && y < 131) {				
