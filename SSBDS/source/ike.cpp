@@ -94,8 +94,7 @@ void Ike::bside() {
 		if(quickdrawcharge > 120) quickdrawcharge = 120;
 	}
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 110) {
-		if(checkFloorCollision()) idle();
-		else fall();
+		permafall();
 	}
 	else if(aerial && checkFloorCollision()) idle();
 	else {

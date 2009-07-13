@@ -1,13 +1,16 @@
-Major Goals:
+Major Goals - Things that break the balance of the game or new features that I want to add:
 - LAN
 - Clashing hits
 - Convert all gfx to FAT
 - split minimap.cpp to a .h file (the "correct" way)
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
-- prevent actions after certain moves (bup, airdodge, some bsides)
+- No Immediate respawn
+- B-button on charsel screen
+- return to charsel after match
+- Separate hand variables for grabs and hanging
 
-Minor Goals:
+Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
 - more SFX
 - Opening video/animation
@@ -17,15 +20,14 @@ Minor Goals:
 - credits for stage images
 - Fox's lasers (multiple projectile sprites per char)
 
-Ongoing Goals:
+Ongoing Goals - Things that will never be complete, but still need to be worked on:
 - Better AI
 - Balancing
 - More Characters/stages
 
-Bugs:
+Bugs - Things that are broken because of bad code:
 - Sloped Stages don't work
 - AI Bups are glitchy
 - LAN nds file doesn't bootload
 - FAT sprites don't show on emulator
-- Sometimes character can run in midair
 - Sometimes freezes after results screen

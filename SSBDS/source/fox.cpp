@@ -91,8 +91,7 @@ void Fox::bside() {
 		else dy = 0;
 	}
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 123) {
-		if(!checkFloorCollision()) fall();
-		else idle();
+		permafall();
 	}
 }
 void Fox::bup() {
@@ -122,8 +121,7 @@ void Fox::bup() {
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129 && delay == 1) {
 		upcount = downcount = rightcount = leftcount = 0;
 		PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 0);
-		if(!checkFloorCollision()) fall();
-		else idle();
+		permafall();
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 127 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 128 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129) {
 		x += (rightcount-leftcount)*10 / 15;

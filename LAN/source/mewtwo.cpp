@@ -96,8 +96,7 @@ void Mewtwo::bup() {
 	}
 	else if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129 && delay == 1) {
 		upcount = downcount = rightcount = leftcount = 0;
-		if(!checkFloorCollision()) fall();
-		else idle();
+		permafall();
 	}
 	if(action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 123 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125) {
 		if(!isCPU) {

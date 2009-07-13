@@ -25,6 +25,7 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	ledgewait = 0;
 	CAPE = false;
 	COUNTER = false;
+	PERMAFALL = false;
 	effectwait = 0;
 	chargecount = 0;
 	isCPU = AI;
@@ -199,7 +200,7 @@ void Fighter::cpu_obeyRules(){
 		}
 		if(delay > 0) delay--;
 		if(action == DODGE && delay <= 0) shield();
-		if(action == AIRDODGE && delay <= 0) fall();
+		if(action == AIRDODGE && delay <= 0) permafall();
 		if(action == ROLL && delay <= 0) {
 			dx = 0;
 			if(direction == LEFT) {
@@ -776,9 +777,16 @@ void Fighter::act() {
 		}
 		if(action == FALL) {
 			if(!isCPU) directionalInfluence();
-			if(checkFloorCollision()) idle();
+			if(PERMAFALL) {
+				if(checkFloorCollision()) {
+					PERMAFALL = false;
+					delay = 10;
+					land();
+				}
+			}
+			else if(checkFloorCollision()) idle();
 		} // checks for stage collision when falling
-		if(aerial && action != AIRATTACK && action != AIRLAG && action != FTHROW && action != BTHROW && action != UTHROW && action != DTHROW) {
+		if(aerial && action != AIRATTACK && action != AIRLAG && action != FTHROW && action != BTHROW && action != UTHROW && action != DTHROW && !PERMAFALL) {
 			actAir();
 		} // acts in the air
 		if(action == SHIELD) {
@@ -1036,6 +1044,10 @@ void Fighter::fall() {
 	action = FALL;
 	playsound(FALL);
 }
+void Fighter::permafall() {
+	PERMAFALL = true;
+	fall();
+}
 void Fighter::idle() {
 	if(action != IDLE) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[IDLE], endframes[IDLE], framespeeds[IDLE], ANIM_LOOP, -1);
 	dx = 0;
@@ -1267,6 +1279,7 @@ int Fighter::getHitstun() { return hitstun; }
 double Fighter::getDamagePercent() { return percentage; }
 void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	if(action != STUN) stun();
+	PERMAFALL = false;
 	percentage += other.damage + (int)((charge/225) * (.5*other.damage));
 	if(effectwait <= 0) {	
 		if(other.fx == FX_NONE) {		

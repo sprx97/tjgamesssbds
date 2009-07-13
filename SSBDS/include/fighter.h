@@ -39,6 +39,7 @@ class Fighter {
 		int handx, handy;
 		bool CAPE;
 		bool COUNTER;
+		bool PERMAFALL;
 		int airdodgecount;
 		int effectwait;
 		int MYCHAR;
@@ -114,6 +115,7 @@ class Fighter {
 		void airdodge();
 		void crouch();
 		void fall();
+		void permafall();
 		void idle();
 		void run(int d = 0);
 		void shorthop();
