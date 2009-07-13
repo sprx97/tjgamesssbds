@@ -16,6 +16,8 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	runspeed = 3.75;
 	handx = 25;
 	handy = 19;
+	hangx = 25;
+	hangy = 19;
 	fluddcharge = 0;
 	MYCHAR = MARIO;
 	series = "mariobros";

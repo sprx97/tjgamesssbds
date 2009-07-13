@@ -693,15 +693,15 @@ void Fighter::act() {
 				fall();
 			}
 			else if(Pad.Newpress.Right || Pad.Newpress.Left) {
-				y = y+handy-bottomside;
+				y = y+hangy-bottomside;
 				myledge = -1;
 				if(direction == LEFT) {
-					x = x+handx-rightside;
+					x = x+hangx-rightside;
 					idle();
 					setDirection(LEFT);
 				}
 				else {
-					x = x+handx-leftside;
+					x = x+hangx-leftside;
 					idle();
 					setDirection(RIGHT);
 				}
@@ -979,13 +979,13 @@ void Fighter::roll(int dir) {
 void Fighter::rollUp(){
 	if(action == HANG) {
 		myledge = -1;
-		y = y+handy-bottomside;
+		y = y+hangy-bottomside;
 		if(direction == LEFT) {
-			x = x+handx-rightside;
+			x = x+hangx-rightside;
 			roll(LEFT);
 		}
 		else {
-			x = x+handx-leftside;
+			x = x+hangx-leftside;
 			roll(RIGHT);
 		}
 	}
@@ -993,16 +993,16 @@ void Fighter::rollUp(){
 void Fighter::attackUp(){
 	if(action == HANG) {
 		myledge = -1;
-		y=y+handy-bottomside;
-		if(direction == LEFT) x=x+handx-rightside;
-		else x=x+handx-leftside;
+		y=y+hangy-bottomside;
+		if(direction == LEFT) x=x+hangx-rightside;
+		else x=x+hangx-leftside;
 		ftilt();
 	}
 }
 void Fighter::jumpUp(){
 	if(action == HANG) {
 		myledge = -1;
-		y = y+handy-bottomside;
+		y = y+hangy-bottomside;
 		jump();
 	}
 }
@@ -1551,8 +1551,8 @@ bool Fighter::checkLedgeCollision() {
 					aerial = false;
 					dx = DI = dy = fastfall = ymomentum = 0;
 					airdodgecount = jumpcount = 0;
-					x = currledge.x-handx;
-					y = currledge.y-handy;
+					x = currledge.x-hangx;
+					y = currledge.y-hangy;
 					setDirection(LEFT);
 					myledge = n;
 					return true;
@@ -1564,8 +1564,8 @@ bool Fighter::checkLedgeCollision() {
 					aerial = false;
 					dx = DI = dy = fastfall = ymomentum = 0;
 					airdodgecount = jumpcount = 0;
-					x = currledge.x+handx-64;
-					y = currledge.y-handy;
+					x = currledge.x+hangx-64;
+					y = currledge.y-hangy;
 					setDirection(RIGHT);
 					myledge = n;
 					return true;				

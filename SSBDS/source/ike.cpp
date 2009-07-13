@@ -16,6 +16,8 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	runspeed = 2.75;
 	handx = 30;
 	handy = 10;
+	hangx = 30;
+	hangy = 10;
 	eruptioncharge = 0;
 	quickdrawcharge = 0;
 	CAPE = false;

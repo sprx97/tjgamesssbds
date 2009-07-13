@@ -16,6 +16,8 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	runspeed = 4.5;
 	handx = 43;
 	handy = 18;
+	hangx = 43;
+	hangy = 18;
 	shadowballcharge = 0;
 	upcount = downcount = leftcount = rightcount = 0;
 	MYCHAR = MEWTWO;

@@ -6,7 +6,6 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
 - No Immediate respawn
-- Separate hand variables for grabs and hanging
 - Loading Screen (between screens)
 
 Minor Goals - Things that work fine but I'd like to improve:

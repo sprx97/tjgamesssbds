@@ -36,7 +36,7 @@ class Fighter {
 		double acceleration;
 		int ledgewait;
 		int hangtime;
-		int handx, handy;
+		int handx, handy, hangx, hangy;
 		bool CAPE;
 		bool COUNTER;
 		bool PERMAFALL;
