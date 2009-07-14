@@ -768,6 +768,17 @@ bool match(int param) {
 	PA_OutputText(SUB_SCREEN, 0, 22, (char*)(stage.songnames[songnum]));
 	PA_OutputText(SUB_SCREEN, 0, 23, (char*)(stage.songartists[songnum]));
 
+	for(int n = 0; n < (int)players.size(); n++) {
+		players[n] -> fall();
+		while(players[n] -> aerial) {
+			players[n] -> fall();
+			players[n] -> move();
+		}
+		players[n] -> idle();
+	}
+
+	scrollScreen();
+
 	fadeIn();
 
 	PA_FatPlaySfx("3");
