@@ -21,6 +21,7 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	acceleration = 0;
 	x = 0;
 	y = 0;
+	respawntimer = 0;
 	hangtime = 0;
 	ledgewait = 0;
 	CAPE = false;
@@ -464,6 +465,7 @@ void Fighter::act() {
 		actCPU();
 		return;
 	}
+	if(respawntimer > 0) return respawn();
 	if(action == BSIDE) bside();
 	if(action == BUP) bup();
 	if(action == BDOWN) bdown();
@@ -1314,6 +1316,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 }
 Fighter* Fighter::checkHits(Fighter* other) {
 	if(!allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled) return other;
+	if(other -> respawntimer > 0) return other;
 	if(getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if(action == HOLD || action == GRABATK) {}
 		else if(action == GRAB) {
@@ -1512,18 +1515,26 @@ bool Fighter::checkForDeath() {
 	}
 	return false;
 }
-void Fighter::respawn() {	
-	lasthitby = -1;
-	x = startx;
-	y = starty;
-	action = FALL;
-	fall();
-	direction = 0;
-	aerial = true;
-	delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
-	dx = dy = fastfall = DI = 0.0;
-	percentage = 0;
-	shieldstr = 64;
+void Fighter::respawn() {
+	if(respawntimer == 0) {
+		lasthitby = -1;
+		x = startx;
+		y = starty;
+		respawntimer = 600;
+		direction = 0;
+		delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
+		dx = dy = fastfall = DI = 0.0;
+		percentage = 0;
+		shieldstr = 64;
+		idle();
+	}
+	else {
+		respawntimer--;
+		if(respawntimer == 0 || Pad.Newpress.Down) {
+			respawntimer = 0;
+			fall();
+		}
+	}
 }
 void Fighter::beDead() {
 	PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, -64, -64);

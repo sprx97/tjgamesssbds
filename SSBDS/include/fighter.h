@@ -40,6 +40,7 @@ class Fighter {
 		bool CAPE;
 		bool COUNTER;
 		bool PERMAFALL;
+		int respawntimer;
 		int airdodgecount;
 		int effectwait;
 		int MYCHAR;
