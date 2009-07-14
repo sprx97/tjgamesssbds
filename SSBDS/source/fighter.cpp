@@ -273,6 +273,10 @@ void Fighter::actCPU() {
 	double Cangle = atan2(Cy, Cx) * 180 / M_PI; // from -180 to 180
 	cpu_obeyRules(); //do all AI actions that would be cheating to skip
 	//do actions that require thinking, strategy, or input
+	if(respawntimer > 0) {
+		if(PA_RandMax(100) > 97) respawntimer = 0;
+		return respawn();
+	}
 	if(hitstun > 0){
 		if(Cangle < 90 && Cangle > -90) directionalInfluence(-1);
 		else if(Cangle > 90 || Cangle < -90) directionalInfluence(1);
