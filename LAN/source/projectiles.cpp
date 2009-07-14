@@ -12,6 +12,7 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 	x = xpos;
 	y = ypos;
 	dx = xchange;
+	enabled = true;
 	if(dx > 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 0);
 	else PA_SetSpriteHflip(MAIN_SCREEN, num, 1);
 	dy = ychange;
@@ -66,6 +67,7 @@ Fighter* Projectile::checkHits(Fighter* other) {
 		if(dx < 0) atkbox.addCircle(newcircright);
 		else atkbox.addCircle(newcircleft);
 	}
+	if(!enabled) return other;
 	if(other -> respawntimer > 0) return other;
 	if(atkbox.hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if(other -> CAPE || other -> COUNTER) {
@@ -82,10 +84,12 @@ Fighter* Projectile::checkHits(Fighter* other) {
 		else if(other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/ }
 		else if(other -> action == SHIELD) {
 			other -> shieldstr -= atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage * (.5*atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage);
+			enabled = false;
 		}
 		else {
 			other -> takeDamage(atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, owner, 0);
 			if(TYPE != FINALCUTTER && TYPE != IKESWORD) removeProj(num);
+			else enabled = false;
 		}
 	}
 	return other;

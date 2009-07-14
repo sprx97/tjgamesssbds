@@ -26,6 +26,7 @@ class Projectile {
 		int TYPE;
 		int num;
 		int owner; ///< Who fired this projectile? (They're usually immune to it)
+		bool enabled;
 		Stage* mystage;
 		Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage* mine, Display *d);
 		bool act();
