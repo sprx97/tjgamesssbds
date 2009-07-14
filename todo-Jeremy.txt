@@ -5,8 +5,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - split minimap.cpp to a .h file (the "correct" way)
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
-- Respawn platform
-- First spawn right onto stage
+- Respawn platforms
 - Loading Screen (between screens)
 
 Minor Goals - Things that work fine but I'd like to improve:
