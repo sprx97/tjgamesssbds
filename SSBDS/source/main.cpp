@@ -839,56 +839,6 @@ bool match(int param) {
 		else time++; // time counts up if its not a time match
 	}
 }
-void trainingMode() {
-	characterSelect(true); // select characters
-	for(int n = 0; n < (int)players.size(); n++) {
-		players[n] -> players = players;
-	}
-	stageSelect(); // select stage
-	initFX(); // inits the special FX
-	initProjectiles(); // inits the projectiles
-			
-	Stage stage = setStage(selectedStage); 
-	// sets the stage to the stage chosen in stageSelect
-	PA_InitText(MAIN_SCREEN,1); // inits text on the main screen (displays time)
-	PA_SetTextCol(MAIN_SCREEN, 31,31,31); // text color = white
-	initMinimap(selectedStage); // inits minimap
-	PA_InitText(SUB_SCREEN,1); // inits test on sub screen (displays percentages)
-	PA_SetTextCol(SUB_SCREEN, 31,31,31); // text color = white
-
-	fadeIn();
-																																												
-	while(true) {
-		PA_CheckLid(); // if the lid is closed it pauses
-		if(Pad.Newpress.Start) Pause(); 
-		// checks to see if the game was paused by start button
-		for(int n = 0; n < (int)players.size(); n++) players[n] -> act(); // all players act
-		for(int n = 0; n < (int)players.size(); n++) {
-			for(int m = 0; m < (int)players.size(); m++) {
-				if(m != n) {
-					players[m] = players[n] -> checkHits(players[m]);
-				}
-			}
-		}
-		// checks to see if any player hit another
-		scrollScreen(); // scrolls the screen
-		for(int n = 0; n < (int)projectiles.size(); n++) {
-			if(projectiles[n].act()) {
-				removeProj(projectiles[n].num);
-			}
-			for(int m = 0; m < (int)players.size(); m++) {
-				if(projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);
-			}
-		}
-		// acts and checks intersections of all projectiles
-		//for(int n = 0; n < (int)effects.size(); n++) effects[n].act();
-		display.updateEffects();
-		// acts all effects
-		displayMinimap(); // changes sub screen display
-		displayPercentages(); // displays percentages on sub screen
-		PA_WaitForVBL();
-	}
-} // training mode
 
 //More menu screens:
 void controlOptions() {
@@ -1298,9 +1248,6 @@ void mainMenu() {
 				options();
 				initMainMenu();
 			}
-		}
-		if(Pad.Newpress.Start) {
-			trainingMode();
 		}
 		PA_WaitForVBL();
 	}
