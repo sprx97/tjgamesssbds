@@ -66,6 +66,7 @@ Fighter* Projectile::checkHits(Fighter* other) {
 		if(dx < 0) atkbox.addCircle(newcircright);
 		else atkbox.addCircle(newcircleft);
 	}
+	if(other -> respawntimer > 0) return other;
 	if(atkbox.hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if(other -> CAPE || other -> COUNTER) {
 			dx *= -1;
@@ -77,6 +78,10 @@ Fighter* Projectile::checkHits(Fighter* other) {
 			}
 			if(dx > 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 0);
 			if(dx < 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 1);
+		}
+		else if(other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/ }
+		else if(other -> action == SHIELD) {
+			other -> shieldstr -= atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage * (.5*atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage);
 		}
 		else {
 			other -> takeDamage(atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, owner, 0);
