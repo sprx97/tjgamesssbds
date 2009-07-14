@@ -1520,6 +1520,8 @@ void Fighter::respawn() {
 		lasthitby = -1;
 		x = startx;
 		y = starty;
+		if(x < stage->width/2) setDirection(RIGHT);
+		else setDirection(LEFT);
 		respawntimer = 600;
 		direction = 0;
 		delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
