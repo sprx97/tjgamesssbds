@@ -1274,7 +1274,7 @@ void Fighter::setStage(Stage *s) {
 	y = stage->spawny[charnum];
 	startx = x;
 	starty = y;
-	if(x > stage->width/2) setDirection(RIGHT);
+	if(x < stage->width/2) setDirection(RIGHT);
 	else setDirection(LEFT);
 }
 int Fighter::getHitstun() { return hitstun; }
