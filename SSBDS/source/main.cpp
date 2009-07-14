@@ -489,7 +489,7 @@ bool characterSelect(bool train = false) {
 				fadeOut();
 				PA_ResetSpriteSys();
 				PA_FatFreeSprBuffers();
-				PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);				
+				PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);
 				for(int n = 0; n < 4; n++) {
 					bool isai = true;
 					if(n == 0) isai = false;
@@ -732,6 +732,12 @@ bool match(int param) {
 	stageSelect(); // select stage
 	initFX(); // inits the special FX
 	initProjectiles(); // inits the projectiles
+			
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 12, "revivalplatform");
+	PA_FatLoadSprite(253, "revivalplatform");
+	for(int n = 55; n < 60; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[253], OBJ_SIZE_64X64, COLOR256, 12, -64, -64);
+	}
 			
 	Stage stage = setStage(selectedStage); 
 	// sets the stage to the stage chosen in stageSelect

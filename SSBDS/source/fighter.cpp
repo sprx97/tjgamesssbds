@@ -1528,12 +1528,15 @@ void Fighter::respawn() {
 		dx = dy = fastfall = DI = 0.0;
 		percentage = 0;
 		shieldstr = 64;
+		PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), (int)(PA_GetSpriteX(MAIN_SCREEN, SPRITENUM)-32+(rightside+leftside)/2), (int)(PA_GetSpriteY(MAIN_SCREEN, SPRITENUM)+bottomside));
 		idle();
 	}
 	else {
+		PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), (int)(PA_GetSpriteX(MAIN_SCREEN, SPRITENUM)-32+(rightside+leftside)/2), (int)(PA_GetSpriteY(MAIN_SCREEN, SPRITENUM)+bottomside));
 		respawntimer--;
 		if(respawntimer == 0 || Pad.Newpress.Down) {
 			respawntimer = 0;
+			PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), -64, -64);
 			fall();
 		}
 	}

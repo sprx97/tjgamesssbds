@@ -5,7 +5,6 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - split minimap.cpp to a .h file (the "correct" way)
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
-- Respawn platforms
 - Loading Screen (between screens)
 
 Minor Goals - Things that work fine but I'd like to improve:
@@ -19,6 +18,7 @@ Minor Goals - Things that work fine but I'd like to improve:
 - Fox's lasers (multiple projectile sprites per char)
 - quieter SFX (or louder music)
 - better (more functional) pause menu
+- custom respawn platforms
 
 Ongoing Goals - Things that will never be complete, but still need to be worked on:
 - Better AI
