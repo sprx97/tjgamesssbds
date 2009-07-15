@@ -1,4 +1,4 @@
-Major Goals - Things that break the balance/memory of the game or new features that I want to add:
+Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - LAN
 - Clashing hits
 - Convert all gfx to FAT
@@ -6,6 +6,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
 - Loading Screen (between screens)
+- credits for stage images
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
@@ -14,7 +15,6 @@ Minor Goals - Things that work fine but I'd like to improve:
 - Offload some methods from main to global
 	- class for custom controls
 	- class for screen functions (scroll, fade, flash)
-- credits for stage images
 - Fox's lasers (multiple projectile sprites per char)
 - quieter SFX (or louder music)
 - better (more functional) pause menu
