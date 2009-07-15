@@ -190,9 +190,8 @@ bool custom_action(int action, int typecheck) {
 	return false;
 } // takes action and checks if it is done by custom controls
 
-char* gifbuffer = NULL; // the array which stores the gif being printed
+char* gifbuffers[] = {NULL, NULL, NULL}; // the array which stores the gif being printed
 void openGif(int screen, string path) {
-	delete gifbuffer; // clears the gif buffer
 	FILE* imgFile = fopen (path.c_str(), "rb"); // opens the file at path for reading	
 	if(imgFile) {
 		u32 imgSize;
@@ -201,18 +200,23 @@ void openGif(int screen, string path) {
 		rewind (imgFile);
 		// obtains file size
 	
-		gifbuffer = NULL;
-		gifbuffer = (char*) malloc (sizeof(char)*imgSize);
-		fread (gifbuffer, 1, imgSize, imgFile);
+		gifbuffers[screen] = NULL;
+		gifbuffers[screen] = (char*) malloc (sizeof(char)*imgSize);
+		fread (gifbuffers[screen], 1, imgSize, imgFile);
 		// allocate memory to store the image file
 	
 		fclose (imgFile); // close the file
-		PA_LoadGif(screen, (void *)gifbuffer); // Show gif on screen
 	} // loads the gif if the image file exists
 } // opens the gif at path onto screen
 
+vector<int> mainx;
+vector<int> subx;
 void fadeOut() {
-   	for(int i = 0; i >= -31; i--) {
+	delete gifbuffers[MAIN_SCREEN];
+	delete gifbuffers[SUB_SCREEN];
+	gifbuffers[MAIN_SCREEN] = NULL;
+	gifbuffers[SUB_SCREEN] = NULL;
+  	for(int i = 0; i >= -31; i--) {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
 		AS_SetMP3Volume((i+31)*4);
@@ -223,8 +227,44 @@ void fadeOut() {
 	AS_MP3Stop();
 	PA_ResetBgSys();
 	PA_FatFreeSfxBuffers();
+	PA_Init8bitBg(MAIN_SCREEN, 3);
+	PA_Init8bitBg(SUB_SCREEN, 3);
+	PA_LoadGif(MAIN_SCREEN, (void*)gifbuffers[LOADING_SCREEN]);
+	PA_LoadGif(SUB_SCREEN, (void*)gifbuffers[LOADING_SCREEN]);
+	for(int n = 0; n < 128; n++) {
+		mainx[n] = PA_GetSpriteX(MAIN_SCREEN, n);
+		subx[n] = PA_GetSpriteX(SUB_SCREEN, n);
+		PA_SetSpriteX(MAIN_SCREEN, n, -64);
+		PA_SetSpriteX(SUB_SCREEN, n, -64);
+	}
+   	for(int i = -31; i <= 0; i++) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		PA_WaitForVBL();
+	} // slowly brightens the screen to normal
 } // fades both screens out
 void fadeIn() {
+  	for(int i = 0; i >= -31; i--) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		PA_WaitForVBL();
+	} // slowly darkens the screen into black
+	PA_DeleteBg(MAIN_SCREEN, 3);
+	PA_DeleteBg(SUB_SCREEN, 3);
+	PA_Init8bitBg(MAIN_SCREEN, 3);
+	PA_Init8bitBg(SUB_SCREEN, 3);
+	for(int n = 0; n <= 2; n++) {
+		PA_ShowBg(MAIN_SCREEN, n);
+		PA_ShowBg(SUB_SCREEN, n);
+	}
+	for(int n = 0; n < 128; n++) {
+		PA_SetSpriteX(MAIN_SCREEN, n, mainx[n]);
+		PA_SetSpriteX(SUB_SCREEN, n, subx[n]);
+		mainx[n] = -64;
+		subx[n] = -64;
+	}
+	if(gifbuffers[MAIN_SCREEN] != NULL) PA_LoadGif(MAIN_SCREEN, (void*)gifbuffers[MAIN_SCREEN]); // Show gif on screen
+	if(gifbuffers[SUB_SCREEN] != NULL) PA_LoadGif(SUB_SCREEN, (void*)gifbuffers[SUB_SCREEN]); // Show gif on screen
    	for(int i = -31; i <= 0; i++) {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
@@ -276,6 +316,7 @@ Stage setStage(int selStage) {
 	for(int n = 0; n < (int)players.size(); n++) {
 		players[n] -> setStage(&picked);
 	} // sets the stage of the players to the picked stage
+	PA_HideBg(MAIN_SCREEN, 0);
 	return picked; // returns the picked stage
 } // displays the stage on the main screen
 
@@ -376,12 +417,16 @@ void stageSelect() {
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "stagesel");
 	PA_FatLoadSprite(31, "stagesel");
 	PA_CreateSprite(SUB_SCREEN, FINALDESTINATION, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 0, 0);
+	subx[FINALDESTINATION] = 0; PA_SetSpriteX(SUB_SCREEN, FINALDESTINATION, -64);
 	PA_StartSpriteAnimEx(SUB_SCREEN, FINALDESTINATION, FINALDESTINATION, FINALDESTINATION, 1, ANIM_LOOP, -1);
 	PA_CreateSprite(SUB_SCREEN, POKEMONSTADIUM, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 64, 0);
+	subx[POKEMONSTADIUM] = 64; PA_SetSpriteX(SUB_SCREEN, POKEMONSTADIUM, -64);
 	PA_StartSpriteAnimEx(SUB_SCREEN, POKEMONSTADIUM, POKEMONSTADIUM, POKEMONSTADIUM, 1, ANIM_LOOP, -1);
 //	PA_CreateSprite(SUB_SCREEN, CASTLESIEGE, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
+//	subx[CASTLESIEGE] = 128; PA_SetSpriteX(SUB_SCREEN, CASTLESIEGE, -64);
 //	PA_StartSpriteAnimEx(SUB_SCREEN, CASTLESIEGE, CASTLESIEGE, CASTLESIEGE, 1, ANIM_LOOP, -1);
 //	PA_CreateSprite(SUB_SCREEN, CORNERIA, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
+//	subx[CORNERIA] = 192; PA_SetSpriteX(SUB_SCREEN, CORNERIA, -64);
 //	PA_StartSpriteAnimEx(SUB_SCREEN, CORNERIA, CORNERIA, CORNERIA, 1, ANIM_LOOP, -1);
 	// loads sprites just like in characterSelect()
 
@@ -418,18 +463,21 @@ bool characterSelect(bool train = false) {
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
 	PA_FatLoadSprite(0, "cursors");
 	for(int n = 0; n < 4; n++) {
-		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*64 +16, 160);
+		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48+40, 160);
+		subx[n] = n*48+40; PA_SetSpriteX(SUB_SCREEN, n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	}
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
 	PA_FatLoadSprite(1, "charsel");
 	for(int n = KIRBY; n < MAX_CHAR; n++) {
 		PA_CreateSprite(SUB_SCREEN, 4+n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n-1)%3)*80 + 16, ((n-1)/3)*72);
+		subx[4+n] = ((n-1)%3)*80 + 16; PA_SetSpriteX(SUB_SCREEN, 4+n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, n, n, 1, ANIM_LOOP, -1);
 	}
 	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);	
 	for(int n = 0; n < 4; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)charprev, OBJ_SIZE_64X64, COLOR256, 0, 64*n, 128);
+		mainx[n] = 64*n; PA_SetSpriteX(MAIN_SCREEN, n, -64);
 		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
 	}
 
@@ -591,7 +639,8 @@ void displayResults() {
 		players[n] -> idle(); 
 		// ensures that it goes into idling animation
 		PA_SetSpriteHflip(MAIN_SCREEN, players[n] -> SPRITENUM, 0);
-		PA_SetSpriteXY(MAIN_SCREEN, players[n] -> SPRITENUM, (int)(n*48) +48, 0);
+		mainx[players[n]->SPRITENUM] = n*48 + 48;
+		PA_SetSpriteXY(MAIN_SCREEN, players[n] -> SPRITENUM, -64, 0);
 	} // moves character sprites into position above their scores
 	
 	int winner = 0; // winner of the game, based on location in players
@@ -640,6 +689,7 @@ void displayResults() {
 	
 	PA_InitText(MAIN_SCREEN, 1);
 	PA_SetTextCol(MAIN_SCREEN, 31,31,31);
+	PA_HideBg(MAIN_SCREEN, 1);
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 8, "Total:");
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 11, "Kills:");
 	PA_OutputSimpleText(MAIN_SCREEN, 0, 14, "Deaths:");
@@ -746,6 +796,8 @@ bool match(int param) {
 	initMinimap(selectedStage); // inits minimap
 	PA_InitText(SUB_SCREEN,1); // inits test on sub screen (displays percentages)
 	PA_SetTextCol(SUB_SCREEN, 31,31,31); // text color = white
+	PA_HideBg(MAIN_SCREEN, 1);
+	PA_HideBg(SUB_SCREEN, 1);
 
 	// initializes scoreboard
 	score = Scoreboard(players.size()); // initializes a new scoreboard
@@ -779,12 +831,21 @@ bool match(int param) {
 		while(players[n] -> aerial) {
 			players[n] -> fall();
 			players[n] -> move();
+			mainx[players[n]->SPRITENUM] = PA_GetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM);
+			PA_SetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM, -64);
 		}
 		players[n] -> idle();
+		mainx[players[n]->SPRITENUM] = PA_GetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM);
+		PA_SetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM, -64);
 	}
 
 	scrollScreen();
 
+	for(int n = 0; n < (int)players.size(); n++) {
+		mainx[players[n]->SPRITENUM] = PA_GetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM);
+		PA_SetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM, -64);
+	}
+	
 	fadeIn();
 
 	PA_FatPlaySfx("3");
@@ -1317,6 +1378,12 @@ int main(int argc, char ** argv) {
 	PA_FatSetBasePath("SSBDS_Files");  // Set a base path
 	// initializes external file system. very important!!!
 
+	openGif(LOADING_SCREEN, "/SSBDS_Files/gifs/loading.gif");
+
+	for(int n = 0; n < 128; n++) {
+		mainx.push_back(-64);
+		subx.push_back(-64);
+	}
 	fadeOut();
 
 	PA_VBLFunctionInit(AS_SoundVBL); // easy way to make sure that AS_SoundVBL() is called every frame
@@ -1325,7 +1392,7 @@ int main(int argc, char ** argv) {
 	AS_SetMP3Loop(true);
 	
 	initControls();
-		
+			
 	while(true) titleScreen(); // permanently runs the game
 	return 0; //never happens, but then again, DS games don't quit
 } // End of main()

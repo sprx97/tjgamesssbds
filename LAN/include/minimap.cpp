@@ -1,18 +1,19 @@
 int DAMAGE_LOW = 1, DAMAGE_MID = 12, DAMAGE_HIGH = 23, DAMAGE_HIGHER = 34;
 void initMinimap(int selStage) {
 	if(selStage == FINALDESTINATION) {
-		PA_EasyBgLoad(SUB_SCREEN, 3, finaldestinationminimap);
+		PA_EasyBgLoad(SUB_SCREEN, 2, finaldestinationminimap);
 	}
 	else if(selStage == POKEMONSTADIUM) {
-		PA_EasyBgLoad(SUB_SCREEN, 3, pokemonstadiumminimap);
+		PA_EasyBgLoad(SUB_SCREEN, 2, pokemonstadiumminimap);
 	}
 //	else if(selStage == CORNERIA) {
-//		PA_EasyBgLoad(SUB_SCREEN, 3, corneria);
+//		PA_EasyBgLoad(SUB_SCREEN, 2, corneria);
 //	}
 //	else if(selStage == CASTLESIEGE) {
-//		PA_EasyBgLoad(SUB_SCREEN, 3, castleseige);
+//		PA_EasyBgLoad(SUB_SCREEN, 2, castleseige);
 //	}
-
+	PA_HideBg(SUB_SCREEN, 2);
+	
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charminis");
 	PA_FatLoadSprite(31, "charminis");
 	for(int n = 0; n < (int)players.size(); n++) {
@@ -73,6 +74,7 @@ void initMinimap(int selStage) {
 			palnum = 15;
 		}
 		PA_CreateSprite(SUB_SCREEN, 80+n, (void*)sprite_gfx[icons], OBJ_SIZE_64X64, COLOR256, palnum, x, y);
+		subx[80+n] = x; PA_SetSpriteX(SUB_SCREEN, 80+n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, 80+n, players[n]->MYCHAR, players[n]->MYCHAR, 20, ANIM_LOOP, -1);
 	}
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "numbers");
@@ -97,18 +99,21 @@ void initMinimap(int selStage) {
 			y = 16;
 		}
 		PA_CreateSprite(SUB_SCREEN, 50 + (n+1)*4, (void*)sprite_gfx[29], OBJ_SIZE_16X16, COLOR256, 2, x, y);
+		subx[50+(n+1)*4] = x; PA_SetSpriteX(SUB_SCREEN, 50+(n+1)*4, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4, 0, 0, 20, ANIM_LOOP, -1);
 		PA_CreateSprite(SUB_SCREEN, 50 + (n+1)*4 + 1, (void*)sprite_gfx[29], OBJ_SIZE_16X16, COLOR256, 2, x+8, y);
+		subx[50+(n+1)*4 + 1] = x+8; PA_SetSpriteX(SUB_SCREEN, 50+(n+1)*4 + 1, -64);		
 		PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+1, 1, 1, 20, ANIM_LOOP, -1);
 		PA_CreateSprite(SUB_SCREEN, 50 + (n+1)*4 + 2, (void*)sprite_gfx[29], OBJ_SIZE_16X16, COLOR256, 2, x+16, y);
+		subx[50+(n+1)*4 + 2] = x+16; PA_SetSpriteX(SUB_SCREEN, 50+(n+1)*4 + 2, -64);		
 		PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+2, 1, 1, 20, ANIM_LOOP, -1);
 		PA_CreateSprite(SUB_SCREEN, 50 + (n+1)*4 + 3, (void*)sprite_gfx[29], OBJ_SIZE_16X16, COLOR256, 2, x+24, y);		
+		subx[50+(n+1)*4 + 3] = x+24; PA_SetSpriteX(SUB_SCREEN, 50+(n+1)*4 + 3, -64);		
 		PA_StartSpriteAnimEx(SUB_SCREEN, 50+(n+1)*4+3, 1, 1, 20, ANIM_LOOP, -1);	
 	}
 } // initializes the minimap display on the sub screen
 void deleteMinimap() {
 	for(int n = 0; n < 128; n++) PA_DeleteSprite(SUB_SCREEN, n);
-	
 }
 void displayMinimap() {
 	for(int n = 0; n < (int)players.size(); n++) {

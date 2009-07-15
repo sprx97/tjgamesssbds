@@ -1276,6 +1276,7 @@ void Fighter::setStage(Stage *s) {
 	stage = s; 
 	x = stage->spawnx[charnum];
 	y = stage->spawny[charnum];
+	PA_SetSpriteX(MAIN_SCREEN, SPRITENUM, -64);
 	startx = x;
 	starty = y;
 	if(x < stage->width/2) setDirection(RIGHT);
