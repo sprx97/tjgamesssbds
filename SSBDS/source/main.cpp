@@ -467,6 +467,15 @@ bool characterSelect(bool train = false) {
 		subx[n] = n*48+40; PA_SetSpriteX(SUB_SCREEN, n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	}
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "arrow");
+	PA_FatLoadSprite(2, "arrow");
+	PA_CreateSprite(SUB_SCREEN, MAX_CHAR+4, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, 0, 160);
+	subx[MAX_CHAR+4] = 0; PA_SetSpriteX(SUB_SCREEN, MAX_CHAR+4, -64);
+	PA_StartSpriteAnimEx(SUB_SCREEN, MAX_CHAR+4, 0, 0, 1, ANIM_LOOP, -1);
+	PA_SetSpriteHflip(SUB_SCREEN, MAX_CHAR+4, true);
+	PA_CreateSprite(SUB_SCREEN, MAX_CHAR+5, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, 224, 160);
+	subx[MAX_CHAR+5] = 224; PA_SetSpriteX(SUB_SCREEN, MAX_CHAR+5, -64);	
+	PA_StartSpriteAnimEx(SUB_SCREEN, MAX_CHAR+5, 0, 0, 1, ANIM_LOOP, -1);
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
 	PA_FatLoadSprite(1, "charsel");
 	for(int n = KIRBY; n < MAX_CHAR; n++) {
