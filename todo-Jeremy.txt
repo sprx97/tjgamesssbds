@@ -5,7 +5,6 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - split minimap.cpp to a .h file (the "correct" way)
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
-- credits for stage images
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus

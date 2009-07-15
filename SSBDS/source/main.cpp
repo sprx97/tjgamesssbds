@@ -1259,7 +1259,7 @@ void options() {
 } // options menu, in progress
 void extras() {
 //	AS_MP3StreamPlay("/SSBDS_Files/music/credits.mp3");
-	for(int n = 1; n <= 10; n++) {
+	for(int n = 1; n <= 11; n++) {
 		PA_Init8bitBg(SUB_SCREEN, 3);
 		PA_Init8bitBg(MAIN_SCREEN, 3);
 		openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
