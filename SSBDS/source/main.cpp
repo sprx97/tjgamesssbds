@@ -573,20 +573,6 @@ bool characterSelect(bool train = false) {
 }
 
 // In-game functions:
-void Pause() {
-	for(int n = 0; n < 128; n++) {
-		PA_SpriteAnimPause(MAIN_SCREEN, n, 1);
-		PA_SpriteAnimPause(SUB_SCREEN, n, 1);
-	}
-	PA_WaitForVBL();
-	PA_OutputText(MAIN_SCREEN, 12, 10, "PAUSED");
-	while(!Pad.Newpress.Start) PA_WaitForVBL();
-	PA_OutputText(MAIN_SCREEN, 12, 10, "         ");
-	for(int n = 0; n < 128; n++) {
-		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
-		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
-	}
-} // pauses the game; will add pause menu later
 void scrollScreen() {
 	if(cameratype == CAMERATYPE_FOLLOWALL) {
 		double maxx = -10000;
@@ -634,7 +620,7 @@ void scrollScreen() {
 	} // scrolls the special effects
 }
 
-void displayResults() {		
+void displayResults(bool nocontest) {		
 	PA_Init8bitBg(MAIN_SCREEN, 3);
 	PA_Init8bitBg(SUB_SCREEN, 3);
 	deleteMinimap();
@@ -670,6 +656,8 @@ void displayResults() {
 		}
 	}
 	// calculates winner
+	
+	if(nocontest) draw = true;
 	
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// loads an image on the sub screen
@@ -762,8 +750,7 @@ void displayResults() {
 
 int oldcam = cameratype;
 bool camchanged = false;
-
-void gameOver() {
+void gameOver(bool nocontest = false) {
 	PA_FatPlaySfx("game");
 	for(int n = 0; n < 128; n++) {
 		PA_StopSpriteAnim(MAIN_SCREEN, n);
@@ -774,9 +761,27 @@ void gameOver() {
 	fadeOut();
 	cameratype = oldcam;
 	camchanged = false;
-	return displayResults();
+	return displayResults(nocontest);
 }
 
+bool Pause() {
+	for(int n = 0; n < 128; n++) {
+		PA_SpriteAnimPause(MAIN_SCREEN, n, 1);
+		PA_SpriteAnimPause(SUB_SCREEN, n, 1);
+	}
+	PA_WaitForVBL();
+	PA_OutputText(MAIN_SCREEN, 12, 10, "PAUSED");
+	PA_OutputText(MAIN_SCREEN, 0, 1, "No Contest: L+R+A+START");
+	while(!Pad.Newpress.Start) PA_WaitForVBL();
+	if(Pad.Held.L && Pad.Held.R && Pad.Held.A && Pad.Held.Start) return true;
+	PA_OutputText(MAIN_SCREEN, 12, 10, "         ");
+	PA_OutputText(MAIN_SCREEN, 0, 1, "                       ");
+	for(int n = 0; n < 128; n++) {
+		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
+		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
+	}
+	return false;
+} // pauses the game; will add pause menu later
 // Game modes/logic
 bool match(int param) {
 	int time=0;
@@ -869,7 +874,12 @@ bool match(int param) {
 	AS_MP3StreamPlay((char*)(stage.songs[songnum]));
 
 	while(true) {
-		if(Pad.Newpress.Start || PA_CheckLid()) Pause(); // checks to see if the game was paused by start button 
+		if(Pad.Newpress.Start || PA_CheckLid()) {
+			if(Pause()) {
+				gameOver(true);
+				return true;
+			}
+		}
 		if (gamemode==GAMEMODE_TIME && time-60 == 0) {
 			gameOver();
 			return true;
