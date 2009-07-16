@@ -30,3 +30,4 @@ Bugs - Things that are broken because of bad code:
 - FAT sprites don't show on emulator
 - Sometimes freezes after results screen
 - Memory shortages (and leaks)
+- Weird discoloration on text background during match
