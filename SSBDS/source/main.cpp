@@ -237,18 +237,16 @@ void fadeOut() {
 		PA_SetSpriteX(MAIN_SCREEN, n, -64);
 		PA_SetSpriteX(SUB_SCREEN, n, -64);
 	}
-   	for(int i = -31; i <= 0; i++) {
-		PA_SetBrightness(MAIN_SCREEN, i);
-		PA_SetBrightness(SUB_SCREEN, i);
-		PA_WaitForVBL();
-	} // slowly brightens the screen to normal
+	for(int n = 0; n < 5; n++) PA_WaitForVBL();
+   	PA_SetBrightness(MAIN_SCREEN, 0);
+	PA_SetBrightness(SUB_SCREEN, 0);
+	for(int n = 0; n < 5; n++) PA_WaitForVBL();
 } // fades both screens out
 void fadeIn() {
-  	for(int i = 0; i >= -31; i--) {
-		PA_SetBrightness(MAIN_SCREEN, i);
-		PA_SetBrightness(SUB_SCREEN, i);
-		PA_WaitForVBL();
-	} // slowly darkens the screen into black
+	for(int n = 0; n < 5; n++) PA_WaitForVBL();
+	PA_SetBrightness(MAIN_SCREEN, -31);
+	PA_SetBrightness(SUB_SCREEN, -31);
+	for(int n = 0; n < 5; n++) PA_WaitForVBL();
 	PA_DeleteBg(MAIN_SCREEN, 3);
 	PA_DeleteBg(SUB_SCREEN, 3);
 	PA_Init8bitBg(MAIN_SCREEN, 3);
