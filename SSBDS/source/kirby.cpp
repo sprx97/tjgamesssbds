@@ -14,9 +14,9 @@ Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	doublejumpspeed = 4;
 	shieldstr = 64;
 	runspeed = 3.5;
-	handx = 24;
-	handy = 18;
-	hangx = 24;
+	handx = 64-49;
+	handy = 33;
+	hangx = 64-41;
 	hangy = 18;
 	MYCHAR = KIRBY;
 	series = "kirby";

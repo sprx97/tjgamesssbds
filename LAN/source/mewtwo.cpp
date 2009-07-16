@@ -14,10 +14,10 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	doublejumpspeed = 7;
 	shieldstr = 64;
 	runspeed = 4.5;
-	handx = 43;
-	handy = 18;
-	hangx = 43;
-	hangy = 18;
+	handx = 64-46;
+	handy = 33;
+	hangx = 64-37;
+	hangy = 26;
 	shadowballcharge = 0;
 	upcount = downcount = leftcount = rightcount = 0;
 	MYCHAR = MEWTWO;

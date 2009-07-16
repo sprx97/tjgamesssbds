@@ -1,7 +1,5 @@
 // Game designed by TJgames of TJHSST
 // Head Developer(s): Jeremy Vercillo, Daniel Johnson
-// Assistant Developer(s): Dylan Ladwig, Tyler Haines, Patrick Stalcup
-// Head Advisor: Andrew Kim
 // 6/08 - ???
 
 // The rights to Super Smash Bros. and all the related characters, stages, and items
@@ -449,7 +447,11 @@ void stageSelect() {
 		PA_WaitForVBL();
 	}
 }
+
 bool characterSelect(bool train = false) {
+	int PAGEUP = MAX_CHAR+5;
+	int PAGEDOWN = MAX_CHAR+4;
+
 	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	// opens the gif from the path on the sub screen
@@ -465,15 +467,17 @@ bool characterSelect(bool train = false) {
 		subx[n] = n*48+40; PA_SetSpriteX(SUB_SCREEN, n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	}
+	
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "arrow");
 	PA_FatLoadSprite(2, "arrow");
-	PA_CreateSprite(SUB_SCREEN, MAX_CHAR+4, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, 0, 160);
-	subx[MAX_CHAR+4] = 0; PA_SetSpriteX(SUB_SCREEN, MAX_CHAR+4, -64);
-	PA_StartSpriteAnimEx(SUB_SCREEN, MAX_CHAR+4, 0, 0, 1, ANIM_LOOP, -1);
-	PA_SetSpriteHflip(SUB_SCREEN, MAX_CHAR+4, true);
-	PA_CreateSprite(SUB_SCREEN, MAX_CHAR+5, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, 224, 160);
-	subx[MAX_CHAR+5] = 224; PA_SetSpriteX(SUB_SCREEN, MAX_CHAR+5, -64);	
-	PA_StartSpriteAnimEx(SUB_SCREEN, MAX_CHAR+5, 0, 0, 1, ANIM_LOOP, -1);
+	PA_CreateSprite(SUB_SCREEN, PAGEDOWN, (void*)sprite_gfx[1], OBJ_SIZE_32X32, COLOR256, 2, -32, -32);
+	subx[PAGEDOWN] = -32; PA_SetSpriteX(SUB_SCREEN, PAGEDOWN, -64);
+	PA_StartSpriteAnimEx(SUB_SCREEN, PAGEDOWN, 0, 0, 1, ANIM_LOOP, -1);
+	PA_SetSpriteHflip(SUB_SCREEN, PAGEDOWN, true);
+	PA_CreateSprite(SUB_SCREEN, PAGEUP, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, -32, -32);
+	subx[PAGEUP] = -32; PA_SetSpriteX(SUB_SCREEN, PAGEUP, -64);	
+	PA_StartSpriteAnimEx(SUB_SCREEN, PAGEUP, 0, 0, 1, ANIM_LOOP, -1);
+	
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
 	PA_FatLoadSprite(1, "charsel");
 	for(int n = KIRBY; n < MAX_CHAR; n++) {
@@ -504,11 +508,24 @@ bool characterSelect(bool train = false) {
 	PA_FatPlaySfx("ffa");
 	// plays free for all sound byte
 
+	int page = 0;
 	int selectedcursor = -1;
+	int MAX_PAGE = (MAX_CHAR-1)/6;
 	while(true) {
 		if(Stylus.Newpress) {
 			for(int n = 0; n < 4; n++) {
 				if(PA_SpriteTouched(n)) selectedcursor = n;
+			}
+			if(PA_SpriteTouched(PAGEDOWN)) {
+				page--;
+				if(page > 0) PA_SetSpriteXY(SUB_SCREEN, PAGEDOWN, 0, 160);
+				else PA_SetSpriteXY(SUB_SCREEN, PAGEDOWN, -32, -32);
+				// load charsel for previous page
+			}
+			if(PA_SpriteTouched(PAGEUP)) {
+				page++;
+				if(page < MAX_PAGE) PA_SetSpriteXY(MAX_CHAR, PAGEUP, 224, 160);
+				else PA_SetSpriteXY(SUB_SCREEN, PAGEUP, -32, -32);
 			}
 		}
 		else if(Stylus.Held && selectedcursor != -1) {

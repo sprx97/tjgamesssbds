@@ -14,9 +14,9 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	doublejumpspeed = 4.5;
 	shieldstr = 64;
 	runspeed = 2.75;
-	handx = 30;
-	handy = 10;
-	hangx = 30;
+	handx = 64-35;
+	handy = 28;
+	hangx = 64-37;
 	hangy = 10;
 	eruptioncharge = 0;
 	quickdrawcharge = 0;

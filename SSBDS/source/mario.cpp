@@ -14,10 +14,10 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	doublejumpspeed = 5;
 	shieldstr = 64;
 	runspeed = 3.75;
-	handx = 25;
-	handy = 19;
-	hangx = 25;
-	hangy = 19;
+	handx = 64-42;
+	handy = 29;
+	hangx = 64-36;
+	hangy = 20;
 	fluddcharge = 0;
 	MYCHAR = MARIO;
 	series = "mariobros";
