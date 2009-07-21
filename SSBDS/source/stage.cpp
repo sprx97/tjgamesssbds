@@ -16,17 +16,19 @@ Floor::Floor(int xpos, int ypos, int l, bool plat) {
 	length = l;
 	isplatform = plat;
 } // creates a new floor
-bool Floor::isPlatform() { return isplatform; } // returns isplatform
+bool Floor::isPlatform() {
+	return isplatform;
+} // returns isplatform
 double Floor::totalrise() {
 	double total = 0;
-	for(int n = 0; n < (int)slopes.size(); n++) {
+	for (int n = 0; n < (int)slopes.size(); n++) {
 		total += slopes[n];
 	}
 	return total;
 } // counts the total rise of the stage from start to finish
 double Floor::getrise(int distance) {
 	double total = 0;
-	for(int n = x; n < distance; n++) {
+	for (int n = x; n < distance; n++) {
 		total += slopes[n-x];
 	}
 	return total;
@@ -50,12 +52,22 @@ Wall::Wall(int xpos, int ypos, int l, string d) {
 
 //stage methods:
 Stage::Stage() {}
-void Stage::Initialize() {} 
+void Stage::Initialize() {}
 // each subclass has it's own initialization code
-string Stage::getName() { return name; }
-vector<Floor> Stage::getFloors() { return floors; }
-vector<Wall> Stage::getWalls() { return walls; }
-vector<Ceiling> Stage::getCeilings() { return ceilings; }
-vector<Ledge> Stage::getLedges() { return ledges; }
+string Stage::getName() {
+	return name;
+}
+vector<Floor> Stage::getFloors() {
+	return floors;
+}
+vector<Wall> Stage::getWalls() {
+	return walls;
+}
+vector<Ceiling> Stage::getCeilings() {
+	return ceilings;
+}
+vector<Ledge> Stage::getLedges() {
+	return ledges;
+}
 // gets stuff about the stage
 Stage::~Stage() {}

@@ -45,7 +45,7 @@ class Wall {
 /// All stages extend this class
 class Stage {
 	public:
-	// variables
+		// variables
 		int width, height; // width and height of the image of the stage
 		int leftdeath, rightdeath, topdeath, bottomdeath;
 		// where a person dies of the edges of the stage
@@ -59,7 +59,7 @@ class Stage {
 		vector<const char*> songnames;
 		vector<const char*> songartists;
 		vector<const char*> songs;
-	// methods
+		// methods
 		Stage();
 		virtual void Initialize(); ///< each subclass has it's own initialization code
 		string getName();
@@ -68,7 +68,7 @@ class Stage {
 		vector<Ceiling> getCeilings();
 		vector<Ledge> getLedges();
 		// gets stuff about the stage
-	//destructor
+		//destructor
 		virtual ~Stage();
 };
 #endif

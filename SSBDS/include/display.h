@@ -7,7 +7,7 @@
 using std::vector;
 
 /// Keeps track of various aspects of the screen
-class Display{
+class Display {
 	public:
 		Display();
 		vector<Effect> effects; ///< list of all the effects displayed onscreen

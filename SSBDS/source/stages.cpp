@@ -4,7 +4,9 @@ const int FINALDESTINATION = 1, POKEMONSTADIUM = 2, CASTLESIEGE = 3, CORNERIA = 
 // stage shortcuts just like character shortcuts
 
 FinalDestination::~FinalDestination() {}
-FinalDestination::FinalDestination() { Initialize(); }
+FinalDestination::FinalDestination() {
+	Initialize();
+}
 void FinalDestination::Initialize() {
 	name = "finaldestination";
 	width = 512;
@@ -35,7 +37,9 @@ void FinalDestination::Initialize() {
 	songs.push_back("SSBDS_Files/music/stages/finaldestination2.mp3");
 } // initializes all the variables for final destination
 PokemonStadium::~PokemonStadium() {}
-PokemonStadium::PokemonStadium() { Initialize(); }
+PokemonStadium::PokemonStadium() {
+	Initialize();
+}
 void PokemonStadium::Initialize() {
 	name = "pokemonstadium";
 	width = 512;
@@ -71,7 +75,9 @@ void PokemonStadium::Initialize() {
 	songs.push_back("SSBDS_Files/music/stages/pokemonstadium3.mp3");
 } // initializes the pokemon stadium stage
 CastleSiege::~CastleSiege() {}
-CastleSiege::CastleSiege() { Initialize(); }
+CastleSiege::CastleSiege() {
+	Initialize();
+}
 void CastleSiege::Initialize() {
 	name = "castlesiege";
 	width = 512;
@@ -89,13 +95,13 @@ void CastleSiege::Initialize() {
 	spawny.push_back(88);
 	spawny.push_back(88);
 	floors.push_back(Floor(40, 216, 410, false));
-	for(int n = 40; n < 202; n++) {
+	for (int n = 40; n < 202; n++) {
 		floors[0].slopes.push_back(0);
 	}
-	for(int n = 202; n < 300; n++) {
+	for (int n = 202; n < 300; n++) {
 		floors[0].slopes.push_back(-.25);
 	}
-	for(int n = 300; n < 451; n++) {
+	for (int n = 300; n < 451; n++) {
 		floors[0].slopes.push_back(0);
 	}
 	// this floor is sloped
@@ -111,10 +117,13 @@ void CastleSiege::Initialize() {
 	songs.push_back("SSBDS_Files/music/stages/castlesiege2.mp3");
 } // initializes Castle Siege
 Corneria::~Corneria() {}
-Corneria::Corneria() { Initialize(); }
+Corneria::Corneria() {
+	Initialize();
+}
 void Corneria::Initialize() {
 	name = "corneria";
-	width = 512; height = 256;
+	width = 512;
+	height = 256;
 	topdeath = -192;
 	bottomdeath = 256;
 	leftdeath = -128;
@@ -127,31 +136,31 @@ void Corneria::Initialize() {
 	spawny.push_back(2);
 	spawny.push_back(2);
 	spawny.push_back(2);
-	floors.push_back(Floor(106, 130, 34, false));			
+	floors.push_back(Floor(106, 130, 34, false));
 	floors.push_back(Floor(30, 74, 338, false));
-	for(int n = 30; n < 90; n++) {
+	for (int n = 30; n < 90; n++) {
 		floors[1].slopes.push_back(-.25);
 	}
-	for(int n = 90; n < 214; n++) {
+	for (int n = 90; n < 214; n++) {
 		floors[1].slopes.push_back(.10);
 	}
-	for(int n = 214; n < 260; n++) {
+	for (int n = 214; n < 260; n++) {
 		floors[1].slopes.push_back(-.21);
 	}
-	for(int n = 260; n < 295; n++) {
+	for (int n = 260; n < 295; n++) {
 		floors[1].slopes.push_back(-.8);
 	}
-	for(int n = 295; n < 369; n++) {
+	for (int n = 295; n < 369; n++) {
 		floors[1].slopes.push_back(-.4);
 	}
 	floors.push_back(Floor(362, 85, 122, false));
-	for(int n = 362; n < 408; n++) {
+	for (int n = 362; n < 408; n++) {
 		floors[2].slopes.push_back(0);
 	}
-	for(int n = 408; n < 441; n++) {
+	for (int n = 408; n < 441; n++) {
 		floors[2].slopes.push_back(-.2);
 	}
-	for(int n = 441; n < 485; n++) {
+	for (int n = 441; n < 485; n++) {
 		floors[2].slopes.push_back(.38);
 	}
 	// 2 floors are sloped

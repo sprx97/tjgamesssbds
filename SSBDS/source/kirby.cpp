@@ -7,16 +7,16 @@
 using std::vector;
 
 //constructor
-Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num,listplayers,disp,"kirby",AI) {
+Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "kirby", AI) {
 	weight = 0.899;
 	w2value  = -0.44;
 	jumpspeed = 6;
 	doublejumpspeed = 4;
 	shieldstr = 64;
 	runspeed = 3.5;
-	handx = 64-49;
+	handx = 64 - 49;
 	handy = 33;
-	hangx = 64-41;
+	hangx = 64 - 41;
 	hangy = 18;
 	MYCHAR = KIRBY;
 	series = "kirby";
@@ -35,10 +35,10 @@ Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 // initializers
 void Kirby::initSounds() {
 	int alreadymade = 0;
-	for(int n = 0; n < charnum; n++) {
-		if(players[n] -> MYCHAR == MYCHAR) alreadymade++;
+	for (int n = 0; n < charnum; n++) {
+		if (players[n] -> MYCHAR == MYCHAR) alreadymade++;
 	}
-	if(alreadymade == 0) {
+	if (alreadymade == 0) {
 		PA_FatLoadSfx("kirbydoublejump", "kirbydoublejump");
 		PA_FatLoadSfx("kirbydsmash", "kirbydsmash");
 		PA_FatLoadSfx("kirbyfsmash", "kirbyfsmash");
@@ -58,36 +58,36 @@ void Kirby::initPalettes() {
 }
 // sounds
 void Kirby::playsound(int sndnum) {
-	if(sndnum == DOUBLEJUMP) PA_FatPlaySfx("kirbydoublejump");
-	if(sndnum == SMASHDOWN) PA_FatPlaySfx("kirbydsmash");
-	if(sndnum == SMASHLEFT || sndnum == SMASHRIGHT) PA_FatPlaySfx("kirbyfsmash");
-	if(sndnum == FTILT) PA_FatPlaySfx("kirbyftilt");
-	if(sndnum == JUMP) PA_FatPlaySfx("kirbyjump");
-	if(sndnum == SMASHUP) PA_FatPlaySfx("kirbyusmash");
+	if (sndnum == DOUBLEJUMP) PA_FatPlaySfx("kirbydoublejump");
+	if (sndnum == SMASHDOWN) PA_FatPlaySfx("kirbydsmash");
+	if (sndnum == SMASHLEFT || sndnum == SMASHRIGHT) PA_FatPlaySfx("kirbyfsmash");
+	if (sndnum == FTILT) PA_FatPlaySfx("kirbyftilt");
+	if (sndnum == JUMP) PA_FatPlaySfx("kirbyjump");
+	if (sndnum == SMASHUP) PA_FatPlaySfx("kirbyusmash");
 }
 // actions
 void Kirby::bside() {
-	if(action != BSIDE) {
+	if (action != BSIDE) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 178, 186, 15, ANIM_ONESHOT);
 		PA_FatPlaySfx("kirbybside");
-		delay = 60/15 * 9;
+		delay = 60 / 15 * 9;
 		setDirection();
 		dx = 0;
 		action = BSIDE;
 	}
 	else {
-		if(delay == 1) {
-			if(checkFloorCollision()) idle();
+		if (delay == 1) {
+			if (checkFloorCollision()) idle();
 			else fall();
 		}
 	}
 }
 void Kirby::bup() {
-	if(action != BUP) {
+	if (action != BUP) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 190, 199, 20, ANIM_ONESHOT);
 		PA_FatPlaySfx("kirbybup1");
 		aerial = true;
-		delay = 60/20 * 10;
+		delay = 60 / 20 * 10;
 		dy = -6;
 		dx = 0;
 		fastfall = 0;
@@ -96,118 +96,118 @@ void Kirby::bup() {
 		action = BUP;
 	}
 	else {
-		if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 199) {
+		if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 199) {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 200, 200, 20, ANIM_LOOP, -1);
 			PA_FatPlaySfx("kirbybup2");
-			delay = 60/20 * 1;
+			delay = 60 / 20 * 1;
 			dy = 4;
 		}
-		else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 200) {
-			if(!checkFloorCollision()) {
+		else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 200) {
+			if (!checkFloorCollision()) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 200, 200, 20, ANIM_LOOP, -1);
-				delay = 60/20 * 1;
+				delay = 60 / 20 * 1;
 				dy = 4;
 			}
 			else {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 201, 201, 20, ANIM_LOOP, -1);
-				delay = 60/20 * 1;
+				delay = 60 / 20 * 1;
 				int directionmodifier = 1;
-				if(direction ==RIGHT) directionmodifier = -1;
+				if (direction == RIGHT) directionmodifier = -1;
 				Hitbox tempbox;
-				tempbox.addCircle(createAtkbox(36, 805%64, 22, Knockback((-2*directionmodifier), -.5, 4), .3));
-				tempbox.addCircle(createAtkbox(30, 794%63, 22, Knockback((-2*directionmodifier), -.5, 4), .3));
-				tempbox.addCircle(createAtkbox(47, 812%64, 10, Knockback((-2*directionmodifier), -.5, 4), .3));
+				tempbox.addCircle(createAtkbox(36, 805 % 64, 22, Knockback((-2*directionmodifier), -.5, 4), .3));
+				tempbox.addCircle(createAtkbox(30, 794 % 63, 22, Knockback((-2*directionmodifier), -.5, 4), .3));
+				tempbox.addCircle(createAtkbox(47, 812 % 64, 10, Knockback((-2*directionmodifier), -.5, 4), .3));
 				((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -5*directionmodifier, 0, 20, FINALCUTTER, charnum, tempbox, stage, display));
 			}
 		}
 	}
 }
 void Kirby::bdown() {
-	if(action != BDOWN) {
+	if (action != BDOWN) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 187, 188, 20, ANIM_LOOP, -1);
-		delay = 60/20 * 2;
+		delay = 60 / 20 * 2;
 		dy = -gravity;
 		dx = 0;
 		action = BDOWN;
 		rockcount = 250;
 	}
 	else {
-		if(rockcount > 0) rockcount--;
-		if(rockcount == 0 || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
+		if (rockcount > 0) rockcount--;
+		if (rockcount == 0 || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 			rockcount = -1;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 203, 204, 20, ANIM_LOOP, -1);
-			delay = 60/20 * 2;
+			delay = 60 / 20 * 2;
 			aerial = false;
 			dx = 0;
 		}
-		else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 204) {
-			if(checkFloorCollision()) idle();
+		else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 204) {
+			if (checkFloorCollision()) idle();
 			else fall();
 		}
-		else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 188) {
-			if(!checkFloorCollision()) {
+		else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 188) {
+			if (!checkFloorCollision()) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 189, 189, 20, ANIM_LOOP, -1);
-				delay = 60/20 * 1;
+				delay = 60 / 20 * 1;
 				dy = 5;
 			}
 			else {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 189, 189, 20, ANIM_LOOP, -1);
-				delay = 60/20*1;
+				delay = 60 / 20 * 1;
 				aerial = false;
 			}
 		}
-		else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 189) {
-			if(!checkFloorCollision()) {
+		else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 189) {
+			if (!checkFloorCollision()) {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 189, 189, 20, ANIM_LOOP, -1);
-				delay = 60/20 * 1;
+				delay = 60 / 20 * 1;
 				dy = 5;
 			}
 			else {
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 189, 189, 20, ANIM_LOOP, -1);
-				delay = 60/20*1;
-			}				
+				delay = 60 / 20 * 1;
+			}
 		}
 	}
 }
 void Kirby::bneut() {
-	if(action != BNEUT) {
+	if (action != BNEUT) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 172, 172, 10, ANIM_LOOP, -1);
-		delay = 60/10 * 1;
+		delay = 60 / 10 * 1;
 		setDirection();
 		dx = 0;
 		action = BNEUT;
 	}
 	else {
-		if(custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
+		if (custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 176, 176, 10, ANIM_LOOP, -1);
-			delay = 60/10 * 1;
+			delay = 60 / 10 * 1;
 		}
-		else if(delay == 1 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 172 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 174)) {
+		else if (delay == 1 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 172 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 174)) {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 173, 174, 20, ANIM_LOOP, -1);
-			delay = 60/20 * 2;
+			delay = 60 / 20 * 2;
 		}
-		else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 176) {
-			if(checkFloorCollision()) idle();
+		else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 176) {
+			if (checkFloorCollision()) idle();
 			else fall();
 		}
 	}
 }
 void Kirby::fthrow() {
-	if(action != FTHROW) {
+	if (action != FTHROW) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 212, 218, 10, ANIM_LOOP, -1);
 		playsound(FTHROW);
-		delay = 60/10 * (218-212+1);
+		delay = 60 / 10 * (218 - 212 + 1);
 		action = FTHROW;
 	}
-	else if(delay <= 0) {
+	else if (delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(1, -2.5, 7);
-		if(direction == RIGHT) {
+		if (direction == RIGHT) {
 			mult = 1;
 		}
-		grabbedenemy -> hitstun = (int) (grabbedenemy -> k.length * 3 * (1+(grabbedenemy -> percentage/100)));
-		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
-		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length * 3 * (1 + (grabbedenemy -> percentage / 100)));
+		grabbedenemy -> kx = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dy;
 		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
 		grabbedenemy -> percentage += 6;
 		grabbedenemy -> stun();
@@ -215,51 +215,51 @@ void Kirby::fthrow() {
 		grabbedenemy = NULL;
 		fall();
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 212) {
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 212) {
 		dx = 0;
 		dy = 0;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 213) {
-		dy = -8-gravity;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 213) {
+		dy = -8 - gravity;
 		aerial = true;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 214) {
-		dy = -4-gravity;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 214) {
+		dy = -4 - gravity;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 215) {
-		dy = 0-gravity;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 215) {
+		dy = 0 - gravity;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 216) {
-		dy = 4-gravity;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 216) {
+		dy = 4 - gravity;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 217) {
-		dy = 8-gravity;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 217) {
+		dy = 8 - gravity;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 218) {
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 218) {
 		dx = 0;
-		dy = -6-gravity;
+		dy = -6 - gravity;
 	}
-	if(grabbedenemy != NULL) {
-		if(direction == RIGHT) grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
-		else grabbedenemy -> grabbed((int)(x-handx+dx), (int)(y+dy));
-	}	
+	if (grabbedenemy != NULL) {
+		if (direction == RIGHT) grabbedenemy -> grabbed((int)(x + handx + dx), (int)(y + dy));
+		else grabbedenemy -> grabbed((int)(x - handx + dx), (int)(y + dy));
+	}
 }
 void Kirby::bthrow() {
-	if(action != BTHROW) {
+	if (action != BTHROW) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 219, 223, 10, ANIM_LOOP, -1);
 		playsound(BTHROW);
-		delay = 60/10 * (223-219+1);
+		delay = 60 / 10 * (223 - 219 + 1);
 		action = BTHROW;
 	}
-	else if(delay <= 0) {
+	else if (delay <= 0) {
 		int mult = 1;
 		grabbedenemy -> k = Knockback(1.25, -2.5, 7);
-		if(direction == RIGHT) {
+		if (direction == RIGHT) {
 			mult = -1;
 		}
-		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
-		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
-		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length * 3 * (1 + (grabbedenemy -> percentage / 100)));
+		grabbedenemy -> kx = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dy;
 		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
 		grabbedenemy -> percentage += 6;
 		grabbedenemy -> stun();
@@ -267,50 +267,50 @@ void Kirby::bthrow() {
 		grabbedenemy = NULL;
 		fall();
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 219) {
-		if(direction == RIGHT) dx = -1.5;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 219) {
+		if (direction == RIGHT) dx = -1.5;
 		else dx = 1.5;
-		dy = -8-gravity;
+		dy = -8 - gravity;
 		aerial = true;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 220) {
-		dy = 0-gravity;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 220) {
+		dy = 0 - gravity;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 221) {
-		dy = 8-gravity;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 221) {
+		dy = 8 - gravity;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 222) {
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 222) {
 		dy = 0;
 		dx = 0;
 		aerial = false;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 223) {
-		dy = -4-gravity;
-		if(direction == RIGHT) dx = -1.5;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 223) {
+		dy = -4 - gravity;
+		if (direction == RIGHT) dx = -1.5;
 		else dx = 1.5;
 		aerial = true;
 	}
-	if(grabbedenemy != NULL) {
-		if(direction == RIGHT) grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
-		else grabbedenemy -> grabbed((int)(x-handx+dx), (int)(y+dy));
-	}	
+	if (grabbedenemy != NULL) {
+		if (direction == RIGHT) grabbedenemy -> grabbed((int)(x + handx + dx), (int)(y + dy));
+		else grabbedenemy -> grabbed((int)(x - handx + dx), (int)(y + dy));
+	}
 }
 void Kirby::uthrow() {
-	if(action != UTHROW) {
+	if (action != UTHROW) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 223, 226, 10, ANIM_LOOP, -1);
 		playsound(UTHROW);
-		delay = 60/10 * (226-223+1);
+		delay = 60 / 10 * (226 - 223 + 1);
 		action = UTHROW;
-	}		
-	else if(delay <= 0) {
+	}
+	else if (delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(.5, -3, 7);
-		if(direction == RIGHT) {
+		if (direction == RIGHT) {
 			mult = 1;
 		}
-		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
-		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
-		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length * 3 * (1 + (grabbedenemy -> percentage / 100)));
+		grabbedenemy -> kx = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dy;
 		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
 		grabbedenemy -> percentage += 8;
 		grabbedenemy -> stun();
@@ -318,55 +318,55 @@ void Kirby::uthrow() {
 		grabbedenemy = NULL;
 		idle();
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 223) {
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 223) {
 		dx = 0;
 		dy = 0;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 224) {
-		dy = -20-gravity;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 224) {
+		dy = -20 - gravity;
 		aerial = true;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 225) {
-		dy = 20-gravity;
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 225) {
+		dy = 20 - gravity;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 226) {
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 226) {
 		aerial = false;
 		dy = 0;
 	}
-	if(grabbedenemy != NULL) {
-		if(direction == RIGHT) grabbedenemy -> grabbed((int)(x+handx+dx), (int)(y+dy));
-		else grabbedenemy -> grabbed((int)(x-handx+dx), (int)(y+dy));
-	}	
+	if (grabbedenemy != NULL) {
+		if (direction == RIGHT) grabbedenemy -> grabbed((int)(x + handx + dx), (int)(y + dy));
+		else grabbedenemy -> grabbed((int)(x - handx + dx), (int)(y + dy));
+	}
 }
 void Kirby::dthrow() {
-	if(action != DTHROW) {
+	if (action != DTHROW) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 227, 228, 10, ANIM_LOOP, -1);
 		playsound(DTHROW);
-		delay = 60/10 * (228-227+1);
+		delay = 60 / 10 * (228 - 227 + 1);
 		action = DTHROW;
-		if(direction == RIGHT) dx = 2;
+		if (direction == RIGHT) dx = 2;
 		else dx = -2;
-	}		
-	else if(delay == 1 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 228 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 227)) {
+	}
+	else if (delay == 1 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 228 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 227)) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 229, 230, 10, ANIM_LOOP, -1);
-		delay = 60/10 * (230-229+1) * 5;
+		delay = 60 / 10 * (230 - 229 + 1) * 5;
 		dx = 0;
 	}
-	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 230) {
+	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 230) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 231, 232, 10, ANIM_LOOP, -1);
-		delay = 60/10 * (232-231+1);
-		if(direction == RIGHT) dx = -2;
+		delay = 60 / 10 * (232 - 231 + 1);
+		if (direction == RIGHT) dx = -2;
 		else dx = 2;
 	}
-	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 232) {
+	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 232) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(.5, -2, 12);
-		if(direction == RIGHT) {
+		if (direction == RIGHT) {
 			mult = 1;
 		}
-		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length*3 * (1+(grabbedenemy -> percentage/100)));
-		grabbedenemy -> kx = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dx * mult;
-		grabbedenemy -> ky = (1+(grabbedenemy -> percentage/100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length * 3 * (1 + (grabbedenemy -> percentage / 100)));
+		grabbedenemy -> kx = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dy;
 		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
 		grabbedenemy -> percentage += 10;
 		grabbedenemy -> stun();
@@ -376,8 +376,8 @@ void Kirby::dthrow() {
 	}
 }
 void Kirby::jaywalk() {
-	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 82 && direction == RIGHT) x += 8;
-	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 82 && direction == LEFT) x -= 8;
+	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 82 && direction == RIGHT) x += 8;
+	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 82 && direction == LEFT) x -= 8;
 }
 Kirby::~Kirby() {
 	allatkbox.clear();

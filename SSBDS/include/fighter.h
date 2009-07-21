@@ -25,7 +25,7 @@ class Fighter {
 	public:
 		//constructor
 		Fighter(int num, vector<Fighter*> *listplayers, Display *disp, string n, bool AI = false);
-	// variables
+		// variables
 		double jumpspeed; ///< stores how fast a fighter can jump off of the ground. Overwritten by subclasses
 		double doublejumpspeed; ///< stores how fast a fighter can jump from midair. Overwritten by subclasses
 		double weight;
@@ -80,7 +80,7 @@ class Fighter {
 		Fighter* grabbedby;
 		int grabtimeleft;
 		Display *display;
-	// virtual methods
+		// virtual methods
 		void initDefbox();
 		void initAtkbox();
 		void initSprite();
@@ -143,10 +143,10 @@ class Fighter {
 		void stun();
 		void slide();
 		void hang();
-	// Sound playing
+		// Sound playing
 		virtual void initSounds();
 		virtual void playsound(int sndnum);
-	// constant methods
+		// constant methods
 		void setStage(Stage *s);
 		int getHitstun();
 		double getDamagePercent();

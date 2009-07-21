@@ -11,7 +11,7 @@
 
 extern const int FX_NONE, FX_WEAKERHIT, FX_WEAKHIT, FX_STRONGHIT, FX_AIRJUMP, FX_DEATH;
 
-extern int BUTTON_NONE, BUTTON_A, BUTTON_B, BUTTON_AB, BUTTON_X, BUTTON_Y, BUTTON_L, BUTTON_R; 
+extern int BUTTON_NONE, BUTTON_A, BUTTON_B, BUTTON_AB, BUTTON_X, BUTTON_Y, BUTTON_L, BUTTON_R;
 // actions (for custom controls)
 extern int PAD_HELD, PAD_NEWPRESS, PAD_RELEASED; // Press types (for custom controls)
 // buttons (for custom controls)

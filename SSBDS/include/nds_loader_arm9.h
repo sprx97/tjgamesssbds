@@ -9,9 +9,9 @@ extern "C" {
 
 #define LOAD_DEFAULT_NDS 0
 
-bool runNds (const void* loader, u32 loaderSize, u32 cluster, bool initDisc, bool dldiPatchNds);
+	bool runNds(const void* loader, u32 loaderSize, u32 cluster, bool initDisc, bool dldiPatchNds);
 
-bool runNdsFile (const char* filename);
+	bool runNdsFile(const char* filename);
 
 #ifdef __cplusplus
 }

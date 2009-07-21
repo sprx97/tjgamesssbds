@@ -7,7 +7,7 @@
 using std::vector;
 
 // constructor
-Sandbag::Sandbag(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num,listplayers,disp,"sandbag",AI) {
+Sandbag::Sandbag(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "sandbag", AI) {
 	weight = 1.0;
 	w2value = 0.0;
 	jumpspeed = 0;
@@ -38,49 +38,49 @@ void Sandbag::initPalettes() {
 	palettes.push_back("sandbag");
 }
 void Sandbag::act() {
-	if(effectwait > 0) effectwait--;
-	if(ledgewait > 0) ledgewait--;
-	if(hitstun > k.length*2) {
-		if(y != stage->getFloors()[0].y ) aerial = true;
+	if (effectwait > 0) effectwait--;
+	if (ledgewait > 0) ledgewait--;
+	if (hitstun > k.length*2) {
+		if (y != stage->getFloors()[0].y) aerial = true;
 		hitstun--;
 		dx = kx;
 		dy = ky;
-		if(hitstun == 0) {
-			if(aerial) fall();
+		if (hitstun == 0) {
+			if (aerial) fall();
 			else idle();
 		}
-		if(checkFloorCollision()) idle();
+		if (checkFloorCollision()) idle();
 	}
-	else if(hitstun > 0) {
-		if(y != stage->getFloors()[0].y ) aerial = true;
+	else if (hitstun > 0) {
+		if (y != stage->getFloors()[0].y) aerial = true;
 		hitstun--;
-		if(kx > 0) {
-			kx -= kx/(hitstun/3);
-			if(kx < 0) kx = 0;
+		if (kx > 0) {
+			kx -= kx / (hitstun / 3);
+			if (kx < 0) kx = 0;
 		}
-		else if(kx < 0) {
-			kx -= kx/(hitstun/3);
-			if(kx > 0) kx = 0;
+		else if (kx < 0) {
+			kx -= kx / (hitstun / 3);
+			if (kx > 0) kx = 0;
 		}
-		if(ky > 0) {
-			ky -= ky/(hitstun/3);
-			if(ky < 0) ky = 0;
+		if (ky > 0) {
+			ky -= ky / (hitstun / 3);
+			if (ky < 0) ky = 0;
 		}
-		else if(ky < 0) {
-			ky -= ky/(hitstun/3);
-			if(ky > 0) ky = 0;
+		else if (ky < 0) {
+			ky -= ky / (hitstun / 3);
+			if (ky > 0) ky = 0;
 		}
-		if(hitstun == 0) {
+		if (hitstun == 0) {
 			action = STUN;
-			if(aerial) fall();
+			if (aerial) fall();
 			else idle();
 		}
 		dx = kx;
 		dy = ky;
-		if(checkFloorCollision()) idle();
+		if (checkFloorCollision()) idle();
 	}
-	else if(action == FALL) if(checkFloorCollision()) idle();
-	else if(action == IDLE) idle();
+	else if (action == FALL) if (checkFloorCollision()) idle();
+		else if (action == IDLE) idle();
 	move();
 }
 Sandbag::~Sandbag() {

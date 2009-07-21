@@ -1,14 +1,14 @@
 #ifndef HITBOX_H
 #define HITBOX_H
 
-#include <vector> 
+#include <vector>
 using std::vector;
 #include "circle.h"
 
 /// a collection of circles; used to hold all the circles for one frame
 class Hitbox {
-	vector<Circle> circles; ///< holds the circles in the hitbox
-	int contact; ///< which circle in circles made contact
+		vector<Circle> circles; ///< holds the circles in the hitbox
+		int contact; ///< which circle in circles made contact
 	public:
 		bool enabled;
 		void addCircle(Circle toadd); ///< adds a circle
