@@ -464,12 +464,12 @@ bool characterSelect(bool train = false) {
 
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
 	PA_FatLoadSprite(0, "cursors");
-	for (int n = 0; n < 4; n++) {
+	for (int n = 0; n < 2; n++) {
 		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 160);
 		subx[n] = n * 48 + 40;
 		PA_SetSpriteX(SUB_SCREEN, n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
-	}
+	} // only 2 players for now
 
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "arrow");
 	PA_FatLoadSprite(2, "arrow");
@@ -492,12 +492,12 @@ bool characterSelect(bool train = false) {
 		PA_StartSpriteAnimEx(SUB_SCREEN, 4 + n, n, n, 1, ANIM_LOOP, -1);
 	}
 	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);
-	for (int n = 0; n < 4; n++) {
+	for (int n = 0; n < 2; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)charprev, OBJ_SIZE_64X64, COLOR256, 0, 64*n, 128);
 		mainx[n] = 64 * n;
 		PA_SetSpriteX(MAIN_SCREEN, n, -64);
 		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
-	}
+	} // only 2 players for now
 
 	PA_FatLoadSfx("ffa", "free_for_all");
 	PA_FatLoadSfx("confirm", "menuconfirm");
