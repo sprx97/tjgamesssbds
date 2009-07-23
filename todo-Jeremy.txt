@@ -19,6 +19,8 @@ Minor Goals - Things that work fine but I'd like to improve:
 - custom respawn platforms
 - custom font for pause screen and time (sprites, like percentages)
 - make kirby's bneut functional
+- add non-touch functionality to menus
+- add touch start button to charsel
 
 Ongoing Goals - Things that will never be complete, but still need to be worked on:
 - Better AI
