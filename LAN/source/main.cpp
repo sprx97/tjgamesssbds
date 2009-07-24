@@ -35,7 +35,6 @@ using namespace std;
 #define GAME_CODE 558
 #define GAME_VER 0
 
-char senddata[10];
 int playernum = -1;
 
 //Global variables and definitions for what they mean:
@@ -322,7 +321,20 @@ void Receive(unsigned char *data, int length, LPLOBBY_USER from) {
 	int spr = (int)data[0];
 	int x = (int)data[1];
 	int y = (int)data[2];
+	bool released = (bool)data[3];
 	PA_SetSpriteXY(SUB_SCREEN, spr, x, y);
+	if(released) {
+		int cx = PA_GetSpriteX(SUB_SCREEN, spr) + 16;
+		int cy = PA_GetSpriteY(SUB_SCREEN, spr) + 16;
+		bool onchar = false;
+		for(int n = KIRBY; n < MAX_CHAR; n++) {
+			if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
+				onchar = true;
+				PA_StartSpriteAnimEx(MAIN_SCREEN, spr, n, n, 1, ANIM_LOOP, -1);
+			}
+		}
+		if(!onchar) PA_StartSpriteAnimEx(MAIN_SCREEN, spr, 0, 0, 1, ANIM_LOOP, -1);
+	}
 }
 void characterSelectLAN() {
 	PA_Init8bitBg(SUB_SCREEN, 3);
@@ -360,16 +372,35 @@ void characterSelectLAN() {
 		}
 		else if (Stylus.Held && selectedcursor != -1) {
 			PA_SetSpriteXY(SUB_SCREEN, selectedcursor, Stylus.X - 16, Stylus.Y - 16);
-			senddata[0] = (char)selectedcursor;
-			senddata[1] = (char)(Stylus.X - 16);
-			senddata[2] = (char)(Stylus.Y - 16);
-			LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0001, (unsigned char*)senddata, 10);
+			char data[10];
+			data[0] = (char)selectedcursor;
+			data[1] = (char)(Stylus.X - 16);
+			data[2] = (char)(Stylus.Y - 16);
+			data[3] = (char)(false);
+			LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0001, (unsigned char*)data, 10);
 		}
 		else if(Stylus.Released && selectedcursor != -1) {
-			// select character
+			int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor) + 16;
+			int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor) + 16;
+			bool onchar = false;
+			for(int n = KIRBY; n < MAX_CHAR; n++) {
+				if(cx > PA_GetSpriteX(SUB_SCREEN, n+4) && cx < PA_GetSpriteX(SUB_SCREEN, n+4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n+4) && cy < PA_GetSpriteY(SUB_SCREEN, n+4) + 64) {
+					onchar = true;
+					PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, n, n, 1, ANIM_LOOP, -1);
+				}
+			}
+			if(!onchar) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
+						
+			char data[10];
+			data[0] = (char)selectedcursor;
+			data[1] = (char)(Stylus.X - 16);
+			data[2] = (char)(Stylus.Y - 16);
+			data[3] = (char)(true);
+			LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0001, (unsigned char*)data, 10);	
+			
 			selectedcursor = -1;
 		}
-		// Other selection functions
+		// Starting a game with current characters
 
 		PA_WaitForVBL();
 	}
