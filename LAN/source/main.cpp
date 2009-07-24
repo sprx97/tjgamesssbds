@@ -36,6 +36,7 @@ using namespace std;
 #define GAME_VER 0
 
 int playernum = -1;
+bool charactersselected = false;
 
 //Global variables and definitions for what they mean:
 #define CAMERATYPE_FOLLOWUSER 0
@@ -208,6 +209,8 @@ void openGif(int screen, string path) {
 	} // loads the gif if the image file exists
 } // opens the gif at path onto screen
 
+vector<int> mainx;
+vector<int> subx;
 void fadeOut() {
 	for (int i = 0; i >= -31; i--) {
 		PA_SetBrightness(MAIN_SCREEN, i);
@@ -231,6 +234,24 @@ void fadeIn() {
 		PA_WaitForVBL();
 	} // slowly brightens the screen to normal
 } // fades both screens in
+
+void initFX() {
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "specialFX");
+	PA_FatLoadSprite(254, "specialFX");
+	for (int n = 5; n < 21; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[254], OBJ_SIZE_64X64, COLOR256, 15, -64, -64);
+	}
+	// loads all special effect sprites
+} // initializes special effects
+void initProjectiles() {
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 14, "projectiles");
+	PA_FatLoadSprite(255, "projectiles");
+	for (int n = 50; n < 54; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[255], OBJ_SIZE_64X64, COLOR256, 14, -64, -64);
+	} // loads all projectile sprites
+} // initializes projectiles
+
+#import "minimap.cpp" // minimap for during battles
 
 Stage setStage(int selStage) {
 	Stage picked; // the stage which is chosen
@@ -317,38 +338,119 @@ LPLOBBY_ROOM LOBBY_GetMyRoom() {
 	return LOBBY_GetRoomByUser(LOBBY_GetUserByID(USERID_MYSELF));
 }
 
-void Receive(unsigned char *data, int length, LPLOBBY_USER from) {
-	int spr = (int)data[0];
-	int x = (int)data[1];
-	int y = (int)data[2];
-	bool released = (bool)data[3];
-	PA_SetSpriteXY(SUB_SCREEN, spr, x, y);
-	if(released) {
-		int cx = PA_GetSpriteX(SUB_SCREEN, spr) + 16;
-		int cy = PA_GetSpriteY(SUB_SCREEN, spr) + 16;
-		bool onchar = false;
-		for(int n = KIRBY; n < MAX_CHAR; n++) {
-			if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
-				onchar = true;
-				PA_StartSpriteAnimEx(MAIN_SCREEN, spr, n, n, 1, ANIM_LOOP, -1);
+bool receiving = false;
+void ReceiveCharsel(unsigned char *data, int length, LPLOBBY_USER from) {
+	if(receiving) return; // don't interrupt
+	receiving = true;
+	if((bool)(data[4])) {
+		fadeOut();
+		int selections[] = { -1, -1, -1, -1};
+		for (int n = 0; n < 4; n++) {
+			int x = PA_GetSpriteX(SUB_SCREEN, n) + 16;
+			int y = PA_GetSpriteY(SUB_SCREEN, n) + 16;
+			for (int m = KIRBY; m < MAX_CHAR; m++) {
+				if (x > PA_GetSpriteX(SUB_SCREEN, m + 4) && x < PA_GetSpriteX(SUB_SCREEN, m + 4) + 64 && y > PA_GetSpriteY(SUB_SCREEN, m + 4) && y < PA_GetSpriteY(SUB_SCREEN, m + 4) + 64) {
+					selections[n] = m;
+				}
 			}
 		}
-		if(!onchar) PA_StartSpriteAnimEx(MAIN_SCREEN, spr, 0, 0, 1, ANIM_LOOP, -1);
+		PA_ResetSpriteSys();
+		PA_FatFreeSprBuffers();
+		PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);
+		for(int n = 0; n < 4; n++) {
+			if (selections[n] == KIRBY) players.push_back(new Kirby(n + 1, &players, &display, false));
+			else if (selections[n] == MEWTWO) players.push_back(new Mewtwo(n + 1, &players, &display, false));
+			else if (selections[n] == MARIO) players.push_back(new Mario(n + 1, &players, &display, false));
+			else if (selections[n] == IKE) players.push_back(new Ike(n + 1, &players, &display, false));
+			else if (selections[n] == FOX) players.push_back(new Fox(n + 1, &players, &display, false));
+		}
+		charactersselected = true;
 	}
+	else {
+		int spr = (int)data[0];
+		int x = (int)data[1];
+		int y = (int)data[2];
+		bool released = (bool)data[3];
+		PA_SetSpriteXY(SUB_SCREEN, spr, x, y);
+		if(released) {
+			int cx = PA_GetSpriteX(SUB_SCREEN, spr) + 16;
+			int cy = PA_GetSpriteY(SUB_SCREEN, spr) + 16;
+			bool onchar = false;
+			for(int n = KIRBY; n < MAX_CHAR; n++) {
+				if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
+					onchar = true;
+					PA_StartSpriteAnimEx(MAIN_SCREEN, spr, n, n, 1, ANIM_LOOP, -1);
+				}
+			}
+			if(!onchar) PA_StartSpriteAnimEx(MAIN_SCREEN, spr, 0, 0, 1, ANIM_LOOP, -1);
+		}
+	}
+	receiving = false;
 }
+void ReceiveMatch(unsigned char *data, int length, LPLOBBY_USER from) {
+	PA_SetSpriteXY(MAIN_SCREEN, players[(int)(data[0])]->SPRITENUM, (int)(data[1]), (int)(data[2]));
+	PA_SetSpriteAnimFrame(MAIN_SCREEN, players[(int)(data[0])]->SPRITENUM, (int)(data[3]));
+}
+
+void initControls() {
+	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "rb");
+	if (file) {
+		u32 size;
+		fseek(file, 0, SEEK_END);
+		size = ftell(file);
+		rewind(file);
+
+		char line[4];
+		char line2[4];
+		int n = 0;
+		while (n < 16) {
+			fgets(line, 4, file);
+			fgets(line2, 4, file);
+			customcontrols[atoi(strtok(line, " \t"))] = atoi(strtok(line2, " \t"));
+			n += 2;
+		}
+		fgets(line, 4, file);
+		if (atoi(strtok(line, " \t")) == 1) cstickstylus = true;
+		else cstickstylus = false;
+		fgets(line, 4, file);
+		if (atoi(strtok(line, " \t")) == 1) shieldgrabon = true;
+		else shieldgrabon = false;
+		fgets(line, 4, file);
+		if (atoi(strtok(line, " \t")) == 1) tapjumpon = true;
+		else tapjumpon = false;
+		fclose(file);
+	}
+	else {
+		customcontrols[ACTION_BASIC] = BUTTON_A;
+		customcontrols[ACTION_SPECIAL] = BUTTON_B;
+		customcontrols[ACTION_SMASH] = BUTTON_AB;
+		customcontrols[ACTION_JUMP] = BUTTON_X;
+		customcontrols[ACTION_JUMP2] = BUTTON_Y;
+		customcontrols[ACTION_SHIELD] = BUTTON_R;
+		customcontrols[ACTION_SHIELD2] = BUTTON_L;
+		customcontrols[ACTION_GRAB] = BUTTON_NONE;
+		cstickstylus = false;
+		shieldgrabon = true;
+		tapjumpon = true;
+	}
+} // inits default or saved control setup
+
+int selectedstage = -1;
+
 void characterSelectLAN() {
 	PA_Init8bitBg(SUB_SCREEN, 3);
-	openGif(SUB_SCREEN, "SSBDS_Files/gifs/defaut.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
 	PA_Init8bitBg(MAIN_SCREEN, 3);
-	openGif(MAIN_SCREEN, "SSBDS_Files/gifs/default.gif");
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
 	PA_FatLoadSprite(0, "cursors");
 	for (int n = 0; n < 2; n++) { 
-		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*64 + 16, 160);
+		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 160);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
+
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
 	PA_FatLoadSprite(1, "charsel");
 	for (int n = KIRBY; n < MAX_CHAR; n++) {
@@ -365,6 +467,7 @@ void characterSelectLAN() {
 
 	int selectedcursor = -1;
 	while (true) {
+		if(charactersselected) return;
 		if (Stylus.Newpress) {
 			for (int n = 0; n < 4; n++) {
 				if (PA_SpriteTouched(n)) selectedcursor = n;
@@ -377,6 +480,7 @@ void characterSelectLAN() {
 			data[1] = (char)(Stylus.X - 16);
 			data[2] = (char)(Stylus.Y - 16);
 			data[3] = (char)(false);
+			data[4] = (char)(false);
 			LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0001, (unsigned char*)data, 10);
 		}
 		else if(Stylus.Released && selectedcursor != -1) {
@@ -396,16 +500,44 @@ void characterSelectLAN() {
 			data[1] = (char)(Stylus.X - 16);
 			data[2] = (char)(Stylus.Y - 16);
 			data[3] = (char)(true);
+			data[4] = (char)(false);
 			LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0001, (unsigned char*)data, 10);	
 			
 			selectedcursor = -1;
 		}
-		// Starting a game with current characters
-
+		else if(Pad.Newpress.A || Pad.Newpress.Start) {
+			int selections[] = { -1, -1, -1, -1};
+			for (int n = 0; n < 4; n++) {
+				int x = PA_GetSpriteX(SUB_SCREEN, n) + 16;
+				int y = PA_GetSpriteY(SUB_SCREEN, n) + 16;
+				for (int m = KIRBY; m < MAX_CHAR; m++) {
+					if (x > PA_GetSpriteX(SUB_SCREEN, m + 4) && x < PA_GetSpriteX(SUB_SCREEN, m + 4) + 64 && y > PA_GetSpriteY(SUB_SCREEN, m + 4) && y < PA_GetSpriteY(SUB_SCREEN, m + 4) + 64) {
+						selections[n] = m;
+					}
+				}
+			}
+			if(selections[0] != -1 && selections[1] != -1) {
+				char data[10];
+				data[4] = (char)(true);
+				LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0001, (unsigned char*)data, 10);
+				fadeOut();
+				PA_ResetSpriteSys();
+				PA_FatFreeSprBuffers();
+				PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);
+				for(int n = 0; n < 4; n++) {
+					if (selections[n] == KIRBY) players.push_back(new Kirby(n + 1, &players, &display, false));
+					else if (selections[n] == MEWTWO) players.push_back(new Mewtwo(n + 1, &players, &display, false));
+					else if (selections[n] == MARIO) players.push_back(new Mario(n + 1, &players, &display, false));
+					else if (selections[n] == IKE) players.push_back(new Ike(n + 1, &players, &display, false));
+					else if (selections[n] == FOX) players.push_back(new Fox(n + 1, &players, &display, false));
+				}
+				charactersselected = true;
+			}
+		}
 		PA_WaitForVBL();
 	}
 }
-void LANgame() {
+void LANmatch() {
 	fadeIn();
 
 	PA_InitText(MAIN_SCREEN, 0);
@@ -440,6 +572,78 @@ void LANgame() {
 	fadeOut();
 
 	characterSelectLAN();
+	for (int n = 0; n < (int)players.size(); n++) {
+		players[n] -> players = players;
+	}
+	
+	initFX();
+	initProjectiles();
+	
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 12, "revivalplatform");
+	PA_FatLoadSprite(253, "revivalplatform");
+	for (int n = 55; n < 60; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[253], OBJ_SIZE_64X64, COLOR256, 12, -64, -64);
+	}
+	
+	selectedstage = FINALDESTINATION;
+	Stage stage = setStage(selectedstage);
+	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width / 2 + 128);
+	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height / 2 + 96);
+	
+	PA_FatLoadSfx("shieldbreak", "shieldbreak");
+	PA_FatLoadSfx("hit1", "hit1");
+	PA_FatLoadSfx("hit2", "hit2");
+	PA_FatLoadSfx("hit3", "hit3");
+	PA_FatLoadSfx("death", "deathsound");	
+	
+	for (int n = 0; n < (int)players.size(); n++) {
+		players[n] -> initSounds();
+	}
+	
+	for (int n = 0; n < (int)players.size(); n++) {
+		players[n] -> fall();
+		while (players[n] -> aerial) {
+			players[n] -> fall();
+			players[n] -> move();
+			mainx[players[n]->SPRITENUM] = PA_GetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM);
+			PA_SetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM, -64);
+		}
+		players[n] -> idle();
+		mainx[players[n]->SPRITENUM] = PA_GetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM);
+		PA_SetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM, -64);
+	}
+	
+	scrollScreen();
+	
+	for (int n = 0; n < (int)players.size(); n++) {
+		mainx[players[n]->SPRITENUM] = PA_GetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM);
+		PA_SetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM, -64);
+	}	
+	
+	fadeIn();
+	
+	while(true) {
+		players[playernum] -> act();
+		char data[10];
+		data[0] = (char)playernum;
+		data[1] = (char)(players[playernum] -> x);
+		data[2] = (char)(players[playernum] -> y);
+		data[3] = (char)PA_GetSpriteAnimFrame(MAIN_SCREEN, players[playernum]->SPRITENUM);
+		LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0002, (unsigned char*)data, 10);
+		for (int n = 0; n < (int)players.size(); n++) {
+			for (int m = 0; m < (int)players.size(); m++) {
+				if (m != n) players[m] = players[n] -> checkHits(players[m]);
+			}
+		}
+		for (int n = 0; n < (int)players.size(); n++) players[n]->allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, players[n]->SPRITENUM)].enabled = false;
+		scrollScreen();
+		for (int n = 0; n < (int)projectiles.size(); n++) {
+			if (projectiles[n].act()) removeProj(projectiles[n].num);
+			for (int m = 0; m < (int)players.size(); m++) if (projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);
+		}		
+		display.updateEffects(); // acts all effects		
+		PA_WaitForVBL();
+	}
 }
 
 int main(int argc, char ** argv) {
@@ -457,7 +661,8 @@ int main(int argc, char ** argv) {
 	LOBBY_Init();
 	// inits/preps DS <-> DS
 
-	LOBBY_SetStreamHandler(0x0001, &Receive);
+	LOBBY_SetStreamHandler(0x0001, &ReceiveCharsel);
+	LOBBY_SetStreamHandler(0x0002, &ReceiveMatch);
 
 	if (!EFS_Init(EFS_AND_FAT | EFS_DEFAULT_DEVICE, NULL)) {
 		PA_OutputText(0, 1, 1, "EFS init error!!!");
@@ -466,6 +671,10 @@ int main(int argc, char ** argv) {
 	PA_FatInitAllBuffers(); // Initialize all the memory buffers
 	PA_FatSetBasePath("SSBDS_Files");  // Set a base path
 
+	for (int n = 0; n < 128; n++) {
+		mainx.push_back(-64);
+		subx.push_back(-64);
+	}
 	fadeOut();
 
 	AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
@@ -473,7 +682,9 @@ int main(int argc, char ** argv) {
 	AS_SetMP3Loop(true);
 	// required both for MP3 and Sound
 
+	initControls();
+
 	// Infinite loop to keep the program running
-	while (1) LANgame();
+	while (1) LANmatch();
 	return 0;
 } // End of main()
