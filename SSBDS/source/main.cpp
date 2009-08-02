@@ -465,7 +465,7 @@ bool characterSelect(bool train = false) {
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
 	PA_FatLoadSprite(0, "cursors");
 	for (int n = 0; n < 2; n++) {
-		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 160);
+		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 152);
 		subx[n] = n * 48 + 40;
 		PA_SetSpriteX(SUB_SCREEN, n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);

@@ -303,8 +303,8 @@ void scrollScreen() {
 		// scrolls so that the camera is centred between the min and max x and y
 	} // if the camera follows everyone
 	else if (cameratype == CAMERATYPE_FOLLOWUSER) {
-		scrollx = players[0] -> x;
-		scrolly = players[0] -> y;
+		scrollx = players[playernum] -> x;
+		scrolly = players[playernum] -> y;
 		// centers camera on user
 	} // if the camer follows the user
 	scrollx = scrollx - 128 + 32;
@@ -388,8 +388,10 @@ void ReceiveCharsel(unsigned char *data, int length, LPLOBBY_USER from) {
 	receiving = false;
 }
 void ReceiveMatch(unsigned char *data, int length, LPLOBBY_USER from) {
-	PA_SetSpriteXY(MAIN_SCREEN, players[(int)(data[0])]->SPRITENUM, (int)(data[1]), (int)(data[2]));
-	PA_SetSpriteAnimFrame(MAIN_SCREEN, players[(int)(data[0])]->SPRITENUM, (int)(data[3]));
+	players[(int)(data[0])] -> x = (int)(data[1]) * (int)(data[2]);
+	players[(int)(data[0])] -> y = (int)(data[3]) * (int)(data[4]);
+	PA_SetSpriteAnimFrame(MAIN_SCREEN, players[(int)(data[0])]->SPRITENUM, (int)(data[5]));
+	players[(int)(data[0])] -> setDirection((int)(data[6] - 1));
 }
 
 void initControls() {
@@ -447,7 +449,7 @@ void characterSelectLAN() {
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
 	PA_FatLoadSprite(0, "cursors");
 	for (int n = 0; n < 2; n++) { 
-		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 160);
+		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 152);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
 
@@ -626,21 +628,36 @@ void LANmatch() {
 		players[playernum] -> act();
 		char data[10];
 		data[0] = (char)playernum;
-		data[1] = (char)(players[playernum] -> x);
-		data[2] = (char)(players[playernum] -> y);
-		data[3] = (char)PA_GetSpriteAnimFrame(MAIN_SCREEN, players[playernum]->SPRITENUM);
-		LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0002, (unsigned char*)data, 10);
-		for (int n = 0; n < (int)players.size(); n++) {
-			for (int m = 0; m < (int)players.size(); m++) {
-				if (m != n) players[m] = players[n] -> checkHits(players[m]);
-			}
+		double mult = 1;
+		double val = players[playernum] -> x;
+		while(val > 256) {
+			val /= 2;
+			mult *= 2;
 		}
-		for (int n = 0; n < (int)players.size(); n++) players[n]->allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, players[n]->SPRITENUM)].enabled = false;
+		data[1] = (char)val;
+		data[2] = (char)mult;
+		mult = 1;
+		val = players[playernum] -> y;
+		while(val > 256) {
+			val /= 2;
+			mult *= 2;
+		}
+		data[3] = (char)val;
+		data[4] = (char)mult;
+		data[5] = (char)PA_GetSpriteAnimFrame(MAIN_SCREEN, players[playernum]->SPRITENUM);
+		data[6] = (char)(players[playernum] -> direction + 1);
+		LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0002, (unsigned char*)data, 10);
+//		for (int n = 0; n < (int)players.size(); n++) {
+//			for (int m = 0; m < (int)players.size(); m++) {
+//				if (m != n) players[m] = players[n] -> checkHits(players[m]);
+//			}
+//		}
+//		for (int n = 0; n < (int)players.size(); n++) players[n]->allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, players[n]->SPRITENUM)].enabled = false;
 		scrollScreen();
-		for (int n = 0; n < (int)projectiles.size(); n++) {
-			if (projectiles[n].act()) removeProj(projectiles[n].num);
-			for (int m = 0; m < (int)players.size(); m++) if (projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);
-		}		
+//		for (int n = 0; n < (int)projectiles.size(); n++) {
+//			if (projectiles[n].act()) removeProj(projectiles[n].num);
+//			for (int m = 0; m < (int)players.size(); m++) if (projectiles[n].owner != m) players[m] = projectiles[n].checkHits(players[m]);
+//		}		
 		display.updateEffects(); // acts all effects		
 		PA_WaitForVBL();
 	}
