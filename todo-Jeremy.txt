@@ -1,10 +1,10 @@
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
-- LAN
 - Clashing hits
 - Convert all gfx to FAT
 - split minimap.cpp to a .h file (the "correct" way)
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
+- Improve LAN (minimaps, pausing, matches, etc)
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
