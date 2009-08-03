@@ -4,9 +4,17 @@ SSBDS
 News/Updates
 ------------
 
+UPDATE 8/3/09: YAY LAN!!!!! I like even more where this is going. I could use some LAN testers for both bug testing and balancing purposes, but that requires multiple DSs, so maybe that will happen at parties and stuff.
+
+Now that school (and thus APs) are over I've had more time to work, even though I've been busy this summer.
+
+Now I want to work on character creation, but that needs help. Any volunteers?
+-- Spartan97
+
 UPDATE 1/31/09: I really like how far I've gotten with this, and I'm nearing the point where I can use lot of help (character creation). But, junior year has finally kicked in and I don't have enough free time to work often on this project. I don't plan to be doing much on this until after APs (Mid-May), but come end of year and over the summer I hope to progress this to the point where a few in-person instructional sessions will allow for faster production and let the game to hit beta-testing status.
 
 Sorry for how poorly worded that was; it's late and it's hard to put what I'm trying to say into words.
+-- Spartan97
 
 NOTE: Just in case anyone actually reads this, you can safely ignore the above message. Although Spartan97 CLAIMS he is not going to have time to work on this, he actually will. And he'll probably decide to spend some of it on this project. Even if he doesn't, I might. So we can and probably will keep having updates even before APs are over. 
 -ComputerDruid
