@@ -388,10 +388,11 @@ void ReceiveCharsel(unsigned char *data, int length, LPLOBBY_USER from) {
 	receiving = false;
 }
 void ReceiveMatch(unsigned char *data, int length, LPLOBBY_USER from) {
-	players[(int)(data[0])] -> x = (int)(data[1]) * (int)(data[2]);
-	players[(int)(data[0])] -> y = (int)(data[3]) * (int)(data[4]);
+	players[(int)(data[0])] -> x = ((int)(data[1]) * (int)(data[2])) - 256;
+	players[(int)(data[0])] -> y = ((int)(data[3]) * (int)(data[4])) - 256;
 	PA_SetSpriteAnimFrame(MAIN_SCREEN, players[(int)(data[0])]->SPRITENUM, (int)(data[5]));
 	players[(int)(data[0])] -> setDirection((int)(data[6] - 1));
+	players[(int)(data[0])] -> action = (int)(data[7]);
 }
 
 void initControls() {
@@ -622,6 +623,9 @@ void LANmatch() {
 		PA_SetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM, -64);
 	}	
 	
+	PA_InitText(SUB_SCREEN, 0);
+	PA_SetTextCol(SUB_SCREEN, 31, 31, 31);
+	
 	fadeIn();
 	
 	while(true) {
@@ -629,7 +633,7 @@ void LANmatch() {
 		char data[10];
 		data[0] = (char)playernum;
 		double mult = 1;
-		double val = players[playernum] -> x;
+		double val = (players[playernum] -> x) + 256;
 		while(val > 256) {
 			val /= 2;
 			mult *= 2;
@@ -637,7 +641,7 @@ void LANmatch() {
 		data[1] = (char)val;
 		data[2] = (char)mult;
 		mult = 1;
-		val = players[playernum] -> y;
+		val = (players[playernum] -> y) + 256;
 		while(val > 256) {
 			val /= 2;
 			mult *= 2;
@@ -646,7 +650,15 @@ void LANmatch() {
 		data[4] = (char)mult;
 		data[5] = (char)PA_GetSpriteAnimFrame(MAIN_SCREEN, players[playernum]->SPRITENUM);
 		data[6] = (char)(players[playernum] -> direction + 1);
+		data[7] = (char)(players[playernum] -> action);
 		LOBBY_SendToRoom(LOBBY_GetMyRoom(), 0x0002, (unsigned char*)data, 10);
+		for(int n = 0; n <  (int)players.size(); n++) {
+			if(n != playernum) {
+				players[playernum] = players[n] -> checkHits(players[playernum]);
+			}
+		}
+		PA_OutputText(SUB_SCREEN, 0, 0, "                       ");
+		PA_OutputText(SUB_SCREEN, 0, 0, "%d %d %d %d %d %d %d %d", (int)data[0], (int)data[1], (int)data[2], (int)data[3], (int)data[4], (int)data[5], (int)data[6], (int)data[7]);
 //		for (int n = 0; n < (int)players.size(); n++) {
 //			for (int m = 0; m < (int)players.size(); m++) {
 //				if (m != n) players[m] = players[n] -> checkHits(players[m]);
