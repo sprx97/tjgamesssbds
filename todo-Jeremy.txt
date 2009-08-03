@@ -5,6 +5,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
 - Improve LAN (minimaps, pausing, matches, etc)
+- Random Button in character/stage selection
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
