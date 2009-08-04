@@ -18,7 +18,7 @@ void FinalDestination::Initialize() {
 	spawnx.push_back(160);
 	spawnx.push_back(288);
 	spawnx.push_back(96);
-	spawnx.push_back(4);
+	spawnx.push_back(352);
 	spawny.push_back(4);
 	spawny.push_back(4);
 	spawny.push_back(4);

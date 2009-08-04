@@ -8,12 +8,13 @@ Effect::Effect(double xpos, double ypos, int t, int pn, double scrollx, double s
 	x = xpos, y = ypos;
 	type = t;
 	playernum = pn;
-	mynum = 4 * playernum + 5;
-	if (type == FX_AIRJUMP) mynum += 1;
-	else if (type == FX_DEATH) mynum += 2;
-	else { // all knockback sprites are the same spritenum
-		mynum += 3;
-	} // creates the effect... avoids overriding multipe sprites
+//	mynum = 4 * playernum + 5;
+	mynum = playernum + 5;
+//	if (type == FX_AIRJUMP) mynum += 1;
+//	else if (type == FX_DEATH) mynum += 2;
+//	else { // all knockback sprites are the same spritenum
+//		mynum += 3;
+//	} // creates the effect... avoids overriding multipe sprites
 	// different sprite for different types of effects
 	if (x - scrollx < 256 && x - scrollx > 0 - 64 && y - scrolly < 192 && y - scrolly > 0 - 64) {
 		PA_SetSpriteXY(MAIN_SCREEN, mynum, (int)(x - scrollx), (int)(y - scrolly));

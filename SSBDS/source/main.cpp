@@ -320,7 +320,7 @@ Stage setStage(int selStage) {
 void initFX() {
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "specialFX");
 	PA_FatLoadSprite(254, "specialFX");
-	for (int n = 5; n < 21; n++) {
+	for (int n = 5; n < 9; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[254], OBJ_SIZE_64X64, COLOR256, 15, -64, -64);
 	}
 	// loads all special effect sprites
@@ -464,7 +464,7 @@ bool characterSelect(bool train = false) {
 
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
 	PA_FatLoadSprite(0, "cursors");
-	for (int n = 0; n < 2; n++) {
+	for (int n = 0; n < 4; n++) {
 		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 152);
 		subx[n] = n * 48 + 40;
 		PA_SetSpriteX(SUB_SCREEN, n, -64);
@@ -492,7 +492,7 @@ bool characterSelect(bool train = false) {
 		PA_StartSpriteAnimEx(SUB_SCREEN, 4 + n, n, n, 1, ANIM_LOOP, -1);
 	}
 	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);
-	for (int n = 0; n < 2; n++) {
+	for (int n = 0; n < 4; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)charprev, OBJ_SIZE_64X64, COLOR256, 0, 64*n, 128);
 		mainx[n] = 64 * n;
 		PA_SetSpriteX(MAIN_SCREEN, n, -64);
@@ -1412,6 +1412,8 @@ int main(int argc, char ** argv) {
 	PA_InitRand();
 
 	vramSetBankE(VRAM_E_MAIN_SPRITE);
+	vramSetBankF(VRAM_F_MAIN_SPRITE);
+	vramSetBankG(VRAM_G_MAIN_SPRITE);
 
 	defaultExceptionHandler(); // "red screen of death" error, hopefully won't happen
 

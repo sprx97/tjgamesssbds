@@ -238,7 +238,7 @@ void fadeIn() {
 void initFX() {
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "specialFX");
 	PA_FatLoadSprite(254, "specialFX");
-	for (int n = 5; n < 21; n++) {
+	for (int n = 5; n < 9; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[254], OBJ_SIZE_64X64, COLOR256, 15, -64, -64);
 	}
 	// loads all special effect sprites
