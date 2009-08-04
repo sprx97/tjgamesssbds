@@ -10,6 +10,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - Improve LAN (projectiles, effects, minimaps, pausing, matches, etc)
 - Random Button in character/stage selection
 - Clean up stage images (crisper outlines)
+- Nicer Loading Screen
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
