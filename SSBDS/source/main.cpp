@@ -290,12 +290,12 @@ int selectedStage = -1; //the stage currently selected
 Stage setStage(int selStage) {
 	Stage picked; // the stage which is chosen
 	if (selStage == FINALDESTINATION) {
-		// background
+		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/backgrounds/finaldestination.gif");
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, finaldestination);
 		picked = FinalDestination();
 	} // loads final destination if it was chosen
 	if (selStage == POKEMONSTADIUM) {
-		// background
+		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/backgrounds/pokemonstadium.gif");
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, pokemonstadium);
 		picked = PokemonStadium();
 	} // loads pokemon stadium if it was chosen
