@@ -1,5 +1,7 @@
 Next Things To Do - Really important
 - Switch pause menu and clock to sprites (not text BG layer)
+- victory bg and sound clips for Sandbag
+- make AIs respawn faster
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Clashing hits
@@ -19,14 +21,11 @@ Minor Goals - Things that work fine but I'd like to improve:
 - Offload some methods from main to global
 	- class for custom controls
 	- class for screen functions (scroll, fade, flash)
-- Fox's lasers (multiple projectile sprites per char)
 - quieter SFX (or louder music)
 - better (more functional) pause menu
 - custom respawn platforms
-- custom font for pause screen and time (sprites, like percentages)
 - make kirby's bneut functional
-- add non-touch functionality to menus
-- add touch start button to charsel
+- secondary continue buttons to menus (non-touch for main menus and touch for charsel)
 
 Ongoing Goals - Things that will never be complete, but still need to be worked on:
 - Better AI

@@ -12,6 +12,7 @@ class Fox: public Fighter {
 		int downcount;
 		int leftcount;
 		int rightcount;
+		bool laseragain;
 		// constructor
 		Fox(int num, std::vector<Fighter*> *listplayers, Display *disp, bool AI = false);
 		// initializes all of the variables

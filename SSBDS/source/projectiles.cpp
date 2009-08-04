@@ -6,7 +6,14 @@
 Projectile::Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage* mine, Display *d) {
 	display = d;
 	mystage = mine;
-	num = 50 + ob;
+	num = -1;
+	for(int n = 0; n < effproj_used_size; n++) {
+		if(!effproj_used[n]) {
+			num = n+5;
+			effproj_used[n] = true;
+			break;
+		}
+	}
 	owner = ob;
 	TYPE = t;
 	x = xpos;
@@ -21,28 +28,28 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 	hit = h;
 	PA_SetSpriteXY(MAIN_SCREEN, num, (int)(x - display->scrollx), (int)(y - display->scrolly));
 	if (TYPE == SHADOWBALL_SMALL) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 0, 3, 20, ANIM_LOOP, -1);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 18, 21, 20, ANIM_LOOP, -1);
 	}
 	if (TYPE == SHADOWBALL_MEDIUM) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 4, 7, 20, ANIM_LOOP, -1);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 22, 25, 20, ANIM_LOOP, -1);
 	}
 	if (TYPE == SHADOWBALL_LARGE) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 8, 11, 20, ANIM_LOOP, -1);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 26, 29, 20, ANIM_LOOP, -1);
 	}
 	if (TYPE == FINALCUTTER) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 12, 12, 20, ANIM_LOOP, -1);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 30, 30, 20, ANIM_LOOP, -1);
 	}
 	if (TYPE == FIREBALL) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 13, 16, 20, ANIM_LOOP, -1);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 31, 34, 20, ANIM_LOOP, -1);
 	}
 	if (TYPE == FLUDDWATER) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 17, 17, 20, ANIM_LOOP, -1);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 35, 35, 20, ANIM_LOOP, -1);
 	}
 	if (TYPE == IKESWORD) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 18, 24, 20, ANIM_LOOP, -1);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 36, 42, 20, ANIM_LOOP, -1);
 	}
 	if (TYPE == FOXLASER) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 25, 25, 20, ANIM_LOOP, -1);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 43, 43, 20, ANIM_LOOP, -1);
 	}
 }
 bool Projectile::act() {

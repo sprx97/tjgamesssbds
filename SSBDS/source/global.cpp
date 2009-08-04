@@ -10,3 +10,6 @@ int ACTION_BASIC = 0, ACTION_SPECIAL = 1, ACTION_SMASH = 2, ACTION_JUMP = 3, ACT
 
 const int SANDBAG = 0, KIRBY = 1, MEWTWO = 2, MARIO = 3, IKE = 4, FOX = 5, MAX_CHAR = 6;
 // character shortcuts; used to avoid confusion
+
+bool effproj_used[effproj_used_size] = {false, false, false, false, false, false, false, false, false, false, false, false};
+// tracks projectile sprite slots

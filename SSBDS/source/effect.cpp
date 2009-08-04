@@ -8,14 +8,14 @@ Effect::Effect(double xpos, double ypos, int t, int pn, double scrollx, double s
 	x = xpos, y = ypos;
 	type = t;
 	playernum = pn;
-//	mynum = 4 * playernum + 5;
-	mynum = playernum + 5;
-//	if (type == FX_AIRJUMP) mynum += 1;
-//	else if (type == FX_DEATH) mynum += 2;
-//	else { // all knockback sprites are the same spritenum
-//		mynum += 3;
-//	} // creates the effect... avoids overriding multipe sprites
-	// different sprite for different types of effects
+	mynum = -1;
+	for(int n = 0; n < effproj_used_size; n++) {
+		if(!effproj_used[n]) {
+			mynum = n+5;
+			effproj_used[n] = true;
+			break;
+		}
+	}
 	if (x - scrollx < 256 && x - scrollx > 0 - 64 && y - scrolly < 192 && y - scrolly > 0 - 64) {
 		PA_SetSpriteXY(MAIN_SCREEN, mynum, (int)(x - scrollx), (int)(y - scrolly));
 	}
@@ -63,6 +63,7 @@ bool Effect::act() {
 	if (delay <= 0) {
 		PA_SetSpriteRotDisable(MAIN_SCREEN, mynum);
 		PA_SetSpriteXY(MAIN_SCREEN, mynum, -64, -64); // hides sprite
+		effproj_used[mynum-5] = false;
 		return true;
 	} // removes once animation is done
 	return false; //don't kill me yet

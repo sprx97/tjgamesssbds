@@ -18,6 +18,8 @@ extern int PAD_HELD, PAD_NEWPRESS, PAD_RELEASED; // Press types (for custom cont
 extern int ACTION_BASIC, ACTION_SPECIAL, ACTION_SMASH, ACTION_JUMP, ACTION_JUMP2, ACTION_SHIELD, ACTION_SHIELD2, ACTION_GRAB;
 extern const int SANDBAG, KIRBY, MEWTWO, MARIO, IKE, FOX, MAX_CHAR;
 // character shortcuts; used to avoid confusion
+const int effproj_used_size = 12;
+extern bool effproj_used[effproj_used_size];
 
 bool custom_action(int action, int typecheck); //defined in main.cpp. maps custom controls
 #include <map> // maps

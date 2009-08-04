@@ -1288,7 +1288,7 @@ double Fighter::getDamagePercent() {
 	return percentage;
 }
 void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
-	if (action != STUN) stun();
+	if (action != STUN && other.getKnockback().length != 0) stun();
 	PERMAFALL = false;
 	percentage += other.damage + (int)((charge / 225) * (.5 * other.damage));
 	if (effectwait <= 0) {

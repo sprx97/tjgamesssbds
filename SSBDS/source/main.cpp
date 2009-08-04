@@ -101,6 +101,7 @@ void removeProj(int prnum) {
 	}
 	projectiles = temp;
 	PA_SetSpriteXY(MAIN_SCREEN, prnum, -64, -64);
+	effproj_used[prnum-5] = false;
 }
 bool custom_action(int action, int typecheck) {
 	if (customcontrols[action] == BUTTON_A) {
@@ -315,23 +316,6 @@ Stage setStage(int selStage) {
 	PA_HideBg(MAIN_SCREEN, 0);
 	return picked; // returns the picked stage
 } // displays the stage on the main screen
-
-//Set up sprite stuff:
-void initFX() {
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "specialFX");
-	PA_FatLoadSprite(254, "specialFX");
-	for (int n = 5; n < 9; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[254], OBJ_SIZE_64X64, COLOR256, 15, -64, -64);
-	}
-	// loads all special effect sprites
-} // initializes special effects
-void initProjectiles() {
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 14, "projectiles");
-	PA_FatLoadSprite(255, "projectiles");
-	for (int n = 50; n < 54; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[255], OBJ_SIZE_64X64, COLOR256, 14, -64, -64);
-	} // loads all projectile sprites
-} // initializes projectiles
 
 //Controls saving and loading:
 void initControls() {
@@ -816,8 +800,13 @@ bool match(int param) {
 		players[n] -> players = players;
 	}
 	stageSelect(); // select stage
-	initFX(); // inits the special FX
-	initProjectiles(); // inits the projectiles
+	
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "effproj");
+	PA_FatLoadSprite(255, "effproj");
+	for(int n = 5; n < 17; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[255], OBJ_SIZE_64X64, COLOR256, 15, -64, -64);
+	}
+	// init FX and projectiles
 
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 12, "revivalplatform");
 	PA_FatLoadSprite(253, "revivalplatform");
