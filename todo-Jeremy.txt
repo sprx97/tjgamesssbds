@@ -1,5 +1,7 @@
-Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
+Next to Do - Self-explanitory
 - Pause Menu
+
+Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Clashing hits
 - Convert all gfx to FAT
 - split minimap.cpp to a .h file (the "correct" way)
@@ -8,7 +10,6 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - Improve LAN (projectiles, effects, minimaps, pausing, matches, etc)
 - Random Button in character/stage selection
 - Clean up stage images (crisper outlines)
-- Nicer Loading Screen
 - allow more actions after respawning
 
 Minor Goals - Things that work fine but I'd like to improve:

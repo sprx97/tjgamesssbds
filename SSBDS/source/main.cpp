@@ -238,15 +238,19 @@ void fadeOut() {
 		PA_SetSpriteX(MAIN_SCREEN, n, -64);
 		PA_SetSpriteX(SUB_SCREEN, n, -64);
 	}
-	for (int n = 0; n < 5; n++) PA_WaitForVBL();
-	PA_SetBrightness(MAIN_SCREEN, 0);
-	PA_SetBrightness(SUB_SCREEN, 0);
+	for(int i = -31; i <= 0; i++) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		PA_WaitForVBL();
+	}
 	for (int n = 0; n < 5; n++) PA_WaitForVBL();
 } // fades both screens out
 void fadeIn() {
-	for (int n = 0; n < 5; n++) PA_WaitForVBL();
-	PA_SetBrightness(MAIN_SCREEN, -31);
-	PA_SetBrightness(SUB_SCREEN, -31);
+	for(int i = 0; i >= -31; i--) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		PA_WaitForVBL();
+	}
 	for (int n = 0; n < 5; n++) PA_WaitForVBL();
 	PA_DeleteBg(MAIN_SCREEN, 3);
 	PA_DeleteBg(SUB_SCREEN, 3);
@@ -385,13 +389,8 @@ void saveControls() {
 //Menu screens:
 // selecting char/stage
 void stageSelect() {
-	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the sub screen
-
-	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the main screen
 
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
@@ -440,13 +439,8 @@ bool characterSelect(bool train = false) {
 	int PAGEUP = MAX_CHAR + 5;
 	int PAGEDOWN = MAX_CHAR + 4;
 
-	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the sub screen
-
-	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the main screen
 
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
 	PA_FatLoadSprite(0, "cursors");
@@ -633,8 +627,6 @@ void scrollScreen() {
 }
 
 void displayResults(bool nocontest) {
-	PA_Init8bitBg(MAIN_SCREEN, 3);
-	PA_Init8bitBg(SUB_SCREEN, 3);
 	deleteMinimap();
 	for (int n = 0; n < 128; n++) {
 		PA_SetSpriteXY(MAIN_SCREEN, n, -64, -64);
@@ -672,7 +664,6 @@ void displayResults(bool nocontest) {
 	if (nocontest) draw = true;
 
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// loads an image on the sub screen
 
 	PA_FatLoadSfx("nc", "nocontest");
 	PA_FatLoadSfx("kirby", "kirbyname");
@@ -999,14 +990,9 @@ bool match(int param) {
 
 //More menu screens:
 void controlOptions() {
-	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the sub screen
-
-	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the main screen
-
+	
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
 
@@ -1122,13 +1108,8 @@ void controlOptions() {
 	}
 } // edit custom controls
 void cameraOptions() {
-	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the sub screen
-
-	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the main screen
 
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
@@ -1160,13 +1141,8 @@ void cameraOptions() {
 	}
 } // edit camera options
 void gameOptions() {
-	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the sub screen
-
-	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the main screen
 
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
@@ -1260,13 +1236,8 @@ void gameOptions() {
 	}
 } // edit match style
 void initOptions() {
-	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the sub screen
-
-	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the main screen
 
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
@@ -1344,12 +1315,8 @@ void extras() {
 
 // (Even more) pre-game menus
 void initMainMenu() {
-	PA_Init8bitBg(SUB_SCREEN, 3);
-	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
-	// opens gif background. no need to reinit, just loads over the old gif for this screen.
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	//put title screen on top screen when at main menu.
 
 	PA_FatLoadSfx("no", "menuno");
 	PA_FatLoadSfx("confirm", "menuconfirm");
@@ -1416,13 +1383,9 @@ void mainMenu() {
 void titleScreen() {
 	PA_ResetSpriteSys(); // clears all sprites on both screens
 
-	PA_Init8bitBg(SUB_SCREEN, 3); // inits a gif
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/title.gif");
-	// opens the gif from the path on the sub screen
-
-	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
-	// opens the gif from the path on the main screen
+
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
 
