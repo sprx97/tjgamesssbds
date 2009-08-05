@@ -38,6 +38,9 @@ void Sandbag::initPalettes() {
 	palettes.push_back("sandbag");
 }
 void Sandbag::act() {
+	if (respawntimer > 0) {
+		return respawn();
+	}
 	if (effectwait > 0) effectwait--;
 	if (ledgewait > 0) ledgewait--;
 	if (hitstun > k.length*2) {
@@ -79,8 +82,8 @@ void Sandbag::act() {
 		dy = ky;
 		if (checkFloorCollision()) idle();
 	}
-	else if (action == FALL) if (checkFloorCollision()) idle();
-		else if (action == IDLE) idle();
+	else if (action == FALL && checkFloorCollision()) idle();
+	else if (action == IDLE) idle();
 	move();
 }
 Sandbag::~Sandbag() {
