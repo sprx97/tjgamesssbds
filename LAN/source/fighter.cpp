@@ -274,7 +274,6 @@ void Fighter::actCPU() {
 	cpu_obeyRules(); //do all AI actions that would be cheating to skip
 	//do actions that require thinking, strategy, or input
 	if (respawntimer > 0) {
-		if (PA_RandMax(100) > 97) respawntimer = 0;
 		return respawn();
 	}
 	if (hitstun > 0) {
@@ -1545,7 +1544,7 @@ void Fighter::respawn() {
 	else {
 		PA_SetSpriteXY(MAIN_SCREEN, 55 + (SPRITENUM - 100), (int)(PA_GetSpriteX(MAIN_SCREEN, SPRITENUM) - 32 + (rightside + leftside) / 2), (int)(PA_GetSpriteY(MAIN_SCREEN, SPRITENUM) + bottomside));
 		respawntimer--;
-		if (respawntimer == 0 || Pad.Newpress.Down) {
+		if (respawntimer == 0 || (Pad.Newpress.Down && !isCPU) || (isCPU && PA_RandMax(100) > 97)) {
 			respawntimer = 0;
 			PA_SetSpriteXY(MAIN_SCREEN, 55 + (SPRITENUM - 100), -64, -64);
 			fall();

@@ -1,6 +1,5 @@
 Next Things To Do - Really important
 - victory bg and sound clips for Sandbag
-- make AIs respawn faster
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Pause Menu
@@ -13,6 +12,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - Random Button in character/stage selection
 - Clean up stage images (crisper outlines)
 - Nicer Loading Screen
+- allow more actions after respawning
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
