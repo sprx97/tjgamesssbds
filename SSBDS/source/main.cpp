@@ -754,6 +754,13 @@ if (draw) {} // doesn't display a main screen bg
 	}
 }
 
+void displayTime(int minutes, int seconds) {
+	PA_StartSpriteAnimEx(MAIN_SCREEN, 0, (int)(minutes/10) + 2, (int)(minutes/10) + 2, 20, ANIM_LOOP, -1);
+	PA_StartSpriteAnimEx(MAIN_SCREEN, 1, (int)(minutes%10) + 2, (int)(minutes%10) + 2, 20, ANIM_LOOP, -1);
+	PA_StartSpriteAnimEx(MAIN_SCREEN, 3, (int)(seconds/10) + 2, (int)(seconds/10) + 2, 20, ANIM_LOOP, -1);
+	PA_StartSpriteAnimEx(MAIN_SCREEN, 4, (int)(seconds%10) + 2, (int)(seconds%10) + 2, 20, ANIM_LOOP, -1);
+}
+
 int oldcam = cameratype;
 bool camchanged = false;
 void gameOver(bool nocontest = false) {
@@ -762,7 +769,10 @@ void gameOver(bool nocontest = false) {
 		PA_StopSpriteAnim(MAIN_SCREEN, n);
 		PA_StopSpriteAnim(SUB_SCREEN, n);
 	}
-	if (gamemode == GAMEMODE_TIME) PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
+	if (gamemode == GAMEMODE_TIME) {
+		displayTime(0, 0);
+		PA_OutputText(MAIN_SCREEN, 13, 0, "0:00"); // displays 0 as the time
+	}
 	for (int n = 0; n < 60; n++) PA_WaitForVBL(); // waits for 1 second
 	fadeOut();
 	cameratype = oldcam;
@@ -776,12 +786,8 @@ bool Pause() {
 		PA_SpriteAnimPause(SUB_SCREEN, n, 1);
 	}
 	PA_WaitForVBL();
-	PA_OutputText(MAIN_SCREEN, 12, 10, "PAUSED");
-	PA_OutputText(MAIN_SCREEN, 0, 1, "No Contest: L+R+A+START");
 	while (!Pad.Newpress.Start) PA_WaitForVBL();
 	if (Pad.Held.L && Pad.Held.R && Pad.Held.A && Pad.Held.Start) return true;
-	PA_OutputText(MAIN_SCREEN, 12, 10, "         ");
-	PA_OutputText(MAIN_SCREEN, 0, 1, "                       ");
 	for (int n = 0; n < 128; n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
 		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
@@ -808,6 +814,20 @@ bool match(int param) {
 	}
 	// init FX and projectiles
 
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 14, "clocknums");
+	PA_FatLoadSprite(254, "clocknums");
+	for(int n = 0; n < 5; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[254], OBJ_SIZE_8X16, COLOR256, 14, -64, 0);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 20, ANIM_LOOP, -1);
+	}
+	mainx[0] = 104;
+	mainx[1] = 114;
+	mainx[2] = 124;
+	mainx[3] = 134;
+	mainx[4] = 144;
+	PA_StartSpriteAnimEx(MAIN_SCREEN, 2, 1, 1, 20, ANIM_LOOP, -1);
+	displayTime((int)(time/60/60), (int)(time/60%60));
+
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 12, "revivalplatform");
 	PA_FatLoadSprite(253, "revivalplatform");
 	for (int n = 55; n < 60; n++) {
@@ -816,12 +836,9 @@ bool match(int param) {
 
 	Stage stage = setStage(selectedStage);
 	// sets the stage to the stage chosen in stageSelect
-	PA_InitText(MAIN_SCREEN, 1); // inits text on the main screen (displays time)
-	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
 	initMinimap(selectedStage); // inits minimap
 	PA_InitText(SUB_SCREEN, 1); // inits test on sub screen (displays percentages)
 	PA_SetTextCol(SUB_SCREEN, 31, 31, 31); // text color = white
-	PA_HideBg(MAIN_SCREEN, 1);
 	PA_HideBg(SUB_SCREEN, 1);
 
 	// initializes scoreboard
@@ -872,6 +889,9 @@ bool match(int param) {
 	}
 
 	fadeIn();
+
+	PA_HideBg(MAIN_SCREEN, 1);
+	PA_HideBg(MAIN_SCREEN, 2);
 
 	PA_FatPlaySfx("3");
 	for (int n = 0; n < 60; n++) PA_WaitForVBL();
@@ -937,10 +957,7 @@ bool match(int param) {
 		displayMinimap(); // changes sub screen display
 		displayPercentages(); // displays percentages on sub screen
 		if (gamemode == GAMEMODE_STOCK) displayLives(stock);
-		PA_OutputText(MAIN_SCREEN, 13, 0, "          "); // clears time
-		if ((int)((time / 60) % 60) < 10) PA_OutputText(MAIN_SCREEN, 13, 0, "%d:0%d", (int)((time / 60) / 60), (int)((time / 60) % 60));
-		else if ((int)((time / 60) % 60) == 0) PA_OutputText(MAIN_SCREEN, 13, 0, "%d:00", (int)((time / 60) / 60));
-		else PA_OutputText(MAIN_SCREEN, 13, 0, "%d:%d", (int)((time / 60) / 60), (int)((time / 60) % 60));
+		displayTime((int)(time/60/60), (int)(time/60%60));
 		// redisplays time
 		PA_WaitForVBL();
 		if (gamemode == GAMEMODE_TIME) time--; // another tick off the clock!

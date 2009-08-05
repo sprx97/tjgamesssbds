@@ -1,9 +1,9 @@
 Next Things To Do - Really important
-- Switch pause menu and clock to sprites (not text BG layer)
 - victory bg and sound clips for Sandbag
 - make AIs respawn faster
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
+- Pause Menu
 - Clashing hits
 - Convert all gfx to FAT
 - split minimap.cpp to a .h file (the "correct" way)
@@ -22,7 +22,6 @@ Minor Goals - Things that work fine but I'd like to improve:
 	- class for custom controls
 	- class for screen functions (scroll, fade, flash)
 - quieter SFX (or louder music)
-- better (more functional) pause menu
 - custom respawn platforms
 - make kirby's bneut functional
 - secondary continue buttons to menus (non-touch for main menus and touch for charsel)
