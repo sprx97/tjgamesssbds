@@ -1,6 +1,3 @@
-Next Things To Do - Really important
-- victory bg and sound clips for Sandbag
-
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Pause Menu
 - Clashing hits

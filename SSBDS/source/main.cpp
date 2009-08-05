@@ -46,7 +46,9 @@ int cameratype = CAMERATYPE_FOLLOWUSER;
 
 #define GAMEMODE_TIME 0
 #define GAMEMODE_STOCK 1
+#define GAMEMODE_TRAINING 2
 int gamemode = GAMEMODE_STOCK;
+int tempmode = GAMEMODE_STOCK; // temporary storage for during training
 int timelimit = 2;
 int stocklimit = 3;
 int sdcost = 1;
@@ -562,7 +564,11 @@ bool characterSelect(bool train = false) {
 					else if (selections[n] == IKE) players.push_back(new Ike(n + 1, &players, &display, isai));
 					else if (selections[n] == FOX) players.push_back(new Fox(n + 1, &players, &display, isai));
 				}
-				if (selections[1] == -1 && selections[2] == -1 && selections[3] == -1) players.push_back(new Sandbag(2, &players, &display, true));
+				if (selections[1] == -1 && selections[2] == -1 && selections[3] == -1) {
+					players.push_back(new Sandbag(2, &players, &display, true));
+					tempmode = gamemode;
+					gamemode = GAMEMODE_TRAINING;
+				}
 				return true;
 			}
 			else PA_FatPlaySfx("no");
@@ -677,7 +683,7 @@ void displayResults(bool nocontest) {
 	PA_FatLoadSfx("winneris", "thewinneris");
 	PA_FatLoadSfx("confirm", "menuconfirm");
 
-if (draw) {} // doesn't display a main screen bg
+	if (draw) {} // doesn't display a main screen bg
 	else {
 		char* musicfile = "";
 		sprintf(musicfile, "SSBDS_Files/music/victories/%s.mp3", (players[winner]->series).c_str());
@@ -764,7 +770,7 @@ void displayTime(int minutes, int seconds) {
 int oldcam = cameratype;
 bool camchanged = false;
 void gameOver(bool nocontest = false) {
-	PA_FatPlaySfx("game");
+	if(!nocontest) PA_FatPlaySfx("game");
 	for (int n = 0; n < 128; n++) {
 		PA_StopSpriteAnim(MAIN_SCREEN, n);
 		PA_StopSpriteAnim(SUB_SCREEN, n);
@@ -777,7 +783,29 @@ void gameOver(bool nocontest = false) {
 	fadeOut();
 	cameratype = oldcam;
 	camchanged = false;
-	return displayResults(nocontest);
+	if(gamemode != GAMEMODE_TRAINING) displayResults(nocontest);
+	else {
+		deleteMinimap();
+		score.clear(); // clears the scoreboard
+		effects.clear(); // clears the effects
+		for (int n = 0; n < 128; n++) {
+			PA_DeleteSprite(MAIN_SCREEN, n);
+			PA_DeleteSprite(SUB_SCREEN, n);
+		}
+		for (int n = 0; n < (int)players.size(); n++) {
+			PA_FatFreeSprite(players[n] -> MYCHAR);
+			delete players[n];
+		} // deletes the sprites of all players
+		PA_FatInitAllBuffers();
+		players.clear(); // clears players vector
+		for (int n = 0; n < 16; n++) AS_SoundStop(n);
+		// stop sounds
+		scrollx = 0;
+		scrolly = 0;
+		// resets game scrolls
+		gamemode = tempmode; // resets game mode
+	}
+	return;
 }
 
 bool Pause() {
@@ -796,16 +824,16 @@ bool Pause() {
 } // pauses the game; will add pause menu later
 // Game modes/logic
 bool match(int param) {
-	int time = 0;
-	int stock = 0;
-	if (gamemode == GAMEMODE_TIME) time = param * 60 * 60 + 60; // minutes -> vblanks
-	else if (gamemode == GAMEMODE_STOCK) stock = param;
-
 	if (!characterSelect()) return false; // select characters; return to main if canceled
 	for (int n = 0; n < (int)players.size(); n++) {
 		players[n] -> players = players;
 	}
 	stageSelect(); // select stage
+	
+	int time = 0;
+	int stock = 0;
+	if (gamemode == GAMEMODE_TIME) time = param * 60 * 60 + 60; // minutes -> vblanks
+	else if (gamemode == GAMEMODE_STOCK) stock = param;
 	
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "effproj");
 	PA_FatLoadSprite(255, "effproj");
