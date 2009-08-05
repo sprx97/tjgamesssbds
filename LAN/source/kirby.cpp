@@ -126,7 +126,7 @@ void Kirby::bdown() {
 	if (action != BDOWN) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 187, 188, 20, ANIM_LOOP, -1);
 		delay = 60 / 20 * 2;
-		dy = -gravity;
+		dy = -gravity-2;
 		dx = 0;
 		action = BDOWN;
 		rockcount = 250;
@@ -135,14 +135,16 @@ void Kirby::bdown() {
 		if (rockcount > 0) rockcount--;
 		if (rockcount == 0 || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 			rockcount = -1;
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 203, 204, 20, ANIM_LOOP, -1);
-			delay = 60 / 20 * 2;
-			aerial = false;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 203, 204, 10, ANIM_LOOP, -1);
+			delay = 60 / 10 * 2;
 			dx = 0;
 		}
 		else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 204) {
-			if (checkFloorCollision()) idle();
-			else fall();
+			fall();
+		}
+		else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 203 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 204) {
+			aerial = true;
+			dy = -gravity-2;
 		}
 		else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 188) {
 			if (!checkFloorCollision()) {
@@ -155,6 +157,10 @@ void Kirby::bdown() {
 				delay = 60 / 20 * 1;
 				aerial = false;
 			}
+		}
+		else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 187 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 188) {
+			aerial = true;
+			dy = -gravity-2;
 		}
 		else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 189) {
 			if (!checkFloorCollision()) {

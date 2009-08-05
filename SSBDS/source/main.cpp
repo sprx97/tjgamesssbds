@@ -842,20 +842,22 @@ bool match(int param) {
 	}
 	// init FX and projectiles
 
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 14, "clocknums");
-	PA_FatLoadSprite(254, "clocknums");
-	for(int n = 0; n < 5; n++) {
+	if(gamemode != GAMEMODE_TRAINING) {
+		PA_FatEasyLoadSpritePal(MAIN_SCREEN, 14, "clocknums");
+		PA_FatLoadSprite(254, "clocknums");
+		for(int n = 0; n < 5; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[254], OBJ_SIZE_8X16, COLOR256, 14, -64, 0);
 		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 20, ANIM_LOOP, -1);
 	}
-	mainx[0] = 104;
-	mainx[1] = 114;
-	mainx[2] = 124;
-	mainx[3] = 134;
-	mainx[4] = 144;
-	PA_StartSpriteAnimEx(MAIN_SCREEN, 2, 1, 1, 20, ANIM_LOOP, -1);
-	displayTime((int)(time/60/60), (int)(time/60%60));
-
+		mainx[0] = 104;
+		mainx[1] = 114;
+		mainx[2] = 124;
+		mainx[3] = 134;
+		mainx[4] = 144;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, 2, 1, 1, 20, ANIM_LOOP, -1);
+		displayTime((int)(time/60/60), (int)(time/60%60));
+	}
+	
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 12, "revivalplatform");
 	PA_FatLoadSprite(253, "revivalplatform");
 	for (int n = 55; n < 60; n++) {
@@ -921,14 +923,16 @@ bool match(int param) {
 	PA_HideBg(MAIN_SCREEN, 1);
 	PA_HideBg(MAIN_SCREEN, 2);
 
-	PA_FatPlaySfx("3");
-	for (int n = 0; n < 60; n++) PA_WaitForVBL();
-	PA_FatPlaySfx("2");
-	for (int n = 0; n < 60; n++) PA_WaitForVBL();
-	PA_FatPlaySfx("1");
-	for (int n = 0; n < 60; n++) PA_WaitForVBL();
-	PA_FatPlaySfx("go");
-	// counts down to start game
+	if(gamemode != GAMEMODE_TRAINING) {
+		PA_FatPlaySfx("3");
+		for (int n = 0; n < 60; n++) PA_WaitForVBL();
+		PA_FatPlaySfx("2");
+		for (int n = 0; n < 60; n++) PA_WaitForVBL();
+		PA_FatPlaySfx("1");
+		for (int n = 0; n < 60; n++) PA_WaitForVBL();
+		PA_FatPlaySfx("go");
+		// counts down to start game
+	}
 
 	AS_MP3StreamPlay((char*)(stage.songs[songnum]));
 
@@ -985,7 +989,7 @@ bool match(int param) {
 		displayMinimap(); // changes sub screen display
 		displayPercentages(); // displays percentages on sub screen
 		if (gamemode == GAMEMODE_STOCK) displayLives(stock);
-		displayTime((int)(time/60/60), (int)(time/60%60));
+		if(gamemode != GAMEMODE_TRAINING) displayTime((int)(time/60/60), (int)(time/60%60));
 		// redisplays time
 		PA_WaitForVBL();
 		if (gamemode == GAMEMODE_TIME) time--; // another tick off the clock!
