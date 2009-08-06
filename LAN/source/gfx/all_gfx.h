@@ -51,9 +51,9 @@ extern const unsigned short finaldestinationminimap_Pal[226] __attribute__ ((ali
 
 extern const int pokemonstadiumminimap_Info[3]; // BgMode, Width, Height
 extern const unsigned short pokemonstadiumminimap_Map[768] __attribute__ ((aligned (4))) ;  // Pal : pokemonstadiumminimap_Pal
-extern const unsigned char pokemonstadiumminimap_Tiles[4096] __attribute__ ((aligned (4))) ;  // Pal : pokemonstadiumminimap_Pal
-extern PAGfx_struct pokemonstadiumminimap; // background pointer
-extern const unsigned short pokemonstadiumminimap_Pal[233] __attribute__ ((aligned (4))) ;
+extern const unsigned char pokemonstadiumminimap_Tiles[3968] __attribute__ ((aligned (4))) ;  // Pal : pokemonstadiumminimap_Pal
+extern PAGfx_struct pokemonstadiumminimap; // background pointerextern const unsigned short pokemonstadiumminimap_Pal[233] __attribute__ ((aligned (4))) ;
+extern const unsigned short pokemonstadiumminimap_Pal[167] __attribute__ ((aligned (4))) ;
 
 extern const int paused_Info[3]; // BgMode, Width, Height
 extern const unsigned short paused_Map[768] __attribute__ ((aligned (4))) ;  // Pal : paused_Pal
