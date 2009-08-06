@@ -54,9 +54,9 @@ void Fox::initSounds() {
 }
 void Fox::initPalettes() {
 	palettes.push_back("fox");
-	palettes.push_back("fox");
-	palettes.push_back("fox");
-	palettes.push_back("fox");
+	palettes.push_back("foxwhite");
+	palettes.push_back("foxblue");
+	palettes.push_back("foxgreen");
 }
 // sounds
 void Fox::playsound(int sndnum) {

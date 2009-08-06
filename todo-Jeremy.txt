@@ -1,5 +1,5 @@
 Next to do - self-explanitory
-- alternate palettes for mewtwo and fox
+- alternate palettes for mewtwo
 - allow more actions after respawning
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
