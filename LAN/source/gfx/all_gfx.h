@@ -51,6 +51,13 @@ extern const unsigned short pokemonstadiumminimap_Map[768] __attribute__ ((align
 extern const unsigned char pokemonstadiumminimap_Tiles[4096] __attribute__ ((aligned (4))) ;  // Pal : pokemonstadiumminimap_Pal
 extern PAGfx_struct pokemonstadiumminimap; // background pointer
 
+extern const int paused_Info[3]; // BgMode, Width, Height
+extern const unsigned short paused_Map[768] __attribute__ ((aligned (4))) ;  // Pal : paused_Pal
+extern const unsigned char paused_Tiles[23552] __attribute__ ((aligned (4))) ;  // Pal : paused_Pal
+extern PAGfx_struct paused; // background pointer
+
+extern const unsigned short paused_Pal[196] __attribute__ ((aligned (4))) ;
+
 extern const unsigned short charprev_Pal[250] __attribute__ ((aligned (4))) ;
 
 extern const unsigned short corneria_Pal[166] __attribute__ ((aligned (4))) ;

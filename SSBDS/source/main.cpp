@@ -212,6 +212,7 @@ void openGif(int screen, string path) {
 
 vector<int> mainx;
 vector<int> subx;
+bool hidepause = false;
 void fadeOut() {
 	delete gifbuffers[MAIN_SCREEN];
 	delete gifbuffers[SUB_SCREEN];
@@ -259,6 +260,10 @@ void fadeIn() {
 	for (int n = 0; n <= 2; n++) {
 		PA_ShowBg(MAIN_SCREEN, n);
 		PA_ShowBg(SUB_SCREEN, n);
+	}
+	if(hidepause) {
+		PA_HideBg(SUB_SCREEN, 0);
+		hidepause = false;
 	}
 	for (int n = 0; n < 128; n++) {
 		PA_SetSpriteX(MAIN_SCREEN, n, mainx[n]);
@@ -804,15 +809,26 @@ bool Pause() {
 		PA_SpriteAnimPause(MAIN_SCREEN, n, 1);
 		PA_SpriteAnimPause(SUB_SCREEN, n, 1);
 	}
+	PA_ShowBg(SUB_SCREEN, 0);
+	PA_SetBrightness(MAIN_SCREEN, -12);
+	PA_SetBrightness(SUB_SCREEN, -8);
 	PA_WaitForVBL();
-	while (!Pad.Newpress.Start) PA_WaitForVBL();
-	if (Pad.Held.L && Pad.Held.R && Pad.Held.A && Pad.Held.Start) return true;
+	while(true) {
+		PA_WaitForVBL();
+		if(Stylus.Newpress) {
+			if(Stylus.X > 90 && Stylus.X < 164 && Stylus.Y > 95 && Stylus.Y < 115) break;
+			else if(Stylus.X > 105 && Stylus.X < 150 && Stylus.Y > 123 && Stylus.Y < 147) return true;
+		}
+	}
+	PA_SetBrightness(MAIN_SCREEN, 0);
+	PA_SetBrightness(SUB_SCREEN, 0);
+	PA_HideBg(SUB_SCREEN, 0);
 	for (int n = 0; n < 128; n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
 		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
 	}
 	return false;
-} // pauses the game; will add pause menu later
+} // pauses the game
 // Game modes/logic
 bool match(int param) {
 	if (!characterSelect()) return false; // select characters; return to main if canceled
@@ -839,7 +855,7 @@ bool match(int param) {
 		for(int n = 0; n < 5; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[254], OBJ_SIZE_8X16, COLOR256, 14, -64, 0);
 		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 20, ANIM_LOOP, -1);
-	}
+		}
 		mainx[0] = 104;
 		mainx[1] = 114;
 		mainx[2] = 124;
@@ -909,6 +925,11 @@ bool match(int param) {
 		PA_SetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM, -64);
 	}
 
+	PA_EasyBgLoad(SUB_SCREEN, 0, paused);
+	PA_HideBg(SUB_SCREEN, 0);
+	for(int n = 0; n < 128; n++) PA_SetSpritePrio(SUB_SCREEN, n, 1);
+	hidepause = true;
+
 	fadeIn();
 
 	PA_HideBg(MAIN_SCREEN, 1);
@@ -930,6 +951,8 @@ bool match(int param) {
 	while (true) {
 		if (Pad.Newpress.Start || PA_CheckLid()) {
 			if (Pause()) {
+				for(int n = 0; n < 16; n++) AS_SoundStop(n);
+				AS_MP3Stop();
 				gameOver(true);
 				return true;
 			}
@@ -1412,12 +1435,8 @@ int main(int argc, char ** argv) {
 	PA_InitVBL(); // Initializes a standard VBlank (FPS handler)
 	PA_InitRand();
 
-	vramSetBankE(VRAM_E_MAIN_SPRITE);
-	vramSetBankF(VRAM_F_MAIN_SPRITE);
-	vramSetBankG(VRAM_G_MAIN_SPRITE);
-
 	defaultExceptionHandler(); // "red screen of death" error, hopefully won't happen
-
+	
 	if (!EFS_Init(EFS_AND_FAT | EFS_DEFAULT_DEVICE, NULL)) {
 		PA_OutputText(0, 1, 1, "EFS init error !!!");
 		while (true) {}
@@ -1438,6 +1457,8 @@ int main(int argc, char ** argv) {
 	AS_Init(AS_MODE_MP3 | AS_MODE_SURROUND | AS_MODE_16CH);
 	AS_SetDefaultSettings(AS_PCM_8BIT, 11025, AS_SURROUND); // or your preferred default sound settings
 	AS_SetMP3Loop(true);
+	AS_SetMP3Volume(0);
+	for (int n = 0; n < 16; n++) AS_SetSoundVolume(n, 0);
 
 	initControls();
 

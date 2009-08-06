@@ -1,5 +1,7 @@
-Next to Do - Self-explanitory
-- Pause Menu
+Next to do - self-explanitory
+- alternate palettes for mewtwo and fox
+- allow more actions after respawning
+- quieter SFX (or louder music)
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Clashing hits
@@ -10,7 +12,6 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - Improve LAN (projectiles, effects, minimaps, pausing, matches, etc)
 - Random Button in character/stage selection
 - Clean up stage images (crisper outlines)
-- allow more actions after respawning
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
@@ -19,10 +20,10 @@ Minor Goals - Things that work fine but I'd like to improve:
 - Offload some methods from main to global
 	- class for custom controls
 	- class for screen functions (scroll, fade, flash)
-- quieter SFX (or louder music)
 - custom respawn platforms
-- make kirby's bneut functional
-- secondary continue buttons to menus (non-touch for main menus and touch for charsel)
+- kirby hats (functionality to bneut)
+- secondary continue buttons to menus (have both button and touch for all menus)
+- Animated Damage meters (count up instead of immediately changing)
 
 Ongoing Goals - Things that will never be complete, but still need to be worked on:
 - Better AI

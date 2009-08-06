@@ -14,6 +14,9 @@ extern "C" {
 #include "charprev.c"
 #include "charprev.pal.c"
 
+#include "paused.c"
+#include "paused.pal.c"
+
 #include "corneria.c"
 #include "finaldestination.c"
 #include "pokemonstadium.c"
@@ -36,6 +39,8 @@ PAGfx_struct finaldestination = {(void*)finaldestination_Map, 8192, (void*)final
 PAGfx_struct pokemonstadium = {(void*)pokemonstadium_Map, 8192, (void*)pokemonstadium_Tiles, 35072, (void*)pokemonstadium_Pal, (int*)pokemonstadium_Info };
 PAGfx_struct castlesiege = {(void*)castlesiege_Map, 8192, (void*)castlesiege_Tiles, 92480, (void*)castlesiege_Pal, (int*)castlesiege_Info };
 PAGfx_struct corneria = {(void*)corneria_Map, 8192, (void*)corneria_Tiles, 35328, (void*)corneria_Pal, (int*)corneria_Info };
+
+PAGfx_struct paused = {(void*)paused_Map, 768, (void*)paused_Tiles, 23552, (void*)paused_Pal, (int*)paused_Info };
 
 #ifdef __cplusplus
 }
