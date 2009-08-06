@@ -476,9 +476,11 @@ bool characterSelect(bool train = false) {
 		PA_SetSpriteX(SUB_SCREEN, 4 + n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, 4 + n, n, n, 1, ANIM_LOOP, -1);
 	}
-	PA_LoadSpritePal(MAIN_SCREEN, 0, (void*)charprev_Pal);
+	
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 3, "charprev");
+	PA_FatLoadSprite(3, "charprev");
 	for (int n = 0; n < 4; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)charprev, OBJ_SIZE_64X64, COLOR256, 0, 64*n, 128);
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[3], OBJ_SIZE_64X64, COLOR256, 3, 64*n, 128);
 		mainx[n] = 64 * n;
 		PA_SetSpriteX(MAIN_SCREEN, n, -64);
 		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
@@ -529,7 +531,7 @@ bool characterSelect(bool train = false) {
 			bool onchar = false;
 			for (int n = KIRBY; n < MAX_CHAR; n++) {
 				if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
-					PA_FatPlaySfx(names[n-1]);
+					if(n != RANDOM) PA_FatPlaySfx(names[n-1]);
 					onchar = true;
 					PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, n, n, 1, ANIM_LOOP, -1);
 				}
@@ -557,6 +559,7 @@ bool characterSelect(bool train = false) {
 				for (int n = 0; n < 4; n++) {
 					bool isai = true;
 					if (n == 0) isai = false;
+					if(selections[n] == RANDOM) selections[n] = PA_RandMinMax(1, RANDOM-1); // a non-sandbag character
 					if (selections[n] == KIRBY) players.push_back(new Kirby(n + 1, &players, &display, isai));
 					else if (selections[n] == MEWTWO) players.push_back(new Mewtwo(n + 1, &players, &display, isai));
 					else if (selections[n] == MARIO) players.push_back(new Mario(n + 1, &players, &display, isai));

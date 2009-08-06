@@ -10,9 +10,6 @@ extern "C" {
 
 #include "shield.c"
 #include "shield.pal.c"
-	
-#include "charprev.c"
-#include "charprev.pal.c"
 
 #include "paused.c"
 #include "paused.pal.c"

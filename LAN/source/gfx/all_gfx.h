@@ -19,8 +19,6 @@
 extern const unsigned short shield_Pal[90] __attribute__ ((aligned (4))) ;
 extern const unsigned char shield_Sprite[4096] __attribute__ ((aligned (4))) ;
 
-extern const unsigned char charprev[40960] __attribute__ ((aligned (4))) ;
-
 extern const int finaldestination_Info[3]; // BgMode, Width, Height
 extern const unsigned short finaldestination_Map[8192] __attribute__ ((aligned (4))) ;
 extern const unsigned char finaldestination_Tiles[40384] __attribute__ ((aligned (4))) ;
@@ -57,8 +55,6 @@ extern const unsigned char paused_Tiles[23552] __attribute__ ((aligned (4))) ;  
 extern PAGfx_struct paused; // background pointer
 
 extern const unsigned short paused_Pal[196] __attribute__ ((aligned (4))) ;
-
-extern const unsigned short charprev_Pal[250] __attribute__ ((aligned (4))) ;
 
 extern const unsigned short corneria_Pal[166] __attribute__ ((aligned (4))) ;
 extern const unsigned short finaldestination_Pal[237] __attribute__ ((aligned (4))) ;
