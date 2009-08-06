@@ -27,4 +27,4 @@ Minor Goals - Things that work fine but I'd like to improve:
 Ongoing Goals - Things that will never be complete, but still need to be worked on:
 - Better AI
 - Balancing
-- More Characters/stages
+- More Characters/stages/MP3s
