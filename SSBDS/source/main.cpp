@@ -820,7 +820,10 @@ bool Pause() {
 				break;
 			}
 			else if(Stylus.X > 105 && Stylus.X < 150 && Stylus.Y > 123 && Stylus.Y < 147) {
-				PA_SetBrightness(SUB_SCREEN, -12);
+				for(int i = 0; i >= -12; i--) {
+					PA_SetBrightness(SUB_SCREEN, i);
+					PA_WaitForVBL();
+				}
 				return true;
 			}
 		}
