@@ -213,14 +213,16 @@ void openGif(int screen, string path) {
 vector<int> mainx;
 vector<int> subx;
 bool hidepause = false;
+int brightness = 0;
 void fadeOut() {
 	delete gifbuffers[MAIN_SCREEN];
 	delete gifbuffers[SUB_SCREEN];
 	gifbuffers[MAIN_SCREEN] = NULL;
 	gifbuffers[SUB_SCREEN] = NULL;
-	for (int i = 0; i >= -31; i--) {
+	for (int i = brightness; i >= -31; i--) {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
+		brightness = i;
 		AS_SetMP3Volume((i + 31)*4);
 		for (int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i + 31)*4);
 		PA_WaitForVBL();
@@ -239,17 +241,19 @@ void fadeOut() {
 		PA_SetSpriteX(MAIN_SCREEN, n, -64);
 		PA_SetSpriteX(SUB_SCREEN, n, -64);
 	}
-	for(int i = -31; i <= 0; i++) {
+	for(int i = brightness; i <= 0; i++) {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
+		brightness = i;
 		PA_WaitForVBL();
 	}
 	for (int n = 0; n < 5; n++) PA_WaitForVBL();
 } // fades both screens out
 void fadeIn() {
-	for(int i = 0; i >= -31; i--) {
+	for(int i = brightness; i >= -31; i--) {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
+		brightness = i;
 		PA_WaitForVBL();
 	}
 	for (int n = 0; n < 5; n++) PA_WaitForVBL();
@@ -273,27 +277,16 @@ void fadeIn() {
 	}
 	if (gifbuffers[MAIN_SCREEN] != NULL) PA_LoadGif(MAIN_SCREEN, (void*)gifbuffers[MAIN_SCREEN]); // Show gif on screen
 	if (gifbuffers[SUB_SCREEN] != NULL) PA_LoadGif(SUB_SCREEN, (void*)gifbuffers[SUB_SCREEN]); // Show gif on screen
-	for (int i = -31; i <= 0; i++) {
+	for (int i = brightness; i <= 0; i++) {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
+		brightness = i;
 		AS_SetMP3Volume((i + 31)*4);
 		for (int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i + 31)*4);
 		PA_WaitForVBL();
 		PA_WaitForVBL();
 	} // slowly brightens the screen to normal
 } // fades both screens in
-void flash() {
-	for (int i = 1; i <= 31; i += 3) {
-		PA_SetBrightness(MAIN_SCREEN, i);
-		PA_SetBrightness(SUB_SCREEN, i);
-		PA_WaitForVBL();
-	} // brightens the screen to white realy quickly
-	for (int i = 31; i >= 0; i--) {
-		PA_SetBrightness(MAIN_SCREEN, i);
-		PA_SetBrightness(SUB_SCREEN, i);
-		PA_WaitForVBL();
-	} // darkens the screen to normal
-} // flashes the screen brightly
 
 #import "minimap.cpp" // minimap for during battles
 
@@ -814,17 +807,24 @@ bool Pause() {
 	}
 	PA_ShowBg(SUB_SCREEN, 0);
 	PA_SetBrightness(MAIN_SCREEN, -12);
-	PA_SetBrightness(SUB_SCREEN, -8);
+	PA_SetBrightness(SUB_SCREEN, 0);
+	brightness = -12;
 	PA_WaitForVBL();
 	while(true) {
 		PA_WaitForVBL();
 		if(Stylus.Newpress) {
-			if(Stylus.X > 90 && Stylus.X < 164 && Stylus.Y > 95 && Stylus.Y < 115) break;
-			else if(Stylus.X > 105 && Stylus.X < 150 && Stylus.Y > 123 && Stylus.Y < 147) return true;
+			if(Stylus.X > 90 && Stylus.X < 164 && Stylus.Y > 95 && Stylus.Y < 115) {
+				PA_SetBrightness(MAIN_SCREEN, 0);
+				PA_SetBrightness(SUB_SCREEN, 0);
+				brightness = 0;
+				break;
+			}
+			else if(Stylus.X > 105 && Stylus.X < 150 && Stylus.Y > 123 && Stylus.Y < 147) {
+				PA_SetBrightness(SUB_SCREEN, -12);
+				return true;
+			}
 		}
 	}
-	PA_SetBrightness(MAIN_SCREEN, 0);
-	PA_SetBrightness(SUB_SCREEN, 0);
 	PA_HideBg(SUB_SCREEN, 0);
 	for (int n = 0; n < 128; n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
