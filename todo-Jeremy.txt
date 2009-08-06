@@ -1,5 +1,4 @@
 Next to do - self-explanitory
-- alternate palettes for mewtwo
 - allow more actions after respawning
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
@@ -12,6 +11,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - New stage select tiles
 - "Random stage" button
 - Clean up stage images (crisper outlines)
+- Improve Fox palettes
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
