@@ -693,7 +693,7 @@ void Fighter::act() {
 				hangtime = 0;
 				ledgewait = 60;
 				myledge = -1;
-				jumpcount = 1;
+				jumpcount = 0;
 				fall();
 			}
 			else if (Pad.Newpress.Right || Pad.Newpress.Left) {
