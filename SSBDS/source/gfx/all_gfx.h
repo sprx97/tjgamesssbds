@@ -26,8 +26,8 @@ extern PAGfx_struct finaldestination; // background pointer
 extern const unsigned short finaldestination_Pal[237] __attribute__ ((aligned (4))) ;
 
 extern const int pokemonstadium_Info[3]; // BgMode, Width, Height
-extern const unsigned short pokemonstadium_Map[8192] __attribute__ ((aligned (4))) ;
-extern const unsigned char pokemonstadium_Tiles[35072] __attribute__ ((aligned (4))) ;
+extern const unsigned short pokemonstadium_Map[8192] __attribute__ ((aligned (4))) ;  // Pal : pokemonstadium_Pal
+extern const unsigned char pokemonstadium_Tiles[34496] __attribute__ ((aligned (4))) ;  // Pal : pokemonstadium_Pal
 extern PAGfx_struct pokemonstadium; // background pointer
 extern const unsigned short pokemonstadium_Pal[215] __attribute__ ((aligned (4))) ;
 
