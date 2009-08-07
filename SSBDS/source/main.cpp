@@ -510,11 +510,14 @@ bool characterSelect(bool train = false) {
 				if (page > 0) PA_SetSpriteXY(SUB_SCREEN, PAGEDOWN, 0, 160);
 				else PA_SetSpriteXY(SUB_SCREEN, PAGEDOWN, -32, -32);
 				// load charsel for previous page
+				// move cursors that have made a selection off screen
 			}
 			if (PA_SpriteTouched(PAGEUP)) {
 				page++;
 				if (page < MAX_PAGE) PA_SetSpriteXY(MAX_CHAR, PAGEUP, 224, 160);
 				else PA_SetSpriteXY(SUB_SCREEN, PAGEUP, -32, -32);
+				// load charsel for next page
+				// move cursors that have made a selection off screen
 			}
 		}
 		else if (Stylus.Held && selectedcursor != -1) {
