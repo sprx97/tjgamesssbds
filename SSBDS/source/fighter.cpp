@@ -1446,7 +1446,7 @@ void Fighter::move() {
 	}
 	if (action == ATTACK) jaywalk();
 	if (aerial) y += gravity;
-	if (aerial) y += fastfall;
+	if (aerial && action != SHORTHOP	) y += fastfall;
 	if (aerial) x += DI;
 	if (checkForDeath()) respawn();
 	PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x, (int)y); // repositions the sprite
