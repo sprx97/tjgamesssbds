@@ -244,7 +244,7 @@ void Fighter::cpu_obeyRules() {
 			}
 			else if (delay <= 0) fall();
 		}// checks for stage collision with aerial
-		if ((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
+		if ((action == JUMP || action == DOUBLEJUMP || action == SHORTHOP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
 		if (action == FALL) {
 			if (checkFloorCollision()) idle();
 		}
@@ -281,7 +281,7 @@ void Fighter::actCPU() {
 		else if (Cangle > 90 || Cangle < -90) directionalInfluence(1);
 	}
 	else {
-		if (action == JUMP || action == DOUBLEJUMP) {
+		if (action == JUMP || action == DOUBLEJUMP || action == SHORTHOP) {
 			if (x < stage->getFloors()[0].x || x > stage->getFloors()[0].x + stage->getFloors()[0].length) {
 				vector<Ledge> ledges = stage->getLedges();
 				double mindist = 10000000;
@@ -325,7 +325,7 @@ void Fighter::actCPU() {
 			if (Cangle < 90 && Cangle > -90) directionalInfluence(1);
 			else if (Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 		}
-		if (aerial && action != AIRATTACK && action != AIRLAG && action != JUMP && action != DOUBLEJUMP) {
+		if (aerial && action != AIRATTACK && action != AIRLAG && action != JUMP && action != DOUBLEJUMP && action != SHORTHOP) {
 			// act air
 			// Am I in danger?
 			if (x < stage->getFloors()[0].x || x > stage->getFloors()[0].x + stage->getFloors()[0].length) {
@@ -366,7 +366,7 @@ void Fighter::actCPU() {
 				else if (Cangle > 45 && Cangle < 135 && (int)PA_RandMax(100) > 100 - level*10 + 5) dair();
 			}
 			else {
-				if (Cangle < -45 && Cangle > -135 && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) {
+				if (Cangle < -45 && Cangle > -135 && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP || action != SHORTHOP) {
 					if (Cx > 0) setDirection(RIGHT);
 					if (Cx < 0) setDirection(LEFT);
 					doubleJump();
@@ -669,7 +669,7 @@ void Fighter::act() {
 						}
 					}
 					else if (((Pad.Held.Up && getTapJumpOn()) || (Pad.Released.Up && getTapJumpOn()) || custom_action(ACTION_JUMP, PAD_HELD) || custom_action(ACTION_JUMP, PAD_RELEASED)) && jumpcount < jumpmax) doubleJump();
-					else if (action != JUMP && action != DOUBLEJUMP) fall();
+					else if (action != JUMP && action != DOUBLEJUMP && action != SHORTHOP) fall();
 				}
 			}
 		}
@@ -771,8 +771,8 @@ void Fighter::act() {
 			else if (custom_action(ACTION_SHIELD, PAD_RELEASED)) lcancel = 10;
 			else if (delay <= 0) fall();
 		} // checks for stage collision with aerial
-		if ((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
-		if ((action == DOUBLEJUMP || action == JUMP) && (custom_action(ACTION_BASIC, PAD_NEWPRESS) || (Stylus.Newpress && getCStickStylus()) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS))) {
+		if ((action == JUMP || action == DOUBLEJUMP || action == SHORTHOP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
+		if ((action == DOUBLEJUMP || action == JUMP || action == SHORTHOP) && (custom_action(ACTION_BASIC, PAD_NEWPRESS) || (Stylus.Newpress && getCStickStylus()) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS))) {
 			ymomentum = dy;
 			momentumtime = delay;
 			dy = 0;
@@ -882,15 +882,15 @@ void Fighter::actAir() {
 		}
 		return;
 	}
-	if ((custom_action(ACTION_BASIC, PAD_NEWPRESS) || (custom_action(ACTION_JUMP, PAD_NEWPRESS) && jumpmax <= 2) || (custom_action(ACTION_JUMP, PAD_HELD) && jumpmax > 2) || (Pad.Newpress.Up && getTapJumpOn() && jumpmax <= 2) || (Pad.Held.Up && getTapJumpOn() && jumpmax > 2) /*|| Pad.Held.Down || Pad.Held.Right || Pad.Held.Left */ || Pad.Newpress.B || Pad.Newpress.R || Pad.Newpress.L) && action != JUMP && action != DOUBLEJUMP) {
+	if ((custom_action(ACTION_BASIC, PAD_NEWPRESS) || (custom_action(ACTION_JUMP, PAD_NEWPRESS) && jumpmax <= 2) || (custom_action(ACTION_JUMP, PAD_HELD) && jumpmax > 2) || (Pad.Newpress.Up && getTapJumpOn() && jumpmax <= 2) || (Pad.Held.Up && getTapJumpOn() && jumpmax > 2) /*|| Pad.Held.Down || Pad.Held.Right || Pad.Held.Left */ || Pad.Newpress.B || Pad.Newpress.R || Pad.Newpress.L) && action != JUMP && action != DOUBLEJUMP && action != SHORTHOP) {
 		airlag = 2;
 		action = AIRLAG;
 	}
-	if ((custom_action(ACTION_BASIC, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS) || custom_action(ACTION_SHIELD, PAD_NEWPRESS)) && (action == JUMP || action == DOUBLEJUMP)) {
+	if ((custom_action(ACTION_BASIC, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS) || custom_action(ACTION_SHIELD, PAD_NEWPRESS)) && (action == JUMP || action == DOUBLEJUMP || action == SHORTHOP)) {
 		airlag = 2;
 		action = AIRLAG;
 	}
-	if ((custom_action(ACTION_JUMP, PAD_NEWPRESS)) && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) doubleJump(); // uses second (3rd, 4th, etc) jump(s)
+	if ((custom_action(ACTION_JUMP, PAD_NEWPRESS)) && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP && action != SHORTHOP) doubleJump(); // uses second (3rd, 4th, etc) jump(s)
 	if (Stylus.Newpress && getCStickStylus()) airAttackStylus();
 	if (!isCPU) directionalInfluence();
 }
@@ -1084,7 +1084,7 @@ void Fighter::shorthop() {
 	fastfall = 0;
 	dx = 0;
 	delay = 60 / framespeeds[SHORTHOP] * (endframes[SHORTHOP] - startframes[SHORTHOP] + 1);
-	action = JUMP;
+	action = SHORTHOP;
 	aerial = true;
 	jumpcount++;
 	playsound(SHORTHOP);
