@@ -21,9 +21,9 @@ extern const unsigned char shield_Sprite[4096] __attribute__ ((aligned (4))) ;
 
 extern const int finaldestination_Info[3]; // BgMode, Width, Height
 extern const unsigned short finaldestination_Map[8192] __attribute__ ((aligned (4))) ;  // Pal : finaldestination_Pal
-extern const unsigned char finaldestination_Tiles[40384] __attribute__ ((aligned (4))) ;  // Pal : finaldestination_Pal
+extern const unsigned char finaldestination_Tiles[37248] __attribute__ ((aligned (4))) ;  // Pal : finaldestination_Pal
 extern PAGfx_struct finaldestination; // background pointer
-extern const unsigned short finaldestination_Pal[237] __attribute__ ((aligned (4))) ;
+extern const unsigned short finaldestination_Pal[192] __attribute__ ((aligned (4))) ;
 
 extern const int pokemonstadium_Info[3]; // BgMode, Width, Height
 extern const unsigned short pokemonstadium_Map[8192] __attribute__ ((aligned (4))) ;  // Pal : pokemonstadium_Pal

@@ -30,7 +30,7 @@ extern "C" {
 #include "pokemonstadiumminimap.c"
 #include "pokemonstadiumminimap.pal.c"
 
-PAGfx_struct finaldestination = {(void*)finaldestination_Map, 8192, (void*)finaldestination_Tiles, 40384, (void*)finaldestination_Pal, (int*)finaldestination_Info };
+PAGfx_struct finaldestination = {(void*)finaldestination_Map, 8192, (void*)finaldestination_Tiles, 37248, (void*)finaldestination_Pal, (int*)finaldestination_Info };
 PAGfx_struct pokemonstadium = {(void*)pokemonstadium_Map, 8192, (void*)pokemonstadium_Tiles, 34496, (void*)pokemonstadium_Pal, (int*)pokemonstadium_Info };
 PAGfx_struct castlesiege = {(void*)castlesiege_Map, 8192, (void*)castlesiege_Tiles, 92480, (void*)castlesiege_Pal, (int*)castlesiege_Info };
 PAGfx_struct corneria = {(void*)corneria_Map, 8192, (void*)corneria_Tiles, 35328, (void*)corneria_Pal, (int*)corneria_Info };

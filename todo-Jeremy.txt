@@ -7,7 +7,6 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - Improve LAN (projectiles, effects, minimaps, pausing, matches, etc)
 - New stage select tiles
 - "Random stage" button
-- Clean up stage images (crisper outlines)
 - Improve Fox palettes
 
 Minor Goals - Things that work fine but I'd like to improve:

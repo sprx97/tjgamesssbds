@@ -212,7 +212,7 @@ void openGif(int screen, string path) {
 
 vector<int> mainx;
 vector<int> subx;
-bool hidepause = false;
+bool in_a_match = false;
 int brightness = 0;
 void fadeOut() {
 	delete gifbuffers[MAIN_SCREEN];
@@ -265,9 +265,11 @@ void fadeIn() {
 		PA_ShowBg(MAIN_SCREEN, n);
 		PA_ShowBg(SUB_SCREEN, n);
 	}
-	if(hidepause) {
+	if(in_a_match) {
 		PA_HideBg(SUB_SCREEN, 0);
-		hidepause = false;
+		PA_HideBg(MAIN_SCREEN, 1);
+		PA_HideBg(MAIN_SCREEN, 2);
+		in_a_match = false;
 	}
 	for (int n = 0; n < 128; n++) {
 		PA_SetSpriteX(MAIN_SCREEN, n, mainx[n]);
@@ -632,6 +634,7 @@ void displayResults(bool nocontest) {
 	for (int n = 0; n < 128; n++) {
 		PA_SetSpriteXY(MAIN_SCREEN, n, -64, -64);
 		PA_SetSpriteXY(SUB_SCREEN, n, -64, -64);
+		PA_SetSpritePrio(SUB_SCREEN, n, 0);
 	}
 	for (int n = 0; n < (int)players.size(); n++) {
 		PA_DeleteSprite(MAIN_SCREEN, (players[n]->SPRITENUM) - 4);
@@ -934,12 +937,9 @@ bool match(int param) {
 	PA_EasyBgLoad(SUB_SCREEN, 0, paused);
 	PA_HideBg(SUB_SCREEN, 0);
 	for(int n = 0; n < 128; n++) PA_SetSpritePrio(SUB_SCREEN, n, 1);
-	hidepause = true;
+	in_a_match = true;
 
 	fadeIn();
-
-	PA_HideBg(MAIN_SCREEN, 1);
-	PA_HideBg(MAIN_SCREEN, 2);
 
 	if(gamemode != GAMEMODE_TRAINING) {
 		PA_FatPlaySfx("3");
