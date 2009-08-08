@@ -831,6 +831,12 @@ bool Pause() {
 					PA_SetBrightness(SUB_SCREEN, i);
 					PA_WaitForVBL();
 				}
+				for(int i = -12; i >= -31; i--) {
+					PA_SetBrightness(MAIN_SCREEN, i);
+					PA_SetBrightness(SUB_SCREEN, i);
+					brightness = i;
+					PA_WaitForVBL();
+				}
 				return true;
 			}
 		}
