@@ -1338,17 +1338,66 @@ void options() {
 	}
 } // options menu, in progress
 void extras() {
-//	AS_MP3StreamPlay("/SSBDS_Files/music/credits.mp3");
-	for (int n = 1; n <= 11; n++) {
-		PA_Init8bitBg(SUB_SCREEN, 3);
+	AS_MP3StreamPlay("/SSBDS_Files/music/credits.mp3");
+	for(int i = brightness; i >= -31; i--) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		brightness = i;
+		PA_WaitForVBL();
+	}
+	for (int n = 0; n < 5; n++) PA_WaitForVBL();
+	PA_DeleteBg(MAIN_SCREEN, 3);
+	PA_DeleteBg(SUB_SCREEN, 3);
+	PA_Init8bitBg(MAIN_SCREEN, 3);
+	PA_Init8bitBg(SUB_SCREEN, 3);
+	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/credits/1.gif");
+	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
+	PA_LoadGif(MAIN_SCREEN, (void*)gifbuffers[MAIN_SCREEN]);
+	PA_LoadGif(SUB_SCREEN, (void*)gifbuffers[SUB_SCREEN]);
+	for (int n = 0; n <= 2; n++) {
+		PA_ShowBg(MAIN_SCREEN, n);
+		PA_ShowBg(SUB_SCREEN, n);
+	}
+	for (int i = brightness; i <= 0; i++) {
+		PA_SetBrightness(MAIN_SCREEN, i);
+		PA_SetBrightness(SUB_SCREEN, i);
+		brightness = i;
+		AS_SetMP3Volume((i + 31)*4);
+		for (int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i + 31)*4);
+		PA_WaitForVBL();
+		PA_WaitForVBL();
+	} // slowly brightens the screen to normal
+	for (int n = 2; n <= 12; n++) {
+		for (int m = 0; m < 300; m++) {
+			if(Stylus.Newpress) break;
+			PA_WaitForVBL();
+		}
+		if(n == 12) {
+			fadeOut();
+			return;
+		}
+		for(int i = 0; i >= -31; i--) {
+			PA_SetBrightness(MAIN_SCREEN, i);
+			PA_SetBrightness(SUB_SCREEN, i);
+			brightness = i;
+			PA_WaitForVBL();
+		}
+		PA_DeleteBg(MAIN_SCREEN, 3);
+		PA_DeleteBg(SUB_SCREEN, 3);
 		PA_Init8bitBg(MAIN_SCREEN, 3);
-		openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
+		PA_Init8bitBg(SUB_SCREEN, 3);
 		char* screen = "";
 		sprintf(screen, "/SSBDS_Files/gifs/credits/%d.gif", n);
 		openGif(MAIN_SCREEN, screen);
-		fadeIn();
-		for (int m = 0; m < 300; m++) PA_WaitForVBL();
-		fadeOut();
+		openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
+		PA_LoadGif(MAIN_SCREEN, (void*)gifbuffers[MAIN_SCREEN]);
+		PA_LoadGif(SUB_SCREEN, (void*)gifbuffers[SUB_SCREEN]);
+		for(int i = -31; i <= 0; i++) {
+			PA_SetBrightness(MAIN_SCREEN, i);
+			PA_SetBrightness(SUB_SCREEN, i);
+			brightness = i;
+			PA_WaitForVBL();
+		}
 	}
 } // extras menu, only credits for now
 
