@@ -52,11 +52,5 @@ extern const unsigned char pokemonstadiumminimap_Tiles[3968] __attribute__ ((ali
 extern PAGfx_struct pokemonstadiumminimap; // background pointer
 extern const unsigned short pokemonstadiumminimap_Pal[167] __attribute__ ((aligned (4))) ;
 
-extern const int paused_Info[3]; // BgMode, Width, Height
-extern const unsigned short paused_Map[768] __attribute__ ((aligned (4))) ;  // Pal : paused_Pal
-extern const unsigned char paused_Tiles[23552] __attribute__ ((aligned (4))) ;  // Pal : paused_Pal
-extern PAGfx_struct paused; // background pointer
-extern const unsigned short paused_Pal[196] __attribute__ ((aligned (4))) ;
-
 #endif
 

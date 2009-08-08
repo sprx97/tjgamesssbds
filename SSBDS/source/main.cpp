@@ -938,7 +938,7 @@ bool match(int param) {
 		PA_SetSpriteX(MAIN_SCREEN, players[n]->SPRITENUM, -64);
 	}
 
-	PA_EasyBgLoad(SUB_SCREEN, 0, paused);
+	PA_FatEasyBgLoad(SUB_SCREEN, 0, "paused");
 	PA_HideBg(SUB_SCREEN, 0);
 	for(int n = 0; n < 128; n++) PA_SetSpritePrio(SUB_SCREEN, n, 1);
 	in_a_match = true;
