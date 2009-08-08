@@ -111,7 +111,7 @@ void Fighter::initSprite() {
 		PA_FatLoadSprite(MYCHAR, name.c_str());
 	}
 	PA_CreateSprite(MAIN_SCREEN, SPRITENUM, (void*)sprite_gfx[MYCHAR], OBJ_SIZE_64X64, COLOR256, SPRITENUM - 100, -64, -64);
-	PA_CreateSprite(MAIN_SCREEN, SPRITENUM - 4, (void*)shield_Sprite, OBJ_SIZE_64X64, COLOR256, 13, -64, -64);
+	PA_CreateSprite(MAIN_SCREEN, SPRITENUM - 4, (void*)sprite_gfx[13], OBJ_SIZE_64X64, COLOR256, 13, -64, -64);
 	PA_SetSpriteRotEnable(MAIN_SCREEN, SPRITENUM - 4, SPRITENUM - 100);
 }
 void Fighter::initFrames() {

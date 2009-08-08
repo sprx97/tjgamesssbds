@@ -8,27 +8,25 @@ extern "C" {
 
 #include "all_gfx.h"
 
-#include "shield.c"
-#include "shield.pal.c"
-
-#include "paused.c"
-#include "paused.pal.c"
-
-#include "corneria.c"
 #include "finaldestination.c"
 #include "pokemonstadium.c"
 #include "castlesiege.c"
-
-#include "corneria.pal.c"
-#include "pokemonstadium.pal.c"
-#include "castlesiege.pal.c"
-#include "finaldestination.pal.c"
+#include "corneria.c"
 
 #include "finaldestinationminimap.c"
-#include "finaldestinationminimap.pal.c"
-
 #include "pokemonstadiumminimap.c"
+
+#include "paused.c"
+
+#include "finaldestination.pal.c"
+#include "pokemonstadium.pal.c"
+#include "castlesiege.pal.c"
+#include "corneria.pal.c"
+
+#include "finaldestinationminimap.pal.c"
 #include "pokemonstadiumminimap.pal.c"
+
+#include "paused.pal.c"
 
 PAGfx_struct finaldestination = {(void*)finaldestination_Map, 8192, (void*)finaldestination_Tiles, 37248, (void*)finaldestination_Pal, (int*)finaldestination_Info };
 PAGfx_struct pokemonstadium = {(void*)pokemonstadium_Map, 8192, (void*)pokemonstadium_Tiles, 34496, (void*)pokemonstadium_Pal, (int*)pokemonstadium_Info };

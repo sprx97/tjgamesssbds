@@ -553,7 +553,8 @@ bool characterSelect(bool train = false) {
 				fadeOut();
 				PA_ResetSpriteSys();
 				PA_FatFreeSprBuffers();
-				PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);
+				PA_FatEasyLoadSpritePal(MAIN_SCREEN, 13, "shield");
+				PA_FatLoadSprite(13, "shield");
 				for (int n = 0; n < 4; n++) {
 					bool isai = true;
 					if (n == 0) isai = false;

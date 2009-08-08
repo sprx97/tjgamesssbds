@@ -356,7 +356,8 @@ void ReceiveCharsel(unsigned char *data, int length, LPLOBBY_USER from) {
 		}
 		PA_ResetSpriteSys();
 		PA_FatFreeSprBuffers();
-		PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);
+		PA_FatEasyLoadSpritePal(MAIN_SCREEN, 13, "shield");
+		PA_FatLoadSprite(13, "shield");
 		for(int n = 0; n < 4; n++) {
 			if (selections[n] == KIRBY) players.push_back(new Kirby(n + 1, &players, &display, false));
 			else if (selections[n] == MEWTWO) players.push_back(new Mewtwo(n + 1, &players, &display, false));
@@ -460,7 +461,7 @@ void characterSelectLAN() {
 		PA_CreateSprite(SUB_SCREEN, 4 + n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n - 1) % 3)*80 + 16, ((n - 1) / 3)*72);
 		PA_StartSpriteAnimEx(SUB_SCREEN, 4 + n, n, n, 1, ANIM_LOOP, -1);
 	}
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 3, "charprev");
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 3, "charprev");
 	PA_FatLoadSprite(3, "charprev");
 	for (int n = 0; n < 2; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[3], OBJ_SIZE_64X64, COLOR256, 0, 64*n, 128);
@@ -527,7 +528,8 @@ void characterSelectLAN() {
 				fadeOut();
 				PA_ResetSpriteSys();
 				PA_FatFreeSprBuffers();
-				PA_LoadSpritePal(MAIN_SCREEN, 13, (void*)shield_Pal);
+				PA_FatEasyLoadSpritePal(MAIN_SCREEN, 13, "shield");
+				PA_FatLoadSprite(13, "shield");
 				for(int n = 0; n < 4; n++) {
 					if (selections[n] == KIRBY) players.push_back(new Kirby(n + 1, &players, &display, false));
 					else if (selections[n] == MEWTWO) players.push_back(new Mewtwo(n + 1, &players, &display, false));
