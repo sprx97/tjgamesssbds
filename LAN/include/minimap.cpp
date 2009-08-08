@@ -2,16 +2,16 @@ int DAMAGE_LOW = 1, DAMAGE_MID = 12, DAMAGE_HIGH = 23, DAMAGE_HIGHER = 34;
 int displayeddamage[4] = {0, 0, 0, 0};
 void initMinimap(int selStage) {
 	if (selStage == FINALDESTINATION) {
-		PA_EasyBgLoad(SUB_SCREEN, 2, finaldestinationminimap);
+		PA_FatEasyBgLoad(SUB_SCREEN, 2, "finaldestinationminimap");
 	}
 	else if (selStage == POKEMONSTADIUM) {
-		PA_EasyBgLoad(SUB_SCREEN, 2, pokemonstadiumminimap);
+		PA_FatEasyBgLoad(SUB_SCREEN, 2, "pokemonstadiumminimap");
 	}
 //	else if(selStage == CORNERIA) {
-//		PA_EasyBgLoad(SUB_SCREEN, 2, corneria);
+//		PA_FatEasyBgLoad(SUB_SCREEN, 2, corneria);
 //	}
 //	else if(selStage == CASTLESIEGE) {
-//		PA_EasyBgLoad(SUB_SCREEN, 2, castleseige);
+//		PA_FatEasyBgLoad(SUB_SCREEN, 2, castleseige);
 //	}
 	PA_HideBg(SUB_SCREEN, 2);
 

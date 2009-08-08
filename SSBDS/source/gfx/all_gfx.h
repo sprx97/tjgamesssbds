@@ -40,17 +40,5 @@ extern const unsigned char corneria_Tiles[35328] __attribute__ ((aligned (4))) ;
 extern PAGfx_struct corneria; // background pointer
 extern const unsigned short corneria_Pal[166] __attribute__ ((aligned (4))) ;
 
-extern const int finaldestinationminimap_Info[3]; // BgMode, Width, Height
-extern const unsigned short finaldestinationminimap_Map[768] __attribute__ ((aligned (4))) ;  // Pal : finaldestinationminimap_Pal
-extern const unsigned char finaldestinationminimap_Tiles[3008] __attribute__ ((aligned (4))) ;  // Pal : finaldestinationminimap_Pal
-extern PAGfx_struct finaldestinationminimap; // background pointer
-extern const unsigned short finaldestinationminimap_Pal[167] __attribute__ ((aligned (4))) ;
-
-extern const int pokemonstadiumminimap_Info[3]; // BgMode, Width, Height
-extern const unsigned short pokemonstadiumminimap_Map[768] __attribute__ ((aligned (4))) ;  // Pal : pokemonstadiumminimap_Pal
-extern const unsigned char pokemonstadiumminimap_Tiles[3968] __attribute__ ((aligned (4))) ;  // Pal : pokemonstadiumminimap_Pal
-extern PAGfx_struct pokemonstadiumminimap; // background pointer
-extern const unsigned short pokemonstadiumminimap_Pal[167] __attribute__ ((aligned (4))) ;
-
 #endif
 

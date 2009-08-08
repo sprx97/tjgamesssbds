@@ -13,24 +13,15 @@ extern "C" {
 #include "castlesiege.c"
 #include "corneria.c"
 
-#include "finaldestinationminimap.c"
-#include "pokemonstadiumminimap.c"
-
 #include "finaldestination.pal.c"
 #include "pokemonstadium.pal.c"
 #include "castlesiege.pal.c"
 #include "corneria.pal.c"
 
-#include "finaldestinationminimap.pal.c"
-#include "pokemonstadiumminimap.pal.c"
-
 PAGfx_struct finaldestination = {(void*)finaldestination_Map, 8192, (void*)finaldestination_Tiles, 37248, (void*)finaldestination_Pal, (int*)finaldestination_Info };
 PAGfx_struct pokemonstadium = {(void*)pokemonstadium_Map, 8192, (void*)pokemonstadium_Tiles, 34496, (void*)pokemonstadium_Pal, (int*)pokemonstadium_Info };
 PAGfx_struct castlesiege = {(void*)castlesiege_Map, 8192, (void*)castlesiege_Tiles, 92480, (void*)castlesiege_Pal, (int*)castlesiege_Info };
 PAGfx_struct corneria = {(void*)corneria_Map, 8192, (void*)corneria_Tiles, 35328, (void*)corneria_Pal, (int*)corneria_Info };
-
-PAGfx_struct finaldestinationminimap = {(void*)finaldestinationminimap_Map, 768, (void*)finaldestinationminimap_Tiles, 3008, (void*)finaldestinationminimap_Pal, (int*)finaldestinationminimap_Info };
-PAGfx_struct pokemonstadiumminimap = {(void*)pokemonstadiumminimap_Map, 768, (void*)pokemonstadiumminimap_Tiles, 3968, (void*)pokemonstadiumminimap_Pal, (int*)pokemonstadiumminimap_Info };
 
 #ifdef __cplusplus
 }
