@@ -8,6 +8,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - New stage select tiles
 - "Random stage" button
 - Improve Fox palettes
+- Improve options menu
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
