@@ -14,6 +14,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - "Random stage" button
 - Improve Fox palettes
 - Improve options menu (make like other menus, not PA_Text)
+- Load more data from FAT (lighten memory load)
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
