@@ -52,7 +52,14 @@ void Sandbag::act() {
 			if (aerial) fall();
 			else idle();
 		}
-		if (checkFloorCollision()) idle();
+		if (checkFloorCollision() || checkCeilingCollision()) {
+			if(ky > 0) ky = ky * -1 - gravity;
+			dy = ky;
+		}
+		if(checkWallCollision()) {
+			kx *= -1;
+			dx = kx;
+		}
 	}
 	else if (hitstun > 0) {
 		if (y != stage->getFloors()[0].y) aerial = true;
@@ -80,7 +87,14 @@ void Sandbag::act() {
 		}
 		dx = kx;
 		dy = ky;
-		if (checkFloorCollision()) idle();
+		if (checkFloorCollision() || checkCeilingCollision()) {
+			if(ky > 0) ky = ky * -1 - gravity;
+			dy = ky;
+		}
+		if(checkWallCollision()) {
+			kx *= -1;
+			dx = kx;
+		}
 	}
 	else if (action == FALL && checkFloorCollision()) idle();
 	else if (action == IDLE) idle();

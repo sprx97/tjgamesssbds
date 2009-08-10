@@ -166,7 +166,14 @@ void Fighter::cpu_obeyRules() {
 			if (aerial) fall();
 			else idle();
 		}
-		if (checkFloorCollision()) idle();
+		if (checkFloorCollision() || checkCeilingCollision()) {
+			if(ky > 0) ky = ky * -1 - gravity;
+			dy = ky;
+		}
+		if(checkWallCollision()) {
+			kx *= -1;
+			dx = kx;
+		}
 	}
 	else if (hitstun > 0) {
 		if (y != stage->getFloors()[0].y) aerial = true;
@@ -192,7 +199,14 @@ void Fighter::cpu_obeyRules() {
 			if (!checkFloorCollision()) fall();
 			else idle();
 		}
-		if (checkFloorCollision()) idle();
+		if (checkFloorCollision() || checkCeilingCollision()) {
+			if(ky > 0) ky = ky * -1 - gravity;
+			dy = ky;
+		}
+		if(checkWallCollision()) {
+			kx *= -1;
+			dx = kx;
+		}
 	}
 	else {
 		if (landinglag > 0) {
@@ -302,8 +316,7 @@ void Fighter::actCPU() {
 			else if (Cangle > 90 || Cangle < -90) directionalInfluence(-1);
 			// act in air
 		}
-		if (action == JAB) {
-		}
+		if (action == JAB) {}
 		if (action == AIRATTACK) {
 			if (x < stage->getFloors()[0].x || x > stage->getFloors()[0].x + stage->getFloors()[0].length) {
 				vector<Ledge> ledges = stage->getLedges();
@@ -371,8 +384,14 @@ void Fighter::actCPU() {
 					if (Cx < 0) setDirection(LEFT);
 					doubleJump();
 				}
-				else if (Cangle < 45 && Cangle > -45) directionalInfluence(1); //right
-				else if (Cangle > 135 || Cangle < -135) directionalInfluence(-1); //left
+				else if (Cangle < 45 && Cangle > -45) {
+					directionalInfluence(1); //right
+					fall();
+				}
+				else if (Cangle > 135 || Cangle < -135) {
+					directionalInfluence(-1);
+					fall();
+				}
 			}//too far away
 		}
 		if (action == SHIELD) {
@@ -489,7 +508,14 @@ void Fighter::act() {
 			if (aerial) fall();
 			else idle();
 		}
-		if (checkFloorCollision()) idle();
+		if (checkFloorCollision() || checkCeilingCollision()) {
+			if(ky > 0) ky = ky * -1 - gravity;
+			dy = ky;
+		}
+		if(checkWallCollision()) {
+			kx *= -1;
+			dx = kx;
+		}
 	}
 	else if (hitstun > 0) {
 		if (y != stage->getFloors()[0].y) aerial = true;
@@ -517,7 +543,14 @@ void Fighter::act() {
 		}
 		dx = kx;
 		dy = ky;
-		if (checkFloorCollision()) idle();
+		if (checkFloorCollision() || checkCeilingCollision()) {
+			if(ky > 0) ky = ky * -1 - gravity;
+			dy = ky;
+		}
+		if(checkWallCollision()) {
+			kx *= -1;
+			dx = kx;
+		}
 	}
 	else {
 		if (lasthitby != -1 && aerial == false) lasthitby = -1;
@@ -1414,9 +1447,7 @@ void Fighter::smashAttack() {
 	if (touchy > 128 && touchx > 96 && touchx < 160) smashdown();
 }
 void Fighter::move() {
-	if (action == HANG) {
-		return;
-	}
+	if (action == HANG) return;
 	if (action == GRABBED) {}
 	else if (!aerial) {
 		if (!checkFloorCollision()) {
@@ -1430,10 +1461,12 @@ void Fighter::move() {
 		if (action == AIRDODGE || action == FTHROW || action == DTHROW || action == UTHROW || action == BTHROW) ymomentum = DI = fastfall = 0;
 		if (MYCHAR == FOX && (action == BUP || action == BSIDE || action == BDOWN)) DI = fastfall = ymomentum = 0;
 		if (MYCHAR == MEWTWO && action == BUP) DI = fastfall = ymomentum = 0;
-		checkLedgeCollision();
-		checkFloorCollision();
-		checkWallCollision();
-		checkCeilingCollision();
+		if(action != STUN) {
+			checkLedgeCollision();
+			checkFloorCollision();
+			checkWallCollision();
+			checkCeilingCollision();
+		}
 	}
 	x += dx;
 	y += dy;
@@ -1446,7 +1479,7 @@ void Fighter::move() {
 	}
 	if (action == ATTACK) jaywalk();
 	if (aerial) y += gravity;
-	if (aerial && action != SHORTHOP	) y += fastfall;
+	if (aerial && action != SHORTHOP) y += fastfall;
 	if (aerial) x += DI;
 	if (checkForDeath()) respawn();
 	PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x, (int)y); // repositions the sprite
@@ -1549,22 +1582,22 @@ void Fighter::respawn() {
 			PA_SetSpriteXY(MAIN_SCREEN, 55 + (SPRITENUM - 100), -64, -64);
 			fall();
 		}
-		else if (custom_action(ACTION_JUMP, PAD_NEWPRESS) || (Pad.Newpress.Up && getTapJumpOn())) {
+		else if (!isCPU && (custom_action(ACTION_JUMP, PAD_NEWPRESS) || (Pad.Newpress.Up && getTapJumpOn()))) {
 			respawntimer = 0;
 			PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), -64, -64);
 			jump();
 		}
-		else if(custom_action(ACTION_SHIELD, PAD_NEWPRESS)) {
+		else if(!isCPU && custom_action(ACTION_SHIELD, PAD_NEWPRESS)) {
 			respawntimer = 0;
 			PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), -64, -64);
 			airdodge();
 		}
-		else if(custom_action(ACTION_BASIC, PAD_NEWPRESS)) {
+		else if(!isCPU && custom_action(ACTION_BASIC, PAD_NEWPRESS)) {
 			respawntimer = 0;
 			PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), -64, -64);
 			nair();
 		}
-		else if(custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
+		else if(!isCPU && custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 			respawntimer = 0;
 			PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), -64, -64);
 			bneut();
@@ -1587,6 +1620,7 @@ bool Fighter::ledgenotinuse(int lnum) {
 	return true;
 }
 bool Fighter::checkLedgeCollision() {
+	if(MYCHAR == SANDBAG) return false;
 	vector<Ledge> ledges = stage->getLedges();
 	for (int n = 0; n < (int)ledges.size(); n++) {
 		Ledge currledge = ledges[n];

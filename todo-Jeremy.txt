@@ -1,3 +1,8 @@
+Next To Do:
+- Teching (Yes, I'm that awesome)
+- Animate match start countdown
+- clean up fighter class
+
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Clashing hits
 - Convert all gfx to FAT
@@ -8,7 +13,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - New stage select tiles
 - "Random stage" button
 - Improve Fox palettes
-- Improve options menu
+- Improve options menu (make like other menus, not PA_Text)
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
@@ -19,7 +24,6 @@ Minor Goals - Things that work fine but I'd like to improve:
 - custom respawn platforms
 - kirby hats (functionality to bneut)
 - secondary continue buttons to menus (have both button and touch for all menus)
-- Animated Damage meters (count up instead of immediately changing)
 
 Ongoing Goals - Things that will never be complete, but still need to be worked on:
 - Better AI
