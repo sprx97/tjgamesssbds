@@ -1,6 +1,8 @@
 int DAMAGE_LOW = 1, DAMAGE_MID = 12, DAMAGE_HIGH = 23, DAMAGE_HIGHER = 34;
 int displayeddamage[4] = {0, 0, 0, 0};
 void initMinimap(int selStage) {
+	for(int n = 0; n < 4; n++) displayeddamage[n] = 0;
+
 	if (selStage == FINALDESTINATION) {
 		PA_FatEasyBgLoad(SUB_SCREEN, 2, "finaldestinationminimap");
 	}
@@ -140,6 +142,7 @@ void displayMinimap() {
 void displayPercentages() {
 	for (int n = 0; n < (int)players.size(); n++) {
 		int damage = (int)(players[n]->getDamagePercent());
+		if(damage == 0) displayeddamage[n] = 0;
 		if(displayeddamage[n] < damage) displayeddamage[n]++;
 		if(displayeddamage[n] < damage) PA_SetRotsetNoAngle(SUB_SCREEN, n, 208, 208);
 		else PA_SetRotsetNoAngle(SUB_SCREEN, n, 256, 256);
