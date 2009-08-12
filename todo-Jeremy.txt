@@ -1,6 +1,5 @@
 Next To Do:
-- remove extra hitboxes from attacks that aren't multi-hit
-- Updated/improe hitboxmaker.java
+- Updated/improve hitboxmaker.java
 - Teching (Yes, I'm that awesome)
 - Animate match start countdown
 - clean up fighter class
@@ -17,6 +16,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - Improve Fox palettes
 - Improve options menu (make like other menus, not PA_Text)
 - Load more data from FAT (lighten memory load)
+- Mewtwo bdown functionality
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
