@@ -1,4 +1,6 @@
 Next To Do:
+- remove extra hitboxes from attacks that aren't multi-hit
+- Updated/improe hitboxmaker.java
 - Teching (Yes, I'm that awesome)
 - Animate match start countdown
 - clean up fighter class
