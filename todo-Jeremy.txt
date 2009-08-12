@@ -1,5 +1,4 @@
 Next To Do:
-- Updated/improve hitboxmaker.java
 - Teching (Yes, I'm that awesome)
 - Animate match start countdown
 - clean up fighter class
