@@ -128,10 +128,11 @@ public class hitboxmaker extends JPanel {
 			int lastframe = -1;
 			for (int n = 0; n < hitboxes.size(); n++) {
 				hitbox next = hitboxes.get(n);
-				String extra = "";
-				if(atkdef == "atk") simpleout.println(next.frame + "\t" + next.cx + "\t" + next.cy + "\t" + next.radius + "\t" + next.damage + "\t" + next.kx + "\t" + next.ky + "\t" + next.length + "\t" + next.priority);
+				if(atkdef.equals("atk")) simpleout.println(next.frame + "\t" + next.cx + "\t" + next.cy + "\t" + next.radius + "\t" + next.damage + "\t" + next.kx + "\t" + next.ky + "\t" + next.length + "\t" + next.priority);
 				else simpleout.println(next.frame + "\t" + next.cx + "\t" + next.cy + "\t" + next.radius);
 			}
+			if(atkdef.equals("atk")) simpleout.println("-1\t-1\t-1\t-1\t-1\t-1\t-1\t-1\t-1");
+			else simpleout.println("-1\t-1\t-1\t-1");
 			simpleout.close();
 			JOptionPane.showMessageDialog(null, "Hitboxes saved!");
 		}
@@ -147,10 +148,11 @@ public class hitboxmaker extends JPanel {
 				String line = sc.nextLine();
 				StringTokenizer st = new StringTokenizer(line, "\t");
 				int f = Integer.parseInt(st.nextToken());
+				if(f == -1) break;
 				double x = Double.parseDouble(st.nextToken());
 				double y = Double.parseDouble(st.nextToken());
 				double r = Double.parseDouble(st.nextToken());
-				if(atkdef == "atk") {
+				if(atkdef.equals("atk")) {
 					int d = Integer.parseInt(st.nextToken());
 					int x2 = Integer.parseInt(st.nextToken());
 					int y2 = Integer.parseInt(st.nextToken());
