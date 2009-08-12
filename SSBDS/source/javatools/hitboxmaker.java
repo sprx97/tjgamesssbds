@@ -101,7 +101,7 @@ public class hitboxmaker extends JPanel {
 
 	public void placeOthers() {
 		int n = 0;
-for (hitbox hit : hitboxes) {
+		for (hitbox hit : hitboxes) {
 			if (n != selected) {
 				buffer.setColor(Color.black);
 				buffer.fillOval(2*(int)(hit.cx - hit.radius), 2*(int)(hit.cy - hit.radius) - scroll, 2*(int)(2*hit.radius), 2*(int)(2*hit.radius));
@@ -116,7 +116,7 @@ for (hitbox hit : hitboxes) {
 
 	public void writeFile() {
 		try {
-			PrintWriter simpleout = new PrintWriter(new FileWriter("../gfx/Hitboxes/" + charname + "." + atkdef));
+			PrintWriter simpleout = new PrintWriter(new FileWriter("../../efsroot/SSBDS_Files/hitboxes/" + charname + "." + atkdef));
 			for (int n = 0; n < hitboxes.size(); n++)
 				for (int m = 0; m < hitboxes.size(); m++)
 					if (hitboxes.get(n).compareTo(hitboxes.get(m)) < 0) {
@@ -129,8 +129,8 @@ for (hitbox hit : hitboxes) {
 			for (int n = 0; n < hitboxes.size(); n++) {
 				hitbox next = hitboxes.get(n);
 				String extra = "";
-				if(atkdef == "atk") extra = "\t0\t0\t0\t0\t0";
-				simpleout.println(next.frame + "\t" + next.cx + "\t" + next.cy + "\t" + next.radius + extra);
+				if(atkdef == "atk") simpleout.println(next.frame + "\t" + next.cx + "\t" + next.cy + "\t" + next.radius + "\t" + next.damage + "\t" + next.kx + "\t" + next.ky + "\t" + next.length + "\t" + next.priority);
+				else simpleout.println(next.frame + "\t" + next.cx + "\t" + next.cy + "\t" + next.radius);
 			}
 			simpleout.close();
 			JOptionPane.showMessageDialog(null, "Hitboxes saved!");
@@ -142,7 +142,7 @@ for (hitbox hit : hitboxes) {
 	}
 	public void readFile() {
 		try {
-			Scanner sc = new Scanner(new File("../gfx/Hitboxes/" + charname + "." + atkdef));
+			Scanner sc = new Scanner(new File("../../efsroot/SSBDS_Files/hitboxes/" + charname + "." + atkdef));
 			while (sc.hasNext()) {
 				String line = sc.nextLine();
 				StringTokenizer st = new StringTokenizer(line, "\t");
@@ -150,7 +150,15 @@ for (hitbox hit : hitboxes) {
 				double x = Double.parseDouble(st.nextToken());
 				double y = Double.parseDouble(st.nextToken());
 				double r = Double.parseDouble(st.nextToken());
-				hitboxes.add(new hitbox(f, x, y, r));
+				if(atkdef == "atk") {
+					int d = Integer.parseInt(st.nextToken());
+					int x2 = Integer.parseInt(st.nextToken());
+					int y2 = Integer.parseInt(st.nextToken());
+					int l = Integer.parseInt(st.nextToken());
+					int p = Integer.parseInt(st.nextToken());
+					hitboxes.add(new hitbox(f, x, y, r, d, x2, y2, l, p));
+				}
+				else hitboxes.add(new hitbox(f, x, y, r));
 			}
 			sc.close();
 			System.out.println("File read!");
