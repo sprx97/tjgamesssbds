@@ -55,9 +55,7 @@ void Fighter::initDefbox() {
 		Hitbox h;
 		alldefbox.push_back(h);
 	}
-	char* start = "/SSBDS_Files/hitboxes/";
-	char* end = ".def";
-	FILE* file = fopen((start + name + end).c_str(), "rb");
+	FILE* file = fopen(("/SSBDS_Files/hitboxes/" + name+ "/" + name + ".def").c_str(), "rb");
 	if (!file) while (true) {}
 	char line[64];
 	while (true) {
@@ -77,9 +75,7 @@ void Fighter::initAtkbox() {
 		Hitbox h;
 		allatkbox.push_back(h);
 	}
-	char* start = "/SSBDS_Files/hitboxes/";
-	char* end = ".atk";
-	FILE* file = fopen((start + name + end).c_str(), "rb");
+	FILE* file = fopen(("/SSBDS_Files/hitboxes/" + name + "/" + name + ".atk").c_str(), "rb");
 	if (!file) while (true) {}
 	char line[64];
 	while (true) {
@@ -115,9 +111,7 @@ void Fighter::initSprite() {
 	PA_SetSpriteRotEnable(MAIN_SCREEN, SPRITENUM - 4, SPRITENUM - 100);
 }
 void Fighter::initFrames() {
-	char* start = "/SSBDS_Files/hitboxes/";
-	char* end = ".frame";
-	FILE* file = fopen((start + name + end).c_str(), "rb");
+	FILE* file = fopen(("/SSBDS_Files/hitboxes/" + name + "/" + name + ".frame").c_str(), "rb");
 	if (!file) while (true) {}
 	char line[64];
 	while (true) {

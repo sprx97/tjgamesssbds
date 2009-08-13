@@ -4,10 +4,10 @@ void initMinimap(int selStage) {
 	for(int n = 0; n < 4; n++) displayeddamage[n] = 0;
 
 	if (selStage == FINALDESTINATION) {
-		PA_FatEasyBgLoad(SUB_SCREEN, 2, "finaldestinationminimap");
+		PA_FatEasyBgLoad(SUB_SCREEN, 2, "minimaps/finaldestinationminimap");
 	}
 	else if (selStage == POKEMONSTADIUM) {
-		PA_FatEasyBgLoad(SUB_SCREEN, 2, "pokemonstadiumminimap");
+		PA_FatEasyBgLoad(SUB_SCREEN, 2, "minimaps/pokemonstadiumminimap");
 	}
 //	else if(selStage == CORNERIA) {
 //		PA_FatEasyBgLoad(SUB_SCREEN, 2, corneria);
