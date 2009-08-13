@@ -108,7 +108,7 @@ void Fighter::initSprite() {
 	}
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, SPRITENUM - 100, palettes[alreadymade]);
 	if (alreadymade == 0) {
-		PA_FatLoadSprite(MYCHAR, name.c_str());
+		PA_FatLoadSprite(MYCHAR, ("characters/"+name).c_str());
 	}
 	PA_CreateSprite(MAIN_SCREEN, SPRITENUM, (void*)sprite_gfx[MYCHAR], OBJ_SIZE_64X64, COLOR256, SPRITENUM - 100, -64, -64);
 	PA_CreateSprite(MAIN_SCREEN, SPRITENUM - 4, (void*)sprite_gfx[13], OBJ_SIZE_64X64, COLOR256, 13, -64, -64);

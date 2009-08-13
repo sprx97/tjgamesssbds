@@ -63,10 +63,10 @@ void Mewtwo::playsound(int sndnum) {
 }
 // sounds
 void Mewtwo::initPalettes() {
-	palettes.push_back("mewtwo");
-	palettes.push_back("mewtwoblue");
-	palettes.push_back("mewtwogreen");
-	palettes.push_back("mewtwored");
+	palettes.push_back("characters/mewtwo");
+	palettes.push_back("characters/mewtwoblue");
+	palettes.push_back("characters/mewtwogreen");
+	palettes.push_back("characters/mewtwored");
 }
 // actions
 void Mewtwo::bside() {

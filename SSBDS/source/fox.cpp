@@ -53,10 +53,10 @@ void Fox::initSounds() {
 	}
 }
 void Fox::initPalettes() {
-	palettes.push_back("fox");
-	palettes.push_back("foxwhite");
-	palettes.push_back("foxblue");
-	palettes.push_back("foxgreen");
+	palettes.push_back("characters/fox");
+	palettes.push_back("characters/foxwhite");
+	palettes.push_back("characters/foxblue");
+	palettes.push_back("characters/foxgreen");
 }
 // sounds
 void Fox::playsound(int sndnum) {

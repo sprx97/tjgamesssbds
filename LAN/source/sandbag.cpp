@@ -32,10 +32,10 @@ Sandbag::Sandbag(int num, vector<Fighter*> *listplayers, Display *disp, bool AI)
 void Sandbag::initSounds() {}
 void Sandbag::playsound(int sndnum) {}
 void Sandbag::initPalettes() {
-	palettes.push_back("sandbag");
-	palettes.push_back("sandbag");
-	palettes.push_back("sandbag");
-	palettes.push_back("sandbag");
+	palettes.push_back("characters/sandbag");
+	palettes.push_back("characters/sandbag");
+	palettes.push_back("characters/sandbag");
+	palettes.push_back("characters/sandbag");
 }
 void Sandbag::act() {
 	if (respawntimer > 0) {

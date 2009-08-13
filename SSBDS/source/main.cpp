@@ -395,8 +395,8 @@ void stageSelect() {
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "stagesel");
-	PA_FatLoadSprite(31, "stagesel");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/stagesel");
+	PA_FatLoadSprite(31, "selection/stagesel");
 	PA_CreateSprite(SUB_SCREEN, FINALDESTINATION, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 0, 0);
 	subx[FINALDESTINATION] = 0;
 	PA_SetSpriteX(SUB_SCREEN, FINALDESTINATION, -64);
@@ -442,8 +442,8 @@ bool characterSelect(bool train = false) {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
-	PA_FatLoadSprite(0, "cursors");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/cursors");
+	PA_FatLoadSprite(0, "selection/cursors");
 	for (int n = 0; n < 4; n++) {
 		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 152);
 		subx[n] = n * 48 + 40;
@@ -451,8 +451,8 @@ bool characterSelect(bool train = false) {
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "arrow");
-	PA_FatLoadSprite(2, "arrow");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "selection/arrow");
+	PA_FatLoadSprite(2, "selection/arrow");
 	PA_CreateSprite(SUB_SCREEN, PAGEDOWN, (void*)sprite_gfx[1], OBJ_SIZE_32X32, COLOR256, 2, -32, -32);
 	subx[PAGEDOWN] = -32;
 	PA_SetSpriteX(SUB_SCREEN, PAGEDOWN, -64);
@@ -463,8 +463,8 @@ bool characterSelect(bool train = false) {
 	PA_SetSpriteX(SUB_SCREEN, PAGEUP, -64);
 	PA_StartSpriteAnimEx(SUB_SCREEN, PAGEUP, 0, 0, 1, ANIM_LOOP, -1);
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
-	PA_FatLoadSprite(1, "charsel");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "selection/charsel");
+	PA_FatLoadSprite(1, "selection/charsel");
 	for (int n = KIRBY; n < MAX_CHAR; n++) {
 		PA_CreateSprite(SUB_SCREEN, 4 + n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n - 1) % 3)*80 + 16, ((n - 1) / 3)*72);
 		subx[4+n] = ((n - 1) % 3) * 80 + 16;
@@ -472,8 +472,8 @@ bool characterSelect(bool train = false) {
 		PA_StartSpriteAnimEx(SUB_SCREEN, 4 + n, n, n, 1, ANIM_LOOP, -1);
 	}
 	
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 3, "charprev");
-	PA_FatLoadSprite(3, "charprev");
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 3, "selection/charprev");
+	PA_FatLoadSprite(3, "selection/charprev");
 	for (int n = 0; n < 4; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[3], OBJ_SIZE_64X64, COLOR256, 3, 64*n, 128);
 		mainx[n] = 64 * n;
@@ -553,8 +553,8 @@ bool characterSelect(bool train = false) {
 				fadeOut();
 				PA_ResetSpriteSys();
 				PA_FatFreeSprBuffers();
-				PA_FatEasyLoadSpritePal(MAIN_SCREEN, 13, "shield");
-				PA_FatLoadSprite(13, "shield");
+				PA_FatEasyLoadSpritePal(MAIN_SCREEN, 13, "mainextra/shield");
+				PA_FatLoadSprite(13, "mainextra/shield");
 				for (int n = 0; n < 4; n++) {
 					bool isai = true;
 					if (n == 0) isai = false;
@@ -861,16 +861,16 @@ bool match(int param) {
 	if (gamemode == GAMEMODE_TIME) time = param * 60 * 60 + 60; // minutes -> vblanks
 	else if (gamemode == GAMEMODE_STOCK) stock = param;
 	
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "effproj");
-	PA_FatLoadSprite(255, "effproj");
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "mainextra/effproj");
+	PA_FatLoadSprite(255, "mainextra/effproj");
 	for(int n = 5; n < 17; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[255], OBJ_SIZE_64X64, COLOR256, 15, -64, -64);
 	}
 	// init FX and projectiles
 
 	if(gamemode != GAMEMODE_TRAINING) {
-		PA_FatEasyLoadSpritePal(MAIN_SCREEN, 14, "clocknums");
-		PA_FatLoadSprite(254, "clocknums");
+		PA_FatEasyLoadSpritePal(MAIN_SCREEN, 14, "mainextra/clocknums");
+		PA_FatLoadSprite(254, "mainextra/clocknums");
 		for(int n = 0; n < 5; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[254], OBJ_SIZE_8X16, COLOR256, 14, -64, 0);
 		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 20, ANIM_LOOP, -1);
@@ -884,8 +884,8 @@ bool match(int param) {
 		displayTime((int)(time/60/60), (int)(time/60%60));
 	}
 	
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 12, "revivalplatform");
-	PA_FatLoadSprite(253, "revivalplatform");
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 12, "mainextra/revivalplatform");
+	PA_FatLoadSprite(253, "mainextra/revivalplatform");
 	for (int n = 55; n < 60; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[253], OBJ_SIZE_64X64, COLOR256, 12, -64, -64);
 	}

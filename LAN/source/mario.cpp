@@ -50,10 +50,10 @@ void Mario::initSounds() {
 	}
 }
 void Mario::initPalettes() {
-	palettes.push_back("mariored");
-	palettes.push_back("marioredwhite");
-	palettes.push_back("marioyellow");
-	palettes.push_back("marioblackwhite");
+	palettes.push_back("characters/mariored");
+	palettes.push_back("characters/marioredwhite");
+	palettes.push_back("characters/marioyellow");
+	palettes.push_back("characters/marioblackwhite");
 }
 void Mario::playsound(int sndnum) {
 	if (sndnum == JUMP) PA_FatPlaySfx("mariojump");

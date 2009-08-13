@@ -17,8 +17,8 @@ void initMinimap(int selStage) {
 //	}
 	PA_HideBg(SUB_SCREEN, 2);
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charminis");
-	PA_FatLoadSprite(31, "charminis");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "minimap/charminis");
+	PA_FatLoadSprite(31, "minimap/charminis");
 	for (int n = 0; n < (int)players.size(); n++) {
 		PA_CreateSprite(SUB_SCREEN, n + 1, (void*)sprite_gfx[31], OBJ_SIZE_16X16, COLOR256, 1, -16, -16);
 		if (players[n] -> name == "kirby") PA_StartSpriteAnimEx(SUB_SCREEN, n + 1, KIRBY, KIRBY, 1, ANIM_LOOP, -1);
@@ -27,21 +27,21 @@ void initMinimap(int selStage) {
 		else if (players[n] -> name == "ike") PA_StartSpriteAnimEx(SUB_SCREEN, n + 1, IKE, IKE, 1, ANIM_LOOP, -1);
 		else if (players[n] -> name == "fox") PA_StartSpriteAnimEx(SUB_SCREEN, n + 1, FOX, FOX, 1, ANIM_LOOP, -1);
 	}
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "visibleminimap");
-	PA_FatLoadSprite(30, "visibleminimap");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "minimap/visibleminimap");
+	PA_FatLoadSprite(30, "minimap/visibleminimap");
 	PA_CreateSprite(SUB_SCREEN, 0, (void*)sprite_gfx[30], OBJ_SIZE_64X64, COLOR256, 0, -64, -64);
 	// loads the sprite icons for the minimap
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 11, "damageicons1");
-	PA_FatLoadSprite(11, "damageicons1");
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 12, "damageicons2");
-	PA_FatLoadSprite(12, "damageicons2");
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 13, "damageicons3");
-	PA_FatLoadSprite(13, "damageicons3");
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 14, "damageicons4");
-	PA_FatLoadSprite(14, "damageicons4");
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 15, "damageiconsC");
-	PA_FatLoadSprite(15, "damageiconsC");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 11, "minimap/damageicons1");
+	PA_FatLoadSprite(11, "minimap/damageicons1");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 12, "minimap/damageicons2");
+	PA_FatLoadSprite(12, "minimap/damageicons2");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 13, "minimap/damageicons3");
+	PA_FatLoadSprite(13, "minimap/damageicons3");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 14, "minimap/damageicons4");
+	PA_FatLoadSprite(14, "minimap/damageicons4");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 15, "minimap/damageiconsC");
+	PA_FatLoadSprite(15, "minimap/damageiconsC");
 
 	for (int n = 0; n < (int)players.size(); n++) {
 		int x = 0;
@@ -81,8 +81,8 @@ void initMinimap(int selStage) {
 		PA_SetSpriteX(SUB_SCREEN, 80 + n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, 80 + n, players[n]->MYCHAR, players[n]->MYCHAR, 20, ANIM_LOOP, -1);
 	}
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "numbers");
-	PA_FatLoadSprite(29, "numbers");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "minimap/numbers");
+	PA_FatLoadSprite(29, "minimap/numbers");
 
 	for (int n = 0; n < (int)players.size(); n++) {
 		int x = 0;

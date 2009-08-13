@@ -51,10 +51,10 @@ void Kirby::initSounds() {
 	}
 }
 void Kirby::initPalettes() {
-	palettes.push_back("kirbypink");
-	palettes.push_back("kirbyblue");
-	palettes.push_back("kirbyyellow");
-	palettes.push_back("kirbygreen");
+	palettes.push_back("characters/kirbypink");
+	palettes.push_back("characters/kirbyblue");
+	palettes.push_back("characters/kirbyyellow");
+	palettes.push_back("characters/kirbygreen");
 }
 // sounds
 void Kirby::playsound(int sndnum) {

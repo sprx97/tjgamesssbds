@@ -56,10 +56,10 @@ void Ike::initSounds() {
 	}
 }
 void Ike::initPalettes() {
-	palettes.push_back("ikeblue");
-	palettes.push_back("ikewhite");
-	palettes.push_back("ikegold");
-	palettes.push_back("ikegreen");
+	palettes.push_back("characters/ikeblue");
+	palettes.push_back("characters/ikewhite");
+	palettes.push_back("characters/ikegold");
+	palettes.push_back("characters/ikegreen");
 }
 void Ike::playsound(int sndnum) {
 	if (sndnum == BAIR) PA_FatPlaySfx("ikebair");
