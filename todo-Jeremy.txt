@@ -1,4 +1,5 @@
 Next To Do:
+- Add subfolders to efs sfx
 - Teching (Yes, I'm that awesome)
 - Animate match start countdown
 - clean up fighter class
