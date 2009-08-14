@@ -1,13 +1,14 @@
+.DS_Store
+*/.DS_Store
+
+.todo
+Resources
+
 SSBDS/doc
 SSBDS/build
 SSBDS/build/*
 SSBDS/SSBDS.nds
 SSBDS/SSBDS.ds.gba
-.DS_Store
-*/.DS_Store
-.todo
-SSBDS/source/gfx/images/pagfx
-SSBDS/source/gfx/images/pagfx/*
 SSBDS/efsroot/SSBDS_Files/LAN.nds
 
 LAN/doc
@@ -15,17 +16,7 @@ LAN/build
 LAN/build/*
 LAN/LAN.nds
 LAN/LAN.ds.gba
-LAN/source/gfx/images/pagfx
-LAN/source/gfx/images/pagfx/*
 
-Rosters/*
-Rosters
-SSBDS\ Images/
-SSBDS\ Images/*
-SSBDSjobs.rtf
-SSBDSplot.rtf
-WAVS
-WAVS/*
 PAGfx
 PAGfx/*
 
