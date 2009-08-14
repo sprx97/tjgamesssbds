@@ -890,6 +890,14 @@ bool match(int param) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[253], OBJ_SIZE_64X64, COLOR256, 12, -64, -64);
 	}
 
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 10, "minimap/numbers");
+	PA_FatLoadSprite(250, "minimap/numbers");
+	PA_CreateSprite(MAIN_SCREEN, 18, (void*)sprite_gfx[250], OBJ_SIZE_16X16, COLOR256, 10, -64, 80);
+	PA_SetSpriteRotEnable(MAIN_SCREEN, 18, 18);
+	PA_SetRotsetNoAngle(MAIN_SCREEN, 18, 128, 128);
+	PA_SetSpriteDblsize(MAIN_SCREEN, 18, 1);
+	mainx[18] = 112;
+
 	Stage stage = setStage(selectedStage);
 	// sets the stage to the stage chosen in stageSelect
 	initMinimap(selectedStage); // inits minimap
@@ -902,7 +910,7 @@ bool match(int param) {
 
 	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width / 2 + 128);
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height / 2 + 96);
-
+	
 	PA_FatLoadSfx("game", "ingame/game");
 	PA_FatLoadSfx("3", "ingame/three");
 	PA_FatLoadSfx("2", "ingame/two");
@@ -952,15 +960,19 @@ bool match(int param) {
 	fadeIn();
 
 	if(gamemode != GAMEMODE_TRAINING) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, 18, 37, 37, 20, ANIM_LOOP, -1);
 		PA_FatPlaySfx("3");
 		for (int n = 0; n < 60; n++) PA_WaitForVBL();
+		PA_StartSpriteAnimEx(MAIN_SCREEN, 18, 25, 25, 20, ANIM_LOOP, -1);
 		PA_FatPlaySfx("2");
 		for (int n = 0; n < 60; n++) PA_WaitForVBL();
+		PA_StartSpriteAnimEx(MAIN_SCREEN, 18, 13, 13, 20, ANIM_LOOP, -1);
 		PA_FatPlaySfx("1");
 		for (int n = 0; n < 60; n++) PA_WaitForVBL();
 		PA_FatPlaySfx("go");
 		// counts down to start game
 	}
+	PA_SetSpriteXY(MAIN_SCREEN, 18, -64, -64);
 
 	AS_MP3StreamPlay((char*)(stage.songs[songnum]));
 

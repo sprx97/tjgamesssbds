@@ -1,7 +1,5 @@
 Next To Do:
 - Teching (Yes, I'm that awesome)
-- Animate match start countdown
-- clean up fighter class
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Clashing hits
@@ -32,3 +30,4 @@ Ongoing Goals - Things that will never be complete, but still need to be worked 
 - Better AI
 - Balancing
 - More Characters/Stages/MP3s/SFX
+- Clean up code to make it easier to read
