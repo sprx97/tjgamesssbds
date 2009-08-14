@@ -41,15 +41,15 @@ void Fox::initSounds() {
 		if (players[n] -> MYCHAR == MYCHAR) alreadymade++;
 	}
 	if (alreadymade == 0) {
-		PA_FatLoadSfx("foxfsmash", "foxfsmash");
-		PA_FatLoadSfx("foxbup", "foxbup");
-		PA_FatLoadSfx("foxdair", "foxdair");
-		PA_FatLoadSfx("foxjab", "foxjab");
-		PA_FatLoadSfx("foxdashatk", "foxdashatk");
-		PA_FatLoadSfx("foxbdown", "foxbdown");
-		PA_FatLoadSfx("foxbneut", "foxbneut");
-		PA_FatLoadSfx("foxbside", "foxbside");
-		PA_FatLoadSfx("foxutilt", "foxutilt");
+		PA_FatLoadSfx("foxfsmash", "characters/fox/fsmash");
+		PA_FatLoadSfx("foxbup", "characters/fox/bup");
+		PA_FatLoadSfx("foxdair", "characters/fox/dair");
+		PA_FatLoadSfx("foxjab", "characters/fox/jab");
+		PA_FatLoadSfx("foxdashatk", "characters/fox/dashatk");
+		PA_FatLoadSfx("foxbdown", "characters/fox/bdown");
+		PA_FatLoadSfx("foxbneut", "characters/fox/bneut");
+		PA_FatLoadSfx("foxbside", "characters/fox/bside");
+		PA_FatLoadSfx("foxutilt", "characters/fox/utilt");
 	}
 }
 void Fox::initPalettes() {

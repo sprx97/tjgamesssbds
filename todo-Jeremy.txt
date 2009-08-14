@@ -1,9 +1,7 @@
 Next To Do:
-- Add subfolders to efs sfx
 - Teching (Yes, I'm that awesome)
 - Animate match start countdown
 - clean up fighter class
-- remove extra frames from characters
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Clashing hits
@@ -18,6 +16,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - Improve options menu (make like other menus, not PA_Text)
 - Load more data from FAT (lighten memory load)
 - Mewtwo bdown functionality
+- remove extra frames from characters
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus

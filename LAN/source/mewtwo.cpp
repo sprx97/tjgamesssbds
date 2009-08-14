@@ -40,16 +40,16 @@ void Mewtwo::initSounds() {
 		if (players[n] -> MYCHAR == MYCHAR) alreadymade++;
 	}
 	if (alreadymade == 0) {
-		PA_FatLoadSfx("mewtwousmash", "mewtwousmash");
-		PA_FatLoadSfx("mewtwobair", "mewtwobair");
-		PA_FatLoadSfx("mewtwofair", "mewtwofair");
-		PA_FatLoadSfx("mewtwobneut", "mewtwobneut");
-		PA_FatLoadSfx("mewtwofsmash", "mewtwofsmash");
-		PA_FatLoadSfx("mewtwodair", "mewtwodair");
-		PA_FatLoadSfx("mewtwouair", "mewtwouair");
-		PA_FatLoadSfx("mewtwodoublejump", "mewtwodoublejump");
-		PA_FatLoadSfx("mewtwobdown", "mewtwobdown");
-		PA_FatLoadSfx("mewtwobup", "mewtwobup");
+		PA_FatLoadSfx("mewtwousmash", "characters/mewtwo/usmash");
+		PA_FatLoadSfx("mewtwobair", "characters/mewtwo/bair");
+		PA_FatLoadSfx("mewtwofair", "characters/mewtwo/fair");
+		PA_FatLoadSfx("mewtwobneut", "characters/mewtwo/bneut");
+		PA_FatLoadSfx("mewtwofsmash", "characters/mewtwo/fsmash");
+		PA_FatLoadSfx("mewtwodair", "characters/mewtwo/dair");
+		PA_FatLoadSfx("mewtwouair", "characters/mewtwo/uair");
+		PA_FatLoadSfx("mewtwodoublejump", "characters/mewtwo/doublejump");
+		PA_FatLoadSfx("mewtwobdown", "characters/mewtwo/bdown");
+		PA_FatLoadSfx("mewtwobup", "characters/mewtwo/bup");
 	}
 }
 void Mewtwo::playsound(int sndnum) {

@@ -39,15 +39,15 @@ void Kirby::initSounds() {
 		if (players[n] -> MYCHAR == MYCHAR) alreadymade++;
 	}
 	if (alreadymade == 0) {
-		PA_FatLoadSfx("kirbydoublejump", "kirbydoublejump");
-		PA_FatLoadSfx("kirbydsmash", "kirbydsmash");
-		PA_FatLoadSfx("kirbyfsmash", "kirbyfsmash");
-		PA_FatLoadSfx("kirbyftilt", "kirbyftilt");
-		PA_FatLoadSfx("kirbyjump", "kirbyjump");
-		PA_FatLoadSfx("kirbyusmash", "kirbyusmash");
-		PA_FatLoadSfx("kirbybside", "kirbybside");
-		PA_FatLoadSfx("kirbybup1", "kirbybup1");
-		PA_FatLoadSfx("kirbybup2", "kirbybup2");
+		PA_FatLoadSfx("kirbydoublejump", "characters/kirby/doublejump");
+		PA_FatLoadSfx("kirbydsmash", "characters/kirby/dsmash");
+		PA_FatLoadSfx("kirbyfsmash", "characters/kirby/fsmash");
+		PA_FatLoadSfx("kirbyftilt", "characters/kirby/ftilt");
+		PA_FatLoadSfx("kirbyjump", "characters/kirby/jump");
+		PA_FatLoadSfx("kirbyusmash", "characters/kirby/usmash");
+		PA_FatLoadSfx("kirbybside", "characters/kirby/bside");
+		PA_FatLoadSfx("kirbybup1", "characters/kirby/bup1");
+		PA_FatLoadSfx("kirbybup2", "characters/kirby/bup2");
 	}
 }
 void Kirby::initPalettes() {

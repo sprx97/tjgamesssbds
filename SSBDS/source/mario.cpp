@@ -39,14 +39,14 @@ void Mario::initSounds() {
 		if (players[n] -> MYCHAR == MYCHAR) alreadymade++;
 	}
 	if (alreadymade == 0) {
-		PA_FatLoadSfx("mariojump", "mariojump");
-		PA_FatLoadSfx("mariodoublejump", "mariodoublejump");
-		PA_FatLoadSfx("marioutilt", "marioutilt");
-		PA_FatLoadSfx("mariodashattack", "mariodashattack");
-		PA_FatLoadSfx("mariodsmash", "mariodsmash");
-		PA_FatLoadSfx("mariousmash", "mariousmash");
-		PA_FatLoadSfx("mariobup", "mariobup");
-		PA_FatLoadSfx("mariobneut", "mariobneut");
+		PA_FatLoadSfx("mariojump", "characters/mario/jump");
+		PA_FatLoadSfx("mariodoublejump", "characters/mario/doublejump");
+		PA_FatLoadSfx("marioutilt", "characters/mario/utilt");
+		PA_FatLoadSfx("mariodashattack", "characters/mario/dashattack");
+		PA_FatLoadSfx("mariodsmash", "characters/mario/dsmash");
+		PA_FatLoadSfx("mariousmash", "characters/mario/usmash");
+		PA_FatLoadSfx("mariobup", "characters/mario/bup");
+		PA_FatLoadSfx("mariobneut", "characters/mario/bneut");
 	}
 }
 void Mario::initPalettes() {

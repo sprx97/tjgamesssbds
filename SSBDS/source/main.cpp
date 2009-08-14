@@ -413,7 +413,7 @@ void stageSelect() {
 //	PA_StartSpriteAnimEx(SUB_SCREEN, CORNERIA, CORNERIA, CORNERIA, 1, ANIM_LOOP, -1);
 	// loads sprites just like in characterSelect()
 
-	PA_FatLoadSfx("confirm", "menuconfirm");
+	PA_FatLoadSfx("confirm", "menu/confirm");
 
 	fadeIn();
 
@@ -481,14 +481,14 @@ bool characterSelect(bool train = false) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
 
-	PA_FatLoadSfx("ffa", "free_for_all");
-	PA_FatLoadSfx("confirm", "menuconfirm");
-	PA_FatLoadSfx("no", "menuno");
-	PA_FatLoadSfx("kirby", "kirbyname");
-	PA_FatLoadSfx("mewtwo", "mewtwoname");
-	PA_FatLoadSfx("mario", "marioname");
-	PA_FatLoadSfx("ike", "ikename");
-	PA_FatLoadSfx("fox", "foxname");
+	PA_FatLoadSfx("ffa", "menu/freeforall");
+	PA_FatLoadSfx("confirm", "menu/confirm");
+	PA_FatLoadSfx("no", "menu/no");
+	PA_FatLoadSfx("kirby", "characters/names/kirby");
+	PA_FatLoadSfx("mewtwo", "characters/names/mewtwo");
+	PA_FatLoadSfx("mario", "characters/names/mario");
+	PA_FatLoadSfx("ike", "characters/names/ike");
+	PA_FatLoadSfx("fox", "characters/names/fox");
 	char* names[] = {"kirby", "mewtwo", "mario", "ike", "fox"};
 
 	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
@@ -673,14 +673,14 @@ void displayResults(bool nocontest) {
 
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
-	PA_FatLoadSfx("nc", "nocontest");
-	PA_FatLoadSfx("kirby", "kirbyname");
-	PA_FatLoadSfx("mewtwo", "mewtwoname");
-	PA_FatLoadSfx("mario", "marioname");
-	PA_FatLoadSfx("ike", "ikename");
-	PA_FatLoadSfx("fox", "foxname");
-	PA_FatLoadSfx("winneris", "thewinneris");
-	PA_FatLoadSfx("confirm", "menuconfirm");
+	PA_FatLoadSfx("nc", "ingame/nocontest");
+	PA_FatLoadSfx("kirby", "characters/names/kirby");
+	PA_FatLoadSfx("mewtwo", "characters/names/mewtwo");
+	PA_FatLoadSfx("mario", "characters/names/mario");
+	PA_FatLoadSfx("ike", "characters/names/ike");
+	PA_FatLoadSfx("fox", "characters/names/fox");
+	PA_FatLoadSfx("winneris", "ingame/thewinneris");
+	PA_FatLoadSfx("confirm", "menu/confirm");
 
 	if (draw) {} // doesn't display a main screen bg
 	else {
@@ -903,17 +903,17 @@ bool match(int param) {
 	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width / 2 + 128);
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height / 2 + 96);
 
-	PA_FatLoadSfx("game", "game");
-	PA_FatLoadSfx("3", "three");
-	PA_FatLoadSfx("2", "two");
-	PA_FatLoadSfx("1", "one");
-	PA_FatLoadSfx("go", "go");
+	PA_FatLoadSfx("game", "ingame/game");
+	PA_FatLoadSfx("3", "ingame/three");
+	PA_FatLoadSfx("2", "ingame/two");
+	PA_FatLoadSfx("1", "ingame/one");
+	PA_FatLoadSfx("go", "ingame/go");
 
-	PA_FatLoadSfx("shieldbreak", "shieldbreak");
-	PA_FatLoadSfx("hit1", "hit1");
-	PA_FatLoadSfx("hit2", "hit2");
-	PA_FatLoadSfx("hit3", "hit3");
-	PA_FatLoadSfx("death", "deathsound");
+	PA_FatLoadSfx("shieldbreak", "ingame/shieldbreak");
+	PA_FatLoadSfx("hit1", "ingame/hit1");
+	PA_FatLoadSfx("hit2", "ingame/hit2");
+	PA_FatLoadSfx("hit3", "ingame/hit3");
+	PA_FatLoadSfx("death", "ingame/death");
 
 	for (int n = 0; n < (int)players.size(); n++) {
 		players[n] -> initSounds();
@@ -1406,8 +1406,8 @@ void initMainMenu() {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
-	PA_FatLoadSfx("no", "menuno");
-	PA_FatLoadSfx("confirm", "menuconfirm");
+	PA_FatLoadSfx("no", "menu/no");
+	PA_FatLoadSfx("confirm", "menu/confirm");
 
 	AS_MP3StreamPlay("/SSBDS_Files/music/menu.mp3");
 	// plays main menu music
@@ -1477,7 +1477,7 @@ void titleScreen() {
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
 
-	PA_FatLoadSfx("confirm", "menuconfirm");
+	PA_FatLoadSfx("confirm", "menu/confirm");
 
 	AS_MP3StreamPlay("SSBDS_Files/music/title.mp3"); // title screen music
 

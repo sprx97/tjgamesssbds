@@ -42,17 +42,17 @@ void Ike::initSounds() {
 		if (players[n] -> MYCHAR == MYCHAR) alreadymade++;
 	}
 	if (alreadymade == 0) {
-		PA_FatLoadSfx("ikebair", "ikebair");
-		PA_FatLoadSfx("ikedashattack", "ikedashattack");
-		PA_FatLoadSfx("ikefair", "ikefair");
-		PA_FatLoadSfx("ikefsmash", "ikefsmash");
-		PA_FatLoadSfx("ikeftilt", "ikeftilt");
-		PA_FatLoadSfx("ikejump", "ikejump");
-		PA_FatLoadSfx("ikeutilt", "ikeutilt");
-		PA_FatLoadSfx("ikebside", "ikebside");
-		PA_FatLoadSfx("ikebup", "ikebup");
-		PA_FatLoadSfx("ikebneut", "ikebneut");
-		PA_FatLoadSfx("ikebdown", "ikebdown");
+		PA_FatLoadSfx("ikebair", "characters/ike/bair");
+		PA_FatLoadSfx("ikedashattack", "characters/ike/dashattack");
+		PA_FatLoadSfx("ikefair", "characters/ike/fair");
+		PA_FatLoadSfx("ikefsmash", "characters/ike/fsmash");
+		PA_FatLoadSfx("ikeftilt", "characters/ike/ftilt");
+		PA_FatLoadSfx("ikejump", "characters/ike/jump");
+		PA_FatLoadSfx("ikeutilt", "characters/ike/utilt");
+		PA_FatLoadSfx("ikebside", "characters/ike/bside");
+		PA_FatLoadSfx("ikebup", "characters/ike/bup");
+		PA_FatLoadSfx("ikebneut", "characters/ike/bneut");
+		PA_FatLoadSfx("ikebdown", "characters/ike/bdown");
 	}
 }
 void Ike::initPalettes() {
