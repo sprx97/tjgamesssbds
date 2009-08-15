@@ -436,6 +436,8 @@ void stageSelect() {
 }
 
 bool characterSelect(bool train = false) {
+	int MAX_PLAYERS = 2; // 2-4
+
 	int PAGEUP = MAX_CHAR + 5;
 	int PAGEDOWN = MAX_CHAR + 4;
 
@@ -444,7 +446,7 @@ bool characterSelect(bool train = false) {
 
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/cursors");
 	PA_FatLoadSprite(0, "selection/cursors");
-	for (int n = 0; n < 4; n++) {
+	for (int n = 0; n < MAX_PLAYERS; n++) {
 		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 152);
 		subx[n] = n * 48 + 40;
 		PA_SetSpriteX(SUB_SCREEN, n, -64);
@@ -474,7 +476,7 @@ bool characterSelect(bool train = false) {
 	
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 3, "selection/charprev");
 	PA_FatLoadSprite(3, "selection/charprev");
-	for (int n = 0; n < 4; n++) {
+	for (int n = 0; n < MAX_PLAYERS; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[3], OBJ_SIZE_64X64, COLOR256, 3, 64*n, 128);
 		mainx[n] = 64 * n;
 		PA_SetSpriteX(MAIN_SCREEN, n, -64);
@@ -502,7 +504,7 @@ bool characterSelect(bool train = false) {
 	int MAX_PAGE = (MAX_CHAR - 1) / 6;
 	while (true) {
 		if (Stylus.Newpress) {
-			for (int n = 0; n < 4; n++) {
+			for (int n = 0; n < MAX_PLAYERS; n++) {
 				if (PA_SpriteTouched(n)) selectedcursor = n;
 			}
 			if (PA_SpriteTouched(PAGEDOWN)) {
@@ -539,7 +541,7 @@ bool characterSelect(bool train = false) {
 		}
 		if (Pad.Newpress.Start || Pad.Newpress.A) {
 			int selections[] = { -1, -1, -1, -1};
-			for (int n = 0; n < 4; n++) {
+			for (int n = 0; n < MAX_PLAYERS; n++) {
 				int x = PA_GetSpriteX(SUB_SCREEN, n) + 16;
 				int y = PA_GetSpriteY(SUB_SCREEN, n) + 16;
 				for (int m = KIRBY; m < MAX_CHAR; m++) {
@@ -555,7 +557,7 @@ bool characterSelect(bool train = false) {
 				PA_FatFreeSprBuffers();
 				PA_FatEasyLoadSpritePal(MAIN_SCREEN, 13, "mainextra/shield");
 				PA_FatLoadSprite(13, "mainextra/shield");
-				for (int n = 0; n < 4; n++) {
+				for (int n = 0; n < MAX_PLAYERS; n++) {
 					bool isai = true;
 					if (n == 0) isai = false;
 					if(selections[n] == RANDOM) selections[n] = PA_RandMinMax(1, RANDOM-1); // a non-sandbag character
@@ -896,7 +898,7 @@ bool match(int param) {
 	PA_SetSpriteRotEnable(MAIN_SCREEN, 18, 18);
 	PA_SetRotsetNoAngle(MAIN_SCREEN, 18, 128, 128);
 	PA_SetSpriteDblsize(MAIN_SCREEN, 18, 1);
-	mainx[18] = 112;
+	if(gamemode != GAMEMODE_TRAINING) mainx[18] = 112;
 
 	Stage stage = setStage(selectedStage);
 	// sets the stage to the stage chosen in stageSelect
