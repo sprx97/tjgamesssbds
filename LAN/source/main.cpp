@@ -52,6 +52,8 @@ int stocklimit = 3;
 int sdcost = 1;
 // game settings
 
+#define MAX_PLAYERS 2
+
 vector<Fighter*> players;
 // stores all fighters for playing a match
 
@@ -235,22 +237,6 @@ void fadeIn() {
 	} // slowly brightens the screen to normal
 } // fades both screens in
 
-void initFX() {
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "specialFX");
-	PA_FatLoadSprite(254, "specialFX");
-	for (int n = 5; n < 9; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[254], OBJ_SIZE_64X64, COLOR256, 15, -64, -64);
-	}
-	// loads all special effect sprites
-} // initializes special effects
-void initProjectiles() {
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 14, "projectiles");
-	PA_FatLoadSprite(255, "projectiles");
-	for (int n = 50; n < 54; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[255], OBJ_SIZE_64X64, COLOR256, 14, -64, -64);
-	} // loads all projectile sprites
-} // initializes projectiles
-
 #import "minimap.cpp" // minimap for during battles
 
 Stage setStage(int selStage) {
@@ -345,7 +331,7 @@ void ReceiveCharsel(unsigned char *data, int length, LPLOBBY_USER from) {
 	if((bool)(data[4])) {
 		fadeOut();
 		int selections[] = { -1, -1, -1, -1};
-		for (int n = 0; n < 4; n++) {
+		for (int n = 0; n < MAX_PLAYERS; n++) {
 			int x = PA_GetSpriteX(SUB_SCREEN, n) + 16;
 			int y = PA_GetSpriteY(SUB_SCREEN, n) + 16;
 			for (int m = KIRBY; m < MAX_CHAR; m++) {
@@ -356,9 +342,9 @@ void ReceiveCharsel(unsigned char *data, int length, LPLOBBY_USER from) {
 		}
 		PA_ResetSpriteSys();
 		PA_FatFreeSprBuffers();
-		PA_FatEasyLoadSpritePal(MAIN_SCREEN, 13, "shield");
-		PA_FatLoadSprite(13, "shield");
-		for(int n = 0; n < 4; n++) {
+		PA_FatEasyLoadSpritePal(MAIN_SCREEN, 13, "mainextra/shield");
+		PA_FatLoadSprite(13, "mainextra/shield");
+		for(int n = 0; n < MAX_PLAYERS; n++) {
 			if (selections[n] == KIRBY) players.push_back(new Kirby(n + 1, &players, &display, false));
 			else if (selections[n] == MEWTWO) players.push_back(new Mewtwo(n + 1, &players, &display, false));
 			else if (selections[n] == MARIO) players.push_back(new Mario(n + 1, &players, &display, false));
@@ -448,23 +434,23 @@ void characterSelectLAN() {
 	PA_Init8bitBg(MAIN_SCREEN, 3);
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "cursors");
-	PA_FatLoadSprite(0, "cursors");
-	for (int n = 0; n < 2; n++) { 
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/cursors");
+	PA_FatLoadSprite(0, "selection/cursors");
+	for (int n = 0; n < MAX_PLAYERS; n++) { 
 		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 152);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "charsel");
-	PA_FatLoadSprite(1, "charsel");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "selection/charsel");
+	PA_FatLoadSprite(1, "selection/charsel");
 	for (int n = KIRBY; n < MAX_CHAR; n++) {
 		PA_CreateSprite(SUB_SCREEN, 4 + n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n - 1) % 3)*80 + 16, ((n - 1) / 3)*72);
 		PA_StartSpriteAnimEx(SUB_SCREEN, 4 + n, n, n, 1, ANIM_LOOP, -1);
 	}
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 3, "charprev");
-	PA_FatLoadSprite(3, "charprev");
-	for (int n = 0; n < 2; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[3], OBJ_SIZE_64X64, COLOR256, 0, 64*n, 128);
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 3, "selection/charprev");
+	PA_FatLoadSprite(3, "selection/charprev");
+	for (int n = 0; n < MAX_PLAYERS; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[3], OBJ_SIZE_64X64, COLOR256, 3, 64*n, 128);
 		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
 
@@ -474,7 +460,7 @@ void characterSelectLAN() {
 	while (true) {
 		if(charactersselected) return;
 		if (Stylus.Newpress) {
-			for (int n = 0; n < 4; n++) {
+			for (int n = 0; n < MAX_PLAYERS; n++) {
 				if (PA_SpriteTouched(n)) selectedcursor = n;
 			}
 		}
@@ -512,7 +498,7 @@ void characterSelectLAN() {
 		}
 		else if(Pad.Newpress.A || Pad.Newpress.Start) {
 			int selections[] = { -1, -1, -1, -1};
-			for (int n = 0; n < 4; n++) {
+			for (int n = 0; n < MAX_PLAYERS; n++) {
 				int x = PA_GetSpriteX(SUB_SCREEN, n) + 16;
 				int y = PA_GetSpriteY(SUB_SCREEN, n) + 16;
 				for (int m = KIRBY; m < MAX_CHAR; m++) {
@@ -528,9 +514,9 @@ void characterSelectLAN() {
 				fadeOut();
 				PA_ResetSpriteSys();
 				PA_FatFreeSprBuffers();
-				PA_FatEasyLoadSpritePal(MAIN_SCREEN, 13, "shield");
-				PA_FatLoadSprite(13, "shield");
-				for(int n = 0; n < 4; n++) {
+				PA_FatEasyLoadSpritePal(MAIN_SCREEN, 13, "mainextra/shield");
+				PA_FatLoadSprite(13, "mainextra/shield");
+				for(int n = 0; n < MAX_PLAYERS; n++) {
 					if (selections[n] == KIRBY) players.push_back(new Kirby(n + 1, &players, &display, false));
 					else if (selections[n] == MEWTWO) players.push_back(new Mewtwo(n + 1, &players, &display, false));
 					else if (selections[n] == MARIO) players.push_back(new Mario(n + 1, &players, &display, false));
@@ -582,11 +568,15 @@ void LANmatch() {
 		players[n] -> players = players;
 	}
 	
-	initFX();
-	initProjectiles();
-	
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 12, "revivalplatform");
-	PA_FatLoadSprite(253, "revivalplatform");
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 15, "mainextra/effproj");
+	PA_FatLoadSprite(254, "mainextra/effproj");
+	for (int n = 5; n < 17; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[255], OBJ_SIZE_64X64, COLOR256, 15, -64, -64);
+	}
+	// loads all special effect sprites
+			
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 12, "mainextra/revivalplatform");
+	PA_FatLoadSprite(253, "mainextra/revivalplatform");
 	for (int n = 55; n < 60; n++) {
 		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[253], OBJ_SIZE_64X64, COLOR256, 12, -64, -64);
 	}
@@ -596,11 +586,11 @@ void LANmatch() {
 	PA_LargeScrollX(MAIN_SCREEN, 0, stage.width / 2 + 128);
 	PA_LargeScrollY(MAIN_SCREEN, 0, stage.height / 2 + 96);
 	
-	PA_FatLoadSfx("shieldbreak", "shieldbreak");
-	PA_FatLoadSfx("hit1", "hit1");
-	PA_FatLoadSfx("hit2", "hit2");
-	PA_FatLoadSfx("hit3", "hit3");
-	PA_FatLoadSfx("death", "deathsound");	
+	PA_FatLoadSfx("shieldbreak", "ingame/shieldbreak");
+	PA_FatLoadSfx("hit1", "ingame/hit1");
+	PA_FatLoadSfx("hit2", "ingame/hit2");
+	PA_FatLoadSfx("hit3", "ingame/hit3");
+	PA_FatLoadSfx("death", "ingame/death");	
 	
 	for (int n = 0; n < (int)players.size(); n++) {
 		players[n] -> initSounds();
