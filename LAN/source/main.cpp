@@ -377,7 +377,7 @@ void ReceiveCharsel(unsigned char *data, int length, LPLOBBY_USER from) {
 void ReceiveMatch(unsigned char *data, int length, LPLOBBY_USER from) {
 	players[(int)(data[0])] -> x = ((int)(data[1]) * (int)(data[2])) - 256;
 	players[(int)(data[0])] -> y = ((int)(data[3]) * (int)(data[4])) - 256;
-	PA_SetSpriteAnimFrame(MAIN_SCREEN, players[(int)(data[0])]->SPRITENUM, (int)(data[5]));
+	PA_StartSpriteAnimEx(MAIN_SCREEN, players[(int)(data[0])]->SPRITENUM, (int)(data[5]), (int)(data[5]), 1, ANIM_LOOP, -1);
 	players[(int)(data[0])] -> setDirection((int)(data[6] - 1));
 	players[(int)(data[0])] -> action = (int)(data[7]);
 }
