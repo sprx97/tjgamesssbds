@@ -4,7 +4,7 @@
 #include <vector>
 using std::vector;
 // shortcuts for visual effects
-Effect::Effect(double xpos, double ypos, int t, int pn, double scrollx, double scrolly) {
+Effect::Effect(double xpos, double ypos, int t, int pn, double scrollx, double scrolly, int deathrot) {
 	x = xpos, y = ypos;
 	type = t;
 	playernum = pn;
@@ -37,17 +37,17 @@ Effect::Effect(double xpos, double ypos, int t, int pn, double scrollx, double s
 		delay = 60 / 15 * 2;
 	} // sets animation for air jump
 	else if (type == FX_DEATH) {
-		if (x - scrollx == 0 - 10) {
+		if (deathrot == 180) {
 			PA_SetSpriteHflip(MAIN_SCREEN, mynum, true);
 		}
-		if (x - scrollx == 256 - 64 + 10) {
+		else if (deathrot == 0) {
 			PA_SetSpriteHflip(MAIN_SCREEN, mynum, false);
 		}
-		if (y - scrolly == 0 - 10) {
+		else if (deathrot == 270) {
 			PA_SetRotsetNoZoom(MAIN_SCREEN, mynum, 128);
 			PA_SetSpriteRotEnable(MAIN_SCREEN, mynum, mynum);
 		}
-		if (y - scrolly == 192 - 64 + 10) {
+		else if (deathrot == 90) {
 			PA_SetRotsetNoZoom(MAIN_SCREEN, mynum, -128);
 			PA_SetSpriteRotEnable(MAIN_SCREEN, mynum, mynum);
 		}

@@ -1530,23 +1530,28 @@ bool Fighter::checkForDeath() {
 	if (x > stage->rightdeath || x + 64 < stage->leftdeath || y > stage->bottomdeath || y + 64 < stage->topdeath) {
 		display->score->addDeath(lasthitby, charnum);
 		int deathx = -64, deathy = -64;
+		int deathrot = -1;
 		if (x > stage->rightdeath) {
 			deathx = 256 - 64 + (int)display->scrollx + 10;
 			deathy = (int)y;
+			deathrot = 0;
 		} // died off of right side
 		else if (x + 64 < stage->leftdeath) {
 			deathx = 0 + (int)display->scrollx - 10;
 			deathy = (int)y;
+			deathrot = 180;
 		} // died off of left side
 		else if (y > stage->bottomdeath) {
 			deathx = (int)x;
 			deathy = 192 - 64 + (int)display->scrolly + 10;
+			deathrot = 90;
 		} // died off of bottom
 		else if (y + 64 < stage->topdeath) {
 			deathx = (int)x;
 			deathy = 0 + (int)display->scrolly - 10;
+			deathrot = 270;
 		} // died off top
-		display -> addeffect(Effect(deathx, deathy, FX_DEATH, charnum, display->scrollx, display->scrolly));
+		display -> addeffect(Effect(deathx, deathy, FX_DEATH, charnum, display->scrollx, display->scrolly, deathrot));
 		PA_FatPlaySfx("death");
 		return true;
 	}

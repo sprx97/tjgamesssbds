@@ -10,7 +10,7 @@ class Effect {
 		int delay; ///< how long the effect waits before changing
 		int playernum; ///< which player the effect is created by
 		int type; ///< what type of effect it is
-		Effect(double xpos, double ypos, int t, int pn, double scrollx, double scrolly); ///< creates a new effect
+		Effect(double xpos, double ypos, int t, int pn, double scrollx, double scrolly, int deathrot = -1); ///< creates a new effect
 		bool act(); ///< acts; called every frame
 };
 #endif
