@@ -1,21 +1,21 @@
 Next To Do:
 - Teching (Yes, I'm that awesome)
+- Move priorities (Clashing hits)
+- New stage select tiles
+- "Random stage" button
+- Training mode (Separate section, not hidden)
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
-- Clashing hits
 - Convert all gfx to FAT
 - split minimap.cpp to a .h file (the "correct" way)
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
 - Improve LAN (projectiles, effects, minimaps, pausing, matches, etc)
-- New stage select tiles
-- "Random stage" button
 - Improve Fox palettes
 - Improve options menu (make like other menus, not PA_Text)
 - Load more data from FAT (lighten memory load)
 - Mewtwo bdown functionality
 - remove extra frames from characters
-- Training mode (Separate section, not hidden)
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
