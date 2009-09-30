@@ -4,6 +4,7 @@ Next To Do:
 - New stage select tiles
 - "Random stage" button
 - Training mode (Separate section, not hidden)
+- Finish Pikachu
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Convert all gfx to FAT
