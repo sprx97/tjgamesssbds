@@ -1451,7 +1451,7 @@ void Fighter::move() {
 	}
 	else {
 		if (!isCPU) directionalInfluence();
-		if (action == AIRATTACK) fastfall = 0;
+		if (action == AIRATTACK || action == SHORTHOP || action == JUMP || action == DOUBLEJUMP) fastfall = 0;
 		if (action == AIRDODGE || action == FTHROW || action == DTHROW || action == UTHROW || action == BTHROW) ymomentum = DI = fastfall = 0;
 		if (MYCHAR == FOX && (action == BUP || action == BSIDE || action == BDOWN)) DI = fastfall = ymomentum = 0;
 		if (MYCHAR == MEWTWO && action == BUP) DI = fastfall = ymomentum = 0;
@@ -1473,7 +1473,7 @@ void Fighter::move() {
 	}
 	if (action == ATTACK) jaywalk();
 	if (aerial) y += gravity;
-	if (aerial && action != SHORTHOP) y += fastfall;
+	if (aerial) y += fastfall;
 	if (aerial) x += DI;
 	if (checkForDeath()) respawn();
 	PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x, (int)y); // repositions the sprite

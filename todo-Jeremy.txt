@@ -1,6 +1,5 @@
 Next To Do:
 - Teching (Yes, I'm that awesome)
-- Fix and double size death effects
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Clashing hits
@@ -16,6 +15,7 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - Load more data from FAT (lighten memory load)
 - Mewtwo bdown functionality
 - remove extra frames from characters
+- Training mode (Separate section, not hidden)
 
 Minor Goals - Things that work fine but I'd like to improve:
 - Skinnable menus
