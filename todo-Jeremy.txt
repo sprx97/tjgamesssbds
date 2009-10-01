@@ -1,7 +1,6 @@
 Next To Do:
 - Teching (Yes, I'm that awesome)
 - Move priorities (Clashing hits)
-- New stage select tiles
 - "Random stage" button
 - Training mode (Separate section, not hidden)
 - Finish Pikachu
