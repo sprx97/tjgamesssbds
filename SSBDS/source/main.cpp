@@ -1,4 +1,4 @@
-// Game designed by TJgames of TJHSST
+	// Game designed by TJgames of TJHSST
 // Head Developer(s): Jeremy Vercillo, Daniel Johnson
 // 6/08 - ???
 
@@ -464,6 +464,7 @@ bool characterSelect(bool train = false) {
 	for (int n = 0; n < MAX_PLAYERS; n++) {
 		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 152);
 		subx[n] = n * 48 + 40;
+		if(n > 5) subx[n] = 0;
 		PA_SetSpriteX(SUB_SCREEN, n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
@@ -1403,10 +1404,6 @@ void extras() {
 			if(Stylus.Newpress) break;
 			PA_WaitForVBL();
 		}
-		if(n == 12) {
-			fadeOut();
-			return;
-		}
 		for(int i = 0; i >= -31; i--) {
 			PA_SetBrightness(MAIN_SCREEN, i);
 			PA_SetBrightness(SUB_SCREEN, i);
@@ -1430,6 +1427,12 @@ void extras() {
 			PA_WaitForVBL();
 		}
 	}
+	for (int m = 0; m < 300; m++) {
+		if(Stylus.Newpress) break;
+		PA_WaitForVBL();
+	}
+	fadeOut();
+	return;
 } // extras menu, only credits for now
 
 // (Even more) pre-game menus
