@@ -439,8 +439,6 @@ void stageSelect() {
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites
 					PA_FatFreeSprite(31);
 					PA_FatFreeSprite(30);
-					PA_FatFreePalette(0);
-					PA_FatFreePalette(1);
 					selectedStage = n; // sets selected stage, just like in characterSelect()
 					return;
 				}
@@ -464,26 +462,25 @@ bool characterSelect(bool train = false) {
 	for (int n = 0; n < MAX_PLAYERS; n++) {
 		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 152);
 		subx[n] = n * 48 + 40;
-		if(n > 5) subx[n] = 0;
 		PA_SetSpriteX(SUB_SCREEN, n, -64);
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
 
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "selection/arrow");
 	PA_FatLoadSprite(2, "selection/arrow");
-	PA_CreateSprite(SUB_SCREEN, PAGEDOWN, (void*)sprite_gfx[1], OBJ_SIZE_32X32, COLOR256, 2, -32, -32);
+	PA_CreateSprite(SUB_SCREEN, PAGEDOWN, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, -32, 160);
 	subx[PAGEDOWN] = -32;
 	PA_SetSpriteX(SUB_SCREEN, PAGEDOWN, -64);
 	PA_StartSpriteAnimEx(SUB_SCREEN, PAGEDOWN, 0, 0, 1, ANIM_LOOP, -1);
 	PA_SetSpriteHflip(SUB_SCREEN, PAGEDOWN, true);
-	PA_CreateSprite(SUB_SCREEN, PAGEUP, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, -32, -32);
-	subx[PAGEUP] = -32;
+	PA_CreateSprite(SUB_SCREEN, PAGEUP, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, 224, 160);
+	subx[PAGEUP] = 224;
 	PA_SetSpriteX(SUB_SCREEN, PAGEUP, -64);
 	PA_StartSpriteAnimEx(SUB_SCREEN, PAGEUP, 0, 0, 1, ANIM_LOOP, -1);
 
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "selection/charsel");
 	PA_FatLoadSprite(1, "selection/charsel");
-	for (int n = KIRBY; n < MAX_CHAR; n++) {
+	for (int n = KIRBY; n <= 6; n++) {
 		PA_CreateSprite(SUB_SCREEN, 4 + n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n - 1) % 3)*80 + 16, ((n - 1) / 3)*72);
 		subx[4+n] = ((n - 1) % 3) * 80 + 16;
 		PA_SetSpriteX(SUB_SCREEN, 4 + n, -64);
@@ -516,6 +513,8 @@ bool characterSelect(bool train = false) {
 	PA_FatPlaySfx("ffa");
 	// plays free for all sound byte
 
+	int selections[] = {-1, -1, -1, -1};
+
 	int page = 0;
 	int selectedcursor = -1;
 	int MAX_PAGE = (MAX_CHAR - 1) / 6;
@@ -528,15 +527,37 @@ bool characterSelect(bool train = false) {
 				page--;
 				if (page > 0) PA_SetSpriteXY(SUB_SCREEN, PAGEDOWN, 0, 160);
 				else PA_SetSpriteXY(SUB_SCREEN, PAGEDOWN, -32, -32);
-				// load charsel for previous page
-				// move cursors that have made a selection off screen
+				PA_SetSpriteXY(SUB_SCREEN, PAGEUP, 224, 160);
+				for(int n = 1; n <= 6; n++) {
+					if(6*page+n < MAX_CHAR) PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, 6*page+n, 6*page+n, 1, ANIM_LOOP, -1);
+					else PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, 0, 0, 1, ANIM_LOOP, -1);
+				}
+				for(int n = 0; n < MAX_PLAYERS; n++) {
+					if (selections[n] != -1) PA_SetSpriteX(SUB_SCREEN, n, -64);
+				} // moves cursors of people who have selected offscreen
+				for(int n = 0; n < MAX_PLAYERS; n++) {
+					for(int m = 1; m <= 6; m++) {
+						if (selections[n] == 6*page+m) PA_SetSpriteXY(SUB_SCREEN, n, 16+PA_GetSpriteX(SUB_SCREEN, m+4), 16+PA_GetSpriteY(SUB_SCREEN, m+4));
+					}	
+				} // move back on the cursors of people who are selected on the new page
 			}
 			if (PA_SpriteTouched(PAGEUP)) {
 				page++;
-				if (page < MAX_PAGE) PA_SetSpriteXY(MAX_CHAR, PAGEUP, 224, 160);
+				if (page < MAX_PAGE) PA_SetSpriteXY(SUB_SCREEN, PAGEUP, 224, 160);
 				else PA_SetSpriteXY(SUB_SCREEN, PAGEUP, -32, -32);
-				// load charsel for next page
-				// move cursors that have made a selection off screen
+				PA_SetSpriteXY(SUB_SCREEN, PAGEDOWN, 0, 160);
+				for(int n = 1; n <= 6; n++) {
+					if(6*page+n < MAX_CHAR) PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, 6*page+n, 6*page+n, 1, ANIM_LOOP, -1);
+					else PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, 0, 0, 1, ANIM_LOOP, -1);
+				}
+				for(int n = 0; n < MAX_PLAYERS; n++) {
+					if (selections[n] != -1) PA_SetSpriteX(SUB_SCREEN, n, -64);
+				} // moves cursors of people who have selected offscreen
+				for(int n = 0; n < MAX_PLAYERS; n++) {
+					for(int m = 1; m <= 6; m++) {
+						if (selections[n] == 6*page+m) PA_SetSpriteXY(SUB_SCREEN, n, 16+PA_GetSpriteX(SUB_SCREEN, m+4), 16+PA_GetSpriteY(SUB_SCREEN, m+4));
+					}
+				} // move back on the cursors of people who are selected on the new page
 			}
 		}
 		else if (Stylus.Held && selectedcursor != -1) {
@@ -546,27 +567,54 @@ bool characterSelect(bool train = false) {
 			int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor) + 16;
 			int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor) + 16;
 			bool onchar = false;
-			for (int n = KIRBY; n < MAX_CHAR; n++) {
+			for (int n = 1; n <= 6; n++) {
 				if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
-					if(n != RANDOM) PA_FatPlaySfx(names[n-1]);
+					if(6*page+n != RANDOM) PA_FatPlaySfx(names[6*page+n-1]);
 					onchar = true;
-					PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, n, n, 1, ANIM_LOOP, -1);
+					PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 6*page+n, 6*page+n, 1, ANIM_LOOP, -1);
+					selections[selectedcursor] = 6*page+n;
 				}
 			}
 			if (!onchar) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
 			selectedcursor = -1;
 		}
-		if (Pad.Newpress.Start || Pad.Newpress.A) {
-			int selections[] = { -1, -1, -1, -1};
-			for (int n = 0; n < MAX_PLAYERS; n++) {
-				int x = PA_GetSpriteX(SUB_SCREEN, n) + 16;
-				int y = PA_GetSpriteY(SUB_SCREEN, n) + 16;
-				for (int m = KIRBY; m < MAX_CHAR; m++) {
-					if (x > PA_GetSpriteX(SUB_SCREEN, m + 4) && x < PA_GetSpriteX(SUB_SCREEN, m + 4) + 64 && y > PA_GetSpriteY(SUB_SCREEN, m + 4) && y < PA_GetSpriteY(SUB_SCREEN, m + 4) + 64) {
-						selections[n] = m;
-					}
-				}
+		if(Pad.Newpress.L) {
+			page--;
+			if (page > 0) PA_SetSpriteXY(SUB_SCREEN, PAGEDOWN, 0, 160);
+			else PA_SetSpriteXY(SUB_SCREEN, PAGEDOWN, -32, -32);
+			PA_SetSpriteXY(SUB_SCREEN, PAGEUP, 224, 160);
+			for(int n = 1; n <= 6; n++) {
+				if(6*page+n < MAX_CHAR) PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, 6*page+n, 6*page+n, 1, ANIM_LOOP, -1);
+				else PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, 0, 0, 1, ANIM_LOOP, -1);
 			}
+			for(int n = 0; n < MAX_PLAYERS; n++) {
+				if (selections[n] != -1) PA_SetSpriteX(SUB_SCREEN, n, -64);
+			} // moves cursors of people who have selected offscreen
+			for(int n = 0; n < MAX_PLAYERS; n++) {
+				for(int m = 1; m <= 6; m++) {
+					if (selections[n] == 6*page+m) PA_SetSpriteXY(SUB_SCREEN, n, 16+PA_GetSpriteX(SUB_SCREEN, m+4), 16+PA_GetSpriteY(SUB_SCREEN, m+4));
+				}
+			} // move back on the cursors of people who are selected on the new page
+		}
+		if(Pad.Newpress.R) {
+			page++;
+			if (page < MAX_PAGE) PA_SetSpriteXY(SUB_SCREEN, PAGEUP, 224, 160);
+			else PA_SetSpriteXY(SUB_SCREEN, PAGEUP, -32, -32);
+			PA_SetSpriteXY(SUB_SCREEN, PAGEDOWN, 0, 160);
+			for(int n = 1; n <= 6; n++) {
+				if(6*page+n < MAX_CHAR) PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, 6*page+n, 6*page+n, 1, ANIM_LOOP, -1);
+				else PA_StartSpriteAnimEx(SUB_SCREEN, 4+n, 0, 0, 1, ANIM_LOOP, -1);
+			}
+			for(int n = 0; n < MAX_PLAYERS; n++) {
+				if (selections[n] != -1) PA_SetSpriteX(SUB_SCREEN, n, -64);
+			} // moves cursors of people who have selected offscreen
+			for(int n = 0; n < MAX_PLAYERS; n++) {
+				for(int m = 1; m <= 6; m++) {
+					if (selections[n] == 6*page+m) PA_SetSpriteXY(SUB_SCREEN, n, 16+PA_GetSpriteX(SUB_SCREEN, m+4), 16+PA_GetSpriteY(SUB_SCREEN, m+4));
+				}
+			} // move back on the cursors of people who are selected on the new page
+		}
+		if (Pad.Newpress.Start || Pad.Newpress.A) {
 			if (selections[0] != -1) {
 				PA_FatPlaySfx("confirm");
 				fadeOut();
