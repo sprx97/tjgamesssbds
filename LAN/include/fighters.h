@@ -4,3 +4,4 @@
 #include "mario.h"
 #include "ike.h"
 #include "fox.h"
+#include "pikachu.h"

@@ -35,38 +35,33 @@ Pikachu::Pikachu(int num, vector<Fighter*> *listplayers, Display *disp, bool AI)
 } // initializes all of the variables
 // initializers
 void Pikachu::initSounds() {
-/*	int alreadymade = 0;
+	int alreadymade = 0;
 	for (int n = 0; n < charnum; n++) {
 		if (players[n] -> MYCHAR == MYCHAR) alreadymade++;
 	}
 	if (alreadymade == 0) {
-		PA_FatLoadSfx("mariojump", "characters/mario/jump");
-		PA_FatLoadSfx("mariodoublejump", "characters/mario/doublejump");
-		PA_FatLoadSfx("marioutilt", "characters/mario/utilt");
-		PA_FatLoadSfx("mariodashattack", "characters/mario/dashattack");
-		PA_FatLoadSfx("mariodsmash", "characters/mario/dsmash");
-		PA_FatLoadSfx("mariousmash", "characters/mario/usmash");
-		PA_FatLoadSfx("mariobup", "characters/mario/bup");
-		PA_FatLoadSfx("mariobneut", "characters/mario/bneut");
+		PA_FatLoadSfx("pikachubdown", "characters/pikachu/bdown");
+		PA_FatLoadSfx("pikachubneut", "characters/pikachu/bneut");
+		PA_FatLoadSfx("pikachubside1", "characters/pikachu/bside1");
+		PA_FatLoadSfx("pikachubside2", "characters/pikachu/bside2");
+		PA_FatLoadSfx("pikachubup", "characters/pikachu/bup");
+		PA_FatLoadSfx("pikachudsmash", "characters/pikachu/dsmash");
+		PA_FatLoadSfx("pikachujab", "characters/pikachu/jab");
+		PA_FatLoadSfx("pikachunair", "characters/pikachu/nair");
 	}
-*/
 }
 void Pikachu::initPalettes() {
-/*	palettes.push_back("characters/mariored");
-	palettes.push_back("characters/marioredwhite");
-	palettes.push_back("characters/marioyellow");
-	palettes.push_back("characters/marioblackwhite");
-*/
+	palettes.push_back("characters/pikachuyellow");
+	palettes.push_back("characters/pikachublue");
+	palettes.push_back("characters/pikachured");
+	palettes.push_back("characters/pikachugreen");
 }
 void Pikachu::playsound(int sndnum) {
-/*
-	if (sndnum == JUMP) PA_FatPlaySfx("mariojump");
-	if (sndnum == DOUBLEJUMP) PA_FatPlaySfx("mariodoublejump");
-	if (sndnum == UTILT) PA_FatPlaySfx("marioutilt");
-	if (sndnum == DASHATTACK) PA_FatPlaySfx("mariodashattack");
-	if (sndnum == SMASHDOWN) PA_FatPlaySfx("mariodsmash");
-	if (sndnum == SMASHUP) PA_FatPlaySfx("mariousmash");
-*/
+	if (sndnum == JUMP) PA_FatPlaySfx("pikachbup");
+	if (sndnum == DOUBLEJUMP) PA_FatPlaySfx("pikachbup");
+	if (sndnum == SMASHDOWN) PA_FatPlaySfx("pikachudsmash");
+	if (sndnum == NAIR) PA_FatPlaySfx("pikachunair");
+	if (sndnum == JAB) PA_FatPlaySfx("pikachujab");
 }
 // actions
 void Pikachu::bside() {
@@ -316,8 +311,8 @@ void Pikachu::dthrow() {
 }
 void Pikachu::jaywalk() {}
 Pikachu::~Pikachu() {
-/*	allatkbox.clear();
+	allatkbox.clear();
 	alldefbox.clear();
 	PA_DeleteSprite(MAIN_SCREEN, SPRITENUM);
-	PA_FatFreeSprite(MYCHAR);*/
+	PA_FatFreeSprite(MYCHAR);
 }

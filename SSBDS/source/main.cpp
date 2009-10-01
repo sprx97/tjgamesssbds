@@ -395,16 +395,29 @@ void stageSelect() {
 	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/stagesel");
-	PA_FatLoadSprite(31, "selection/stagesel");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/stageselleft");
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "selection/stageselright");
+	PA_FatLoadSprite(31, "selection/stageselleft");
+	PA_FatLoadSprite(30, "selection/stageselright");
+	
 	PA_CreateSprite(SUB_SCREEN, FINALDESTINATION, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 0, 0);
+	PA_CreateSprite(SUB_SCREEN, 64+FINALDESTINATION, (void*)sprite_gfx[30], OBJ_SIZE_64X64, COLOR256, 1, 64, 0);
 	subx[FINALDESTINATION] = 0;
+	subx[64+FINALDESTINATION] = 64;
 	PA_SetSpriteX(SUB_SCREEN, FINALDESTINATION, -64);
+	PA_SetSpriteX(SUB_SCREEN, 64+FINALDESTINATION, -64);
 	PA_StartSpriteAnimEx(SUB_SCREEN, FINALDESTINATION, FINALDESTINATION, FINALDESTINATION, 1, ANIM_LOOP, -1);
-	PA_CreateSprite(SUB_SCREEN, POKEMONSTADIUM, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 64, 0);
-	subx[POKEMONSTADIUM] = 64;
+	PA_StartSpriteAnimEx(SUB_SCREEN, 64+FINALDESTINATION, FINALDESTINATION, FINALDESTINATION, 1, ANIM_LOOP, -1);
+
+	PA_CreateSprite(SUB_SCREEN, POKEMONSTADIUM, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
+	PA_CreateSprite(SUB_SCREEN, 64+POKEMONSTADIUM, (void*)sprite_gfx[30], OBJ_SIZE_64X64, COLOR256, 1, 192, 0);
+	subx[POKEMONSTADIUM] = 128;
+	subx[64+POKEMONSTADIUM] = 192;
 	PA_SetSpriteX(SUB_SCREEN, POKEMONSTADIUM, -64);
+	PA_SetSpriteX(SUB_SCREEN, 64+POKEMONSTADIUM, -64);
 	PA_StartSpriteAnimEx(SUB_SCREEN, POKEMONSTADIUM, POKEMONSTADIUM, POKEMONSTADIUM, 1, ANIM_LOOP, -1);
+	PA_StartSpriteAnimEx(SUB_SCREEN, 64+POKEMONSTADIUM, POKEMONSTADIUM, POKEMONSTADIUM, 1, ANIM_LOOP, -1);
+
 //	PA_CreateSprite(SUB_SCREEN, CASTLESIEGE, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
 //	subx[CASTLESIEGE] = 128; PA_SetSpriteX(SUB_SCREEN, CASTLESIEGE, -64);
 //	PA_StartSpriteAnimEx(SUB_SCREEN, CASTLESIEGE, CASTLESIEGE, CASTLESIEGE, 1, ANIM_LOOP, -1);
@@ -420,12 +433,14 @@ void stageSelect() {
 	while (true) {
 		if (Stylus.Newpress) {
 			for (int n = 0; n < 10; n++) { // through all possible stages
-				if (PA_SpriteTouched(n)) {
+				if (PA_SpriteTouched(n) || PA_SpriteTouched(n+64)) {
 					PA_FatPlaySfx("confirm"); // menu confirm sound
 					fadeOut();
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites
 					PA_FatFreeSprite(31);
+					PA_FatFreeSprite(30);
 					PA_FatFreePalette(0);
+					PA_FatFreePalette(1);
 					selectedStage = n; // sets selected stage, just like in characterSelect()
 					return;
 				}
@@ -491,7 +506,8 @@ bool characterSelect(bool train = false) {
 	PA_FatLoadSfx("mario", "characters/names/mario");
 	PA_FatLoadSfx("ike", "characters/names/ike");
 	PA_FatLoadSfx("fox", "characters/names/fox");
-	char* names[] = {"kirby", "mewtwo", "mario", "ike", "fox"};
+	PA_FatLoadSfx("pikachu", "characters/names/pikachu");
+	char* names[] = {"kirby", "mewtwo", "mario", "ike", "fox", "pikachu"};
 
 	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
 
@@ -566,6 +582,7 @@ bool characterSelect(bool train = false) {
 					else if (selections[n] == MARIO) players.push_back(new Mario(n + 1, &players, &display, isai));
 					else if (selections[n] == IKE) players.push_back(new Ike(n + 1, &players, &display, isai));
 					else if (selections[n] == FOX) players.push_back(new Fox(n + 1, &players, &display, isai));
+					else if (selections[n] == PIKACHU) players.push_back(new Pikachu(n+1, &players, &display, isai));
 				}
 				if (selections[1] == -1 && selections[2] == -1 && selections[3] == -1) {
 					players.push_back(new Sandbag(2, &players, &display, true));

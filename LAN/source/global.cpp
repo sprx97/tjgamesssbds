@@ -8,7 +8,7 @@ int PAD_HELD = 0, PAD_NEWPRESS = 1, PAD_RELEASED = 2; // Press types (for custom
 // buttons (for custom controls)
 int ACTION_BASIC = 0, ACTION_SPECIAL = 1, ACTION_SMASH = 2, ACTION_JUMP = 3, ACTION_JUMP2 = 4, ACTION_SHIELD = 5, ACTION_SHIELD2 = 6, ACTION_GRAB = 7;
 
-const int SANDBAG = 0, KIRBY = 1, MEWTWO = 2, MARIO = 3, IKE = 4, FOX = 5, RANDOM = 6, MAX_CHAR = 7;
+const int SANDBAG = 0, KIRBY = 1, MEWTWO = 2, MARIO = 3, IKE = 4, FOX = 5, PIKACHU = 6, RANDOM = 7, MAX_CHAR = 8;
 // character shortcuts; used to avoid confusion
 
 bool effproj_used[effproj_used_size] = {false, false, false, false, false, false, false, false, false, false, false, false};
