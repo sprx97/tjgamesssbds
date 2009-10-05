@@ -963,6 +963,7 @@ bool match(int param) {
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 10, "minimap/numbers");
 	PA_FatLoadSprite(250, "minimap/numbers");
 	PA_CreateSprite(MAIN_SCREEN, 18, (void*)sprite_gfx[250], OBJ_SIZE_16X16, COLOR256, 10, -64, 80);
+	PA_StartSpriteAnimEx(MAIN_SCREEN, 18, 37, 37, 1, ANIM_LOOP, -1);
 	PA_SetSpriteRotEnable(MAIN_SCREEN, 18, 18);
 	PA_SetRotsetNoAngle(MAIN_SCREEN, 18, 128, 128);
 	PA_SetSpriteDblsize(MAIN_SCREEN, 18, 1);

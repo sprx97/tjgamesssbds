@@ -1453,6 +1453,7 @@ void Fighter::move() {
 		if (!isCPU) directionalInfluence();
 		if (action == AIRATTACK || action == SHORTHOP || action == JUMP || action == DOUBLEJUMP) fastfall = 0;
 		if (action == AIRDODGE || action == FTHROW || action == DTHROW || action == UTHROW || action == BTHROW) ymomentum = DI = fastfall = 0;
+		if (action == STUN) fastfall = 0;
 		if (MYCHAR == FOX && (action == BUP || action == BSIDE || action == BDOWN)) DI = fastfall = ymomentum = 0;
 		if (MYCHAR == MEWTWO && action == BUP) DI = fastfall = ymomentum = 0;
 		if(action != STUN) {
