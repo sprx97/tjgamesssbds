@@ -1456,6 +1456,7 @@ void Fighter::move() {
 		if (action == STUN) fastfall = 0;
 		if (MYCHAR == FOX && (action == BUP || action == BSIDE || action == BDOWN)) DI = fastfall = ymomentum = 0;
 		if (MYCHAR == MEWTWO && action == BUP) DI = fastfall = ymomentum = 0;
+		if (MYCHAR == PIKACHU && (action == BUP || action == BSIDE || action == BDOWN)) DI = fastfall = ymomentum = 0;
 		if(action != STUN) {
 			checkLedgeCollision();
 			checkFloorCollision();

@@ -9,11 +9,9 @@ using std::vector;
 class Pikachu: public Fighter {
 	public:
 		Pikachu(int num, vector<Fighter*> *listplayers, Display *disp, bool AI = false); 
-		
 		void playsound(int sndnum);
 		void initSounds();
 		void initPalettes();
-		
 		void bside();
 		void bup();
 		void bdown();
@@ -26,5 +24,6 @@ class Pikachu: public Fighter {
 		~Pikachu();
 	private:
 		int skullbashcharge;
+		int upcount, downcount, leftcount, rightcount, firstdir;
 };
 #endif

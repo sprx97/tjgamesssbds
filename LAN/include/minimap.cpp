@@ -26,6 +26,7 @@ void initMinimap(int selStage) {
 		else if (players[n] -> name == "mario") PA_StartSpriteAnimEx(SUB_SCREEN, n + 1, MARIO, MARIO, 1, ANIM_LOOP, -1);
 		else if (players[n] -> name == "ike") PA_StartSpriteAnimEx(SUB_SCREEN, n + 1, IKE, IKE, 1, ANIM_LOOP, -1);
 		else if (players[n] -> name == "fox") PA_StartSpriteAnimEx(SUB_SCREEN, n + 1, FOX, FOX, 1, ANIM_LOOP, -1);
+		else if (players[n] -> name == "pikachu") PA_StartSpriteAnimEx(SUB_SCREEN, n + 1, PIKACHU, PIKACHU, 1, ANIM_LOOP, -1);
 	}
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "minimap/visibleminimap");
 	PA_FatLoadSprite(30, "minimap/visibleminimap");

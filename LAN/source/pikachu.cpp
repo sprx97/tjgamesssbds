@@ -7,31 +7,32 @@
 using std:: vector;
 
 // constructor
-Pikachu::Pikachu(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "mario", AI) {
-/*	weight = 1.0;
-	w2value = 0.0;
-	jumpspeed = 7.5;
-	doublejumpspeed = 5;
+Pikachu::Pikachu(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "pikachu", AI) {
+	weight = 0.904;
+	w2value = 0.40;
+	jumpspeed = 7;
+	doublejumpspeed = 5.5;
 	shieldstr = 64;
-	runspeed = 3.75;
-	handx = 64 - 42;
-	handy = 29;
+	runspeed = 4.0;
+	handx = 64 - 36;
+	handy = 33;
 	hangx = 64 - 36;
-	hangy = 20;
-	fluddcharge = 0;
-	MYCHAR = MARIO;
-	series = "mariobros";
-	topside = 17;
-	bottomside = 47;
-	rightside = 39;
-	leftside = 24;
+	hangy = 27;
+	skullbashcharge = 0;
+	upcount = downcount = leftcount = rightcount = firstdir = 0;
+	MYCHAR = PIKACHU;
+	series = "pokemon";
+	topside = 24;
+	bottomside = 48;
+	rightside = 44;
+	leftside = 23;
 	gravity = 2.5;
 	jumpmax = 2;
 	initPalettes();
 	initFrames();
 	initSprite();
 	idle();
-*/
+
 } // initializes all of the variables
 // initializers
 void Pikachu::initSounds() {
@@ -57,57 +58,229 @@ void Pikachu::initPalettes() {
 	palettes.push_back("characters/pikachugreen");
 }
 void Pikachu::playsound(int sndnum) {
-	if (sndnum == JUMP) PA_FatPlaySfx("pikachbup");
-	if (sndnum == DOUBLEJUMP) PA_FatPlaySfx("pikachbup");
+	if (sndnum == JUMP) PA_FatPlaySfx("pikachubup");
+	if (sndnum == DOUBLEJUMP) PA_FatPlaySfx("pikachubup");
 	if (sndnum == SMASHDOWN) PA_FatPlaySfx("pikachudsmash");
 	if (sndnum == NAIR) PA_FatPlaySfx("pikachunair");
 	if (sndnum == JAB) PA_FatPlaySfx("pikachujab");
 }
 // actions
 void Pikachu::bside() {
-/*	if (action != BSIDE) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 148, 10, ANIM_ONESHOT);
-		delay = 60 / 10 * 6;
+	if (action != BSIDE) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 134, 138, 10, ANIM_LOOP, -1);
+		delay = 60 / 10 * 5 * 5;
 		setDirection();
 		dx = 0;
+		if (aerial) dy = -gravity / 2;
+		else dy = 0;
 		action = BSIDE;
-		CAPE = true;
+		skullbashcharge = 0;
+		PA_FatPlaySfx("pikachubside1");
 	}
 	else {
-		if (delay == 1) {
-			if (checkFloorCollision()) idle();
+		if(aerial && checkFloorCollision()) dy = 0;
+		if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) >= 134 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) <= 138 && custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 139, 142, 20, ANIM_LOOP, -1);
+			delay = 60 / 20 * 4 * 2;
+			dx = skullbashcharge/30.0;
+			if(direction == LEFT) dx *= -1;
+			for(int n = 0; n < (int)getAtkbox().getCircles().size(); n++) getAtkbox().getCircles()[n].damage = (int)(skullbashcharge/12.0 + 1);
+			PA_FatPlaySfx("pikachubside2");
+		}
+		else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) >= 134 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) <= 138 && delay == 1) {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 134, 134, 10, ANIM_LOOP, -1);
+			delay = 60 / 10 * 1 * 10;
+		}
+		else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) >= 139 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) <= 142) {
+			if(checkFloorCollision()) idle();
 			else fall();
-			CAPE = false;
+		}
+		else {
+			skullbashcharge+=2;
+			if(skullbashcharge > 300) skullbashcharge = 300;
 		}
 	}
-*/
 }
 void Pikachu::bup() {
-/*	if (action != BUP) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 137, 142, 20, ANIM_ONESHOT);
+	if(action != BUP) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 146, 15, ANIM_LOOP, -1);
 		aerial = true;
-		delay = 60 / 20 * 6;
-		dy = -7;
+		delay = 60/15 * 4;
+		dy = -gravity;
 		dx = 0;
-		fastfall = 0;
-		DI = 0;
-		setDirection();
+		upcount = downcount = leftcount = rightcount = firstdir = 0;
 		action = BUP;
-		PA_FatPlaySfx("mariobup");
 	}
-	else {
-		if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 142) {
-			if (!checkFloorCollision()) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 142, 142, 20, ANIM_LOOP, -1);
-				delay = 60 / 20 * 1;
-				dy = 0;
-			}
-			else {
-				idle();
-			}
+	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 146) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 147, 147, 15, ANIM_LOOP, -1);
+		delay = 60/15 * 5;
+		PA_FatPlaySfx("pikachubup");
+		int xdiff = rightcount-leftcount;
+		if(xdiff > 0) setDirection(RIGHT);
+		else if(xdiff < 0) setDirection(LEFT);
+		int ydiff = downcount-upcount;
+		if(xdiff == 0 && ydiff == 0) ydiff = -1;
+		if(xdiff == 0 && ydiff < 0) {
+			y -= 50;
+			firstdir = 90;
 		}
+		else if(xdiff == 0 && ydiff > 0) {
+			y += 50; 
+			firstdir = 270;
+		}
+		else if(xdiff < 0 && ydiff == 0) {
+			x -= 50;
+			firstdir = 180;
+		}
+		else if(xdiff > 0 && ydiff == 0) {
+			x += 50;
+			firstdir = 0;
+		}
+		else if(ydiff > 4*xdiff && ydiff > 0 && xdiff > 0) {
+			x += 25;
+			y += 43;
+			firstdir = 300;
+		}
+		else if(ydiff > 4*xdiff && ydiff > 0 && xdiff < 0) {
+			x -= 25;
+			y += 43;
+			firstdir = 240;
+		}
+		else if(ydiff > 4*xdiff && ydiff < 0 && xdiff > 0) {
+			x += 25;
+			y -= 43;
+			firstdir = 60;
+		}
+		else if(ydiff > 4*xdiff && ydiff < 0 && xdiff < 0) {
+			x -= 25;
+			y -= 43;
+			firstdir = 120;
+		}
+		else if(xdiff > 4*ydiff && xdiff > 0 && ydiff > 0) {
+			x += 43;
+			y += 25;
+			firstdir = 330;
+		}
+		else if(xdiff > 4*ydiff && xdiff > 0 && ydiff < 0) {
+			x += 43;
+			y -= 25;
+			firstdir = 30;
+		}
+		else if(xdiff > 4*ydiff && xdiff < 0 && ydiff > 0) {
+			x -= 43;
+			y += 25;
+			firstdir = 210;
+		}
+		else if(xdiff > 4*ydiff && xdiff < 0 && ydiff < 0) {
+			x -= 43;
+			y -= 25;
+			firstdir = 150;
+		}
+		else if(xdiff > 0 && ydiff > 0) {
+			x += 35;
+			y += 35;
+			firstdir = 315;
+		}
+		else if(xdiff > 0 && ydiff < 0) {
+			x += 35;
+			y -= 35;
+			firstdir = 45;
+		}
+		else if(xdiff < 0 && ydiff > 0) {
+			x -= 35;
+			y += 35;
+			firstdir = 225;
+		}
+		else if(xdiff < 0 && ydiff < 0) {
+			x -= 35;
+			y -= 35;
+			firstdir = 135;
+		}
+		upcount = downcount = leftcount = rightcount = 0;
 	}
-*/
+	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 147) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 148, 148, 10, ANIM_LOOP, -1);
+		delay = 60/10 * 1;
+		int xdiff = rightcount-leftcount;
+		if(xdiff > 0) setDirection(RIGHT);
+		else if(xdiff < 0) setDirection(LEFT);
+		int ydiff = downcount-upcount;
+		bool again = true;
+		if(xdiff == 0 && ydiff == 0) ydiff = -1;
+		if(xdiff == 0 && ydiff < 0 && firstdir != 90) {
+			y -= 50;
+		}
+		else if(xdiff == 0 && ydiff > 0 && firstdir != 270) {
+			y += 50; 
+		}
+		else if(xdiff < 0 && ydiff == 0 && firstdir != 180) {
+			x -= 50;
+		}
+		else if(xdiff > 0 && ydiff == 0 && firstdir != 0) {
+			x += 50;
+		}
+		else if(ydiff > 4*xdiff && ydiff > 0 && xdiff > 0 && firstdir != 300) {
+			x += 25;
+			y += 43;
+		}
+		else if(ydiff > 4*xdiff && ydiff > 0 && xdiff < 0 && firstdir != 240) {
+			x -= 25;
+			y += 43;
+		}
+		else if(ydiff > 4*xdiff && ydiff < 0 && xdiff > 0 && firstdir != 60) {
+			x += 25;
+			y -= 43;
+		}
+		else if(ydiff > 4*xdiff && ydiff < 0 && xdiff < 0 && firstdir != 120) {
+			x -= 25;
+			y -= 43;
+		}
+		else if(xdiff > 4*ydiff && xdiff > 0 && ydiff > 0 && firstdir != 330) {
+			x += 43;
+			y += 25;
+		}
+		else if(xdiff > 4*ydiff && xdiff > 0 && ydiff < 0 && firstdir != 30) {
+			x += 43;
+			y -= 25;
+		}
+		else if(xdiff > 4*ydiff && xdiff < 0 && ydiff > 0 && firstdir != 210) {
+			x -= 43;
+			y += 25;
+		}
+		else if(xdiff > 4*ydiff && xdiff < 0 && ydiff < 0 && firstdir != 150) {
+			x -= 43;
+			y -= 25;
+		}
+		else if(xdiff > 0 && ydiff > 0 && firstdir != 315) {
+			x += 35;
+			y += 35;
+		}
+		else if(xdiff > 0 && ydiff < 0 && firstdir != 45) {
+			x += 35;
+			y -= 35;
+		}
+		else if(xdiff < 0 && ydiff > 0 && firstdir != 225) {
+			x -= 35;
+			y += 35;
+		}
+		else if(xdiff < 0 && ydiff < 0 && firstdir != 135) {
+			x -= 35;
+			y -= 35;
+		}
+		else again = false;
+		if(again) PA_FatPlaySfx("pikachubup");
+		firstdir = 0;
+
+	}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 146 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 147) {
+		if(Pad.Held.Up) upcount++;
+		if(Pad.Held.Down) downcount++;
+		if(Pad.Held.Left) leftcount++;
+		if(Pad.Held.Right) rightcount++;
+	}
+	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 148) {
+		permafall();
+	}
 }
 void Pikachu::bdown() {
 /*	if (action != BDOWN) {
