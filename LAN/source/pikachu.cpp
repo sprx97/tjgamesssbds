@@ -307,8 +307,8 @@ void Pikachu::bdown() {
 }
 void Pikachu::bneut() {
 	if(action != BNEUT) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 162, 163, 12, ANIM_LOOP, -1);
-		delay = 60/12 * 2;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 129, 131, 10, ANIM_LOOP, -1);
+		delay = 60/10 * 3;
 		if(Pad.Held.Right) dx = 1;
 		else if(Pad.Held.Left) dx = -1;
 		else dx = 0;
@@ -316,12 +316,12 @@ void Pikachu::bneut() {
 		PA_FatPlaySfx("pikachubneut");
 		action = BNEUT;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 163 && delay == 1) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 164, 167, 12, ANIM_LOOP, -1);
-		delay = 60/12 * 4;
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 131 && delay == 1) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 134, 10, ANIM_LOOP, -1);
+		delay = 60/10 * 3;
 // projectile
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 167 && delay == 1) {
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 134 && delay == 1) {
 		if(checkFloorCollision()) idle();
 		else fall();
 	}
