@@ -283,74 +283,49 @@ void Pikachu::bup() {
 	}
 }
 void Pikachu::bdown() {
-/*	if (action != BDOWN) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 149, 149, 20, ANIM_LOOP, -1);
-		delay = 60 / 20 * 1;
-		fluddcharge = 0;
-		dx = 0;
-		if (aerial) dy = -gravity / 2;
+	if(action != BDOWN) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 149, 157, 10, ANIM_LOOP, -1);
+		delay = 60/10 * 9;
+		if(aerial) dy = -gravity/2;
 		else dy = 0;
+		if(Pad.Held.Right) dx = 1;
+		else if(Pad.Held.Left) dx = -1;
+		else dx = 0;
+// projectile(s)
+		PA_FatPlaySfx("pikachubdown");
 		action = BDOWN;
 	}
-	else if (custom_action(ACTION_SPECIAL, PAD_RELEASED) && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 149) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 150, 150, 12, ANIM_LOOP, -1);
-		delay = 60 / 12 * 1;
-		int directionmodifier = 1;
-		if (direction == RIGHT) directionmodifier = -1;
-		Hitbox tempbox;
-		tempbox.addCircle(createAtkbox(58, 32, 5, Knockback((-1*directionmodifier), -.5, 6), 60));
-		((vector<Projectile>*)getProj())->push_back(Projectile(x, y - 16, -5*directionmodifier, 0, 2*fluddcharge, FLUDDWATER, charnum, tempbox, stage, display));
-		fluddcharge = 0;
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 153 && aerial) {
+		dy = -gravity;
+		dx = 0;
 	}
-	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 150) {
-		if (delay == 1) {
-			if (checkFloorCollision()) idle();
-			else fall();
-		}
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 157 && delay == 1) {
+		if(aerial) fall();
+		else idle();
 	}
-	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 149) {
-		delay = 60 / 20 * 1;
-		fluddcharge++;
-	}
-	else if (aerial && checkFloorCollision()) {
-		dy = 0;
-	}
-	else {
-		fluddcharge++;
-		if (fluddcharge > 30) fluddcharge = 30;
-	}
-*/
+	if(checkFloorCollision()) dx = 0;
 }
 void Pikachu::bneut() {
-/*	if (action != BNEUT) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 133, 12, ANIM_LOOP, -1);
-		delay = 60 / 12 * 2;
-		dx = 0;
+	if(action != BNEUT) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 162, 163, 12, ANIM_LOOP, -1);
+		delay = 60/12 * 2;
+		if(Pad.Held.Right) dx = 1;
+		else if(Pad.Held.Left) dx = -1;
+		else dx = 0;
+		dy = 0;
+		PA_FatPlaySfx("pikachubneut");
 		action = BNEUT;
 	}
-	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 133 && delay == 1) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 134, 134, 10, ANIM_LOOP, -1);
-		delay = 60 / 10 * 1;
-		PA_FatPlaySfx("mariobneut");
-		int directionmodifier = 1;
-		if (direction == RIGHT) directionmodifier = -1;
-		Hitbox tempbox;
-		tempbox.addCircle(createAtkbox(32, 32, 6, Knockback(-.25*directionmodifier, 0, 6), 10));
-		Projectile p = Projectile(x, y, -3 * directionmodifier, 1.5, 90, FIREBALL, charnum, tempbox, stage, display);
-		p.miny = stage->getFloors()[0].y - 32;
-		p.maxy = y;
-		((vector<Projectile>*)getProj())->push_back(p);
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 163 && delay == 1) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 164, 167, 12, ANIM_LOOP, -1);
+		delay = 60/12 * 4;
+// projectile
 	}
-	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 134 && delay == 1) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 135, 136, 12, ANIM_LOOP, -1);
-		delay = 60 / 12 * 2;
-	}
-	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 136 && delay == 1) {
-		if (checkFloorCollision()) idle();
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 167 && delay == 1) {
+		if(checkFloorCollision()) idle();
 		else fall();
 	}
-	else if (aerial && checkFloorCollision()) dy = 0;
-*/
+	if(checkFloorCollision()) dx = 0;
 }
 void Pikachu::fthrow() {
 /*	if (action != FTHROW) {
