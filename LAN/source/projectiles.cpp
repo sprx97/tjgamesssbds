@@ -51,12 +51,20 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 	if (TYPE == FOXLASER) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 43, 43, 20, ANIM_LOOP, -1);
 	}
+	if(TYPE == THUNDERSHOCK) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 44, 44, 20, ANIM_LOOP, -1);
+	}
 }
 bool Projectile::act() {
 	x += dx;
 	y += dy;
-	if (y > maxy) dy *= -1;
-	if (y < miny) dy *= -1;
+	if(y > miny && TYPE == THUNDERSHOCK && PA_GetSpriteAnimFrame(MAIN_SCREEN, num) == 44) {
+		dy = 0;
+		y = miny;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 45, 47, 20, ANIM_LOOP, -1);
+	}
+	if (y > maxy && TYPE == FIREBALL) dy *= -1;
+	if (y < miny && TYPE == FIREBALL) dy *= -1;
 	PA_SetSpriteXY(MAIN_SCREEN, num, (int)(x - display->scrollx), (int)(y - display->scrolly));
 	if (x + 64 - display->scrollx < 0 || x - display->scrollx > 256 || y + 64 - display->scrolly < 0 || y - display->scrolly > 192) PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
 	time++;

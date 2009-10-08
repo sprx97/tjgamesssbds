@@ -8,6 +8,7 @@ Next To Do:
 - running jumps
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
+- Better projectile movements (Pikachu's thundershock crawling along walls, mario's fireball bouncing more realistically)
 - Convert all gfx to FAT
 - split minimap.cpp to a .h file (the "correct" way)
 - replay system

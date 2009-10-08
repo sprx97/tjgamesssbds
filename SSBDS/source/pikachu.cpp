@@ -319,7 +319,14 @@ void Pikachu::bneut() {
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 131 && delay == 1) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 132, 134, 10, ANIM_LOOP, -1);
 		delay = 60/10 * 3;
-// projectile
+		int directionmodifier = 1;
+		if (direction == RIGHT) directionmodifier = -1;
+		Hitbox tempbox;
+		tempbox.addCircle(createAtkbox(32, 54, 10, Knockback((-.25*directionmodifier), -.5, 6), 10));
+		Projectile p = Projectile(x+16, y-16, -2*directionmodifier, 3, 100, THUNDERSHOCK, charnum, tempbox, stage, display);
+		p.miny = stage->getFloors()[0].y - 64;
+		p.maxy = y;
+		((vector<Projectile>*)getProj())->push_back(p);
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 134 && delay == 1) {
 		if(checkFloorCollision()) idle();
