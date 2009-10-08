@@ -54,6 +54,18 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 	if(TYPE == THUNDERSHOCK) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 44, 44, 20, ANIM_LOOP, -1);
 	}
+	if(TYPE == THUNDER1) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 48, 51, 15, ANIM_LOOP, -1);
+	}
+	if(TYPE == THUNDER2) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 52, 53, 15, ANIM_LOOP, -1);
+	}
+	if(TYPE == THUNDER3) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 54, 55, 15, ANIM_LOOP, -1);
+	}
+	if(TYPE == THUNDER4) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 56, 58, 15, ANIM_LOOP, -1);
+	}
 }
 bool Projectile::act() {
 	x += dx;

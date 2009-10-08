@@ -1109,7 +1109,7 @@ void Fighter::shorthop() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHORTHOP], endframes[SHORTHOP], framespeeds[SHORTHOP], ANIM_LOOP, -1);
 	dy = -jumpspeed / 2;
 	fastfall = 0;
-	dx = 0;
+	dx /= 2;
 	delay = 60 / framespeeds[SHORTHOP] * (endframes[SHORTHOP] - startframes[SHORTHOP] + 1);
 	action = JUMP;
 	aerial = true;
@@ -1120,7 +1120,7 @@ void Fighter::jump() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JUMP], endframes[JUMP], framespeeds[JUMP], ANIM_LOOP, -1);
 	dy = -jumpspeed;
 	fastfall = 0;
-	dx = 0;
+	dx /= 2;
 	delay = 60 / framespeeds[JUMP] * (endframes[JUMP] - startframes[JUMP] + 1);
 	action = JUMP;
 	aerial = true;

@@ -291,17 +291,31 @@ void Pikachu::bdown() {
 		if(Pad.Held.Right) dx = 1;
 		else if(Pad.Held.Left) dx = -1;
 		else dx = 0;
-// projectile(s)
+		
+		Hitbox tempbox1;
+// tempbox.addCircle(createAtkbox(32, 54, 10, Knockback((-.25*directionmodifier), -.5, 6), 10));
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-96, 0, 0, delay, THUNDER1, charnum, tempbox1, stage, display));	
+		
 		PA_FatPlaySfx("pikachubdown");
 		action = BDOWN;
 	}
-	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 153 && aerial) {
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 153 && aerial) {		
 		dy = -gravity;
 		dx = 0;
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 157 && delay == 1) {
 		if(aerial) fall();
 		else idle();
+	}
+	if(delay == 52) {
+		Hitbox tempbox2;
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-64, 0, 0, delay, THUNDER2, charnum, tempbox2, stage, display));		
+	}
+	if(delay == 50) {
+		Hitbox tempbox3;
+		Hitbox tempbox4;
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay, THUNDER3, charnum, tempbox3, stage, display));	
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay, THUNDER4, charnum, tempbox4, stage, display));	
 	}
 	if(checkFloorCollision()) dx = 0;
 }
