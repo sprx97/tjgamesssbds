@@ -293,7 +293,8 @@ void Pikachu::bdown() {
 		else dx = 0;
 		
 		Hitbox tempbox1;
-// tempbox.addCircle(createAtkbox(32, 54, 10, Knockback((-.25*directionmodifier), -.5, 6), 10));
+		tempbox1.addCircle(createAtkbox(20, 32, 12, Knockback(-.5, -1.5, 7), 12));
+		tempbox1.addCircle(createAtkbox(44, 32, 12, Knockback(.5, -1.5, 7), 12));
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-96, 0, 0, delay, THUNDER1, charnum, tempbox1, stage, display));	
 		
 		PA_FatPlaySfx("pikachubdown");
@@ -309,12 +310,24 @@ void Pikachu::bdown() {
 	}
 	if(delay == 52) {
 		Hitbox tempbox2;
+		for(int n = 4; n < 64; n+=8) {
+			tempbox2.addCircle(createAtkbox(28, n, 4, Knockback(-1, -.5, 6), 10));
+			tempbox2.addCircle(createAtkbox(36, n, 4, Knockback(1, -.5, 6), 10));
+		}
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-64, 0, 0, delay, THUNDER2, charnum, tempbox2, stage, display));		
 	}
 	if(delay == 50) {
 		Hitbox tempbox3;
-		Hitbox tempbox4;
+		for(int n = 4; n < 64; n+=8) {
+			tempbox3.addCircle(createAtkbox(28, n, 4, Knockback(-1, -.5, 6), 10));
+			tempbox3.addCircle(createAtkbox(36, n, 4, Knockback(1, -.5, 6), 10));
+		}
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay, THUNDER3, charnum, tempbox3, stage, display));	
+	}
+	if(delay == 25) {
+		Hitbox tempbox4;
+		tempbox4.addCircle(createAtkbox(22, 48, 15, Knockback(-2, -1.25, 8), 15));
+		tempbox4.addCircle(createAtkbox(42, 48, 15, Knockback(2, -1.25, 8), 15));
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay, THUNDER4, charnum, tempbox4, stage, display));	
 	}
 	if(checkFloorCollision()) dx = 0;

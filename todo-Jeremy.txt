@@ -1,14 +1,14 @@
 Next To Do:
-- Teching (Yes, I'm that awesome)
+- Teching
 - Move priorities (Clashing hits)
 - "Random stage" button
 - Training mode (Separate section, not hidden)
 - Pikachu Throws
-- Thunder hitboxes
 - Variable knockback on Pikachu bside
 - New main screen during character selection (charprev)
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
+- Thunder platform physics
 - Better projectile movements (Pikachu's thundershock crawling along walls, mario's fireball bouncing more realistically)
 - Convert all gfx to FAT
 - split minimap.cpp to a .h file (the "correct" way)

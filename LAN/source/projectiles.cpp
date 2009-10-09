@@ -116,7 +116,7 @@ Fighter* Projectile::checkHits(Fighter* other) {
 		}
 		else {
 			other -> takeDamage(atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, owner, 0);
-			if (TYPE != FINALCUTTER && TYPE != IKESWORD) removeProj(num);
+			if (TYPE != FINALCUTTER && TYPE != IKESWORD && TYPE != THUNDER1 && TYPE != THUNDER2 && TYPE != THUNDER3 && TYPE != THUNDER4) removeProj(num);
 			else enabled = false;
 		}
 	}
