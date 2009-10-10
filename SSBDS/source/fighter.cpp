@@ -157,7 +157,7 @@ void Fighter::cpu_obeyRules() {
 		dx = kx;
 		dy = ky;
 		if (hitstun == 0) {
-			if (aerial) fall();
+			if (!checkFloorCollision()) fall();
 			else idle();
 		}
 		if (checkFloorCollision() || checkCeilingCollision()) {
@@ -499,7 +499,7 @@ void Fighter::act() {
 		dx = kx;
 		dy = ky;
 		if (hitstun == 0) {
-			if (aerial) fall();
+			if (!checkFloorCollision()) fall();
 			else idle();
 		}
 		if (checkFloorCollision() || checkCeilingCollision()) {
@@ -532,7 +532,7 @@ void Fighter::act() {
 		}
 		if (hitstun == 0) {
 			action = STUN;
-			if (aerial) fall();
+			if (!checkFloorCollision()) fall();
 			else idle();
 		}
 		dx = kx;
