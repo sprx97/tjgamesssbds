@@ -573,11 +573,20 @@ bool characterSelect(bool train = false) {
 				if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
 					if(6*page+n != RANDOM) PA_FatPlaySfx(names[6*page+n-1]);
 					onchar = true;
-					PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 6*page+n, 6*page+n, 1, ANIM_LOOP, -1);
+					if(6*page+n == KIRBY) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 4, 5, ANIM_LOOP, -1);
+					else if(6*page+n == MEWTWO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 5, 10, 5, ANIM_LOOP, -1);
+					else if(6*page+n == MARIO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 11, 14, 5, ANIM_LOOP, -1);
+					else if(6*page+n == IKE) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 15, 21, 5, ANIM_LOOP, -1);
+					else if(6*page+n == FOX) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 22, 27, 5, ANIM_LOOP, -1);
+					else if(6*page+n == PIKACHU) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 28, 33, 5, ANIM_LOOP, -1);
+					else if(6*page+n == RANDOM) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 33, 60, ANIM_LOOP, -1);
 					selections[selectedcursor] = 6*page+n;
 				}
 			}
-			if (!onchar) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
+			if (!onchar) {
+				PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
+				selections[selectedcursor] = -1;
+			}
 			selectedcursor = -1;
 		}
 		if (Pad.Newpress.L && page > 0) {
