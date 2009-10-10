@@ -758,6 +758,7 @@ void displayResults(bool nocontest) {
 	PA_FatLoadSfx("mario", "characters/names/mario");
 	PA_FatLoadSfx("ike", "characters/names/ike");
 	PA_FatLoadSfx("fox", "characters/names/fox");
+	PA_FatLoadSfx("pikachu", "characters/names/pikachu");
 	PA_FatLoadSfx("winneris", "ingame/thewinneris");
 	PA_FatLoadSfx("confirm", "menu/confirm");
 
