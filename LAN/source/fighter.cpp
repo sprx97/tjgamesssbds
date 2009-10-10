@@ -152,7 +152,7 @@ void Fighter::cpu_obeyRules() {
 	if (action == BDOWN) bdown();
 	if (action == BNEUT) bneut();
 	if (hitstun > k.length*2) {
-		if (y != stage->getFloors()[0].y) aerial = true;
+		aerial = true;
 		hitstun--;
 		dx = kx;
 		dy = ky;
@@ -170,29 +170,31 @@ void Fighter::cpu_obeyRules() {
 		}
 	}
 	else if (hitstun > 0) {
-		if (y != stage->getFloors()[0].y) aerial = true;
+		aerial = true;
 		hitstun--;
-		if (dx > 0) {
-			dx -= kx / (hitstun / 3);
-			if (dx < 0) dx = 0;
+		if (kx > 0) {
+			kx -= kx / (hitstun / 3);
+			if (kx < 0) kx = 0;
 		}
-		else if (dx < 0) {
-			dx -= kx / (hitstun / 3);
-			if (dx > 0) dx = 0;
+		else if (kx < 0) {
+			kx -= kx / (hitstun / 3);
+			if (kx > 0) kx = 0;
 		}
-		if (dy > 0) {
-			dy -= ky / (hitstun / 3);
-			if (dy < 0) dy = 0;
+		if (ky > 0) {
+			ky -= ky / (hitstun / 3);
+			if (ky < 0) ky = 0;
 		}
-		else if (dy < 0) {
-			dy -= ky / (hitstun / 3);
-			if (dy > 0) dy = 0;
+		else if (ky < 0) {
+			ky -= ky / (hitstun / 3);
+			if (ky > 0) ky = 0;
 		}
 		if (hitstun == 0) {
 			action = STUN;
 			if (!checkFloorCollision()) fall();
 			else idle();
 		}
+		dy = ky;
+		dx = kx;
 		if (checkFloorCollision() || checkCeilingCollision()) {
 			if(ky > 0) ky = ky * -1 - gravity;
 			dy = ky;
@@ -494,7 +496,7 @@ void Fighter::act() {
 	if (action == CHARGEUP && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashup();
 	if (action == CHARGEDOWN && (custom_action(ACTION_SMASH, PAD_RELEASED) || delay == 0)) smashdown();
 	if (hitstun > k.length*2) {
-		if (y != stage->getFloors()[0].y) aerial = true;
+		aerial = true;
 		hitstun--;
 		dx = kx;
 		dy = ky;
@@ -512,7 +514,7 @@ void Fighter::act() {
 		}
 	}
 	else if (hitstun > 0) {
-		if (y != stage->getFloors()[0].y) aerial = true;
+		aerial = true;
 		hitstun--;
 		if (kx > 0) {
 			kx -= kx / (hitstun / 3);
@@ -1452,8 +1454,7 @@ void Fighter::move() {
 	else {
 		if (!isCPU) directionalInfluence();
 		if (action == AIRATTACK || action == SHORTHOP || action == JUMP || action == DOUBLEJUMP) fastfall = 0;
-		if (action == AIRDODGE || action == FTHROW || action == DTHROW || action == UTHROW || action == BTHROW) ymomentum = DI = fastfall = 0;
-		if (action == STUN) DI = fastfall = ymomentum = 0;
+		if (action == AIRDODGE || action == FTHROW || action == DTHROW || action == UTHROW || action == BTHROW || action == STUN) ymomentum = DI = fastfall = 0;
 		if (MYCHAR == FOX && (action == BUP || action == BSIDE || action == BDOWN)) DI = fastfall = ymomentum = 0;
 		if (MYCHAR == MEWTWO && action == BUP) DI = fastfall = ymomentum = 0;
 		if (MYCHAR == PIKACHU && (action == BUP || action == BSIDE || action == BDOWN)) DI = fastfall = ymomentum = 0;
