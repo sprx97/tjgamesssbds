@@ -356,7 +356,7 @@ void Fighter::actCPU() {
 					else {
 						if (Cx > 0) setDirection(RIGHT);
 						else if (Cx < 0) setDirection(LEFT);
-						bup();
+//						bup();
 					}
 				} //The ledge is above me
 			}
@@ -1413,7 +1413,7 @@ Hitbox Fighter::getDefbox(int framenum) {
 	return defbox;
 }
 Circle Fighter::createAtkbox(double extrax, double extray, double radius, Knockback k, double damage, int prior) {
-	Circle temp(64 - extrax,  extray, radius, k, damage, prior);
+	Circle temp(64 - extrax,  extray, radius, Knockback(k.dx/2.0, k.dy/2.0, k.length*2.0), damage, prior);
 	return temp;
 }
 void Fighter::airAttack() {
@@ -1453,7 +1453,7 @@ void Fighter::move() {
 		if (!isCPU) directionalInfluence();
 		if (action == AIRATTACK || action == SHORTHOP || action == JUMP || action == DOUBLEJUMP) fastfall = 0;
 		if (action == AIRDODGE || action == FTHROW || action == DTHROW || action == UTHROW || action == BTHROW) ymomentum = DI = fastfall = 0;
-		if (action == STUN) fastfall = 0;
+		if (action == STUN) DI = fastfall = ymomentum = 0;
 		if (MYCHAR == FOX && (action == BUP || action == BSIDE || action == BDOWN)) DI = fastfall = ymomentum = 0;
 		if (MYCHAR == MEWTWO && action == BUP) DI = fastfall = ymomentum = 0;
 		if (MYCHAR == PIKACHU && (action == BUP || action == BSIDE || action == BDOWN)) DI = fastfall = ymomentum = 0;
