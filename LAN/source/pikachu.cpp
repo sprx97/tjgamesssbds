@@ -14,7 +14,7 @@ Pikachu::Pikachu(int num, vector<Fighter*> *listplayers, Display *disp, bool AI)
 	doublejumpspeed = 5.5;
 	shieldstr = 64;
 	runspeed = 4.0;
-	handx = 64 - 36;
+	handx = 64 - 48;
 	handy = 33;
 	hangx = 64 - 36;
 	hangy = 27;
@@ -362,68 +362,21 @@ void Pikachu::bneut() {
 	if(checkFloorCollision()) dx = 0;
 }
 void Pikachu::fthrow() {
-/*	if (action != FTHROW) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 153, 155, 12, ANIM_LOOP, -1);
+	if(action != FTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 162, 167, 15, ANIM_LOOP, -1);
 		playsound(FTHROW);
-		delay = 60 / 12 * (155 - 153 + 1);
+		delay = 60 / 15 * 6;
 		action = FTHROW;
 	}
-	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 153) {
-		if (direction == LEFT) grabbedenemy -> dx = 8;
-		else grabbedenemy -> dx = -8;
+	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 162) {
+		if(direction == LEFT) grabbedenemy -> dx = -2;
+		else grabbedenemy -> dx = 2;
 	}
-	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 154 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 155) {
-		if (direction == LEFT) grabbedenemy -> dx = -8;
-		else grabbedenemy -> dx = 8;
-	}
-	if (delay <= 0) {
+	else grabbedenemy -> dx = 0;
+	if(delay <= 0) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(2, -2, 7);
-		if (direction == RIGHT) {
-			mult = 1;
-		}
-		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length * 3 * (1 + (grabbedenemy -> percentage / 100)));
-		grabbedenemy -> kx = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dx * mult;
-		grabbedenemy -> ky = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dy;
-		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
-		grabbedenemy -> percentage += 7;
-		grabbedenemy -> stun();
-		grabbedenemy -> lasthitby = charnum;
-		grabbedenemy = NULL;
-		idle();
-	}*/
-}
-void Pikachu::bthrow() {
-/*	if (action != BTHROW) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 156, 162, 12, ANIM_LOOP, -1);
-		playsound(BTHROW);
-		delay = 60 / 12 * (162 - 156 + 1);
-		action = BTHROW;
-	}
-	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 156 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 157) {
-		if (direction == LEFT) grabbedenemy -> dx = 4;
-		else grabbedenemy -> dx = -4;
-	}
-	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 158) {
-		grabbedenemy -> dx = 0;
-	}
-	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 159 or PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 160) {
-		if (direction == LEFT) grabbedenemy -> dx = -4;
-		else grabbedenemy -> dx = 4;
-	}
-	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 161) {
-		grabbedenemy -> dx = 0;
-	}
-	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 162) {
-		if (direction == LEFT) grabbedenemy -> dx = 8;
-		else grabbedenemy -> dx = -8;
-	}
-	if (delay <= 0) {
-		int mult = 1;
-		grabbedenemy -> k = Knockback(2.5, -2, 7);
-		if (direction == RIGHT) {
-			mult = -1;
-		}
+		if(direction == RIGHT) mult = 1;
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length * 3 * (1 + (grabbedenemy -> percentage / 100)));
 		grabbedenemy -> kx = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dx * mult;
 		grabbedenemy -> ky = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dy;
@@ -433,63 +386,98 @@ void Pikachu::bthrow() {
 		grabbedenemy -> lasthitby = charnum;
 		grabbedenemy = NULL;
 		idle();
-	}*/
+	}
+}
+void Pikachu::bthrow() {
+	if(action != BTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 167, 176, 15, ANIM_LOOP, -1);
+		playsound(BTHROW);
+		delay = 60 / 15 * 10;
+		action = BTHROW;
+		if(direction == LEFT) {
+			dx = 2;
+			grabbedenemy -> dx = 2;
+		}
+		else {
+			dx = -2;
+			grabbedenemy -> dx = -2;
+		}
+	}
+	if(delay <= 0) {
+		int mult = 1;
+		grabbedenemy -> k = Knockback(2.25, -1.75, 7);
+		if (direction == RIGHT) mult = -1;
+		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length * 3 * (1 + (grabbedenemy -> percentage / 100)));
+		grabbedenemy -> kx = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dx * mult;
+		grabbedenemy -> ky = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dy;
+		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
+		grabbedenemy -> percentage += 5;
+		grabbedenemy -> stun();
+		grabbedenemy -> lasthitby = charnum;
+		grabbedenemy = NULL;
+		idle();
+	}
 }
 void Pikachu::uthrow() {
-/*	if (action != UTHROW) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 163, 165, 12, ANIM_LOOP, -1);
+	if(action != UTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 183, 188, 10, ANIM_LOOP, -1);
 		playsound(UTHROW);
-		delay = 60 / 12 * (165 - 163 + 1);
+		delay = 60/10 * 6;
 		action = UTHROW;
-		if (direction == LEFT) grabbedenemy -> dx = 2;
-		else grabbedenemy -> dx = -2;
+		grabbedenemy -> dy = -2;
+		if(direction == LEFT) grabbedenemy -> dx = 1.5;
+		else grabbedenemy -> dx = -1.5;
 	}
-	if (delay <= 0) {
+	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 186 && grabbedenemy != NULL) {
 		int mult = -1;
-		grabbedenemy -> k = Knockback(0, -3, 5);
-		if (direction == RIGHT) {
-			mult = 1;
-		}
+		if (direction == RIGHT) mult = 1;
+		grabbedenemy -> dx = 0;
+		grabbedenemy -> k = Knockback(0, -2.5, 7);
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length * 3 * (1 + (grabbedenemy -> percentage / 100)));
 		grabbedenemy -> kx = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dx * mult;
 		grabbedenemy -> ky = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dy;
 		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
-		grabbedenemy -> percentage += 6;
+		grabbedenemy -> percentage += 7;
 		grabbedenemy -> stun();
 		grabbedenemy -> lasthitby = charnum;
 		grabbedenemy = NULL;
-		idle();
-	}*/
+	}
+	if (delay <= 0) idle();
 }
 void Pikachu::dthrow() {
-/*	if (action != DTHROW) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 165, 168, 12, ANIM_LOOP, -1);
+	if(action != DTHROW) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 177, 182, 10, ANIM_LOOP, -1);
 		playsound(DTHROW);
-		delay = 60 / 12 * (168 - 165 + 1);
+		delay = 60/10 * 6;
 		action = DTHROW;
-		if (direction == LEFT) grabbedenemy -> dx = 2;
-		else grabbedenemy -> dx = -2;
-		grabbedenemy -> dy = .5;
-	}
-	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 167) {
-		grabbedenemy -> dx = 0;
-	}
-	if (delay <= 0) {
-		int mult = -1;
-		grabbedenemy -> k = Knockback(1, -2.5, 7);
-		if (direction == RIGHT) {
-			mult = 1;
+		if(direction == LEFT) {
+			grabbedenemy -> dx = -2.5;
+			dx = -2;
 		}
+		else {
+			grabbedenemy -> dx = 2.5;
+			dx = 2;
+		}
+		grabbedenemy -> dy = .25;
+	}
+	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 179 && grabbedenemy != NULL) {
+		int mult = -1;
+		grabbedenemy -> k = Knockback(1, -2.25, 7);
+		if(direction == RIGHT) mult = 1;
 		grabbedenemy -> hitstun = (int)(grabbedenemy -> k.length * 3 * (1 + (grabbedenemy -> percentage / 100)));
 		grabbedenemy -> kx = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dx * mult;
 		grabbedenemy -> ky = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dy;
 		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
-		grabbedenemy -> percentage += 6;
+		grabbedenemy -> percentage += 7;
 		grabbedenemy -> stun();
 		grabbedenemy -> lasthitby = charnum;
 		grabbedenemy = NULL;
+	}
+	if(delay <= 0) {
+		if(direction == RIGHT) direction = LEFT;
+		else direction = RIGHT;
 		idle();
-	}*/
+	}
 }
 void Pikachu::jaywalk() {}
 Pikachu::~Pikachu() {

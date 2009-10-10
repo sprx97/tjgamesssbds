@@ -301,18 +301,15 @@ void Mewtwo::uthrow() {
 }
 void Mewtwo::dthrow() {
 	if (action != DTHROW) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 167, 167, 15, ANIM_LOOP, -1);
-		delay = 60 / 15 * 1;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 167, 173, 15, ANIM_LOOP, -1);
+		delay = 60 / 15 * 7;
 		playsound(DTHROW);
 		action = DTHROW;
-		dy = -gravity - .25;
 		if (direction == RIGHT) grabbedenemy -> dx = -.5;
 		else grabbedenemy -> dx = .5;
 		grabbedenemy -> dy = .25;
 	}
-	if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 167) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 168, 173, 15, ANIM_LOOP, -1);
-		delay = 60 / 15 * 6;
+	if (grabbedenemy != NULL && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 168) {
 		int mult = -1;
 		grabbedenemy -> k = Knockback(.5, -2, 7);
 		if (direction == RIGHT) mult = 1;
