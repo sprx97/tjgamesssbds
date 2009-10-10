@@ -1,0 +1,57 @@
+Super Smash Brothers: Dueling Sprites
+=====================================
+
+Installation
+------------
+
+Simply copy the ROM onto your flash cart, and launch that ROM on your DS to start playing.
+
+Single Player
+-------------
+
+Tap "Single" from the main menu, then select your character by dragging the P1 token onto your desired character. Drag the P2 token onto the character of the enemy you want to face. Then press the start button to advance to the stage select screen. Tap your desired stage and the battle will begin.
+
+Multi Player
+------------
+
+Coming soon! (We promise). OK, maybe not "soon" but there is code that does this, but it still needs a lot of polish.
+
+Controls
+--------
+
+If you've ever played Melee or Brawl with a GameCube controler, the controls should be similar, but here's an overview:
+It's worth noting that nearly all of these controls can be configured in the options menu.
+
+D-pad: Move
+D-pad up: Jump
+X or Y: Jump
+D-pad down: Couch
+A: Attack
+A+D-pad: Tilt Attack
+A+D-pad (simultaneous): Smash Attack
+A+B+D-pad: Smash Attack
+A while in the air: Aerial Attack
+B: Special Moves (there are 4: up, down, side, and neutral)
+L or R: Shield
+D-pad left or right while shielding: Roll
+D-Pad down while shielding: Dodge
+L or R + A: Grab
+A while grabbing: Hit
+D-Pad while grabbing: Throw
+
+Good Luck!
+
+Options
+-------
+
+TODO
+
+Credits
+-------
+
+Spartan97: Lead Developer, All-around coder, Hard worker
+ComputerDruid: Documentor, Motivator, Slacker (<-- kind of like a hacker, except involving less work), and writer of these instructions.
+All of our friends for their testing of all of the intermediate versions we've produced trying to make sumething fun and playable.
+You: for testing this and giving us the feedback to make it better.
+
+Thanks for playing!
