@@ -9,7 +9,7 @@ Simply copy the ROM onto your flash cart, and launch that ROM on your DS to star
 Single Player
 -------------
 
-Tap "Single" from the main menu, then select your character by dragging the P1 token onto your desired character. Drag the P2 token onto the character of the enemy you want to face. Then press the start button to advance to the stage select screen. Tap your desired stage and the battle will begin.
+Tap "Single" from the main menu, then select your character by dragging the P1 token onto your desired character. Drag the P2 token onto the character of the enemy you want to face. Then press the start button to advance to the stage select screen. Tap your desired stage and the battle will begin. Use the arrows in the bottom corners to switch pages.
 
 Multi Player
 ------------
@@ -44,10 +44,16 @@ Good Luck!
 Options
 -------
 
-TODO
+On these simple text-based screns, use up and down to select an option, left and right to change it, A to advance to the next screen, and B to go back to the main menu.
+
+Game Options: set the game settings here; you can change from time mode to stock mode and change the number of lives or minutes.
+Control Options: you can customize the control scheme to something that works for you.
+Camera Options: Decide whether the camera follows your character or centers the screen with respect to all characters.
 
 Credits
 -------
+
+The credits menu gives credit to the artists of all the sprites we used and people who helped us with this project. The main developers are listed below.
 
 Spartan97: Lead Developer, All-around coder, Hard worker
 ComputerDruid: Documentor, Motivator, Slacker (<-- kind of like a hacker, except involving less work), and writer of these instructions.
