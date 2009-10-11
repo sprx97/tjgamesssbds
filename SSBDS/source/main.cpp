@@ -191,7 +191,7 @@ bool custom_action(int action, int typecheck) {
 	return false;
 } // takes action and checks if it is done by custom controls
 
-char* gifbuffers[] = {NULL, NULL, NULL}; // the array which stores the gif being printed
+char* gifbuffers[] = {(char*)malloc(256*192*sizeof(char)), (char*)malloc(256*192*sizeof(char)), (char*)malloc(256*192*sizeof(char))}; // the array which stores the gif being printed
 void openGif(int screen, string path) {
 	FILE* imgFile = fopen(path.c_str(), "rb");  // opens the file at path for reading
 	if (imgFile) {
