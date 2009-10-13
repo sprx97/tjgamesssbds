@@ -26,7 +26,7 @@ Pikachu::Pikachu(int num, vector<Fighter*> *listplayers, Display *disp, bool AI)
 	bottomside = 48;
 	rightside = 44;
 	leftside = 23;
-	gravity = 2.5;
+	gravity = GLOBALGRAVITY + w2/10;
 	jumpmax = 2;
 	initPalettes();
 	initFrames();

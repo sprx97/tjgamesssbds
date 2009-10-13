@@ -4,6 +4,8 @@
 #define RIGHT 1 //"right"
 #define LEFT (-1) //"left"
 
+#define GLOBALGRAVITY 2.0
+
 #include "hitbox.h"
 #include "knockback.h"
 #include "circle.h"

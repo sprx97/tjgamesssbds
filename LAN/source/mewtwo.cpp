@@ -26,7 +26,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	bottomside = 52;
 	rightside = 44;
 	leftside = 22;
-	gravity = 2.5;
+	gravity = GLOBALGRAVITY + w2/10;
 	jumpmax = 2;
 	initPalettes();
 	initFrames();

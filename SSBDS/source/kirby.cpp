@@ -25,7 +25,7 @@ Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	rightside = 41;
 	leftside = 21;
 	rockcount = 0;
-	gravity = 2.5;
+	gravity = GLOBALGRAVITY + w2/10;
 	jumpmax = 6;
 	initPalettes();
 	initFrames();

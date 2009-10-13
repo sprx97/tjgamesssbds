@@ -25,7 +25,7 @@ Fox::Fox(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	bottomside = 45;
 	rightside = 45;
 	leftside = 25;
-	gravity = 2.5;
+	gravity = GLOBALGRAVITY + w2/5;
 	jumpmax = 2;
 	upcount = downcount = leftcount = rightcount = 0;
 	laseragain = false;

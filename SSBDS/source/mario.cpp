@@ -25,7 +25,7 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	bottomside = 47;
 	rightside = 39;
 	leftside = 24;
-	gravity = 2.5;
+	gravity = GLOBALGRAVITY + w2/10;
 	jumpmax = 2;
 	initPalettes();
 	initFrames();

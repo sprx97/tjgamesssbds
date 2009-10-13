@@ -189,7 +189,6 @@ void Fighter::cpu_obeyRules() {
 			if (ky > 0) ky = 0;
 		}
 		if (hitstun == 0) {
-			action = STUN;
 			if (!checkFloorCollision()) fall();
 			else idle();
 		}
@@ -533,7 +532,6 @@ void Fighter::act() {
 			if (ky > 0) ky = 0;
 		}
 		if (hitstun == 0) {
-			action = STUN;
 			if (!checkFloorCollision()) fall();
 			else idle();
 		}
@@ -1318,7 +1316,10 @@ double Fighter::getDamagePercent() {
 void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	if (action != STUN && other.getKnockback().length != 0) stun();
 	PERMAFALL = false;
-	percentage += other.damage + (int)((charge / 225) * (.5 * other.damage));
+	
+	int chargedamage = (int)((charge/225) * (.5*other.damage));
+	percentage += other.damage + chargedamage;
+
 	if (effectwait <= 0) {
 		if (other.fx == FX_NONE) {
 			if (other.damage + (int)((charge / 225) *(.5*other.damage)) <= 6 / 3) {
@@ -1340,12 +1341,12 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 		}
 		effectwait = 15;
 	}
-// new knockback stuff here
+
 	k = other.getKnockback();
-	hitstun = (int)(k.length * 3 * (1 + (percentage / 100)));
-	kx = (1 + (percentage / 100)) * k.dx * mult;
-	ky = (1 + (percentage / 100)) * k.dy - gravity;
-// new knockback stuff here
+	hitstun = (int)((k.length*2 + percentage/4)/w1);
+	kx = (k.dx * mult * (1 + percentage/200))/w1;
+	ky = ((k.dy - gravity) * (1 + percentage/200))/w1;
+
 	dx = dy = DI = fastfall = 0;
 	CAPE = false;
 	lasthitby = hitter;
