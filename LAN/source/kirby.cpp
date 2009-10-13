@@ -8,8 +8,8 @@ using std::vector;
 
 //constructor
 Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "kirby", AI) {
-	weight = 0.899;
-	w2value  = -0.44;
+	w1 = 0.899;
+	w2  = -0.44;
 	jumpspeed = 6;
 	doublejumpspeed = 4;
 	shieldstr = 64;

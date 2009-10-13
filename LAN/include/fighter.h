@@ -28,8 +28,8 @@ class Fighter {
 		// variables
 		double jumpspeed; ///< stores how fast a fighter can jump off of the ground. Overwritten by subclasses
 		double doublejumpspeed; ///< stores how fast a fighter can jump from midair. Overwritten by subclasses
-		double weight;
-		double w2value;
+		double w1;
+		double w2;
 		double shieldstr;
 		int myledge;
 		double runspeed;

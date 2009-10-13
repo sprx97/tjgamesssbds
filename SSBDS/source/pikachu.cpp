@@ -8,8 +8,8 @@ using std:: vector;
 
 // constructor
 Pikachu::Pikachu(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "pikachu", AI) {
-	weight = 0.904;
-	w2value = 0.40;
+	w1 = 0.904;
+	w2 = 0.40;
 	jumpspeed = 7;
 	doublejumpspeed = 5.5;
 	shieldstr = 64;

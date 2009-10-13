@@ -9,8 +9,8 @@ using std::vector;
 
 //constructor
 Fox::Fox(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "fox", AI) {
-	weight = .910;
-	w2value  = 3.41;
+	w1 = .910;
+	w2  = 3.41;
 	jumpspeed = 8.5;
 	doublejumpspeed = 5;
 	shieldstr = 64;

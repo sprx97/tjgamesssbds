@@ -8,8 +8,8 @@ using std::vector;
 
 // constructor
 Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "mewtwo", AI) {
-	weight = 1.01; // same as lucario for now
-	w2value = -0.4; // same as lucario for now
+	w1 = 1.01; // same as lucario for now
+	w2 = -0.4; // same as lucario for now
 	jumpspeed = 7;
 	doublejumpspeed = 7;
 	shieldstr = 64;
