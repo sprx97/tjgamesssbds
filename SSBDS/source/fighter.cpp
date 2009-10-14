@@ -12,6 +12,9 @@
 
 using std::vector;
 
+#define traction .25
+#define airresistance .15
+
 Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI) {
 	name = n;
 	display = disp;
@@ -256,6 +259,14 @@ void Fighter::cpu_obeyRules() {
 		if ((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
 		if (action == FALL) {
 			if (checkFloorCollision()) idle();
+			if(dx > 0) {
+				dx -= airresistance;
+				if(dx < 0) dx = 0;
+			}
+			if(dx < 0) {
+				dx += airresistance;
+				if(dx > 0) dx = 0;
+			}
 		}
 		if (action == SHIELD) {
 			//shield shrinks/breaks
@@ -760,11 +771,11 @@ void Fighter::act() {
 		}
 		if (action == SLIDE) {
 			if (dx > 0) {
-				dx -= .25;
+				dx -= traction;
 				if (dx <= 0) dx = 0;
 			}
 			else if (dx < 0) {
-				dx += .25;
+				dx += traction;
 				if (dx >= 0) dx = 0;
 			}
 		}
@@ -1129,7 +1140,7 @@ void Fighter::jump() {
 void Fighter::doubleJump() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DOUBLEJUMP], endframes[DOUBLEJUMP], framespeeds[DOUBLEJUMP], ANIM_LOOP, -1);
 	action = DOUBLEJUMP;
-	dy = -doublejumpspeed - .5 * (jumpmax - jumpcount - 1);
+	dy = -doublejumpspeed - (jumpmax - jumpcount - 1);
 	fastfall = 0;
 	delay = 60 / framespeeds[DOUBLEJUMP] * (endframes[DOUBLEJUMP] - startframes[DOUBLEJUMP] + 1);
 	jumpcount++;
