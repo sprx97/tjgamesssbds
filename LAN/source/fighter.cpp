@@ -1071,7 +1071,6 @@ void Fighter::fall() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FALL], endframes[FALL], framespeeds[FALL], ANIM_LOOP, -1);
 	if (!isCPU) directionalInfluence();
 	dy = 0;
-	dx = 0;
 	action = FALL;
 	playsound(FALL);
 }
