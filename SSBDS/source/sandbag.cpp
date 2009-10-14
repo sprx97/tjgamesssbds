@@ -97,6 +97,16 @@ void Sandbag::act() {
 		}
 	}
 	else if (action == FALL && checkFloorCollision()) idle();
+	else if(action == FALL) {
+		if (dx > 0) {
+			dx -= traction;
+			if (dx <= 0) dx = 0;
+		}
+		else if (dx < 0) {
+			dx += traction;
+			if (dx >= 0) dx = 0;
+		}	
+	}
 	else if (action == IDLE) idle();
 	move();
 }

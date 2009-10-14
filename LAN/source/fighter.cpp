@@ -12,10 +12,9 @@
 
 using std::vector;
 
-#define traction .25
-#define airresistance .15
-
 Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI) {
+	traction = .25;
+	airresistance = .15;
 	name = n;
 	display = disp;
 	players = *listplayers;
@@ -827,6 +826,14 @@ void Fighter::act() {
 				}
 			}
 			else if (checkFloorCollision()) idle();
+			if(dx > 0) {
+				dx -= airresistance;
+				if(dx < 0) dx = 0;
+			}
+			if(dx < 0) {
+				dx += airresistance;
+				if(dx > 0) dx = 0;
+			}
 		} // checks for stage collision when falling
 		if (aerial && action != AIRATTACK && action != AIRLAG && action != FTHROW && action != BTHROW && action != UTHROW && action != DTHROW && !PERMAFALL) {
 			actAir();
