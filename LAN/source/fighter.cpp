@@ -1159,6 +1159,7 @@ void Fighter::ftilt() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[FTILT], endframes[FTILT], framespeeds[FTILT], ANIM_LOOP, -1);
 	action = ATTACK;
 	delay = 60 / framespeeds[FTILT] * (endframes[FTILT] - startframes[FTILT] + 1);
+	dx = 0;
 	setDirection();
 	playsound(FTILT);
 }
@@ -1166,12 +1167,14 @@ void Fighter::utilt() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[UTILT], endframes[UTILT], framespeeds[UTILT], ANIM_LOOP, -1);
 	action = ATTACK;
 	delay = 60 / framespeeds[UTILT] * (endframes[UTILT] - startframes[UTILT] + 1);
+	dx = 0;
 	playsound(UTILT);
 }
 void Fighter::dtilt() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DTILT], endframes[DTILT], framespeeds[DTILT], ANIM_LOOP, -1);
 	action = ATTACK;
 	delay = 60 / framespeeds[DTILT] * (endframes[DTILT] - startframes[DTILT] + 1);
+	dx = 0;
 	playsound(DTILT);
 }
 void Fighter::chargeleft() {
@@ -1198,6 +1201,7 @@ void Fighter::chargeup() {
 	chargecount = 0;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CHARGEUP], endframes[CHARGEUP], framespeeds[CHARGEUP], ANIM_LOOP, -1);
 	action = CHARGEUP;
+	dx = 0;
 	delay = 60 / framespeeds[CHARGEUP] * (endframes[CHARGEUP] - startframes[CHARGEUP] + 1) * 15;
 	playsound(CHARGEUP);
 }
