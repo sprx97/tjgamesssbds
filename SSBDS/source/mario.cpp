@@ -10,7 +10,7 @@ using std:: vector;
 Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "mario", AI) {
 	w1 = 1.0;
 	w2 = 0.0;
-	jumpspeed = 7.5;
+	jumpspeed = 5;
 	doublejumpspeed = 5;
 	shieldstr = 64;
 	runspeed = 3.75;

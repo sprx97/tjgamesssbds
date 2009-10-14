@@ -69,8 +69,8 @@ void Fox::playsound(int sndnum) {
 // actions
 void Fox::bside() {
 	if (action != BSIDE) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 118, 120, 20, ANIM_LOOP, -1);
-		delay = 60 / 20 * 3;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 118, 120, 10, ANIM_LOOP, -1);
+		delay = 60 / 10 * 3;
 		if (aerial) dy = -gravity;
 		else dy = 0;
 		ymomentum = fastfall = DI = 0;

@@ -10,7 +10,7 @@ using std::vector;
 Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "ike", AI) {
 	w1 = 1.035;
 	w2 = 0.28;
-	jumpspeed = 7;
+	jumpspeed = 4;
 	doublejumpspeed = 4.5;
 	shieldstr = 64;
 	runspeed = 2.75;
@@ -77,8 +77,7 @@ void Ike::bside() {
 		delay = 60 / 12 * 1;
 		setDirection();
 		dx = 0;
-		if (aerial) dy = -gravity / 2;
-		else dy = 0;
+		dy = 0;
 		action = BSIDE;
 		quickdrawcharge = 0;
 	}
