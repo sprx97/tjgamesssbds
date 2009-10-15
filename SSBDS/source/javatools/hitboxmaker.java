@@ -116,7 +116,7 @@ public class hitboxmaker extends JPanel {
 
 	public void writeFile() {
 		try {
-			PrintWriter simpleout = new PrintWriter(new FileWriter("../../efsroot/SSBDS_Files/hitboxes/" + charname + "." + atkdef));
+			PrintWriter simpleout = new PrintWriter(new FileWriter(charname + "." + atkdef));
 			for (int n = 0; n < hitboxes.size(); n++)
 				for (int m = 0; m < hitboxes.size(); m++)
 					if (hitboxes.get(n).compareTo(hitboxes.get(m)) < 0) {
@@ -143,8 +143,8 @@ public class hitboxmaker extends JPanel {
 	}
 	public void readFile() {
 		try {
-			Scanner sc = new Scanner(new File("../../efsroot/SSBDS_Files/hitboxes/" + charname + "." + atkdef));
-			while (sc.hasNext()) {
+			Scanner sc = new Scanner(new File(charname + "." + atkdef));
+ 			while (sc.hasNext()) {
 				String line = sc.nextLine();
 				StringTokenizer st = new StringTokenizer(line, "\t");
 				int f = Integer.parseInt(st.nextToken());
@@ -153,10 +153,10 @@ public class hitboxmaker extends JPanel {
 				double y = Double.parseDouble(st.nextToken());
 				double r = Double.parseDouble(st.nextToken());
 				if(atkdef.equals("atk")) {
-					int d = Integer.parseInt(st.nextToken());
-					int x2 = Integer.parseInt(st.nextToken());
-					int y2 = Integer.parseInt(st.nextToken());
+					double x2 = Double.parseDouble(st.nextToken());
+					double y2 = Double.parseDouble(st.nextToken());
 					int l = Integer.parseInt(st.nextToken());
+					int d = Integer.parseInt(st.nextToken());
 					int p = Integer.parseInt(st.nextToken());
 					hitboxes.add(new hitbox(f, x, y, r, d, x2, y2, l, p));
 				}

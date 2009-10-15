@@ -1,7 +1,7 @@
 public class hitbox
 {
-	public double cx, cy, radius;
-	public int frame, damage, kx, ky, length, priority;
+	public double cx, cy, radius, kx, ky;
+	public int frame, damage, length, priority;
 	boolean isatkbox;	
 	public hitbox(boolean atk) {
 		frame = 0;
@@ -22,7 +22,7 @@ public class hitbox
 		radius = r;
 		isatkbox = false;
 	}
-	public hitbox(int f, double x, double y, double r, int d, int x2, int y2, int l, int p) {
+	public hitbox(int f, double x, double y, double r, int d, double x2, double y2, int l, int p) {
 		frame = f;
 		cx = x;
 		cy = y;
