@@ -13,6 +13,7 @@
 using std::vector;
 
 Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI) {
+	grabatkdamage = 3.0;
 	traction = .25;
 	airresistance = .2;
 	name = n;
@@ -43,7 +44,7 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	dx = dy = fastfall = DI = 0.0;
 	k = Knockback(0, 0, 0);
 	kx = ky = 0;
-	percentage = 0;
+	percentage = 0.0;
 	ymomentum = 0.0;
 	momentumtime = 0;
 	grabtimeleft = 0;
@@ -861,7 +862,7 @@ void Fighter::act() {
 		if (action == GRABATK) {
 			grabtimeleft--;
 			if (delay <= 0) {
-				grabbedenemy -> percentage += 3;
+				grabbedenemy -> percentage += grabatkdamage;
 				hold(grabtimeleft);
 			}
 		}
@@ -1340,7 +1341,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	PERMAFALL = false;
 	
 	int chargedamage = (int)((charge/225) * (.5*other.damage));
-	percentage += other.damage + chargedamage;
+	percentage += (double)(other.damage + chargedamage);
 
 	if (effectwait <= 0) {
 		if (other.fx == FX_NONE) {
@@ -1365,10 +1366,10 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	}
 
 	k = other.getKnockback();
-	hitstun = (int)((k.length*2 + percentage/4)/w1);
+	hitstun = (int)((k.length*2 + percentage/4.0)/w1);
 	if(k.length == 0) hitstun = 0;
-	kx = (k.dx * mult * (1 + percentage/200))/w1;
-	ky = ((k.dy - gravity) * (1 + percentage/200))/w1;
+	kx = (k.dx * mult * (1 + percentage/200.0))/w1;
+	ky = ((k.dy - gravity) * (1 + percentage/200.0))/w1;
 
 	dx = dy = DI = fastfall = 0;
 	CAPE = false;
@@ -1491,6 +1492,7 @@ void Fighter::move() {
 	}
 	x += dx;
 	y += dy;
+	if(x > 640 || x < -128 || y < -192) percentage += (1/60.0);
 	if (momentumtime > 0) {
 		momentumtime--;
 		y += ymomentum;
@@ -1595,7 +1597,7 @@ void Fighter::respawn() {
 		direction = 0;
 		delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 		dx = dy = fastfall = DI = 0.0;
-		percentage = 0;
+		percentage = 0.0;
 		shieldstr = 64;
 		PA_SetSpriteXY(MAIN_SCREEN, 55 + (SPRITENUM - 100), (int)(PA_GetSpriteX(MAIN_SCREEN, SPRITENUM) - 32 + (rightside + leftside) / 2), (int)(PA_GetSpriteY(MAIN_SCREEN, SPRITENUM) + bottomside));
 		idle();
@@ -1634,7 +1636,7 @@ void Fighter::beDead() {
 	PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, -64, -64);
 	PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM + 30, -64, -64);
 	PA_SetSpriteXY(SUB_SCREEN, charnum + 1, -64, -64);
-	percentage = 0;
+	percentage = 0.0;
 	x = 10000;
 	y = 10000;
 	isdead = true;
