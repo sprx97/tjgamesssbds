@@ -14,7 +14,7 @@ using std::vector;
 
 Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI) {
 	traction = .25;
-	airresistance = .15;
+	airresistance = .2;
 	name = n;
 	display = disp;
 	players = *listplayers;
@@ -1691,12 +1691,14 @@ bool Fighter::checkFloorCollision() {
 		if (!isCPU) {
 			if (aerial) {
 				if (!(Pad.Held.Down && currfloor.isPlatform()) && dy + ymomentum + gravity > 0 && y + bottomside - rise <= currfloor.y && y + bottomside - rise + gravity + fastfall + dy + ymomentum > currfloor.y && x + rightside + dx + DI > currfloor.x && x + leftside + dx + DI < currfloor.x + currfloor.length) {
-					aerial = false;
-					y = currfloor.y - bottomside + rise;
-					dy = DI = fastfall = ymomentum = 0;
-					airdodgecount = 0;
-					jumpcount = 0;
-					return true;
+					if(!((MYCHAR == FOX || MYCHAR == MEWTWO || MYCHAR == PIKACHU) && action == BUP && currfloor.isPlatform())) {
+						aerial = false;
+						y = currfloor.y - bottomside + rise;
+						dy = DI = fastfall = ymomentum = 0;
+						airdodgecount = 0;
+						jumpcount = 0;
+						return true;
+					} // ignores platforms during BUPs
 				} // if you land on the floor
 			} // checks for landing
 			else {

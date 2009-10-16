@@ -121,79 +121,79 @@ void Pikachu::bup() {
 		int ydiff = downcount-upcount;
 		if(xdiff == 0 && ydiff == 0) ydiff = -1;
 		if(xdiff == 0 && ydiff < 0) {
-			y -= 50;
+			dy = -50;
 			firstdir = 90;
 		}
 		else if(xdiff == 0 && ydiff > 0) {
-			y += 50; 
+			dy = 50; 
 			firstdir = 270;
 		}
 		else if(xdiff < 0 && ydiff == 0) {
-			x -= 50;
+			dx = -50;
 			firstdir = 180;
 		}
 		else if(xdiff > 0 && ydiff == 0) {
-			x += 50;
+			dx = 50;
 			firstdir = 0;
 		}
 		else if(ydiff > 4*xdiff && ydiff > 0 && xdiff > 0) {
-			x += 25;
-			y += 43;
+			dx = 25;
+			dy = 43;
 			firstdir = 300;
 		}
 		else if(ydiff > 4*xdiff && ydiff > 0 && xdiff < 0) {
-			x -= 25;
-			y += 43;
+			dx = -25;
+			dy = 43;
 			firstdir = 240;
 		}
 		else if(ydiff > 4*xdiff && ydiff < 0 && xdiff > 0) {
-			x += 25;
-			y -= 43;
+			dx = 25;
+			dy = -43;
 			firstdir = 60;
 		}
 		else if(ydiff > 4*xdiff && ydiff < 0 && xdiff < 0) {
-			x -= 25;
-			y -= 43;
+			dx = -25;
+			dy = -43;
 			firstdir = 120;
 		}
 		else if(xdiff > 4*ydiff && xdiff > 0 && ydiff > 0) {
-			x += 43;
-			y += 25;
+			dx = 43;
+			dy = 25;
 			firstdir = 330;
 		}
 		else if(xdiff > 4*ydiff && xdiff > 0 && ydiff < 0) {
-			x += 43;
-			y -= 25;
+			dx = 43;
+			dy = -25;
 			firstdir = 30;
 		}
 		else if(xdiff > 4*ydiff && xdiff < 0 && ydiff > 0) {
-			x -= 43;
-			y += 25;
+			dx = -43;
+			dy = 25;
 			firstdir = 210;
 		}
 		else if(xdiff > 4*ydiff && xdiff < 0 && ydiff < 0) {
-			x -= 43;
-			y -= 25;
+			dx = -43;
+			dy = -25;
 			firstdir = 150;
 		}
 		else if(xdiff > 0 && ydiff > 0) {
-			x += 35;
-			y += 35;
+			dx = 35;
+			dy = 35;
 			firstdir = 315;
 		}
 		else if(xdiff > 0 && ydiff < 0) {
-			x += 35;
-			y -= 35;
+			dx = 35;
+			dy = -35;
 			firstdir = 45;
 		}
 		else if(xdiff < 0 && ydiff > 0) {
-			x -= 35;
-			y += 35;
+			dx = -35;
+			dy = 35;
 			firstdir = 225;
 		}
 		else if(xdiff < 0 && ydiff < 0) {
-			x -= 35;
-			y -= 35;
+			dx = -35;
+			dy = -35;
 			firstdir = 135;
 		}
 		upcount = downcount = leftcount = rightcount = 0;
@@ -206,71 +206,74 @@ void Pikachu::bup() {
 		else if(xdiff < 0) setDirection(LEFT);
 		int ydiff = downcount-upcount;
 		bool again = true;
+		aerial = true;
 		if(xdiff == 0 && ydiff == 0) ydiff = -1;
 		if(xdiff == 0 && ydiff < 0 && firstdir != 90) {
-			y -= 50;
+			dy = -50;
 		}
 		else if(xdiff == 0 && ydiff > 0 && firstdir != 270) {
-			y += 50; 
+			dy = 50; 
 		}
 		else if(xdiff < 0 && ydiff == 0 && firstdir != 180) {
-			x -= 50;
+			dx = -50;
 		}
 		else if(xdiff > 0 && ydiff == 0 && firstdir != 0) {
-			x += 50;
+			dx = 50;
 		}
 		else if(ydiff > 4*xdiff && ydiff > 0 && xdiff > 0 && firstdir != 300) {
-			x += 25;
-			y += 43;
+			dx = 25;
+			dy = 43;
 		}
 		else if(ydiff > 4*xdiff && ydiff > 0 && xdiff < 0 && firstdir != 240) {
-			x -= 25;
-			y += 43;
+			dx = -25;
+			dy = 43;
 		}
 		else if(ydiff > 4*xdiff && ydiff < 0 && xdiff > 0 && firstdir != 60) {
-			x += 25;
-			y -= 43;
+			dx = 25;
+			dy = -43;
 		}
 		else if(ydiff > 4*xdiff && ydiff < 0 && xdiff < 0 && firstdir != 120) {
-			x -= 25;
-			y -= 43;
+			dx = -25;
+			dy = -43;
 		}
 		else if(xdiff > 4*ydiff && xdiff > 0 && ydiff > 0 && firstdir != 330) {
-			x += 43;
-			y += 25;
+			dx = 43;
+			dy = 25;
 		}
 		else if(xdiff > 4*ydiff && xdiff > 0 && ydiff < 0 && firstdir != 30) {
-			x += 43;
-			y -= 25;
+			dx = 43;
+			dy = -25;
 		}
 		else if(xdiff > 4*ydiff && xdiff < 0 && ydiff > 0 && firstdir != 210) {
-			x -= 43;
-			y += 25;
+			dx = -43;
+			dy = 25;
 		}
 		else if(xdiff > 4*ydiff && xdiff < 0 && ydiff < 0 && firstdir != 150) {
-			x -= 43;
-			y -= 25;
+			dx = -43;
+			dy = -25;
 		}
 		else if(xdiff > 0 && ydiff > 0 && firstdir != 315) {
-			x += 35;
-			y += 35;
+			dx = 35;
+			dy = 35;
 		}
 		else if(xdiff > 0 && ydiff < 0 && firstdir != 45) {
-			x += 35;
-			y -= 35;
+			dx = 35;
+			dy = -35;
 		}
 		else if(xdiff < 0 && ydiff > 0 && firstdir != 225) {
-			x -= 35;
-			y += 35;
+			dx = -35;
+			dy = 35;
 		}
 		else if(xdiff < 0 && ydiff < 0 && firstdir != 135) {
-			x -= 35;
-			y -= 35;
+			dx = -35;
+			dy = -35;
 		}
-		else again = false;
+		else {
+			again = false;
+			permafall();
+		}
 		if(again) PA_FatPlaySfx("pikachubup");
 		firstdir = 0;
-
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 146 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 147) {
 		if(Pad.Held.Up) upcount++;
@@ -281,6 +284,7 @@ void Pikachu::bup() {
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 148) {
 		permafall();
 	}
+	if((PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 148 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 147) && (delay == 5 || delay == 19)) dx = dy = 0;
 }
 void Pikachu::bdown() {
 	if(action != BDOWN) {

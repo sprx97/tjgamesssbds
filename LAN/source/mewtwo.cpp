@@ -91,19 +91,20 @@ void Mewtwo::bup() {
 		action = BUP;
 		setDirection();
 	}
-	else if (action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125 && delay == 1) {
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125 && delay == 1) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 126, 129, 12, ANIM_ONESHOT);
 		aerial = true;
 		delay = 60 / 12 * 4;
-		x += (rightcount - leftcount) * 10;
-		y += (downcount - upcount) * 10;
+		dx = (rightcount - leftcount) * 10;
+		dy = (downcount - upcount) * 10;
 		PA_FatPlaySfx("mewtwobup");
 	}
-	else if (action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129 && delay == 1) {
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129 && delay == 1) {
 		upcount = downcount = rightcount = leftcount = 0;
 		permafall();
 	}
-	if (action == BUP && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 123 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125) {
+	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 126) dx = dy = 0;
+	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 123 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125) {
 		if (!isCPU) {
 			if (Pad.Held.Up) upcount += 1;
 			if (Pad.Held.Down) downcount += 1;
