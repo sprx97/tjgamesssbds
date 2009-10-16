@@ -1309,6 +1309,7 @@ void Fighter::slide() {
 	playsound(SLIDE);
 }
 void Fighter::hang() {
+	PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 0);
 	lasthitby = -1;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[HANG], endframes[HANG], framespeeds[HANG], ANIM_LOOP, -1);
 	action = HANG;
