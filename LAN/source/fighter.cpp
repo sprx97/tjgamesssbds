@@ -1700,7 +1700,7 @@ bool Fighter::checkFloorCollision() {
 				} // if you land on the floor
 			} // checks for landing
 			else {
-				if (!(Pad.Held.Down && currfloor.isPlatform())) {
+				if (!(Pad.Held.Down && currfloor.isPlatform() && (action == CROUCH || action == IDLE))) {
 					if (x + rightside + dx >= currfloor.x && x + leftside + dx < currfloor.x + currfloor.length) {
 						if (((y + bottomside >= currfloor.y - currfloor.totalrise() && y + bottomside <= currfloor.y + currfloor.totalrise() && currfloor.totalrise() >= 0)
 						        || (y + bottomside <= currfloor.y - currfloor.totalrise() && y + bottomside >= currfloor.y + currfloor.totalrise() && currfloor.totalrise() < 0))) {
