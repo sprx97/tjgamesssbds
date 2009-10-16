@@ -127,8 +127,8 @@ void Fox::bup() {
 		permafall();
 	}
 	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 127 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 128 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129) {
-		x += (rightcount - leftcount) * 10 / 15;
-		y += (downcount - upcount) * 10 / 15;
+		dx = (rightcount - leftcount) * 10 / 15;
+		dy = (downcount - upcount) * 10 / 15;
 	}
 	else if (delay < 40 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM == 125) || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 126)) {
 		if (!isCPU) {
@@ -144,6 +144,8 @@ void Fox::bup() {
 			if (x < mainfloor.x) rightcount += 1;
 		}
 	}
+	if(checkFloorCollision() || checkCeilingCollision()) upcount = downcount = 0;
+	if(checkWallCollision()) leftcount = rightcount = 0;
 	if (upcount > 10) upcount = 10;
 	if (downcount > 10) downcount = 10;
 	if (rightcount > 10) rightcount = 10;
