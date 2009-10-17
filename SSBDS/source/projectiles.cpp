@@ -94,7 +94,25 @@ Fighter* Projectile::checkHits(Fighter* other) {
 		if (dx < 0) atkbox.addCircle(newcircright);
 		else atkbox.addCircle(newcircleft);
 	}
-	if (!enabled) return other;
+	if(TYPE == THUNDER1 || TYPE == THUNDER2 || TYPE == THUNDER3 || TYPE == THUNDER4) {
+		vector<Projectile> projs = *((vector<Projectile>*)getProj());
+		for(int n = 0; n < (int)projs.size(); n++) {
+			if(projs[n].owner == owner && (projs[n].TYPE == THUNDER1 || projs[n].TYPE == THUNDER2 || projs[n].TYPE == THUNDER3 || projs[n].TYPE == THUNDER4)) {
+				if(!projs[n].enabled) enabled = false;
+			}
+		}
+	}
+	if (!enabled) {
+		if(TYPE == THUNDER1 || TYPE == THUNDER2 || TYPE == THUNDER3 || TYPE == THUNDER4) {
+			vector<Projectile> projs = *((vector<Projectile>*)getProj());
+			for(int n = 0; n < (int)projs.size(); n++) {
+				if(projs[n].owner == owner && (projs[n].TYPE == THUNDER1 || projs[n].TYPE == THUNDER2 || projs[n].TYPE == THUNDER3 || projs[n].TYPE == THUNDER4)) {
+					projs[n].enabled = false;
+				}
+			}
+		}
+		return other;
+	}
 	if (other -> respawntimer > 0) return other;
 	if (atkbox.hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if (other -> CAPE || other -> COUNTER) {
@@ -118,6 +136,12 @@ Fighter* Projectile::checkHits(Fighter* other) {
 			other -> takeDamage(atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, owner, 0);
 			if (TYPE != FINALCUTTER && TYPE != IKESWORD && TYPE != THUNDER1 && TYPE != THUNDER2 && TYPE != THUNDER3 && TYPE != THUNDER4) removeProj(num);
 			else enabled = false;
+			if(TYPE == THUNDER1 || TYPE == THUNDER2 || TYPE == THUNDER3 || TYPE == THUNDER4) {
+				vector<Projectile> projs = *((vector<Projectile>*)getProj());
+				for(int n = 0; n < (int)projs.size(); n++) {
+					if(projs[n].owner == owner && (projs[n].TYPE == THUNDER1 || projs[n].TYPE == THUNDER2 || projs[n].TYPE == THUNDER3 || projs[n].TYPE == THUNDER4)) projs[n].enabled = false;
+				}
+			}
 		}
 	}
 	return other;
