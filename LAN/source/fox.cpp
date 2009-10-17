@@ -73,6 +73,7 @@ void Fox::bside() {
 		delay = 60 / 10 * 3;
 		if (aerial) dy = -gravity;
 		else dy = 0;
+		dx = 0;
 		ymomentum = fastfall = DI = 0;
 		setDirection();
 		action = BSIDE;
@@ -96,6 +97,7 @@ void Fox::bside() {
 	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 123) {
 		permafall();
 	}
+	if(action == BSIDE && aerial) dy = -gravity;
 }
 void Fox::bup() {
 	if (action != BUP) {

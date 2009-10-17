@@ -1403,6 +1403,7 @@ Fighter* Fighter::checkHits(Fighter* other) {
 		else {
 			if (direction == LEFT) other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, charnum, chargecount);
 			else other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, charnum, chargecount);
+			if(action == BSIDE && (MYCHAR == PIKACHU || MYCHAR == IKE)) idle();
 		}
 	}
 	// clashing hits
@@ -1715,6 +1716,10 @@ bool Fighter::checkFloorCollision() {
 						} // stays on the ledge
 					}
 				}
+				if((MYCHAR == FOX || MYCHAR == PIKACHU) && action == BSIDE) {
+					aerial = true;
+					return true;
+				}
 			} // checks for falling off
 		}
 		else {
@@ -1735,6 +1740,10 @@ bool Fighter::checkFloorCollision() {
 						y = currfloor.y - bottomside + rise;
 						return true;
 					} // stays on the ledge
+				}
+				if((MYCHAR == FOX || MYCHAR == PIKACHU) && action == BSIDE) {
+					aerial = true;
+					return true;
 				}
 			}
 		}

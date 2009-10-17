@@ -3,7 +3,6 @@ Next To Do:
 - Move priorities (Clashing hits)
 - "Random stage" button
 - Training mode (Separate section, not hidden)
-- Variable knockback on Pikachu bside
 - improve charprevs (dblsize); red/blue/green/yellow
 
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:

@@ -80,11 +80,11 @@ void Pikachu::bside() {
 	else {
 		if(aerial && checkFloorCollision()) dy = 0;
 		if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) >= 134 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) <= 138 && custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
+			if(skullbashcharge < 100) skullbashcharge = 100;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 139, 142, 20, ANIM_LOOP, -1);
-			delay = 60 / 20 * 4 * 2;
+			delay = (int)(60 / 20 * 4 * (skullbashcharge/60.0));
 			dx = skullbashcharge/30.0;
 			if(direction == LEFT) dx *= -1;
-			for(int n = 0; n < (int)getAtkbox().getCircles().size(); n++) getAtkbox().getCircles()[n].damage = (int)(skullbashcharge/12.0 + 1);
 			PA_FatPlaySfx("pikachubside2");
 		}
 		else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) >= 134 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) <= 138 && delay == 1) {
@@ -94,6 +94,15 @@ void Pikachu::bside() {
 		else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) >= 139 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) <= 142) {
 			if(checkFloorCollision()) idle();
 			else fall();
+		}
+		else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) >= 139 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) <= 142) {
+			if(aerial) dy = -gravity;
+			if(direction == LEFT) dx += (skullbashcharge/30.0)/(12 * (skullbashcharge/60.0));
+			else dx -= (skullbashcharge/30.0)/(12 * (skullbashcharge/60.0));
+			for(int n = 0; n < (int)getAtkbox().getCircles().size(); n++) {
+				allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].circles[n].damage = (int)(skullbashcharge/12.0 + 1); // 1-26
+				allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].circles[n].setKnockback(-skullbashcharge/100.0, skullbashcharge/150.0, getAtkbox().getCircles()[n].getKnockback().length);
+			}
 		}
 		else {
 			skullbashcharge+=2;
