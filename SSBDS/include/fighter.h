@@ -41,6 +41,7 @@ class Fighter {
 		int hangtime;
 		int handx, handy, hangx, hangy;
 		bool CAPE;
+		bool ABSORB;
 		bool COUNTER;
 		bool PERMAFALL;
 		int respawntimer;

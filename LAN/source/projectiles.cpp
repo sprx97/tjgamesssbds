@@ -126,6 +126,11 @@ Fighter* Projectile::checkHits(Fighter* other) {
 			if (dx > 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 0);
 			if (dx < 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 1);
 		}
+		else if (other -> ABSORB && (TYPE != IKESWORD)) {
+			other -> percentage -= atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage;
+			if(other -> percentage < 0) other -> percentage = 0;
+			if(TYPE != THUNDER1 && TYPE != THUNDER2 && TYPE != THUNDER3 && TYPE != THUNDER4) removeProj(num);
+		}
 		else if (other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/
 		}
 		else if (other -> action == SHIELD) {

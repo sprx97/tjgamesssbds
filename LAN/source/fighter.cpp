@@ -28,6 +28,7 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	hangtime = 0;
 	ledgewait = 0;
 	CAPE = false;
+	ABSORB = false;
 	COUNTER = false;
 	PERMAFALL = false;
 	effectwait = 0;
@@ -1373,6 +1374,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 
 	dx = dy = DI = fastfall = 0;
 	CAPE = false;
+	ABSORB = false;
 	lasthitby = hitter;
 }
 Fighter* Fighter::checkHits(Fighter* other) {

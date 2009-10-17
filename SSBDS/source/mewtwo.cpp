@@ -131,8 +131,10 @@ void Mewtwo::bdown() {
 		dx = 0;
 		action = BDOWN;
 		PA_FatPlaySfx("mewtwobdown");
+		ABSORB = true;
 	}
 	else if (!custom_action(ACTION_SPECIAL, PAD_HELD)) {
+		ABSORB = false;
 		if (checkFloorCollision()) idle();
 		else fall();
 	}
