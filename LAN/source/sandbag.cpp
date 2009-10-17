@@ -10,8 +10,8 @@ using std::vector;
 Sandbag::Sandbag(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "sandbag", AI) {
 	w1 = 1.0;
 	w2 = 0.0;
-	jumpspeed = 0;
-	doublejumpspeed = 0;
+	jumpheight = 0;
+	doublejumpheight = 0;
 	shieldstr = 0;
 	runspeed = 0;
 	handx = 0;

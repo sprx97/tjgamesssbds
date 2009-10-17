@@ -28,9 +28,9 @@ class Fighter {
 		//constructor
 		Fighter(int num, vector<Fighter*> *listplayers, Display *disp, string n, bool AI = false);
 		// variables
-		double traction, airresistance, grabatkdamage;
-		double jumpspeed; ///< stores how fast a fighter can jump off of the ground. Overwritten by subclasses
-		double doublejumpspeed; ///< stores how fast a fighter can jump from midair. Overwritten by subclasses
+		double traction, airresistance, grabatkdamage, DIval;
+		double jumpheight; ///< stores how high a fighter can jump off of the ground. Overwritten by subclasses
+		double doublejumpheight; ///< stores how high a fighter can jump from midair. Overwritten by subclasses
 		double w1;
 		double w2;
 		double shieldstr;
@@ -165,7 +165,7 @@ class Fighter {
 		void move(); ///< moves the sprite
 		virtual void jaywalk();
 		void setDirection(int rl = 0); ///< flips the direction of the sprite if necessary
-		virtual void directionalInfluence(int dx = 0); ///< acts in the air based on key presses
+		virtual void directionalInfluence(double dx = 0); ///< acts in the air based on key presses
 		bool checkForDeath();
 		void respawn();
 		void beDead();

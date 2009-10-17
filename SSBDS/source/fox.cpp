@@ -11,8 +11,8 @@ using std::vector;
 Fox::Fox(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "fox", AI) {
 	w1 = .910;
 	w2  = 3.41;
-	jumpspeed = 8.5;
-	doublejumpspeed = 5;
+	jumpheight = 120;
+	doublejumpheight = 100;
 	shieldstr = 64;
 	runspeed = 5;
 	handx = 64 - 45;

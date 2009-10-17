@@ -13,6 +13,7 @@
 using std::vector;
 
 Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI) {
+	DIval = 1.0;
 	grabatkdamage = 3.0;
 	traction = .25;
 	airresistance = .2;
@@ -298,8 +299,8 @@ void Fighter::actCPU() {
 		return respawn();
 	}
 	if (hitstun > 0) {
-		if (Cangle < 90 && Cangle > -90) directionalInfluence(-1);
-		else if (Cangle > 90 || Cangle < -90) directionalInfluence(1);
+		if (Cangle < 90 && Cangle > -90) directionalInfluence(-DIval);
+		else if (Cangle > 90 || Cangle < -90) directionalInfluence(DIval);
 	}
 	else {
 		if (action == JUMP || action == DOUBLEJUMP) {
@@ -316,11 +317,11 @@ void Fighter::actCPU() {
 				}
 				Cx = x - ledges[minledge].x;
 				Cy = y - ledges[minledge].y;
-				if (Cx > 0) directionalInfluence(-1);
-				if (Cx < 0) directionalInfluence(1);
+				if (Cx > 0) directionalInfluence(-DIval);
+				if (Cx < 0) directionalInfluence(DIval);
 			}
-			else if (Cangle < 90 && Cangle > -90) directionalInfluence(1);
-			else if (Cangle > 90 || Cangle < -90) directionalInfluence(-1);
+			else if (Cangle < 90 && Cangle > -90) directionalInfluence(DIval);
+			else if (Cangle > 90 || Cangle < -90) directionalInfluence(-DIval);
 			// act in air
 		}
 		if (action == JAB) {}
@@ -338,12 +339,12 @@ void Fighter::actCPU() {
 				}
 				Cx = x - ledges[minledge].x;
 				Cy = y - ledges[minledge].y;
-				if (Cx > 0) directionalInfluence(-1);
-				if (Cx < 0) directionalInfluence(1);
+				if (Cx > 0) directionalInfluence(-DIval);
+				if (Cx < 0) directionalInfluence(DIval);
 			}
 
-			if (Cangle < 90 && Cangle > -90) directionalInfluence(1);
-			else if (Cangle > 90 || Cangle < -90) directionalInfluence(-1);
+			if (Cangle < 90 && Cangle > -90) directionalInfluence(DIval);
+			else if (Cangle > 90 || Cangle < -90) directionalInfluence(-DIval);
 		}
 		if (aerial && action != AIRATTACK && action != AIRLAG && action != JUMP && action != DOUBLEJUMP) {
 			// act air
@@ -362,8 +363,8 @@ void Fighter::actCPU() {
 				}
 				Cx = x - ledges[minledge].x;
 				Cy = y - ledges[minledge].y;
-				if (Cx > 0) directionalInfluence(-1);
-				if (Cx < 0) directionalInfluence(1);
+				if (Cx > 0) directionalInfluence(-DIval);
+				if (Cx < 0) directionalInfluence(DIval);
 				if (Cy > 0) {
 					if (jumpcount < jumpmax) doubleJump();
 					else {
@@ -392,11 +393,11 @@ void Fighter::actCPU() {
 					doubleJump();
 				}
 				else if (Cangle < 45 && Cangle > -45) {
-					directionalInfluence(1); //right
+					directionalInfluence(DIval); //right
 					fall();
 				}
 				else if (Cangle > 135 || Cangle < -135) {
-					directionalInfluence(-1);
+					directionalInfluence(-DIval);
 					fall();
 				}
 			}//too far away
@@ -1126,10 +1127,11 @@ void Fighter::run(int d) {
 }
 void Fighter::shorthop() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHORTHOP], endframes[SHORTHOP], framespeeds[SHORTHOP], ANIM_LOOP, -1);
+	delay = 60 / framespeeds[SHORTHOP] * (endframes[SHORTHOP] - startframes[SHORTHOP] + 1);
+	double jumpspeed = jumpheight/delay;
 	dy = -jumpspeed / 2;
 	fastfall = 0;
 	dx /= 2;
-	delay = 60 / framespeeds[SHORTHOP] * (endframes[SHORTHOP] - startframes[SHORTHOP] + 1);
 	action = JUMP;
 	aerial = true;
 	jumpcount++;
@@ -1137,10 +1139,11 @@ void Fighter::shorthop() {
 }
 void Fighter::jump() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JUMP], endframes[JUMP], framespeeds[JUMP], ANIM_LOOP, -1);
+	delay = 60 / framespeeds[JUMP] * (endframes[JUMP] - startframes[JUMP] + 1);
+	double jumpspeed = jumpheight/delay;
 	dy = -jumpspeed;
 	fastfall = 0;
 	dx /= 2;
-	delay = 60 / framespeeds[JUMP] * (endframes[JUMP] - startframes[JUMP] + 1);
 	action = JUMP;
 	aerial = true;
 	jumpcount++;
@@ -1148,10 +1151,11 @@ void Fighter::jump() {
 }
 void Fighter::doubleJump() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DOUBLEJUMP], endframes[DOUBLEJUMP], framespeeds[DOUBLEJUMP], ANIM_LOOP, -1);
-	action = DOUBLEJUMP;
-	dy = -doublejumpspeed - (jumpmax - jumpcount - 1);
-	fastfall = 0;
 	delay = 60 / framespeeds[DOUBLEJUMP] * (endframes[DOUBLEJUMP] - startframes[DOUBLEJUMP] + 1);
+	double doublejumpspeed = doublejumpheight/delay;
+	action = DOUBLEJUMP;
+	dy = -doublejumpspeed - (jumpmax - jumpcount - 1); // only affects characters w/ >2 jumps
+	fastfall = 0;
 	jumpcount++;
 	aerial = true;
 	setDirection();
@@ -1538,7 +1542,7 @@ void Fighter::setDirection(int rl) {
 		if (direction == LEFT) PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 	}
 } // flips the direction of the sprite if necessary
-void Fighter::directionalInfluence(int deltax) {
+void Fighter::directionalInfluence(double deltax) {
 	if (deltax != 0) {
 		DI = deltax;
 		fastfall = 0;
@@ -1548,13 +1552,11 @@ void Fighter::directionalInfluence(int deltax) {
 		fastfall = 0;
 	}
 	else {
-		if (Pad.Held.Right) DI = 1;
-		if (Pad.Held.Left) DI = -1;
+		if (Pad.Held.Right) DI = DIval;
+		if (Pad.Held.Left) DI = -DIval;
 		if (Pad.Held.Down) fastfall = 2;
 		else fastfall = 0;
 		if (!Pad.Held.Right && !Pad.Held.Left || action == BDOWN) DI = 0;
-		//			if(Pad.Held.Down && (action != JUMP && action != DOUBLEJUMP)) fastfall = 1;
-		//			if(Pad.Held.Up) fastfall = 0;
 		// slightly influences direction
 	}
 } // acts in the air based on key presses
@@ -1716,6 +1718,7 @@ bool Fighter::checkFloorCollision() {
 						} // stays on the ledge
 					}
 				}
+				dx /= 2;
 				if((MYCHAR == FOX || MYCHAR == PIKACHU) && action == BSIDE) {
 					aerial = true;
 					return true;
@@ -1741,6 +1744,7 @@ bool Fighter::checkFloorCollision() {
 						return true;
 					} // stays on the ledge
 				}
+				dx /= 2;
 				if((MYCHAR == FOX || MYCHAR == PIKACHU) && action == BSIDE) {
 					aerial = true;
 					return true;
