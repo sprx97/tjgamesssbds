@@ -145,7 +145,8 @@ void displayPercentages() {
 		int damage = (int)(players[n]->getDamagePercent());
 		if(damage == 0) displayeddamage[n] = 0;
 		if(displayeddamage[n] < damage) displayeddamage[n]++;
-		if(displayeddamage[n] < damage) PA_SetRotsetNoAngle(SUB_SCREEN, n, 208, 208);
+		if(displayeddamage[n] > damage) displayeddamage[n]--;
+		if(displayeddamage[n] != damage) PA_SetRotsetNoAngle(SUB_SCREEN, n, 208, 208);
 		else PA_SetRotsetNoAngle(SUB_SCREEN, n, 256, 256);
 		if (displayeddamage[n] > 300) {
 			PA_StartSpriteAnimEx(SUB_SCREEN, 50 + (n + 1)*4, DAMAGE_HIGHER - 1, DAMAGE_HIGHER - 1, 20, ANIM_LOOP, -1);
