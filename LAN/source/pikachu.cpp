@@ -364,8 +364,6 @@ void Pikachu::bneut() {
 		Hitbox tempbox;
 		tempbox.addCircle(createAtkbox(32, 58, 6, Knockback((-.25*directionmodifier), -.5, 6), 10));
 		Projectile p = Projectile(x+16, y-16, -2*directionmodifier, 3, 100, THUNDERSHOCK, charnum, tempbox, stage, display);
-		p.miny = stage->getFloors()[0].y - 64;
-		p.maxy = y;
 		((vector<Projectile>*)getProj())->push_back(p);
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 134 && delay == 1) {

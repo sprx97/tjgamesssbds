@@ -118,8 +118,6 @@ void Ike::bup() {
 		Hitbox tempbox;
 		tempbox.addCircle(Circle(32, 32, 15, Knockback(0, 0, 2), 3));
 		Projectile p = Projectile(x, y, -.1 * directionmodifier, -4, 30, IKESWORD, charnum, tempbox, stage, display);
-		p.miny = y - 120;
-		p.maxy = y;
 		((vector<Projectile>*)getProj())->push_back(p);
 	}
 	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122) {

@@ -19,7 +19,7 @@ class Projectile {
 		double y; ///< y position, in pixels
 		double dx; ///< velocity in the x direction, in pixels/frame
 		double dy; ///< velocity in the y direction, in pixels/frame
-		double maxy, miny; // for bouncing
+		double maxy, miny;
 		Hitbox hit; ///< what part of this projectile can collide with others
 		int length;
 		int time;

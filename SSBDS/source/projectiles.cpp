@@ -70,13 +70,22 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 bool Projectile::act() {
 	x += dx;
 	y += dy;
-	if(y > miny && TYPE == THUNDERSHOCK && PA_GetSpriteAnimFrame(MAIN_SCREEN, num) == 44) {
-		dy = 0;
-		y = miny;
-		PA_StartSpriteAnimEx(MAIN_SCREEN, num, 45, 47, 20, ANIM_LOOP, -1);
+	if(TYPE == THUNDERSHOCK && PA_GetSpriteAnimFrame(MAIN_SCREEN, num) == 44) {
+		for(int n = 0; n < (int)((mystage -> getFloors()).size()); n++) {
+			if(y+64 < mystage -> getFloors()[n].y && y+64+dy > mystage -> getFloors()[n].y && x+32 > mystage -> getFloors()[n].x && x+32 < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) {
+				dy = 0;
+				y = mystage -> getFloors()[n].y-64;
+				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 45, 47, 20, ANIM_LOOP, -1);
+			}
+		}
 	}
-	if (y > maxy && TYPE == FIREBALL) dy *= -1;
-	if (y < miny && TYPE == FIREBALL) dy *= -1;
+	if(TYPE == FIREBALL) {
+		dy += .2;
+		if(dy > 3) dy = 3;
+		for(int n = 0; n < (int)((mystage -> getFloors()).size()); n++) {
+			if(y+32 < mystage -> getFloors()[n].y && y+32+dy > mystage -> getFloors()[n].y && x+32 > mystage -> getFloors()[n].x && x+32 < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) dy *= -1;
+		}
+	}
 	PA_SetSpriteXY(MAIN_SCREEN, num, (int)(x - display->scrollx), (int)(y - display->scrolly));
 	if (x + 64 - display->scrollx < 0 || x - display->scrollx > 256 || y + 64 - display->scrolly < 0 || y - display->scrolly > 192) PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
 	time++;
@@ -135,7 +144,14 @@ Fighter* Projectile::checkHits(Fighter* other) {
 		}
 		else if (other -> action == SHIELD) {
 			other -> shieldstr -= atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage * (.5 * atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage);
-			enabled = false;
+			if (TYPE != FINALCUTTER && TYPE != IKESWORD && TYPE != THUNDER1 && TYPE != THUNDER2 && TYPE != THUNDER3 && TYPE != THUNDER4) removeProj(num);
+			else enabled = false;
+			if(TYPE == THUNDER1 || TYPE == THUNDER2 || TYPE == THUNDER3 || TYPE == THUNDER4) {
+				vector<Projectile> projs = *((vector<Projectile>*)getProj());
+				for(int n = 0; n < (int)projs.size(); n++) {
+					if(projs[n].owner == owner && (projs[n].TYPE == THUNDER1 || projs[n].TYPE == THUNDER2 || projs[n].TYPE == THUNDER3 || projs[n].TYPE == THUNDER4)) projs[n].enabled = false;
+				}
+			}
 		}
 		else {
 			other -> takeDamage(atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, owner, 0);

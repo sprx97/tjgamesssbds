@@ -160,9 +160,7 @@ void Mario::bneut() {
 		if (direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
 		tempbox.addCircle(createAtkbox(32, 32, 6, Knockback(-.25*directionmodifier, 0, 6), 10));
-		Projectile p = Projectile(x, y, -3 * directionmodifier, 1.5, 90, FIREBALL, charnum, tempbox, stage, display);
-		p.miny = stage->getFloors()[0].y - 32;
-		p.maxy = y;
+		Projectile p = Projectile(x, y, -2 * directionmodifier, 0, 120, FIREBALL, charnum, tempbox, stage, display);
 		((vector<Projectile>*)getProj())->push_back(p);
 	}
 	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 134 && delay == 1) {
