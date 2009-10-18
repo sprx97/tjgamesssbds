@@ -80,10 +80,12 @@ bool Projectile::act() {
 		}
 	}
 	if(TYPE == FIREBALL) {
-		dy += .2;
+		dy += .1;
 		if(dy > 3) dy = 3;
 		for(int n = 0; n < (int)((mystage -> getFloors()).size()); n++) {
-			if(y+32 < mystage -> getFloors()[n].y && y+32+dy > mystage -> getFloors()[n].y && x+32 > mystage -> getFloors()[n].x && x+32 < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) dy *= -1;
+			if(y+32 < mystage -> getFloors()[n].y && y+32+dy > mystage -> getFloors()[n].y && x+32 > mystage -> getFloors()[n].x && x+32 < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) {
+				dy *= -1;
+			}
 		}
 	}
 	PA_SetSpriteXY(MAIN_SCREEN, num, (int)(x - display->scrollx), (int)(y - display->scrolly));
