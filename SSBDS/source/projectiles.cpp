@@ -69,22 +69,21 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 }
 bool Projectile::act() {
 	if(TYPE == THUNDERSHOCK && PA_GetSpriteAnimFrame(MAIN_SCREEN, num) == 44) {
-		for(int n = 0; n < (int)((mystage -> getFloors()).size()); n++) {
-			if(y+64 <= mystage -> getFloors()[n].y && y+64+dy > mystage -> getFloors()[n].y && x+32+dx > mystage -> getFloors()[n].x && x+32+dx < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) {
-				dy = 0;
-				y = mystage -> getFloors()[n].y-64;
-				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 45, 47, 20, ANIM_LOOP, -1);
-			}
+		Floor f = checkFloorCollision(32, 64);
+		if(f.length != 0) {
+			dy = 0;
+			y = f.y-64;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, num, 45, 47, 20, ANIM_LOOP, -1);
 		}
+	}
+	else if(TYPE == THUNDERSHOCK) {
+// leaving a floor
 	}
 	if(TYPE == FIREBALL) {
 		dy += .1;
 		if(dy > GLOBALGRAVITY) dy = GLOBALGRAVITY;
-		for(int n = 0; n < (int)((mystage -> getFloors()).size()); n++) {
-			if(y+32 <= mystage -> getFloors()[n].y && y+32+dy > mystage -> getFloors()[n].y && x+32+dx > mystage -> getFloors()[n].x && x+32+dx < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) {
-				dy *= -1;
-			}
-		}
+		Floor f = checkFloorCollision(32, 32);
+		if(f.length != 0) dy *= -1;
 	}
 	x += dx;
 	y += dy;
@@ -93,6 +92,14 @@ bool Projectile::act() {
 	time++;
 	if (time > length) return true;
 	return false;
+}
+Floor Projectile::checkFloorCollision(int deltax, int deltay) {
+	for(int n = 0; n < (int)((mystage -> getFloors()).size()); n++) {
+		if(y+deltay <= mystage -> getFloors()[n].y && y+deltay+dy > mystage -> getFloors()[n].y && x+deltax+dx > mystage -> getFloors()[n].x && x+deltax+dx < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) {
+			return mystage -> getFloors()[n];
+		}
+	}
+	return Floor(0, 0, 0, false);
 }
 Fighter* Projectile::checkHits(Fighter* other) {
 	Hitbox temp = hit;

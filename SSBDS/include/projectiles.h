@@ -31,6 +31,7 @@ class Projectile {
 		Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage* mine, Display *d);
 		bool act();
 		void removeSelf();
+		Floor checkFloorCollision(int deltax, int deltay);
 		Fighter* checkHits(Fighter* other);
 };
 #endif
