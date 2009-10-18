@@ -363,7 +363,7 @@ void Pikachu::bneut() {
 		if (direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
 		tempbox.addCircle(createAtkbox(32, 58, 6, Knockback((-.25*directionmodifier), -.5, 6), 10));
-		Projectile p = Projectile(x+16, y-16, -2*directionmodifier, 3, 100, THUNDERSHOCK, charnum, tempbox, stage, display);
+		Projectile p = Projectile(x+4+8*-directionmodifier, y-16, -2*directionmodifier, GLOBALGRAVITY, 100, THUNDERSHOCK, charnum, tempbox, stage, display);
 		((vector<Projectile>*)getProj())->push_back(p);
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 134 && delay == 1) {

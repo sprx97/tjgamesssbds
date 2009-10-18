@@ -68,11 +68,9 @@ Projectile::Projectile(double xpos, double ypos, double xchange, double ychange,
 	}
 }
 bool Projectile::act() {
-	x += dx;
-	y += dy;
 	if(TYPE == THUNDERSHOCK && PA_GetSpriteAnimFrame(MAIN_SCREEN, num) == 44) {
 		for(int n = 0; n < (int)((mystage -> getFloors()).size()); n++) {
-			if(y+64 < mystage -> getFloors()[n].y && y+64+dy > mystage -> getFloors()[n].y && x+32 > mystage -> getFloors()[n].x && x+32 < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) {
+			if(y+64 <= mystage -> getFloors()[n].y && y+64+dy > mystage -> getFloors()[n].y && x+32+dx > mystage -> getFloors()[n].x && x+32+dx < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) {
 				dy = 0;
 				y = mystage -> getFloors()[n].y-64;
 				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 45, 47, 20, ANIM_LOOP, -1);
@@ -81,13 +79,15 @@ bool Projectile::act() {
 	}
 	if(TYPE == FIREBALL) {
 		dy += .1;
-		if(dy > 2.5) dy = 2.5;
+		if(dy > GLOBALGRAVITY) dy = GLOBALGRAVITY;
 		for(int n = 0; n < (int)((mystage -> getFloors()).size()); n++) {
-			if(y+32 < mystage -> getFloors()[n].y && y+32+dy > mystage -> getFloors()[n].y && x+32 > mystage -> getFloors()[n].x && x+32 < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) {
+			if(y+32 <= mystage -> getFloors()[n].y && y+32+dy > mystage -> getFloors()[n].y && x+32+dx > mystage -> getFloors()[n].x && x+32+dx < mystage -> getFloors()[n].x + mystage -> getFloors()[n].length) {
 				dy *= -1;
 			}
 		}
 	}
+	x += dx;
+	y += dy;
 	PA_SetSpriteXY(MAIN_SCREEN, num, (int)(x - display->scrollx), (int)(y - display->scrolly));
 	if (x + 64 - display->scrollx < 0 || x - display->scrollx > 256 || y + 64 - display->scrolly < 0 || y - display->scrolly > 192) PA_SetSpriteXY(MAIN_SCREEN, num, -64, -64);
 	time++;
