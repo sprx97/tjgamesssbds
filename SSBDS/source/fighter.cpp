@@ -261,14 +261,6 @@ void Fighter::cpu_obeyRules() {
 		if ((action == JUMP || action == DOUBLEJUMP) && delay <= 0) fall(); // falls when jump/multijump are finished animating
 		if (action == FALL) {
 			if (checkFloorCollision()) idle();
-			if(dx > 0) {
-				dx -= airresistance;
-				if(dx < 0) dx = 0;
-			}
-			if(dx < 0) {
-				dx += airresistance;
-				if(dx > 0) dx = 0;
-			}
 		}
 		if (action == SHIELD) {
 			//shield shrinks/breaks
@@ -1484,6 +1476,14 @@ void Fighter::move() {
 		}
 	}
 	else {
+		if(dx > 0) {
+			dx -= airresistance;
+			if(dx < 0) dx = 0;
+		}
+		if(dx < 0) {
+			dx += airresistance;
+			if(dx > 0) dx = 0;
+		}
 		if (!isCPU) directionalInfluence();
 		if (action == AIRATTACK || action == SHORTHOP || action == JUMP || action == DOUBLEJUMP) fastfall = 0;
 		if (action == AIRDODGE || action == FTHROW || action == DTHROW || action == UTHROW || action == BTHROW || action == STUN) ymomentum = DI = fastfall = 0;
@@ -1599,7 +1599,6 @@ void Fighter::respawn() {
 		if (x < stage->width / 2) setDirection(RIGHT);
 		else setDirection(LEFT);
 		respawntimer = 600;
-		direction = 0;
 		delay = jumpcount = startlag = landinglag = tiltlag = airlag = lcancel = hitstun = 0;
 		dx = dy = fastfall = DI = 0.0;
 		percentage = 0.0;
