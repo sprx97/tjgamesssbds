@@ -310,7 +310,16 @@ void Ike::dthrow() {
 		idle();
 	}
 }
-void Ike::jaywalk() {}
+void Ike::jaywalk() {
+	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 96 && bottomside == 47) {
+		bottomside = 64;
+		y -= 17;
+	}
+	if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 98 && bottomside == 64) {
+		bottomside = 47;
+		y += 17;
+	}
+}
 Ike::~Ike() {
 	allatkbox.clear();
 	alldefbox.clear();

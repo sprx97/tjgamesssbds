@@ -972,7 +972,10 @@ void Fighter::grabbed(int otherx, int othery) {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
 	x = otherx;
 	y = othery;
+	CAPE = false;
+	ABSORB = false;
 	aerial = false;
+	if(MYCHAR == IKE && bottomside == 64) bottomside = 47;
 	dx = 0;
 	dy = 0;
 	playsound(GRABBED);
@@ -1369,6 +1372,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	ky = ((k.dy - gravity) * (1 + percentage/200.0))/w1;
 
 	dx = dy = DI = fastfall = 0;
+	if(MYCHAR == IKE && bottomside == 64) bottomside = 47;
 	CAPE = false;
 	ABSORB = false;
 	lasthitby = hitter;
