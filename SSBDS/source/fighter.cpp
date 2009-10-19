@@ -1495,7 +1495,7 @@ void Fighter::move() {
 			if(dx > 0) dx = 0;
 		}
 		if (!isCPU) directionalInfluence();
-		if (action == AIRATTACK || action == SHORTHOP || action == JUMP || action == DOUBLEJUMP) fastfall = 0;
+		if (action == SHORTHOP || action == JUMP || action == DOUBLEJUMP) fastfall = 0;
 		if (action == AIRDODGE || action == FTHROW || action == DTHROW || action == UTHROW || action == BTHROW || action == STUN) ymomentum = DI = fastfall = 0;
 		if (MYCHAR == FOX && (action == BUP || action == BSIDE || action == BDOWN)) DI = fastfall = ymomentum = 0;
 		if (MYCHAR == MEWTWO && action == BUP) DI = fastfall = ymomentum = 0;
@@ -1564,8 +1564,7 @@ void Fighter::directionalInfluence(double deltax) {
 	else {
 		if (Pad.Held.Right) DI = DIval;
 		if (Pad.Held.Left) DI = -DIval;
-		if (Pad.Held.Down) fastfall = 2;
-		else fastfall = 0;
+		if (Pad.Held.Down && tiltlag > 0) fastfall = 2;
 		if (!Pad.Held.Right && !Pad.Held.Left || action == BDOWN) DI = 0;
 		// slightly influences direction
 	}
