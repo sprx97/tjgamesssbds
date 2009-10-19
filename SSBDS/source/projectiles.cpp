@@ -78,15 +78,18 @@ bool Projectile::act() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, num, 45, 47, 20, ANIM_LOOP, -1);
 		}
 		Wall w = checkWallCollision(32, 64);
-		if(w.length != 0) {
-			dy = sqrt(dx*dx); // moving down
-			dx = 0;
-			x = w.x-32;
-			PA_StartSpriteAnimEx(MAIN_SCREEN, num, 45, 47, 20, ANIM_LOOP, -1);
-		}
+		if(w.length != 0) dx *= -1;
 	}
-	else if(TYPE == THUNDERSHOCK) {
-// leaving a floor
+	else if(TYPE == THUNDERSHOCK && PA_GetSpriteAnimFrame(MAIN_SCREEN, num) >= 45 && PA_GetSpriteAnimFrame(MAIN_SCREEN, num) <= 47) {
+		if(checkWallCollision(32, 64).length != 0) dx *= -1;
+		if(dy == 0) {
+			dy = 1;
+			if(checkFloorCollision(32, 64).length == 0) {
+				dy = GLOBALGRAVITY;
+				PA_StartSpriteAnimEx(MAIN_SCREEN, num, 44, 44, 20, ANIM_LOOP, -1);
+			}
+			else dy = 0;
+		}
 	}
 	if(TYPE == FIREBALL) {
 		dy += .1;
