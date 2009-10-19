@@ -219,12 +219,12 @@ void fadeOut() {
 	delete gifbuffers[SUB_SCREEN];
 	gifbuffers[MAIN_SCREEN] = NULL;
 	gifbuffers[SUB_SCREEN] = NULL;
-	for (int i = brightness; i >= -31; i--) {
+	for (int i = brightness; i >= -16; i--) {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
 		brightness = i;
-		AS_SetMP3Volume((i + 31)*4);
-		for (int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i + 31)*4);
+		AS_SetMP3Volume((i + 16)*8);
+		for (int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i + 16)*8);
 		PA_WaitForVBL();
 		PA_WaitForVBL();
 	} // slowly darkens the screen into black
@@ -250,7 +250,7 @@ void fadeOut() {
 	for (int n = 0; n < 5; n++) PA_WaitForVBL();
 } // fades both screens out
 void fadeIn() {
-	for(int i = brightness; i >= -31; i--) {
+	for(int i = brightness; i >= -16; i--) {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
 		brightness = i;
@@ -283,8 +283,8 @@ void fadeIn() {
 		PA_SetBrightness(MAIN_SCREEN, i);
 		PA_SetBrightness(SUB_SCREEN, i);
 		brightness = i;
-		AS_SetMP3Volume((i + 31)*4);
-		for (int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i + 31)*4);
+		AS_SetMP3Volume((i + 16)*8);
+		for (int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i + 16)*8);
 		PA_WaitForVBL();
 		PA_WaitForVBL();
 	} // slowly brightens the screen to normal
