@@ -32,6 +32,8 @@ class Projectile {
 		bool act();
 		void removeSelf();
 		Floor checkFloorCollision(int deltax, int deltay);
+		Wall checkWallCollision(int deltax, int deltay);
+		Ceiling checkCeilingCollision(int deltax, int deltay);
 		Fighter* checkHits(Fighter* other);
 };
 #endif

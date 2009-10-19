@@ -2,6 +2,8 @@
 #include "global.h"
 #include "display.h"
 
+#include <math.h>
+
 // shortcuts for projectiles
 Projectile::Projectile(double xpos, double ypos, double xchange, double ychange, int l, int t, int ob, Hitbox h, Stage* mine, Display *d) {
 	display = d;
@@ -75,6 +77,13 @@ bool Projectile::act() {
 			y = f.y-64;
 			PA_StartSpriteAnimEx(MAIN_SCREEN, num, 45, 47, 20, ANIM_LOOP, -1);
 		}
+		Wall w = checkWallCollision(32, 64);
+		if(w.length != 0) {
+			dy = sqrt(dx*dx); // moving down
+			dx = 0;
+			x = w.x-32;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, num, 45, 47, 20, ANIM_LOOP, -1);
+		}
 	}
 	else if(TYPE == THUNDERSHOCK) {
 // leaving a floor
@@ -84,6 +93,10 @@ bool Projectile::act() {
 		if(dy > GLOBALGRAVITY) dy = GLOBALGRAVITY;
 		Floor f = checkFloorCollision(32, 32);
 		if(f.length != 0) dy *= -1;
+		Wall w = checkWallCollision(32, 32);
+		if(w.length != 0) dx *= -1;
+		Ceiling c = checkCeilingCollision(32, 32);
+		if(c.length != 0) dy *= -1;
 	}
 	x += dx;
 	y += dy;
@@ -100,6 +113,29 @@ Floor Projectile::checkFloorCollision(int deltax, int deltay) {
 		}
 	}
 	return Floor(0, 0, 0, false);
+}
+Wall Projectile::checkWallCollision(int deltax, int deltay) {
+	for(int n = 0; n < (int)((mystage -> getWalls()).size()); n++) {
+		if(dx > 0) {
+			if(x+deltax <= mystage -> getWalls()[n].x && x+deltax+dx > mystage -> getWalls()[n].x && y+deltay+dy > mystage -> getWalls()[n].y && y+deltax+dy < mystage -> getWalls()[n].y + mystage -> getWalls()[n].length) {
+				return mystage -> getWalls()[n];
+			}
+		}
+		else if(dx < 0) {
+			if(x+deltax >= mystage -> getWalls()[n].x && x+deltax+dx < mystage -> getWalls()[n].x && y+deltay+dy > mystage -> getWalls()[n].y && y+deltax+dy < mystage -> getWalls()[n].y + mystage -> getWalls()[n].length) {
+				return mystage -> getWalls()[n];
+			}		
+		}
+	}
+	return Wall(0, 0, 0, "");
+}
+Ceiling Projectile::checkCeilingCollision(int deltax, int deltay) {
+	for(int n = 0; n < (int)((mystage -> getCeilings()).size()); n++) {
+		if(y+deltay >= mystage -> getCeilings()[n].y && y+deltay+dy < mystage -> getCeilings()[n].y && x+deltax+dx > mystage -> getCeilings()[n].x && x+deltax+dx < mystage -> getCeilings()[n].x + mystage -> getCeilings()[n].length) {
+			return mystage -> getCeilings()[n];
+		}
+	}
+	return Ceiling(0, 0, 0);
 }
 Fighter* Projectile::checkHits(Fighter* other) {
 	Hitbox temp = hit;
