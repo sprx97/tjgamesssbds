@@ -81,7 +81,7 @@ void Ike::bside() {
 		action = BSIDE;
 		quickdrawcharge = 0;
 	}
-	else if (custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
+	else if (custom_action(ACTION_SPECIAL, PAD_RELEASED) && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 108 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 109)) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 110, 110, 12, ANIM_LOOP, -1);
 		PA_FatPlaySfx("ikebside");
 		delay = quickdrawcharge / 2;
@@ -95,14 +95,21 @@ void Ike::bside() {
 		if (quickdrawcharge > 120) quickdrawcharge = 120;
 	}
 	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 110) {
+		dx = 0;
 		permafall();
 	}
-	else if (aerial && checkFloorCollision()) idle();
-	else {
-		quickdrawcharge++;
-		if (quickdrawcharge > 120) quickdrawcharge = 120;
-
+	else if (aerial && checkFloorCollision()) {
+		aerial = false;
+		dy = 0;
+		dx = 0;
 	}
+	else {
+		for(int n = 0; n < (int)getAtkbox().getCircles().size(); n++) {
+			allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].circles[n].damage = (int)(quickdrawcharge/10.0 + 1); // 1-12
+			allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].circles[n].setKnockback(-quickdrawcharge/120.0, quickdrawcharge/60.0, getAtkbox().getCircles()[n].getKnockback().length);
+		}	
+	}
+	if(!aerial && !checkFloorCollision()) dx = 0;
 }
 void Ike::bup() {
 	if (action != BUP) {

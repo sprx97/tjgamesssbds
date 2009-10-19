@@ -1557,7 +1557,7 @@ void Fighter::directionalInfluence(double deltax) {
 		DI = deltax;
 		fastfall = 0;
 	}
-	else if (MYCHAR == MEWTWO && action == BUP) {
+	else if ((MYCHAR == MEWTWO && action == BUP) || (MYCHAR == IKE && action == BSIDE)) {
 		DI = 0;
 		fastfall = 0;
 	}
@@ -1726,11 +1726,11 @@ bool Fighter::checkFloorCollision() {
 						} // stays on the ledge
 					}
 				}
-				dx /= 2;
 				if((MYCHAR == FOX || MYCHAR == PIKACHU) && action == BSIDE) {
 					aerial = true;
 					return true;
 				}
+				dx /= 2;
 			} // checks for falling off
 		}
 		else {
@@ -1752,11 +1752,11 @@ bool Fighter::checkFloorCollision() {
 						return true;
 					} // stays on the ledge
 				}
-				dx /= 2;
 				if((MYCHAR == FOX || MYCHAR == PIKACHU) && action == BSIDE) {
 					aerial = true;
 					return true;
 				}
+				dx /= 2;
 			}
 		}
 	}
