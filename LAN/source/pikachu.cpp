@@ -103,6 +103,7 @@ void Pikachu::bside() {
 				allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].circles[n].damage = (int)(skullbashcharge/12.0 + 1); // 1-26
 				allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].circles[n].setKnockback(-skullbashcharge/100.0, skullbashcharge/150.0, getAtkbox().getCircles()[n].getKnockback().length);
 			}
+			allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled = true;
 		}
 		else {
 			skullbashcharge+=2;

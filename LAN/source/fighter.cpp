@@ -1399,12 +1399,14 @@ Fighter* Fighter::checkHits(Fighter* other) {
 		}
 		else if (other -> action == SHIELD) {
 			other -> shieldstr -= getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage + (int)((chargecount / 225) * (.5 * getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage));
+			if(action == BSIDE && (MYCHAR == PIKACHU || MYCHAR == IKE)) idle();
 		}
 		else if (other -> COUNTER) {
 			if (direction == LEFT) takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, other -> charnum, chargecount);
 			else takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, other -> charnum, chargecount);
 			other -> COUNTER = false;
 			other -> idle();
+			if(action == BSIDE && (MYCHAR == PIKACHU || MYCHAR == IKE)) idle();
 		}
 		else {
 			if (direction == LEFT) other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, charnum, chargecount);
