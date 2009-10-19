@@ -975,7 +975,10 @@ void Fighter::grabbed(int otherx, int othery) {
 	CAPE = false;
 	ABSORB = false;
 	aerial = false;
-	if(MYCHAR == IKE && bottomside == 64) bottomside = 47;
+	if(MYCHAR == IKE && bottomside == 64) {
+		bottomside = 47;
+		y += 17;
+	}
 	dx = 0;
 	dy = 0;
 	playsound(GRABBED);
@@ -1372,7 +1375,10 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	ky = ((k.dy - gravity) * (1 + percentage/200.0))/w1;
 
 	dx = dy = DI = fastfall = 0;
-	if(MYCHAR == IKE && bottomside == 64) bottomside = 47;
+	if(MYCHAR == IKE && bottomside == 64) {
+		bottomside = 47;
+		y += 17;
+	}
 	CAPE = false;
 	ABSORB = false;
 	lasthitby = hitter;
