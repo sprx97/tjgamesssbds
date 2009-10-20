@@ -556,11 +556,11 @@ void Fighter::act() {
 		if (lasthitby != -1 && aerial == false) lasthitby = -1;
 		if (tiltlag > 0) {
 			tiltlag--;
+			if(Pad.Released.Right || Pad.Released.Left) iswalking = true;
 			if ((custom_action(ACTION_JUMP, PAD_RELEASED) || (Pad.Released.Up && getTapJumpOn()))) {
 				shorthop();
 				tiltlag = 0;
 			}
-			else if(Pad.Released.Right || Pad.Released.Left) iswalking = true;
 			else if (tiltlag == 0) {
 				bool AB = false;
 				if (customcontrols[ACTION_SMASH] == BUTTON_AB) {
