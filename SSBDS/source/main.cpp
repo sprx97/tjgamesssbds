@@ -71,7 +71,7 @@ Display display = Display();
 
 map<int, int> customcontrols; // custom control mapping
 bool shieldgrabon; // use a while shielding to grab
-bool tapjumpon; // use up dpad to jump
+bool tapjumpon, doubletaprunon; // use up dpad to jump/double tap to run
 bool cstickstylus; // smashes and aerials with stylus
 
 //wrapper methods to get global variables from other classes
@@ -83,6 +83,9 @@ map<int , int> getcustomcontrols() {
 }
 bool getTapJumpOn() {
 	return tapjumpon;
+}
+bool getDoubleTapRunOn() {
+	return doubletaprunon;
 }
 bool getCStickStylus() {
 	return cstickstylus;
@@ -350,6 +353,9 @@ void initControls() {
 		fgets(line, 4, file);
 		if (atoi(strtok(line, " \t")) == 1) tapjumpon = true;
 		else tapjumpon = false;
+		fgets(line, 4, file);
+		if (atoi(strtok(line, " \t")) == 1) doubletaprunon = true;
+		else doubletaprunon = false;
 		fclose(file);
 	}
 	else {
@@ -364,6 +370,7 @@ void initControls() {
 		cstickstylus = false;
 		shieldgrabon = true;
 		tapjumpon = true;
+		doubletaprunon = true;
 	}
 } // inits default or saved control setup
 void saveControls() {
@@ -379,6 +386,8 @@ void saveControls() {
 	buffer << (int)shieldgrabon;
 	buffer << "\n";
 	buffer << (int)tapjumpon;
+	buffer << "\n";
+	buffer << (int)doubletaprunon;
 	buffer << "\n";
 
 	FILE* file = fopen("/SSBDS_Files/saves/controls.sav", "wb");
@@ -1166,6 +1175,9 @@ void controlOptions() {
 	PA_OutputText(SUB_SCREEN, 4, 10, "Tap Jump:");
 	if (tapjumpon) PA_OutputText(SUB_SCREEN, 16, 10, "on");
 	else PA_OutputText(SUB_SCREEN, 16, 10, "off");
+	PA_OutputText(SUB_SCREEN, 4, 11, "Dbl Tap Run:");
+	if(doubletaprunon) PA_OutputText(SUB_SCREEN, 16, 11, "on");
+	else PA_OutputText(SUB_SCREEN, 16, 11, "off");
 	PA_OutputText(SUB_SCREEN, 0, 0, " **");
 	PA_OutputText(SUB_SCREEN, 0, 20, "Putting multiple actions on one button can cause errors");
 
@@ -1173,10 +1185,10 @@ void controlOptions() {
 	while (true) {
 		if (Pad.Newpress.Up) selected--;
 		if (Pad.Newpress.Down) selected++;
-		if (selected > ACTION_GRAB + 3) selected = ACTION_GRAB + 3;
+		if (selected > ACTION_GRAB + 4) selected = ACTION_GRAB + 4;
 		if (selected < ACTION_BASIC) selected = ACTION_BASIC;
 		if (Pad.Newpress.Up || Pad.Newpress.Down) {
-			for (int mark = ACTION_BASIC; mark <= ACTION_GRAB + 3; mark++) {
+			for (int mark = ACTION_BASIC; mark <= ACTION_GRAB + 4; mark++) {
 				if (mark == selected) PA_OutputText(SUB_SCREEN, 0, mark, " ** ");
 				else PA_OutputText(SUB_SCREEN, 0, mark, "    ");
 			}
@@ -1184,6 +1196,9 @@ void controlOptions() {
 		// change which action your switching controls for
 
 		if (Pad.Newpress.Right) {
+			if(selected == 11) {
+				doubletaprunon = !doubletaprunon;
+			}
 			if (selected == 10) {
 				tapjumpon = !tapjumpon;
 			}
@@ -1199,6 +1214,9 @@ void controlOptions() {
 			}
 		}
 		if (Pad.Newpress.Left) {
+			if(selected == 11) {
+				doubletaprunon = !doubletaprunon;
+			}
 			if (selected == 10) {
 				tapjumpon = !tapjumpon;
 			}
@@ -1221,12 +1239,15 @@ void controlOptions() {
 			PA_OutputText(SUB_SCREEN, 16, 8, "    ");
 			PA_OutputText(SUB_SCREEN, 16, 9, "    ");
 			PA_OutputText(SUB_SCREEN, 16, 10, "    ");
+			PA_OutputText(SUB_SCREEN, 16, 11, "    ");
 			if (cstickstylus) PA_OutputText(SUB_SCREEN, 16, 8, "on");
 			else PA_OutputText(SUB_SCREEN, 16, 8, "off");
 			if (shieldgrabon) PA_OutputText(SUB_SCREEN, 16, 9, "on");
 			else PA_OutputText(SUB_SCREEN, 16, 9, "off");
 			if (tapjumpon) PA_OutputText(SUB_SCREEN, 16, 10, "on");
 			else PA_OutputText(SUB_SCREEN, 16, 10, "off");
+			if(doubletaprunon) PA_OutputText(SUB_SCREEN, 16, 11, "on");
+			else PA_OutputText(SUB_SCREEN, 16, 11, "off");
 		}
 		// chnage the action for the selected control
 

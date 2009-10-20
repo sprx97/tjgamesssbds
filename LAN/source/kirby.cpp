@@ -10,7 +10,7 @@ using std::vector;
 Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "kirby", AI) {
 	w1 = 0.899;
 	w2  = -0.44;
-	jumpheight = 105;
+	jumpheight = 85;
 	doublejumpheight = 62.5;
 	shieldstr = 64;
 	runspeed = 3.5;
@@ -164,6 +164,7 @@ void Kirby::bdown() {
 		}
 		else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 189) {
 			if (!checkFloorCollision()) {
+				allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled = true;
 				PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 189, 189, 20, ANIM_LOOP, -1);
 				delay = 60 / 20 * 1;
 				dy = 5;

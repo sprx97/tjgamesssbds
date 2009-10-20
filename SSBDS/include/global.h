@@ -25,6 +25,7 @@ bool custom_action(int action, int typecheck); //defined in main.cpp. maps custo
 #include <map> // maps
 std::map<int , int> getcustomcontrols();
 bool getTapJumpOn();
+bool getDoubleTapRunOn();
 bool getCStickStylus();
 bool getShieldGrabOn();
 void* getProj();//FIXME: Hack

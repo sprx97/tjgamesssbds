@@ -637,7 +637,7 @@ void Fighter::act() {
 						else shield();
 					}
 					else if (custom_action(ACTION_GRAB, PAD_HELD)) grab();
-					else if ((Pad.Held.Right || Pad.Held.Left) && iswalking) run();
+					else if ((Pad.Held.Right || Pad.Held.Left) && (iswalking || !getDoubleTapRunOn())) run();
 					else if (Pad.Held.Right || Pad.Held.Left) walk();
 					else if (Pad.Held.Down) crouch();
 					else idle();

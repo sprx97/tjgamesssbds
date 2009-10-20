@@ -71,7 +71,7 @@ Display display = Display();
 
 map<int, int> customcontrols; // custom control mapping
 bool shieldgrabon; // use a while shielding to grab
-bool tapjumpon; // use up dpad to jump
+bool tapjumpon, doubletaprunon; // use up dpad to jump
 bool cstickstylus; // smashes and aerials with stylus
 
 //wrapper methods to get global variables from other classes
@@ -83,6 +83,9 @@ map<int , int> getcustomcontrols() {
 }
 bool getTapJumpOn() {
 	return tapjumpon;
+}
+bool getDoubleTapRunOn() {
+	return doubletaprunon;
 }
 bool getCStickStylus() {
 	return cstickstylus;
