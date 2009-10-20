@@ -1750,11 +1750,11 @@ bool Fighter::checkFloorCollision() {
 					} // stays on the ledge
 				}
 			}
-			else if((MYCHAR == FOX || MYCHAR == PIKACHU) && action == BSIDE) {
+			if((MYCHAR == FOX || MYCHAR == PIKACHU) && action == BSIDE) {
 				aerial = true;
 				return true;
 			}
-			else dx /= 2;
+			dx /= 2;
 		} // checks for falling off
 	}
 	return false;
