@@ -1743,11 +1743,15 @@ bool Fighter::checkFloorCollision() {
 		else {
 			if (isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && (action == CROUCH || action == IDLE)) && !isCPU)) {
 				if (x + rightside + dx >= currfloor.x && x + leftside + dx < currfloor.x + currfloor.length) {
-					if (((y + bottomside >= currfloor.y - currfloor.totalrise() && y + bottomside <= currfloor.y + currfloor.totalrise() && currfloor.totalrise() >= 0)
-							|| (y + bottomside <= currfloor.y - currfloor.totalrise() && y + bottomside >= currfloor.y + currfloor.totalrise() && currfloor.totalrise() < 0))) {
-						y = currfloor.y - bottomside + rise;
-						return true;
-					} // stays on the ledge
+					if(currfloor.totalrise() == 0) {
+						if(y + bottomside == currfloor.y) {	
+							y = currfloor.y - bottomside + rise;
+							return true;
+						} // stays on the ledge
+					}
+					else {
+					
+					}
 				}
 			}
 			if((MYCHAR == FOX || MYCHAR == PIKACHU) && action == BSIDE) {
