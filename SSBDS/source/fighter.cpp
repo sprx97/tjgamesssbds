@@ -13,6 +13,7 @@
 using std::vector;
 
 Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI) {
+	walkspeed = 1.0;
 	DIval = 1.0;
 	grabatkdamage = 3.0;
 	traction = .25;
@@ -22,7 +23,6 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	players = *listplayers;
 	shieldstr = 64;
 	myledge = -1;
-	acceleration = 0;
 	x = 0;
 	y = 0;
 	respawntimer = 0;
@@ -30,6 +30,7 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	ledgewait = 0;
 	CAPE = false;
 	ABSORB = false;
+	iswalking = false;
 	COUNTER = false;
 	PERMAFALL = false;
 	effectwait = 0;
@@ -559,6 +560,7 @@ void Fighter::act() {
 				shorthop();
 				tiltlag = 0;
 			}
+			else if(Pad.Released.Right || Pad.Released.Left) iswalking = true;
 			else if (tiltlag == 0) {
 				bool AB = false;
 				if (customcontrols[ACTION_SMASH] == BUTTON_AB) {
@@ -635,7 +637,8 @@ void Fighter::act() {
 						else shield();
 					}
 					else if (custom_action(ACTION_GRAB, PAD_HELD)) grab();
-					else if ((Pad.Held.Right || Pad.Held.Left)) run();
+					else if ((Pad.Held.Right || Pad.Held.Left) && iswalking) run();
+					else if (Pad.Held.Right || Pad.Held.Left) walk();
 					else if (Pad.Held.Down) crouch();
 					else idle();
 				}
@@ -881,18 +884,23 @@ void Fighter::act() {
 			else if ((direction == RIGHT && Pad.Newpress.Left) || (direction == LEFT && Pad.Newpress.Right)) bthrow();
 			else if ((direction == RIGHT && Pad.Newpress.Right) || (direction == LEFT && Pad.Newpress.Left)) fthrow();
 		}
-		if (action == RUN) {
-			if ((Pad.Newpress.Up) || custom_action(ACTION_JUMP, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
+		if (action == RUN || action == WALK) {
+			if (Pad.Released.Right || Pad.Released.Left || (Pad.Newpress.Up) || custom_action(ACTION_JUMP, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 				tiltlag = 5;
 				action = TILTLAG;
 			}
 			else if (custom_action(ACTION_BASIC, PAD_NEWPRESS)) {
-				dashAttack();
+				if(action == RUN) dashAttack();
+				else if(action == WALK) {
+					tiltlag = 5;
+					action = TILTLAG;
+				}
 			}
 			else if (Stylus.Newpress && getCStickStylus()) {
 				smashAttack();
 			}
-			else if (Pad.Held.Right || Pad.Held.Left) run();
+			else if ((Pad.Held.Right || Pad.Held.Left) && action == RUN) run();
+			else if ((Pad.Held.Right || Pad.Held.Left) && action == WALK) walk();
 			else if (Pad.Released.Right || Pad.Released.Left) {
 				slide();
 			}
@@ -900,7 +908,6 @@ void Fighter::act() {
 				idle();
 			}
 		}
-		else acceleration = 0;
 		if (action == IDLE) {
 			actGround();
 			setDirection();
@@ -974,6 +981,7 @@ void Fighter::grabbed(int otherx, int othery) {
 	y = othery;
 	CAPE = false;
 	ABSORB = false;
+	iswalking = false;
 	aerial = false;
 	if(MYCHAR == IKE && bottomside == 64) {
 		bottomside = 47;
@@ -1101,25 +1109,39 @@ void Fighter::idle() {
 	if (action != IDLE) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[IDLE], endframes[IDLE], framespeeds[IDLE], ANIM_LOOP, -1);
 	dx = 0;
 	dy = 0;
+	iswalking = false;
 	action = IDLE;
 	playsound(IDLE);
+}
+void Fighter::walk(int d) {
+	if(action != WALK) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[RUN], endframes[RUN], framespeeds[RUN], ANIM_LOOP, -1);
+	if(d == 0) {
+		if(Pad.Held.Left) dx = -walkspeed;
+		if(Pad.Held.Right) dx = walkspeed;
+		setDirection();
+	}
+	else {
+		dx = walkspeed * d;
+		if(d > 0) setDirection(RIGHT);
+		if(d < 0) setDirection(LEFT);
+	}
+	iswalking = true;
+	action = WALK;
+	playsound(WALK);
 }
 void Fighter::run(int d) {
 	if (action != RUN) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[RUN], endframes[RUN], framespeeds[RUN], ANIM_LOOP, -1);
 	if (d == 0) {
-		if (Pad.Held.Left) dx = -runspeed / 4 - acceleration;
-		if (Pad.Held.Right) dx = runspeed / 4 + acceleration;
+		if (Pad.Held.Left) dx = -runspeed;
+		if (Pad.Held.Right) dx = runspeed;
 		setDirection();
 	}
 	else {
-		dx = (runspeed / 4 + acceleration) * d;
+		dx = runspeed * d;
 		if (d > 0) setDirection(RIGHT);
 		if (d < 0) setDirection(LEFT);
 	}
-	if (action == RUN) {
-		acceleration += .05 * runspeed;
-		if (acceleration > runspeed) acceleration = runspeed;
-	}
+	iswalking = false;
 	action = RUN;
 	playsound(RUN);
 }
@@ -1381,6 +1403,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	}
 	CAPE = false;
 	ABSORB = false;
+	iswalking = false;
 	lasthitby = hitter;
 }
 Fighter* Fighter::checkHits(Fighter* other) {
@@ -1421,7 +1444,7 @@ Hitbox Fighter::getAtkbox() {
 	Hitbox temp = allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)];
 	Hitbox atkbox;
 	if (action == LAND || action == SHIELD || action == ROLL || action == DODGE || action == AIRDODGE ||
-	        action == CROUCH || action == FALL || action == IDLE || action == RUN || action == SHORTHOP ||
+	        action == CROUCH || action == FALL || action == IDLE || action == RUN || action == WALK || action == SHORTHOP ||
 	        action == JUMP || action == DOUBLEJUMP || action == CHARGELEFT || action == CHARGERIGHT ||
 	        action == CHARGEUP || action == CHARGEDOWN || action == STUN || action == SLIDE || action == HANG ||
 	        action == GRABBED || action == GRABATK || action == FTHROW || action == BTHROW || action == UTHROW ||
