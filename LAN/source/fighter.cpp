@@ -1532,6 +1532,8 @@ void Fighter::move() {
 			checkCeilingCollision();
 		}
 	}
+	lastx = x;
+	lasty = y;
 	x += dx;
 	y += dy;
 	if(x > 640 || x < -128 || y < -192) percentage += (1/60.0);
@@ -1727,9 +1729,9 @@ bool Fighter::checkFloorCollision() {
 		Floor currfloor = floors[n];
 		double rise;
 		if (currfloor.slopes.size() == 0) rise = 0;
-		else rise = currfloor.getrise((int)(x+dx+DI));
+		else rise = currfloor.getrise((int)x);
 		if (aerial) {
-			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && dy + ymomentum + gravity > 0 && y + bottomside - rise <= currfloor.y && y + bottomside - rise + gravity + fastfall + dy + ymomentum > currfloor.y && x + rightside + dx + DI > currfloor.x && x + leftside + dx + DI < currfloor.x + currfloor.length) {
+			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && y + bottomside - rise <= currfloor.y && y + bottomside - rise + gravity + fastfall + dy + ymomentum > currfloor.y && x + rightside + dx + DI > currfloor.x && x + leftside + dx + DI < currfloor.x + currfloor.length) {
 				if(!((MYCHAR == FOX || MYCHAR == MEWTWO || MYCHAR == PIKACHU) && action == BUP && currfloor.isPlatform())) {
 					aerial = false;
 					y = currfloor.y - bottomside + rise;
@@ -1750,7 +1752,10 @@ bool Fighter::checkFloorCollision() {
 						} // stays on the ledge
 					}
 					else {
-					
+						if(y + bottomside == currfloor.y+currfloor.getrise((int)lastx)) {
+							y = currfloor.y - bottomside + rise;
+							return true;
+						}
 					}
 				}
 			}

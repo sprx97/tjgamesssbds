@@ -61,6 +61,7 @@ class Fighter {
 		double gravity;
 		int jumpmax;
 		double x, y, startx, starty;
+		double lastx, lasty;
 		double dx, dy;
 		int direction;
 		int action;

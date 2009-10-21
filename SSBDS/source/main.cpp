@@ -370,7 +370,7 @@ void initControls() {
 		cstickstylus = false;
 		shieldgrabon = true;
 		tapjumpon = true;
-		doubletaprunon = true;
+		doubletaprunon = false;
 	}
 } // inits default or saved control setup
 void saveControls() {

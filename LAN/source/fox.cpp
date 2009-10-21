@@ -103,8 +103,8 @@ void Fox::bup() {
 	if (action != BUP) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 124, 126, 15, ANIM_LOOP, -1);
 		delay = 60 / 15 * 3 * 5;
-		if (aerial) dy = -gravity;
-		else dy = 0;
+		dy = -gravity;
+		aerial = true;
 		ymomentum = dx = DI = fastfall = 0;
 		upcount = downcount = leftcount = rightcount = 0;
 		action = BUP;
