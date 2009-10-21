@@ -1746,13 +1746,23 @@ bool Fighter::checkFloorCollision() {
 		if (aerial) {
 			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && x + rightside + dx + DI > currfloor.x && x + leftside + dx + DI < currfloor.x + currfloor.length) {
 				if(!((MYCHAR == FOX || MYCHAR == MEWTWO || MYCHAR == PIKACHU) && action == BUP && currfloor.isPlatform())) {
-					if(y + bottomside - rise <= currfloor.y && y + bottomside - rise + gravity + fastfall + dy + ymomentum > currfloor.y) {
-						aerial = false;
-						y = currfloor.y - bottomside;
-						dy = DI = fastfall = ymomentum = 0;
-						airdodgecount = 0;
-						jumpcount = 0;
-						return true;
+					if(y + bottomside <= currfloor.y && y + bottomside + gravity + fastfall + dy + ymomentum > currfloor.y) {
+						if(currfloor.totalrise() == 0) {
+							aerial = false;
+							y = currfloor.y - bottomside;
+							dy = DI = fastfall = ymomentum = 0;
+							airdodgecount = 0;
+							jumpcount = 0;
+							return true;
+						}
+						else {
+							aerial = false;
+							y = currfloor.y-bottomside+rise;
+							dy = DI = fastfall = ymomentum = 0;
+							airdodgecount = 0;
+							jumpcount = 0;
+							return true;
+						}
 					}
 				} // ignores platforms during BUPs
 			} // if you land on the floor
@@ -1762,7 +1772,7 @@ bool Fighter::checkFloorCollision() {
 				if (x + rightside + dx > currfloor.x && x + leftside + dx < currfloor.x + currfloor.length) {
 					if(currfloor.totalrise() == 0) {
 						if(y + bottomside == currfloor.y) {	
-							y = currfloor.y - bottomside + rise;
+							y = currfloor.y - bottomside;
 							return true;
 						} // stays on the ledge
 					}
