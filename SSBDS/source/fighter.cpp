@@ -726,24 +726,36 @@ void Fighter::act() {
 			}
 			else if (Pad.Newpress.Down || hangtime >= 300) {
 				hangtime = 0;
-				ledgewait = 60;
+				ledgewait = 30;
 				myledge = -1;
-				jumpcount = 0;
+				jumpcount = 1;
 				fall();
 			}
-			else if (Pad.Newpress.Right || Pad.Newpress.Left) {
-				y = y + hangy - bottomside;
+			else if(Pad.Newpress.Right && direction == RIGHT) {
+				y = y+hangy-bottomside;
 				myledge = -1;
-				if (direction == LEFT) {
-					x = x + hangx - rightside;
-					idle();
-					setDirection(LEFT);
-				}
-				else {
-					x = x + hangx - leftside;
-					idle();
-					setDirection(RIGHT);
-				}
+				x = x + hangx - leftside;
+				idle();
+			}
+			else if(Pad.Newpress.Right && direction == LEFT) {
+				hangtime = 0;
+				ledgewait = 60;
+				myledge = -1;
+				jumpcount = 1;
+				fall();
+			}
+			else if(Pad.Newpress.Left && direction == LEFT) {
+				y = y+hangy-bottomside;
+				myledge = -1;
+				x = x + hangx - rightside;
+				idle();
+			}
+			else if(Pad.Newpress.Left && direction == RIGHT) {
+				hangtime = 0;
+				ledgewait = 60;
+				myledge = -1;
+				jumpcount = 1;
+				fall();
 			}
 		}
 		if (action == DODGE && delay <= 0) shield();
@@ -1553,6 +1565,7 @@ void Fighter::move() {
 } // moves the sprite
 void Fighter::jaywalk() {}
 void Fighter::setDirection(int rl) {
+	if(action == HANG) return;
 	if (action == STUN) {
 		if (kx > 0) {
 			PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 0);
@@ -1695,26 +1708,26 @@ bool Fighter::checkLedgeCollision() {
 		if (action != STUN && action != HANG) {
 			if (currledge.direction == "right") {
 				if (ledgenotinuse(n) && ledgewait <= 0 && x + leftside > currledge.x - 20 && x + leftside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
-					hang();
 					aerial = false;
 					dx = DI = dy = fastfall = ymomentum = 0;
 					airdodgecount = jumpcount = 0;
 					x = currledge.x - hangx;
 					y = currledge.y - hangy;
 					setDirection(LEFT);
+					hang();
 					myledge = n;
 					return true;
 				}
 			}
 			else {
 				if (ledgenotinuse(n) && ledgewait <= 0 && x + rightside > currledge.x - 20 && x + rightside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
-					hang();
 					aerial = false;
 					dx = DI = dy = fastfall = ymomentum = 0;
 					airdodgecount = jumpcount = 0;
 					x = currledge.x + hangx - 64;
 					y = currledge.y - hangy;
 					setDirection(RIGHT);
+					hang();
 					myledge = n;
 					return true;
 				}
@@ -1729,22 +1742,24 @@ bool Fighter::checkFloorCollision() {
 		Floor currfloor = floors[n];
 		double rise;
 		if (currfloor.slopes.size() == 0) rise = 0;
-		else rise = currfloor.getrise((int)x);
+		else rise = currfloor.getrise((int)(x));
 		if (aerial) {
-			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && y + bottomside - rise <= currfloor.y && y + bottomside - rise + gravity + fastfall + dy + ymomentum > currfloor.y && x + rightside + dx + DI > currfloor.x && x + leftside + dx + DI < currfloor.x + currfloor.length) {
+			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && x + rightside + dx + DI > currfloor.x && x + leftside + dx + DI < currfloor.x + currfloor.length) {
 				if(!((MYCHAR == FOX || MYCHAR == MEWTWO || MYCHAR == PIKACHU) && action == BUP && currfloor.isPlatform())) {
-					aerial = false;
-					y = currfloor.y - bottomside + rise;
-					dy = DI = fastfall = ymomentum = 0;
-					airdodgecount = 0;
-					jumpcount = 0;
-					return true;
+					if(y + bottomside - rise <= currfloor.y && y + bottomside - rise + gravity + fastfall + dy + ymomentum > currfloor.y) {
+						aerial = false;
+						y = currfloor.y - bottomside;
+						dy = DI = fastfall = ymomentum = 0;
+						airdodgecount = 0;
+						jumpcount = 0;
+						return true;
+					}
 				} // ignores platforms during BUPs
 			} // if you land on the floor
 		} // checks for landing
 		else {
 			if (isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && (action == CROUCH || action == IDLE)) && !isCPU)) {
-				if (x + rightside + dx >= currfloor.x && x + leftside + dx < currfloor.x + currfloor.length) {
+				if (x + rightside + dx > currfloor.x && x + leftside + dx < currfloor.x + currfloor.length) {
 					if(currfloor.totalrise() == 0) {
 						if(y + bottomside == currfloor.y) {	
 							y = currfloor.y - bottomside + rise;

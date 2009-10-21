@@ -29,6 +29,7 @@ double Floor::totalrise() {
 double Floor::getrise(int distance) {
 	double total = 0;
 	for (int n = x; n < distance; n++) {
+		if(n > x+length) break;
 		total += slopes[n-x];
 	}
 	return total;
