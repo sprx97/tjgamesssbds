@@ -1030,6 +1030,7 @@ void Fighter::land() {
 }
 void Fighter::shield() {
 	action = SHIELD;
+	dx = 0;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHIELD], endframes[SHIELD], framespeeds[SHIELD], ANIM_LOOP, -1);
 	playsound(SHIELD);
 }
@@ -1102,6 +1103,7 @@ void Fighter::airdodge() {
 }
 void Fighter::crouch() {
 	action = CROUCH;
+	dx = 0;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CROUCH], endframes[CROUCH], framespeeds[CROUCH], ANIM_LOOP, -1);
 	playsound(CROUCH);
 }
