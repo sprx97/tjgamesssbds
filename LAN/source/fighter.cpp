@@ -1410,6 +1410,13 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	kx = (k.dx * mult * (1 + percentage/200.0))/w1;
 	ky = ((k.dy - gravity) * (1 + percentage/200.0))/w1;
 
+	if(players[hitter] -> MYCHAR == FOX && PA_GetSpriteAnimFrame(MAIN_SCREEN, players[hitter] -> SPRITENUM) == 114) {
+		hitstun = (int)(k.length*2);
+		kx = k.dx * mult;
+		if(aerial) ky = k.dy - gravity;
+		else ky = 0;
+	} // shined
+
 	dx = dy = DI = fastfall = 0;
 	if(MYCHAR == IKE && bottomside == 64) {
 		bottomside = 47;
