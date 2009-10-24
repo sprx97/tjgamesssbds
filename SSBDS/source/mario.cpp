@@ -18,6 +18,8 @@ Mario::Mario(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	handy = 29;
 	hangx = 64 - 36;
 	hangy = 20;
+	shieldx = 34;
+	shieldy = 35;
 	fluddcharge = 0;
 	MYCHAR = MARIO;
 	series = "mariobros";

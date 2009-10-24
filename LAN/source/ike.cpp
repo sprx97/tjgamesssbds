@@ -18,6 +18,8 @@ Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fight
 	handy = 28;
 	hangx = 64 - 37;
 	hangy = 10;
+	shieldx = 19;
+	shieldy = 33;
 	eruptioncharge = 0;
 	quickdrawcharge = 0;
 	CAPE = false;

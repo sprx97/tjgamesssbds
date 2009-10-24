@@ -18,6 +18,8 @@ Pikachu::Pikachu(int num, vector<Fighter*> *listplayers, Display *disp, bool AI)
 	handy = 33;
 	hangx = 64 - 36;
 	hangy = 27;
+	shieldx = 21;
+	shieldy = 41;
 	skullbashcharge = 0;
 	upcount = downcount = leftcount = rightcount = firstdir = 0;
 	MYCHAR = PIKACHU;

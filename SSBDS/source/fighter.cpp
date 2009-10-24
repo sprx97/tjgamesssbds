@@ -1837,7 +1837,7 @@ void Fighter::scroll(double scrollx, double scrolly) {
 	}
 	else {
 		PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x - (int)(scrollx), (int)y - (int)(scrolly));
-		if (action == SHIELD) PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM - 4, (int)x - (int)(scrollx), (int)y - (int)(scrolly));
+		if (action == SHIELD) PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM - 4, (int)x - (int)(scrollx) + shieldx-32, (int)y - (int)(scrolly) + shieldy-32);
 		else PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM - 4, -64, -64);
 	}
 }

@@ -36,6 +36,7 @@ class Fighter {
 		double w1;
 		double w2;
 		double shieldstr;
+		int shieldx, shieldy;
 		int myledge;
 		double runspeed;
 		double acceleration;
