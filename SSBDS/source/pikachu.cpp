@@ -298,8 +298,8 @@ void Pikachu::bup() {
 }
 void Pikachu::bdown() {
 	if(action != BDOWN) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 149, 157, 5, ANIM_LOOP, -1);
-		delay = 60/5 * 9;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 149, 157, 6, ANIM_LOOP, -1);
+		delay = 60/6 * 9;
 		if(aerial) dy = -gravity/2;
 		else dy = 0;
 		if(Pad.Held.Right) dx = 1;
@@ -321,7 +321,7 @@ void Pikachu::bdown() {
 		Hitbox tempbox1;
 		tempbox1.addCircle(createAtkbox(20, 32, 12, Knockback(-.5, -1.5, 7), 12));
 		tempbox1.addCircle(createAtkbox(44, 32, 12, Knockback(.5, -1.5, 7), 12));
-		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-96, 0, 0, delay-25, THUNDER1, charnum, tempbox1, stage, display));	
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-96, 0, 0, delay-36, THUNDER1, charnum, tempbox1, stage, display));	
 	}
 	if(delay == 52) {
 		Hitbox tempbox2;
@@ -329,7 +329,7 @@ void Pikachu::bdown() {
 			tempbox2.addCircle(createAtkbox(28, n, 4, Knockback(-1, -.5, 6), 10));
 			tempbox2.addCircle(createAtkbox(36, n, 4, Knockback(1, -.5, 6), 10));
 		}
-		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-64, 0, 0, delay-25, THUNDER2, charnum, tempbox2, stage, display));		
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-64, 0, 0, delay-34, THUNDER2, charnum, tempbox2, stage, display));		
 	}
 	if(delay == 50) {
 		Hitbox tempbox3;
@@ -337,13 +337,13 @@ void Pikachu::bdown() {
 			tempbox3.addCircle(createAtkbox(28, n, 4, Knockback(-1, -.5, 6), 10));
 			tempbox3.addCircle(createAtkbox(36, n, 4, Knockback(1, -.5, 6), 10));
 		}
-		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay-25, THUNDER3, charnum, tempbox3, stage, display));	
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay-32, THUNDER3, charnum, tempbox3, stage, display));	
 	}
-	if(delay == 25) {
+	if(delay == 48) {
 		Hitbox tempbox4;
 		tempbox4.addCircle(createAtkbox(22, 48, 15, Knockback(-2, -1.25, 8), 15));
 		tempbox4.addCircle(createAtkbox(42, 48, 15, Knockback(2, -1.25, 8), 15));
-		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay, THUNDER4, charnum, tempbox4, stage, display));	
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay-30, THUNDER4, charnum, tempbox4, stage, display));	
 	}
 	if(checkFloorCollision()) dx = 0;
 }
