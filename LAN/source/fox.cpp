@@ -130,7 +130,7 @@ void Fox::bup() {
 	}
 	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 127 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 128 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 129) {
 		dx = (rightcount - leftcount) * 10 / 15;
-		dy = (downcount - upcount) * 10 / 15;
+		dy = (downcount - upcount) * 10 / 15 - gravity;
 	}
 	else if (delay < 40 && (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM == 125) || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 126)) {
 		if (!isCPU) {
