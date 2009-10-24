@@ -298,19 +298,14 @@ void Pikachu::bup() {
 }
 void Pikachu::bdown() {
 	if(action != BDOWN) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 149, 157, 10, ANIM_LOOP, -1);
-		delay = 60/10 * 9;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 149, 157, 5, ANIM_LOOP, -1);
+		delay = 60/5 * 9;
 		if(aerial) dy = -gravity/2;
 		else dy = 0;
 		if(Pad.Held.Right) dx = 1;
 		else if(Pad.Held.Left) dx = -1;
 		else dx = 0;
-		
-		Hitbox tempbox1;
-		tempbox1.addCircle(createAtkbox(20, 32, 12, Knockback(-.5, -1.5, 7), 12));
-		tempbox1.addCircle(createAtkbox(44, 32, 12, Knockback(.5, -1.5, 7), 12));
-		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-96, 0, 0, delay, THUNDER1, charnum, tempbox1, stage, display));	
-		
+
 		PA_FatPlaySfx("pikachubdown");
 		action = BDOWN;
 	}
@@ -322,13 +317,19 @@ void Pikachu::bdown() {
 		if(aerial) fall();
 		else idle();
 	}
+	if(delay == 54) {
+		Hitbox tempbox1;
+		tempbox1.addCircle(createAtkbox(20, 32, 12, Knockback(-.5, -1.5, 7), 12));
+		tempbox1.addCircle(createAtkbox(44, 32, 12, Knockback(.5, -1.5, 7), 12));
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-96, 0, 0, delay-25, THUNDER1, charnum, tempbox1, stage, display));	
+	}
 	if(delay == 52) {
 		Hitbox tempbox2;
 		for(int n = 4; n < 64; n+=8) {
 			tempbox2.addCircle(createAtkbox(28, n, 4, Knockback(-1, -.5, 6), 10));
 			tempbox2.addCircle(createAtkbox(36, n, 4, Knockback(1, -.5, 6), 10));
 		}
-		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-64, 0, 0, delay, THUNDER2, charnum, tempbox2, stage, display));		
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-64, 0, 0, delay-25, THUNDER2, charnum, tempbox2, stage, display));		
 	}
 	if(delay == 50) {
 		Hitbox tempbox3;
@@ -336,7 +337,7 @@ void Pikachu::bdown() {
 			tempbox3.addCircle(createAtkbox(28, n, 4, Knockback(-1, -.5, 6), 10));
 			tempbox3.addCircle(createAtkbox(36, n, 4, Knockback(1, -.5, 6), 10));
 		}
-		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay, THUNDER3, charnum, tempbox3, stage, display));	
+		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay-25, THUNDER3, charnum, tempbox3, stage, display));	
 	}
 	if(delay == 25) {
 		Hitbox tempbox4;
