@@ -255,7 +255,7 @@ void Fox::bthrow() {
 		else grabbedenemy -> dx = 3;
 		grabbedenemy -> dy = -1;
 	}
-	if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 142) {
+	if (delay == 2 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 142) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 145, 15, ANIM_LOOP, -1);
 		delay = 60 / 15 * 3;
 		int mult = 1;
@@ -265,13 +265,12 @@ void Fox::bthrow() {
 		grabbedenemy -> kx = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dx * mult;
 		grabbedenemy -> ky = (1 + (grabbedenemy -> percentage / 100)) * grabbedenemy -> k.dy;
 		grabbedenemy -> dx = grabbedenemy -> dy = grabbedenemy -> DI = grabbedenemy -> fastfall = 0;
-		grabbedenemy -> percentage += 6;
+		grabbedenemy -> percentage += 8;
 		grabbedenemy -> stun();
 		grabbedenemy -> lasthitby = charnum;
 		grabbedenemy = NULL;
 	}
 	else if (delay <= 0) {
-		grabbedenemy -> percentage += 2;
 		if (direction == RIGHT) setDirection(LEFT);
 		else setDirection(RIGHT);
 		idle();
