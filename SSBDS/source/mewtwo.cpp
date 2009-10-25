@@ -235,6 +235,10 @@ void Mewtwo::bneut() {
 			delay = 60 / 20 * 1 * 5;
 		}
 	}
+	if (!isCPU) {
+		if (Pad.Held.Right) roll(1);
+		if (Pad.Held.Left) roll(-1);
+	}
 }
 void Mewtwo::fthrow() {
 	if (action != FTHROW) {
