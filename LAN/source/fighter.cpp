@@ -478,6 +478,7 @@ void Fighter::act() {
 	std::map<int, int> customcontrols = getcustomcontrols();
 	if (effectwait > 0) effectwait--;
 	if (ledgewait > 0) ledgewait--;
+	if (invincibility > 0) invincibility--;
 	if (delay <= 0) {
 		for (int n = 0; n < (int)allatkbox.size(); n++) {
 			allatkbox[n].enabled = true;
@@ -1428,7 +1429,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 Fighter* Fighter::checkHits(Fighter* other) {
 	if (!allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled) return other;
 	if (other -> respawntimer > 0) return other;
-	if(invincibility > 0) return other;
+	if (other -> invincibility > 0) return other;
 	if (getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if (action == HOLD || action == GRABATK) {}
 		else if (action == GRAB) {
