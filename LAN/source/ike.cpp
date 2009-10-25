@@ -182,8 +182,7 @@ void Ike::bdown() {
 	else if (aerial && checkFloorCollision()) dy = 0;
 	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 142) {
 		COUNTER = false;
-		if (checkFloorCollision()) idle();
-		else fall();
+		fall();
 	}
 }
 void Ike::bneut() {
@@ -204,8 +203,7 @@ void Ike::bneut() {
 	}
 	else if (checkFloorCollision() && aerial) dy = 0;
 	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 109) {
-		if (checkFloorCollision()) idle();
-		else fall();
+		fall();
 	}
 	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 99, 99, 15, ANIM_LOOP, -1);

@@ -140,8 +140,7 @@ void Mewtwo::bdown() {
 	}
 	else if (!custom_action(ACTION_SPECIAL, PAD_HELD)) {
 		ABSORB = false;
-		if (checkFloorCollision()) idle();
-		else fall();
+		fall();
 	}
 	else if (aerial && checkFloorCollision()) dy = 0;
 }
@@ -186,8 +185,7 @@ void Mewtwo::bneut() {
 	}
 	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 152) {
 		if (delay == 1) {
-			if (checkFloorCollision()) idle();
-			else fall();
+			fall();
 		}
 	}
 	else if (custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {

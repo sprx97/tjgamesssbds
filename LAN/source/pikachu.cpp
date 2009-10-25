@@ -94,8 +94,7 @@ void Pikachu::bside() {
 			delay = 60 / 10 * 1 * 10;
 		}
 		else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) >= 139 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) <= 142) {
-			if(checkFloorCollision()) idle();
-			else fall();
+			fall();
 		}
 		else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) >= 139 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) <= 142) {
 			if(aerial) dy = -gravity;
@@ -371,8 +370,7 @@ void Pikachu::bneut() {
 		((vector<Projectile>*)getProj())->push_back(p);
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 134 && delay == 1) {
-		if(checkFloorCollision()) idle();
-		else fall();
+		fall();
 	}
 	if(checkFloorCollision()) dx = 0;
 }

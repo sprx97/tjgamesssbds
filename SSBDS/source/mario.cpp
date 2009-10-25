@@ -77,8 +77,7 @@ void Mario::bside() {
 	}
 	else {
 		if (delay == 1) {
-			if (checkFloorCollision()) idle();
-			else fall();
+			fall();
 			CAPE = false;
 		}
 	}
@@ -131,8 +130,7 @@ void Mario::bdown() {
 	}
 	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 150) {
 		if (delay == 1) {
-			if (checkFloorCollision()) idle();
-			else fall();
+			fall();
 		}
 	}
 	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 149) {
@@ -170,8 +168,7 @@ void Mario::bneut() {
 		delay = 60 / 12 * 2;
 	}
 	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 136 && delay == 1) {
-		if (checkFloorCollision()) idle();
-		else fall();
+		fall();
 	}
 	else if (aerial && checkFloorCollision()) dy = 0;
 }

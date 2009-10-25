@@ -186,8 +186,7 @@ void Fox::bdown() {
 	}
 	if (custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
 		CAPE = false;
-		if (checkFloorCollision()) idle();
-		else fall();
+		fall();
 	}
 }
 void Fox::bneut() {
@@ -210,8 +209,7 @@ void Fox::bneut() {
 		((vector<Projectile>*)getProj())->push_back(p);
 	}
 	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 113 && delay == 1) {
-		if (checkFloorCollision()) idle();
-		else fall();
+		fall();
 		if(laseragain) bneut();
 	}
 	else if (aerial && checkFloorCollision()) dy = 0;

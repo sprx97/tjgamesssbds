@@ -79,8 +79,7 @@ void Kirby::bside() {
 	}
 	else {
 		if (delay == 1) {
-			if (checkFloorCollision()) idle();
-			else fall();
+			fall();
 		}
 	}
 }
@@ -196,8 +195,7 @@ void Kirby::bneut() {
 			delay = 60 / 20 * 2;
 		}
 		else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 176) {
-			if (checkFloorCollision()) idle();
-			else fall();
+			fall();
 		}
 	}
 }
