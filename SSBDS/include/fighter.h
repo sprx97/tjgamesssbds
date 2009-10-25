@@ -40,6 +40,7 @@ class Fighter {
 		int myledge;
 		double runspeed;
 		double acceleration;
+		int invincibility;
 		int ledgewait;
 		int hangtime;
 		int handx, handy, hangx, hangy;

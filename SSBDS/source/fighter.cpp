@@ -13,6 +13,7 @@
 using std::vector;
 
 Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI) {
+	invincibility = 0;
 	walkspeed = 1.0;
 	DIval = 1.0;
 	grabatkdamage = 3.0;
@@ -1345,6 +1346,7 @@ void Fighter::slide() {
 	playsound(SLIDE);
 }
 void Fighter::hang() {
+	invincibility = 60;
 	PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 0);
 	lasthitby = -1;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[HANG], endframes[HANG], framespeeds[HANG], ANIM_LOOP, -1);
@@ -1426,6 +1428,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 Fighter* Fighter::checkHits(Fighter* other) {
 	if (!allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled) return other;
 	if (other -> respawntimer > 0) return other;
+	if(invincibility > 0) return other;
 	if (getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if (action == HOLD || action == GRABATK) {}
 		else if (action == GRAB) {
@@ -1666,26 +1669,31 @@ void Fighter::respawn() {
 		if (MYCHAR == SANDBAG || respawntimer == 0 || ((Pad.Newpress.Left || Pad.Newpress.Right || Pad.Newpress.Down) && !isCPU) || (isCPU && PA_RandMax(100) > 97)) {
 			respawntimer = 0;
 			PA_SetSpriteXY(MAIN_SCREEN, 55 + (SPRITENUM - 100), -64, -64);
+			invincibility = 180;
 			fall();
 		}
 		else if (!isCPU && (custom_action(ACTION_JUMP, PAD_NEWPRESS) || (Pad.Newpress.Up && getTapJumpOn()))) {
 			respawntimer = 0;
 			PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), -64, -64);
+			invincibility = 180;
 			jump();
 		}
 		else if(!isCPU && custom_action(ACTION_SHIELD, PAD_NEWPRESS)) {
 			respawntimer = 0;
 			PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), -64, -64);
+			invincibility = 180;
 			airdodge();
 		}
 		else if(!isCPU && custom_action(ACTION_BASIC, PAD_NEWPRESS)) {
 			respawntimer = 0;
 			PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), -64, -64);
+			invincibility = 180;
 			nair();
 		}
 		else if(!isCPU && custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 			respawntimer = 0;
 			PA_SetSpriteXY(MAIN_SCREEN, 55+(SPRITENUM-100), -64, -64);
+			invincibility = 180;
 			bneut();
 		}
 	}
@@ -1836,7 +1844,10 @@ void Fighter::scroll(double scrollx, double scrolly) {
 	}
 	else {
 		PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x - (int)(scrollx), (int)y - (int)(scrolly));
-		if (action == SHIELD) PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM - 4, (int)x - (int)(scrollx) + shieldx-32, (int)y - (int)(scrolly) + shieldy-32);
+		if (action == SHIELD) {
+			if(direction == RIGHT) PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM - 4, (int)x - (int)(scrollx) + shieldx-32, (int)y - (int)(scrolly) + shieldy-32);
+			else PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM - 4, (int)x - (int)scrollx + 64-shieldx-32, (int)y - (int)scrolly + shieldy-32);
+		}
 		else PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM - 4, -64, -64);
 	}
 }
