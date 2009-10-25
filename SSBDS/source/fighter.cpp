@@ -1793,9 +1793,9 @@ bool Fighter::checkFloorCollision() {
 				aerial = true;
 				return true;
 			}
-			dx /= 2;
 		} // checks for falling off
 	}
+	if(!aerial) dx /= 2;
 	return false;
 }
 bool Fighter::checkWallCollision() {
