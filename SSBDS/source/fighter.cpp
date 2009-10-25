@@ -15,6 +15,7 @@ using std::vector;
 Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI) {
 	invincibility = 0;
 	walkspeed = 1.0;
+	rollspeed = 2.0;
 	DIval = 1.0;
 	grabatkdamage = 3.0;
 	traction = .25;
@@ -1043,8 +1044,8 @@ void Fighter::roll(int dir) {
 	}
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[ROLL], endframes[ROLL], framespeeds[ROLL], ANIM_LOOP, -1);
 	delay = 60 / framespeeds[ROLL] * (endframes[ROLL] - startframes[ROLL] + 1);
-	if (dir == LEFT) dx = -2;
-	if (dir == RIGHT) dx = 2;
+	if (dir == LEFT) dx = -rollspeed;
+	if (dir == RIGHT) dx = rollspeed;
 	playsound(ROLL);
 }
 void Fighter::rollUp() {

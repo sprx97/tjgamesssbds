@@ -14,6 +14,7 @@ Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) :
 	doublejumpheight = 112;
 	shieldstr = 64;
 	runspeed = 4.5;
+	rollspeed = 4.0;
 	handx = 64 - 46;
 	handy = 33;
 	hangx = 64 - 37;
