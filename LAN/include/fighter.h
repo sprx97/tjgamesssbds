@@ -30,6 +30,7 @@ class Fighter {
 		// variables
 		double traction, airresistance, grabatkdamage, DIval;
 		double walkspeed;
+		double rollspeed;
 		bool iswalking;
 		double jumpheight; ///< stores how high a fighter can jump off of the ground. Overwritten by subclasses
 		double doublejumpheight; ///< stores how high a fighter can jump from midair. Overwritten by subclasses

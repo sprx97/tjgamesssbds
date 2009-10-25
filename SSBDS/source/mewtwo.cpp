@@ -110,18 +110,18 @@ void Mewtwo::bup() {
 		permafall();
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 126) dx = dy = 0;
-	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 122 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 123 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125) {
+	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 123 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 124 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 125) {
 		if (!isCPU) {
-			if (Pad.Held.Up) upcount += 1;
-			if (Pad.Held.Down) downcount += 1;
-			if (Pad.Held.Right) rightcount += 1;
-			if (Pad.Held.Left) leftcount += 1;
+			if (Pad.Held.Up) upcount += 2;
+			if (Pad.Held.Down) downcount += 2;
+			if (Pad.Held.Right) rightcount += 2;
+			if (Pad.Held.Left) leftcount += 2;
 		}
 		else {
 			Floor mainfloor = stage -> getFloors()[0];
-			if (y > mainfloor.y) upcount += 1;
-			if (x > mainfloor.x + mainfloor.length) leftcount += 1;
-			if (x < mainfloor.x) rightcount += 1;
+			if (y > mainfloor.y) upcount += 2;
+			if (x > mainfloor.x + mainfloor.length) leftcount += 2;
+			if (x < mainfloor.x) rightcount += 2;
 		}
 	}
 	if (upcount > 10) upcount = 10;
