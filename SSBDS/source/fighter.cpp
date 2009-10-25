@@ -265,6 +265,7 @@ void Fighter::cpu_obeyRules() {
 			//shield shrinks/breaks
 			shieldstr -= (65 - shieldstr) / 50;
 			if (shieldstr <= 0) {
+				shieldstr = 64;
 				PA_FatPlaySfx("shieldbreak");
 				hitstun = 300;
 				stun();
