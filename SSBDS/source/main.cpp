@@ -1600,7 +1600,7 @@ void titleScreen() {
 	fadeIn();
 
 	while (true) {
-		if (Stylus.Newpress) { // if the stylus is pressed
+		if (Stylus.Newpress || Pad.Newpress.A || Pad.Newpress.Start) { // if the stylus is pressed
 			PA_FatPlaySfx("confirm"); // menu confirm sound byte
 			fadeOut();
 			PA_ResetSpriteSys(); // resets sprites
