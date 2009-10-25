@@ -171,6 +171,7 @@ Fighter* Projectile::checkHits(Fighter* other) {
 		return other;
 	}
 	if (other -> respawntimer > 0) return other;
+	if (other -> invincibility > 0) return other;
 	if (atkbox.hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if (other -> CAPE || other -> COUNTER) {
 			dx *= -1;

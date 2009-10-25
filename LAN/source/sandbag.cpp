@@ -43,6 +43,7 @@ void Sandbag::act() {
 	if (respawntimer > 0) {
 		return respawn();
 	}
+	if(invincibility > 0) invincibility--;
 	if (effectwait > 0) effectwait--;
 	if (ledgewait > 0) ledgewait--;
 	if (hitstun > k.length*2) {
