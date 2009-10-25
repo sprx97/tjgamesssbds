@@ -232,13 +232,13 @@ void Fighter::cpu_obeyRules() {
 		}
 		if (action == ATTACK && delay <= 0) idle();
 		if (action == SLIDE && delay <= 0) idle();
-		if (action == SLIDE || action == CHARGEUP) {
+		if (action == SLIDE) {
 			if (dx > 0) {
-				dx -= .25;
+				dx -= traction;
 				if (dx <= 0) dx = 0;
 			}
 			else if (dx < 0) {
-				dx += .25;
+				dx += traction;
 				if (dx >= 0) dx = 0;
 			}
 		}
@@ -1162,7 +1162,6 @@ void Fighter::shorthop() {
 	double jumpspeed = jumpheight/delay;
 	dy = -jumpspeed / 2;
 	fastfall = 0;
-	dx /= 2;
 	action = JUMP;
 	aerial = true;
 	jumpcount++;
@@ -1174,7 +1173,6 @@ void Fighter::jump() {
 	double jumpspeed = jumpheight/delay;
 	dy = -jumpspeed;
 	fastfall = 0;
-	dx /= 2;
 	action = JUMP;
 	aerial = true;
 	jumpcount++;
@@ -1796,7 +1794,6 @@ bool Fighter::checkFloorCollision() {
 			}
 		} // checks for falling off
 	}
-	if(!aerial) dx /= 2;
 	return false;
 }
 bool Fighter::checkWallCollision() {

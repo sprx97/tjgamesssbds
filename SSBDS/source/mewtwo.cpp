@@ -79,6 +79,9 @@ void Mewtwo::bside() {
 		dx = 0;
 		action = BSIDE;
 	}
+	else if(delay == 1) {
+		fall();
+	}
 }
 void Mewtwo::bup() {
 	if (action != BUP) {
