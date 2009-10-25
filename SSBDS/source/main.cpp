@@ -1620,6 +1620,8 @@ void titleScreen() {
 
 	AS_MP3StreamPlay("SSBDS_Files/music/title.mp3"); // title screen music
 
+	AS_SetMP3Loop(true);
+
 	fadeIn();
 
 	while (true) {
