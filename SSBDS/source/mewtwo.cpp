@@ -234,7 +234,7 @@ void Mewtwo::bneut() {
 			delay = 60 / 20 * 1 * 5;
 		}
 	}
-	if (!isCPU) {
+	if (!isCPU && !aerial) {
 		if (Pad.Held.Right) roll(1);
 		if (Pad.Held.Left) roll(-1);
 	}
