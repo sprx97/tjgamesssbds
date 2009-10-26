@@ -861,7 +861,7 @@ void displayResults(bool nocontest) {
 	} // plays a sound clip saying ther winner
 
 	while (true) {
-		if (Stylus.Newpress) {
+		if (Stylus.Newpress || Pad.Newpress.A || Pad.Newpress.Start) {
 			PA_FatPlaySfx("confirm");
 			fadeOut();
 			AS_SetMP3Loop(true);
