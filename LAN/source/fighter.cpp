@@ -155,6 +155,7 @@ int Fighter::cpu_getTarget() {
 	return Cenemy;
 }
 void Fighter::cpu_obeyRules() {
+	if (delay > 0) delay--;
 	if (action == BSIDE) bside();
 	if (action == BUP) bup();
 	if (action == BDOWN) bdown();
@@ -215,7 +216,6 @@ void Fighter::cpu_obeyRules() {
 			landinglag--;
 			if (landinglag == 0) idle();
 		}
-		if (delay > 0) delay--;
 		if (action == DODGE && delay <= 0) shield();
 		if (action == AIRDODGE && delay <= 0) permafall();
 		if (action == ROLL && delay <= 0) {
@@ -363,9 +363,9 @@ void Fighter::actCPU() {
 				if (Cy > 0) {
 					if (jumpcount < jumpmax) doubleJump();
 					else {
-						if (Cx > 0) setDirection(RIGHT);
-						else if (Cx < 0) setDirection(LEFT);
-//						bup();
+						bup();
+						if (Cx < 0) setDirection(RIGHT);
+						else if (Cx > 0) setDirection(LEFT);
 					}
 				} //The ledge is above me
 			}
