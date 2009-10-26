@@ -461,6 +461,7 @@ int checkselected(int page, int selectedcursor, int currentlyselected) {
 	int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor) + 16;
 	int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor) + 16;
 	for (int n = 1; n <= 6; n++) {
+		if(PA_GetSpriteAnimFrame(SUB_SCREEN, n + 4) == 0) continue;
 		if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
 			if(6*page+n == currentlyselected) return 6*page+n;
 			if(6*page+n != RANDOM) PA_FatPlaySfx(names[6*page+n-1]);
@@ -476,7 +477,6 @@ int checkselected(int page, int selectedcursor, int currentlyselected) {
 	}
 	PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
 	return -1;
-
 }
 bool characterSelect(bool train = false) {
 	int MAX_PLAYERS = 2; // 2-4
