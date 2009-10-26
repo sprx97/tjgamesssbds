@@ -338,8 +338,12 @@ void Mewtwo::dthrow() {
 void Mewtwo::jaywalk() {}
 double Mewtwo::cpu_specialweight() { return .1; }
 void Mewtwo::cpu_dospecial() {
-	if (shadowballcharge < 120) {
-		if (action != BNEUT) bneut();
+	if (action == BNEUT) {
+		if (shadowballcharge == 120) fireshadowball();
+		else if (cpu_target_distance < 20) fireshadowball();
+	}
+	else if (shadowballcharge < 120) {
+		if (cpu_target_distance > 30) bneut();
 	}
 	else fireshadowball();
 }
