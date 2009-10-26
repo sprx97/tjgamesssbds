@@ -268,7 +268,7 @@ void Fighter::cpu_obeyRules() {
 		}
 		if (action == SHIELD) {
 			//shield shrinks/breaks
-			shieldstr -= (65 - shieldstr) / 50;
+			shieldstr -= (65 - shieldstr) / 100;
 			if (shieldstr <= 0) {
 				shieldstr = 64;
 				PA_FatPlaySfx("shieldbreak");
@@ -534,7 +534,10 @@ void Fighter::act() {
 		if (checkFloorCollision()) {
 			if(ky > 0) ky = ky * -1 - gravity;
 			dy = ky;
-			if(lcancel > 0) tech();
+			if(lcancel > 0) {
+				tech();
+				hitstun = 0;
+			}
 		}
 		if(checkWallCollision()) {
 			kx *= -1;
@@ -570,7 +573,10 @@ void Fighter::act() {
 		if (checkFloorCollision()) {
 			if(ky > 0) ky = ky * -1 - gravity;
 			dy = ky;
-			if(lcancel > 0) tech();
+			if(lcancel > 0) {
+				tech();
+				hitstun = 0;
+			}
 		}
 		if (checkCeilingCollision()) {
 			if(ky > 0) ky = ky * -1 - gravity;
@@ -879,7 +885,7 @@ void Fighter::act() {
 			actAir();
 		} // acts in the air
 		if (action == SHIELD) {
-			shieldstr -= (65 - shieldstr) / 50;
+			shieldstr -= (65 - shieldstr) / 100;
 			if (shieldstr <= 0) {
 				shieldstr = 64;
 				PA_FatPlaySfx("shieldbreak");
@@ -1537,7 +1543,7 @@ Fighter* Fighter::checkHits(Fighter* other) {
 		else if (other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/
 		}
 		else if (other -> action == SHIELD) {
-			other -> shieldstr -= getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage + (int)((chargecount / 225) * (.5 * getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage));
+			other -> shieldstr -= (int)((getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage + (int)((chargecount / 225) * (.5 * getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage)))/3);
 			if(action == BSIDE && (MYCHAR == PIKACHU || MYCHAR == IKE)) idle();
 		}
 		else if (other -> COUNTER) {
