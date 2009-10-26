@@ -119,6 +119,7 @@ class Fighter {
 		void land();
 		void shield();
 		void roll(int dir = 0);
+		void tech();
 		void rollUp();
 		void attackUp();
 		void jumpUp();

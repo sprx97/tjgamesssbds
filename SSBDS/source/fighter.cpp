@@ -208,6 +208,7 @@ void Fighter::cpu_obeyRules() {
 			kx *= -1;
 			dx = kx;
 		}
+		if(Pad.Newpress.R || Pad.Newpress.L) lcancel = 10;
 	}
 	else {
 		if (landinglag > 0) {
@@ -380,6 +381,7 @@ void Fighter::actCPU() {
 				else if (Cangle < -45 && Cangle > -135 && (int)PA_RandMax(100) > 100 - level*10 + 5) uair();
 				else if (Cangle > 45 && Cangle < 135 && (int)PA_RandMax(100) > 100 - level*10 + 5) dair();
 			}
+			else if(Cdistance < range) dair();
 			else {
 				if (Cangle < -45 && Cangle > -135 && jumpcount < jumpmax && action != JUMP && action != DOUBLEJUMP) {
 					if (Cx > 0) setDirection(RIGHT);
@@ -506,23 +508,31 @@ void Fighter::act() {
 	if (hitstun > k.length*2) {
 		aerial = true;
 		hitstun--;
+		if(lcancel > 0) lcancel--;
 		dx = kx;
 		dy = ky;
 		if (hitstun == 0) {
 			fall();
 		}
-		if (checkFloorCollision() || checkCeilingCollision()) {
+		if (checkCeilingCollision()) {
 			if(ky > 0) ky = ky * -1 - gravity;
 			dy = ky;
+		}		
+		if (checkFloorCollision()) {
+			if(ky > 0) ky = ky * -1 - gravity;
+			dy = ky;
+			if(lcancel > 0) tech();
 		}
 		if(checkWallCollision()) {
 			kx *= -1;
 			dx = kx;
 		}
+		if(custom_action(ACTION_SHIELD, PAD_HELD)) lcancel = 10;
 	}
 	else if (hitstun > 0) {
 		aerial = true;
 		hitstun--;
+		if(lcancel > 0) lcancel--;
 		if (kx > 0) {
 			kx -= kx / (hitstun / 3);
 			if (kx < 0) kx = 0;
@@ -544,7 +554,12 @@ void Fighter::act() {
 		}
 		dx = kx;
 		dy = ky;
-		if (checkFloorCollision() || checkCeilingCollision()) {
+		if (checkFloorCollision()) {
+			if(ky > 0) ky = ky * -1 - gravity;
+			dy = ky;
+			if(lcancel > 0) tech();
+		}
+		if (checkCeilingCollision()) {
 			if(ky > 0) ky = ky * -1 - gravity;
 			dy = ky;
 		}
@@ -552,6 +567,7 @@ void Fighter::act() {
 			kx *= -1;
 			dx = kx;
 		}
+		if(custom_action(ACTION_SHIELD, PAD_HELD)) lcancel = 10;
 	}
 	else {
 		if (lasthitby != -1 && aerial == false) lasthitby = -1;
@@ -1048,6 +1064,17 @@ void Fighter::roll(int dir) {
 	delay = 60 / framespeeds[ROLL] * (endframes[ROLL] - startframes[ROLL] + 1);
 	if (dir == LEFT) dx = -rollspeed;
 	if (dir == RIGHT) dx = rollspeed;
+	playsound(ROLL);
+}
+void Fighter::tech() {
+	aerial = false;
+	dy = 0;
+	action = ROLL;
+	setDirection();
+	if(Pad.Held.Left) dx = -rollspeed;
+	if(Pad.Held.Right) dx = rollspeed;
+	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[ROLL], endframes[ROLL], framespeeds[ROLL]*2, ANIM_LOOP, -1);
+	delay = 30 / framespeeds[ROLL] * (endframes[ROLL] - startframes[ROLL] + 1);
 	playsound(ROLL);
 }
 void Fighter::rollUp() {

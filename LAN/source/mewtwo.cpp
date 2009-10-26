@@ -214,10 +214,10 @@ void Mewtwo::bneut() {
 			fall();
 		}
 	}
-	else if (custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
+	else if (!isCPU && custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 		fireshadowball();
 	}
-	else if (custom_action(ACTION_SHIELD, PAD_NEWPRESS)) shield();
+	else if (!isCPU && custom_action(ACTION_SHIELD, PAD_NEWPRESS)) shield();
 	else {
 		shadowballcharge += 1;
 		if (shadowballcharge > 120) shadowballcharge = 120;
