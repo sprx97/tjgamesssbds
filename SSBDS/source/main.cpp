@@ -600,26 +600,38 @@ bool characterSelect(bool train = false) {
 		if (Pad.Held.Up) {
 			int cx = PA_GetSpriteX(SUB_SCREEN, 0) + 16;
 			int cy = PA_GetSpriteY(SUB_SCREEN, 0) + 16;
-			PA_SetSpriteXY(SUB_SCREEN, 0, cx - 16, cy - 2 - 16);
-			selections[0] = checkselected(page, 0, selections[0]);
+			if(PA_GetSpriteX(SUB_SCREEN, 0) > 0 && PA_GetSpriteX(SUB_SCREEN, 0) < 256 && PA_GetSpriteY(SUB_SCREEN, 0) > 0 && PA_GetSpriteY(SUB_SCREEN, 0) < 192) {
+				PA_SetSpriteXY(SUB_SCREEN, 0, cx - 16, cy - 2 - 16);
+				if(PA_GetSpriteY(SUB_SCREEN, 0) < 0) PA_SetSpriteY(SUB_SCREEN, 0, 0);
+				selections[0] = checkselected(page, 0, selections[0]);
+			}
 		}
 		if (Pad.Held.Down) {
 			int cx = PA_GetSpriteX(SUB_SCREEN, 0) + 16;
 			int cy = PA_GetSpriteY(SUB_SCREEN, 0) + 16;
-			PA_SetSpriteXY(SUB_SCREEN, 0, cx - 16, cy + 2 - 16);
-			selections[0] = checkselected(page, 0, selections[0]);
+			if(PA_GetSpriteX(SUB_SCREEN, 0) > 0 && PA_GetSpriteX(SUB_SCREEN, 0) < 256 && PA_GetSpriteY(SUB_SCREEN, 0) > 0 && PA_GetSpriteY(SUB_SCREEN, 0) < 192) {
+				PA_SetSpriteXY(SUB_SCREEN, 0, cx - 16, cy + 2 - 16);
+				if(PA_GetSpriteX(SUB_SCREEN, 0) > 160) PA_SetSpriteY(SUB_SCREEN, 0, 160);
+				selections[0] = checkselected(page, 0, selections[0]);
+			}
 		}
 		if (Pad.Held.Left) {
 			int cx = PA_GetSpriteX(SUB_SCREEN, 0) + 16;
 			int cy = PA_GetSpriteY(SUB_SCREEN, 0) + 16;
-			PA_SetSpriteXY(SUB_SCREEN, 0, cx - 2 - 16, cy - 16);
-			selections[0] = checkselected(page, 0, selections[0]);
+			if(PA_GetSpriteX(SUB_SCREEN, 0) > 0 && PA_GetSpriteX(SUB_SCREEN, 0) < 256 && PA_GetSpriteY(SUB_SCREEN, 0) > 0 && PA_GetSpriteY(SUB_SCREEN, 0) < 192) {
+				PA_SetSpriteXY(SUB_SCREEN, 0, cx - 2 - 16, cy - 16);
+				if(PA_GetSpriteX(SUB_SCREEN, 0) < 0) PA_SetSpriteX(SUB_SCREEN, 0, 0);
+				selections[0] = checkselected(page, 0, selections[0]);
+			}
 		}
 		if (Pad.Held.Right) {
 			int cx = PA_GetSpriteX(SUB_SCREEN, 0) + 16;
 			int cy = PA_GetSpriteY(SUB_SCREEN, 0) + 16;
-			PA_SetSpriteXY(SUB_SCREEN, 0, cx + 2 - 16, cy - 16);
-			selections[0] = checkselected(page, 0, selections[0]);
+			if(PA_GetSpriteX(SUB_SCREEN, 0) > 0 && PA_GetSpriteX(SUB_SCREEN, 0) < 256 && PA_GetSpriteY(SUB_SCREEN, 0) > 0 && PA_GetSpriteY(SUB_SCREEN, 0) < 192) {
+				PA_SetSpriteXY(SUB_SCREEN, 0, cx + 2 - 16, cy - 16);
+				if(PA_GetSpriteX(SUB_SCREEN, 0) > 224) PA_SetSpriteX(SUB_SCREEN, 0, 224);
+				selections[0] = checkselected(page, 0, selections[0]);
+			}
 		}
 		if (Pad.Newpress.L && page > 0) {
 			page--;
