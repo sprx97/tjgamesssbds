@@ -145,51 +145,7 @@ void Mewtwo::bdown() {
 	}
 	else if (aerial && checkFloorCollision()) dy = 0;
 }
-void Mewtwo::bneut() {
-	if (action != BNEUT) {
-		if (shadowballcharge < 40) {
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 140, 141, 15, ANIM_LOOP, -1);
-			delay = 60 / 15 * 2 * 5;
-			dx = 0;
-			action = BNEUT;
-		}
-		else if (shadowballcharge < 80) {
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 142, 143, 15, ANIM_LOOP, -1);
-			delay = 60 / 15 * 2 * 5;
-			dx = 0;
-			action = BNEUT;
-		}
-		else if (shadowballcharge < 120) {
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 144, 145, 15, ANIM_LOOP, -1);
-			delay = 60 / 15 * 2 * 5;
-			dx = 0;
-			action = BNEUT;
-		}
-		else if (shadowballcharge == 120) {
-			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 147, 152, 20, ANIM_LOOP, -1);
-			delay = 60 / 20 * 6;
-			shadowballcharge = 0;
-			action = BNEUT;
-			dx = 0;
-			PA_FatPlaySfx("mewtwobneut");
-		}
-	}
-	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 148 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 149 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 150 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 151) {}
-	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 147) {
-		if (delay == 1) {
-			int directionmodifier = 1;
-			if (direction == RIGHT) directionmodifier = -1;
-			Hitbox tempbox;
-			tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 240));
-			((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage, display));
-		}
-	}
-	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 152) {
-		if (delay == 1) {
-			fall();
-		}
-	}
-	else if (custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
+void Mewtwo::fireshadowball() {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 147, 152, 20, ANIM_LOOP, -1);
 		delay = 60 / 20 * 6;
 		int SHADOWBALL_SIZE = -1;
@@ -217,6 +173,49 @@ void Mewtwo::bneut() {
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_SIZE, charnum, tempbox, stage, display));
 		shadowballcharge = 0;
 		PA_FatPlaySfx("mewtwobneut");
+}
+void Mewtwo::bneut() {
+	if (action != BNEUT) {
+		if (shadowballcharge < 40) {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 140, 141, 15, ANIM_LOOP, -1);
+			delay = 60 / 15 * 2 * 5;
+			dx = 0;
+			action = BNEUT;
+		}
+		else if (shadowballcharge < 80) {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 142, 143, 15, ANIM_LOOP, -1);
+			delay = 60 / 15 * 2 * 5;
+			dx = 0;
+			action = BNEUT;
+		}
+		else if (shadowballcharge < 120) {
+			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 144, 145, 15, ANIM_LOOP, -1);
+			delay = 60 / 15 * 2 * 5;
+			dx = 0;
+			action = BNEUT;
+		}
+		else if (shadowballcharge == 120) {
+			action = BNEUT;
+			fireshadowball();
+		}
+	}
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 148 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 149 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 150 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 151) {}
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 147) {
+		if (delay == 1) {
+			int directionmodifier = 1;
+			if (direction == RIGHT) directionmodifier = -1;
+			Hitbox tempbox;
+			tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 240));
+			((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage, display));
+		}
+	}
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 152) {
+		if (delay == 1) {
+			fall();
+		}
+	}
+	else if (custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
+		fireshadowball();
 	}
 	else if (custom_action(ACTION_SHIELD, PAD_NEWPRESS)) shield();
 	else {
@@ -234,6 +233,10 @@ void Mewtwo::bneut() {
 			PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 146, 146, 20, ANIM_LOOP, -1);
 			delay = 60 / 20 * 1 * 5;
 		}
+	}
+	if (!isCPU && !aerial) {
+		if (Pad.Held.Right) roll(1);
+		if (Pad.Held.Left) roll(-1);
 	}
 }
 void Mewtwo::fthrow() {

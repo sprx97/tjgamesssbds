@@ -1043,6 +1043,7 @@ bool match(int param) {
 	PA_FatLoadSfx("1", "ingame/one");
 	PA_FatLoadSfx("go", "ingame/go");
 
+	PA_FatLoadSfx("clash", "ingame/clash");
 	PA_FatLoadSfx("shieldbreak", "ingame/shieldbreak");
 	PA_FatLoadSfx("hit1", "ingame/hit1");
 	PA_FatLoadSfx("hit2", "ingame/hit2");

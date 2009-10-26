@@ -1432,6 +1432,46 @@ Fighter* Fighter::checkHits(Fighter* other) {
 	if (!allatkbox[PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM)].enabled) return other;
 	if (other -> respawntimer > 0) return other;
 	if (other -> invincibility > 0) return other;
+	if(getAtkbox().hits(other -> getAtkbox())) {
+		if(getAtkbox().getHitCircle(other -> getAtkbox()).priority > other -> getAtkbox().getHitCircle(other -> getAtkbox()).priority) {
+			if (action == HOLD || action == GRABATK) {}
+			else if (action == GRAB) {
+				if (direction == RIGHT) other -> grabbed((int)(x + handx), (int)y);
+				else other -> grabbed((int)(x - handx), (int)y);
+				other -> grabbedby = this;
+				grabbedenemy = other;
+				hold();
+			}
+			else if (other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/
+			}
+			else if (other -> action == SHIELD) {
+				other -> shieldstr -= getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage + (int)((chargecount / 225) * (.5 * getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage));
+				if(action == BSIDE && (MYCHAR == PIKACHU || MYCHAR == IKE)) idle();
+			}
+			else if (other -> COUNTER) {
+				if (direction == LEFT) takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, other -> charnum, chargecount);
+				else takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, other -> charnum, chargecount);
+				other -> COUNTER = false;
+				other -> idle();
+				if(action == BSIDE && (MYCHAR == PIKACHU || MYCHAR == IKE)) idle();
+			}
+			else {
+				if (direction == LEFT) other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, charnum, chargecount);
+				else other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, charnum, chargecount);
+				if(action == BSIDE && (MYCHAR == PIKACHU || MYCHAR == IKE)) idle();
+			}		
+		} // I win priority
+		else if(getAtkbox().getHitCircle(other -> getAtkbox()).priority == other -> getAtkbox().getHitCircle(other -> getAtkbox()).priority) {
+			PA_FatPlaySfx("clash");
+			if(direction == RIGHT) dx = -2;
+			else dx = 2;
+			slide();
+			if(other -> direction == RIGHT) other -> dx = -2;
+			else other -> dx = 2;
+			other -> slide();
+		} // clashing hits
+		else return other; // they win priority in their checkHits()
+	}
 	if (getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if (action == HOLD || action == GRABATK) {}
 		else if (action == GRAB) {
@@ -1460,7 +1500,6 @@ Fighter* Fighter::checkHits(Fighter* other) {
 			if(action == BSIDE && (MYCHAR == PIKACHU || MYCHAR == IKE)) idle();
 		}
 	}
-	// clashing hits
 	return other;
 }
 Hitbox Fighter::getAtkbox() {

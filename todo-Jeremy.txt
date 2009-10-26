@@ -1,6 +1,6 @@
 Next To Do:
 - Teching
-- Move priorities (Clashing hits)
+- Clashing hits on projectiles
 - "Random stage" button
 - Training mode (Separate section, not hidden)
 - improve charprevs (dblsize); red/blue/green/yellow
