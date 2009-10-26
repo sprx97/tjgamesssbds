@@ -593,6 +593,10 @@ bool characterSelect(bool train = false) {
 		}
 		else if (Stylus.Held && selectedcursor != -1) {
 			PA_SetSpriteXY(SUB_SCREEN, selectedcursor, Stylus.X - 16, Stylus.Y - 16);
+			if(PA_GetSpriteX(SUB_SCREEN, 0) < 0 || PA_GetSpriteX(SUB_SCREEN, 0) > 384) PA_SetSpriteX(SUB_SCREEN, 0, 0);
+			if(PA_GetSpriteY(SUB_SCREEN, 0) < 0 || PA_GetSpriteY(SUB_SCREEN, 0) > 224) PA_SetSpriteY(SUB_SCREEN, 0, 0);
+			if(PA_GetSpriteX(SUB_SCREEN, 0) > 224) PA_SetSpriteX(SUB_SCREEN, 0, 224);
+			if(PA_GetSpriteY(SUB_SCREEN, 0) > 160) PA_SetSpriteY(SUB_SCREEN, 0, 160);
 		}
 		else if (Stylus.Released && selectedcursor != -1) {
 			selections[selectedcursor] = checkselected(page, selectedcursor, selections[selectedcursor]);
@@ -603,7 +607,7 @@ bool characterSelect(bool train = false) {
 			int cy = PA_GetSpriteY(SUB_SCREEN, 0) + 16;
 			if(cx > 0 && cx < 256 && cy > 0 && cy < 192) {
 				PA_SetSpriteXY(SUB_SCREEN, 0, cx - 16, cy - 2 - 16);
-				if(PA_GetSpriteY(SUB_SCREEN, 0) < 2) PA_SetSpriteY(SUB_SCREEN, 0, 2);
+				if(PA_GetSpriteY(SUB_SCREEN, 0) < 0 || PA_GetSpriteY(SUB_SCREEN, 0) > 224) PA_SetSpriteY(SUB_SCREEN, 0, 0);
 				selections[0] = checkselected(page, 0, selections[0]);
 			}
 		}
@@ -621,7 +625,7 @@ bool characterSelect(bool train = false) {
 			int cy = PA_GetSpriteY(SUB_SCREEN, 0) + 16;
 			if(cx > 0 && cx < 256 && cy > 0 && cy < 192) {
 				PA_SetSpriteXY(SUB_SCREEN, 0, cx - 2 - 16, cy - 16);
-				if(PA_GetSpriteX(SUB_SCREEN, 0) < 2) PA_SetSpriteX(SUB_SCREEN, 0, 2);
+				if(PA_GetSpriteX(SUB_SCREEN, 0) < 0 || PA_GetSpriteX(SUB_SCREEN, 0) > 384) PA_SetSpriteX(SUB_SCREEN, 0, 0);
 				selections[0] = checkselected(page, 0, selections[0]);
 			}
 		}
