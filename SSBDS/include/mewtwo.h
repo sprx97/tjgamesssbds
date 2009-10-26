@@ -22,6 +22,8 @@ class Mewtwo: public Fighter {
 		// sounds
 		void initPalettes();
 		// actions
+		void cpu_dospecial();
+		double cpu_specialweight();
 		void bside();
 		void bup();
 		void bdown();
