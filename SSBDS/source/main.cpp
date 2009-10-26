@@ -596,6 +596,7 @@ bool characterSelect(bool train = false) {
 		}
 		else if (Stylus.Released && selectedcursor != -1) {
 			selections[selectedcursor] = checkselected(page, selectedcursor, selections[selectedcursor]);
+			selectedcursor=-1;
 		}
 		if (Pad.Held.Up) {
 			int cx = PA_GetSpriteX(SUB_SCREEN, 0) + 16;
