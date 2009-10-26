@@ -11,7 +11,7 @@ Kirby::Kirby(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : F
 	w1 = 0.899;
 	w2  = -0.44;
 	jumpheight = 85;
-	doublejumpheight = 62.5;
+	doublejumpheight = 50;
 	shieldstr = 64;
 	runspeed = 3.5;
 	handx = 64 - 49;
@@ -68,6 +68,10 @@ void Kirby::playsound(int sndnum) {
 	if (sndnum == SMASHUP) PA_FatPlaySfx("kirbyusmash");
 }
 // actions
+double Kirby::cpu_specialweight() { return .1; }
+void Kirby::cpu_dospecial() {
+	bside();
+}
 void Kirby::bside() {
 	if (action != BSIDE) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 178, 186, 15, ANIM_ONESHOT);

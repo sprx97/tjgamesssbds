@@ -152,6 +152,8 @@ int Fighter::cpu_getTarget() {
 			}
 		}
 	}
+	cpu_target = Cenemy;
+	cpu_target_distance = Cdistance;
 	return Cenemy;
 }
 void Fighter::cpu_obeyRules() {
@@ -433,7 +435,14 @@ void Fighter::actCPU() {
 			// or slide
 		}
 		if (action == IDLE) {
-			if (Cdistance < range) {
+			int randn = PA_Rand() % 10; //0-9
+			double specialweight = cpu_specialweight();
+			if (randn < 5*specialweight) { // up to 5/10
+				if (Cx > 0) setDirection(RIGHT);
+				if (Cx < 0) setDirection(LEFT);
+				cpu_dospecial();
+			}
+			else if (Cdistance < range) {
 				if (Cangle > -45 && Cangle < 45 && (int)PA_RandMax(100) > 100 - level*10 + 5) {
 					setDirection(RIGHT);
 					if ((int)PA_RandMax(100) > 75) smashright();
@@ -458,8 +467,12 @@ void Fighter::actCPU() {
 				if (Cx < 0) setDirection(LEFT);
 				jump();
 			}
-			else if (Cangle < 45 && Cangle > -45) run(1); //right
-			else if (Cangle > 135 || Cangle < -135) run(-1); //left
+			else if (Cangle < 45 && Cangle > -45) { //right
+				run(1);
+			}
+			else if (Cangle > 135 || Cangle < -135) { //left
+				run(-1);
+			}
 		}
 		if (action == CROUCH) {
 			// idle
@@ -983,6 +996,8 @@ void Fighter::actGround() {
 	}
 	else idle();
 } // acts on the ground based on key presses
+void Fighter::cpu_dospecial() {}
+double Fighter::cpu_specialweight() { return 0; }
 void Fighter::bside() {}
 void Fighter::bup() {}
 void Fighter::bdown() {}
@@ -1216,7 +1231,7 @@ void Fighter::doubleJump() {
 	delay = 60 / framespeeds[DOUBLEJUMP] * (endframes[DOUBLEJUMP] - startframes[DOUBLEJUMP] + 1);
 	double doublejumpspeed = doublejumpheight/delay;
 	action = DOUBLEJUMP;
-	dy = -doublejumpspeed - (jumpmax - jumpcount - 1); // only affects characters w/ >2 jumps
+	dy = -doublejumpspeed - .5*(jumpmax - jumpcount - 1) - .5; // only affects characters w/ >2 jumps
 	fastfall = 0;
 	jumpcount++;
 	aerial = true;
@@ -1229,6 +1244,7 @@ void Fighter::doubleJump() {
 }
 void Fighter::jab() {
 	action = JAB;
+	dx = 0;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
 	delay = 60 / framespeeds[JAB] * (endframes[JAB] - startframes[JAB] + 1);
 	playsound(JAB);
@@ -1462,7 +1478,7 @@ Fighter* Fighter::checkHits(Fighter* other) {
 	if (other -> respawntimer > 0) return other;
 	if (other -> invincibility > 0) return other;
 	if(getAtkbox().hits(other -> getAtkbox())) {
-		if(getAtkbox().getHitCircle(other -> getAtkbox()).priority > other -> getAtkbox().getHitCircle(other -> getAtkbox()).priority) {
+		if(getAtkbox().getHitCircle(other -> getAtkbox()).priority > other -> getAtkbox().getHitCircle(getAtkbox()).priority) {
 			if (action == HOLD || action == GRABATK) {}
 			else if (action == GRAB) {
 				if (direction == RIGHT) other -> grabbed((int)(x + handx), (int)y);
@@ -1495,13 +1511,15 @@ Fighter* Fighter::checkHits(Fighter* other) {
 			if(direction == RIGHT) dx = -2;
 			else dx = 2;
 			slide();
-			if(other -> direction == RIGHT) other -> dx = -2;
-			else other -> dx = 2;
-			other -> slide();
+			if(other -> MYCHAR != KIRBY || PA_GetSpriteAnimFrame(MAIN_SCREEN, other->SPRITENUM) != 189) {
+				if(other -> direction == RIGHT) other -> dx = -2;
+				else other -> dx = 2;
+				other -> slide();
+			}
 		} // clashing hits
 		else return other; // they win priority in their checkHits()
 	}
-	if (getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
+	else if (getAtkbox().hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
 		if (action == HOLD || action == GRABATK) {}
 		else if (action == GRAB) {
 			if (direction == RIGHT) other -> grabbed((int)(x + handx), (int)y);
@@ -1510,6 +1528,12 @@ Fighter* Fighter::checkHits(Fighter* other) {
 			grabbedenemy = other;
 			hold();
 		}
+		else if(other -> MYCHAR == KIRBY && PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM) == 189) {
+			PA_FatPlaySfx("clash");
+			if(direction == RIGHT) dx = -2;
+			else dx = 2;
+			slide();
+		} // Kirby's rock stops attacks!
 		else if (other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/
 		}
 		else if (other -> action == SHIELD) {
@@ -1852,6 +1876,7 @@ bool Fighter::checkFloorCollision() {
 			} // if you land on the floor
 		} // checks for landing
 		else {
+			if(action == FTHROW || action == BTHROW || action == UTHROW || action == DTHROW) return true;
 			if (isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && (action == CROUCH || action == IDLE)) && !isCPU)) {
 				if (x + rightside + dx > currfloor.x && x + leftside + dx < currfloor.x + currfloor.length) {
 					if(currfloor.totalrise() == 0) {

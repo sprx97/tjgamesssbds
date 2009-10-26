@@ -66,6 +66,10 @@ void Mario::playsound(int sndnum) {
 	if (sndnum == SMASHUP) PA_FatPlaySfx("mariousmash");
 }
 // actions
+double Mario::cpu_specialweight() { return .5; }
+void Mario::cpu_dospecial() {
+	bneut();
+}
 void Mario::bside() {
 	if (action != BSIDE) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 143, 148, 10, ANIM_ONESHOT);

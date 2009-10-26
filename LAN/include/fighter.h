@@ -95,11 +95,15 @@ class Fighter {
 		void initAtkbox();
 		void initSprite();
 		int cpu_getTarget();
+		int cpu_target;
+		double cpu_target_distance;
 		void cpu_obeyRules();
 		virtual void actCPU();
 		virtual void act();
 		void actAir();
 		void actGround(); ///< acts on the ground based on key presses
+		virtual double cpu_specialweight();
+		virtual void cpu_dospecial();
 		virtual void bside();
 		virtual void bup();
 		virtual void bdown();

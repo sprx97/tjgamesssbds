@@ -14,6 +14,8 @@ class Kirby: public Fighter {
 		void playsound(int sndnum);
 		void initSounds();
 		// actions
+		void cpu_dospecial();
+		double cpu_specialweight();
 		void bside();
 		void bup();
 		void bdown();

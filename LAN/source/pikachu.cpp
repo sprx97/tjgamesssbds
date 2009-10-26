@@ -67,6 +67,10 @@ void Pikachu::playsound(int sndnum) {
 	if (sndnum == JAB) PA_FatPlaySfx("pikachujab");
 }
 // actions
+double Pikachu::cpu_specialweight() { return .2; }
+void Pikachu::cpu_dospecial() {
+	bdown();
+}
 void Pikachu::bside() {
 	if (action != BSIDE) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 134, 138, 10, ANIM_LOOP, -1);

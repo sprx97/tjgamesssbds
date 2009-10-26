@@ -73,6 +73,10 @@ void Ike::playsound(int sndnum) {
 	if (sndnum == UTILT) PA_FatPlaySfx("ikeutilt");
 }
 // actions
+double Ike::cpu_specialweight() { return .1; }
+void Ike::cpu_dospecial() {
+	bneut();
+}
 void Ike::bside() {
 	if (action != BSIDE) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 108, 108, 12, ANIM_LOOP, -1);

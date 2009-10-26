@@ -69,6 +69,10 @@ void Fox::playsound(int sndnum) {
 	if (sndnum == UTILT) PA_FatPlaySfx("foxutilt");
 }
 // actions
+double Fox::cpu_specialweight() { return .5; }
+void Fox::cpu_dospecial() {
+	bneut();
+}
 void Fox::bside() {
 	if (action != BSIDE) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 118, 120, 10, ANIM_LOOP, -1);

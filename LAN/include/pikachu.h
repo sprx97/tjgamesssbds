@@ -12,6 +12,8 @@ class Pikachu: public Fighter {
 		void playsound(int sndnum);
 		void initSounds();
 		void initPalettes();
+		void cpu_dospecial();
+		double cpu_specialweight();
 		void bside();
 		void bup();
 		void bdown();
