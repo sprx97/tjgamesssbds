@@ -1373,6 +1373,7 @@ void Fighter::uair() {
 	playsound(UAIR);
 }
 void Fighter::dair() {
+	fastfall = 0;
 	action = AIRATTACK;
 	dy = 0;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[DAIR], endframes[DAIR], framespeeds[DAIR], ANIM_LOOP, -1);
@@ -1706,14 +1707,14 @@ void Fighter::directionalInfluence(double deltax) {
 		DI = deltax;
 		fastfall = 0;
 	}
-	else if ((MYCHAR == MEWTWO && action == BUP) || (MYCHAR == IKE && action == BSIDE)) {
+	else if ((MYCHAR == MEWTWO && action == BUP) || (MYCHAR == IKE && action == BSIDE) || (MYCHAR == KIRBY && action == BDOWN)) {
 		DI = 0;
 		fastfall = 0;
 	}
 	else {
 		if (Pad.Held.Right) DI = DIval;
 		if (Pad.Held.Left) DI = -DIval;
-		if (Pad.Held.Down && tiltlag > 0) fastfall = 2;
+		if (Pad.Newpress.Down && airlag == 0) fastfall = 2;
 		if (!Pad.Held.Right && !Pad.Held.Left || action == BDOWN) DI = 0;
 		// slightly influences direction
 	}
