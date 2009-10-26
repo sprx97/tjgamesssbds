@@ -456,7 +456,28 @@ void stageSelect() {
 		PA_WaitForVBL();
 	}
 }
+int checkselected(int page, int selectedcursor, int currentlyselected) {
+	char* names[] = {"kirby", "mewtwo", "mario", "ike", "fox", "pikachu"};
+	int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor) + 16;
+	int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor) + 16;
+	for (int n = 1; n <= 6; n++) {
+		if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
+			if(6*page+n == currentlyselected) return 6*page+n;
+			if(6*page+n != RANDOM) PA_FatPlaySfx(names[6*page+n-1]);
+			if(6*page+n == KIRBY) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 4, 5, ANIM_LOOP, -1);
+			else if(6*page+n == MEWTWO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 5, 10, 5, ANIM_LOOP, -1);
+			else if(6*page+n == MARIO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 11, 14, 5, ANIM_LOOP, -1);
+			else if(6*page+n == IKE) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 15, 21, 5, ANIM_LOOP, -1);
+			else if(6*page+n == FOX) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 22, 27, 5, ANIM_LOOP, -1);
+			else if(6*page+n == PIKACHU) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 28, 33, 5, ANIM_LOOP, -1);
+			else if(6*page+n == RANDOM) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 33, 60, ANIM_LOOP, -1);
+			return 6*page+n;
+		}
+	}
+	PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
+	return -1;
 
+}
 bool characterSelect(bool train = false) {
 	int MAX_PLAYERS = 2; // 2-4
 
@@ -516,7 +537,6 @@ bool characterSelect(bool train = false) {
 	PA_FatLoadSfx("ike", "characters/names/ike");
 	PA_FatLoadSfx("fox", "characters/names/fox");
 	PA_FatLoadSfx("pikachu", "characters/names/pikachu");
-	char* names[] = {"kirby", "mewtwo", "mario", "ike", "fox", "pikachu"};
 
 	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
 
@@ -575,28 +595,31 @@ bool characterSelect(bool train = false) {
 			PA_SetSpriteXY(SUB_SCREEN, selectedcursor, Stylus.X - 16, Stylus.Y - 16);
 		}
 		else if (Stylus.Released && selectedcursor != -1) {
-			int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor) + 16;
-			int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor) + 16;
-			bool onchar = false;
-			for (int n = 1; n <= 6; n++) {
-				if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
-					if(6*page+n != RANDOM) PA_FatPlaySfx(names[6*page+n-1]);
-					onchar = true;
-					if(6*page+n == KIRBY) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 4, 5, ANIM_LOOP, -1);
-					else if(6*page+n == MEWTWO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 5, 10, 5, ANIM_LOOP, -1);
-					else if(6*page+n == MARIO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 11, 14, 5, ANIM_LOOP, -1);
-					else if(6*page+n == IKE) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 15, 21, 5, ANIM_LOOP, -1);
-					else if(6*page+n == FOX) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 22, 27, 5, ANIM_LOOP, -1);
-					else if(6*page+n == PIKACHU) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 28, 33, 5, ANIM_LOOP, -1);
-					else if(6*page+n == RANDOM) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 33, 60, ANIM_LOOP, -1);
-					selections[selectedcursor] = 6*page+n;
-				}
-			}
-			if (!onchar) {
-				PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
-				selections[selectedcursor] = -1;
-			}
-			selectedcursor = -1;
+			selections[selectedcursor] = checkselected(page, selectedcursor, selections[selectedcursor]);
+		}
+		if (Pad.Held.Up) {
+			int cx = PA_GetSpriteX(SUB_SCREEN, 0) + 16;
+			int cy = PA_GetSpriteY(SUB_SCREEN, 0) + 16;
+			PA_SetSpriteXY(SUB_SCREEN, 0, cx - 16, cy - 2 - 16);
+			selections[0] = checkselected(page, 0, selections[0]);
+		}
+		if (Pad.Held.Down) {
+			int cx = PA_GetSpriteX(SUB_SCREEN, 0) + 16;
+			int cy = PA_GetSpriteY(SUB_SCREEN, 0) + 16;
+			PA_SetSpriteXY(SUB_SCREEN, 0, cx - 16, cy + 2 - 16);
+			selections[0] = checkselected(page, 0, selections[0]);
+		}
+		if (Pad.Held.Left) {
+			int cx = PA_GetSpriteX(SUB_SCREEN, 0) + 16;
+			int cy = PA_GetSpriteY(SUB_SCREEN, 0) + 16;
+			PA_SetSpriteXY(SUB_SCREEN, 0, cx - 2 - 16, cy - 16);
+			selections[0] = checkselected(page, 0, selections[0]);
+		}
+		if (Pad.Held.Right) {
+			int cx = PA_GetSpriteX(SUB_SCREEN, 0) + 16;
+			int cy = PA_GetSpriteY(SUB_SCREEN, 0) + 16;
+			PA_SetSpriteXY(SUB_SCREEN, 0, cx + 2 - 16, cy - 16);
+			selections[0] = checkselected(page, 0, selections[0]);
 		}
 		if (Pad.Newpress.L && page > 0) {
 			page--;
