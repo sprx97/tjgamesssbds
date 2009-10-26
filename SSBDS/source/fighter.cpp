@@ -24,6 +24,7 @@ Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n
 	display = disp;
 	players = *listplayers;
 	shieldstr = 64;
+	shieldbroken = false;
 	myledge = -1;
 	x = 0;
 	y = 0;
@@ -168,6 +169,7 @@ void Fighter::cpu_obeyRules() {
 		dx = kx;
 		dy = ky;
 		if (hitstun == 0) {
+			shieldbroken = false;
 			fall();
 		}
 		if (checkFloorCollision() || checkCeilingCollision()) {
@@ -199,6 +201,7 @@ void Fighter::cpu_obeyRules() {
 			if (ky > 0) ky = 0;
 		}
 		if (hitstun == 0) {
+			shieldbroken = false;
 			fall();
 		}
 		dy = ky;
@@ -211,7 +214,6 @@ void Fighter::cpu_obeyRules() {
 			kx *= -1;
 			dx = kx;
 		}
-		if(Pad.Newpress.R || Pad.Newpress.L) lcancel = 10;
 	}
 	else {
 		if (landinglag > 0) {
@@ -273,6 +275,7 @@ void Fighter::cpu_obeyRules() {
 				shieldstr = 64;
 				PA_FatPlaySfx("shieldbreak");
 				hitstun = 300;
+				shieldbroken = true;
 				stun();
 			}
 			PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM - 100, (int)(2048 - 24*shieldstr), (int)(2048 - 24*shieldstr));
@@ -525,6 +528,7 @@ void Fighter::act() {
 		dx = kx;
 		dy = ky;
 		if (hitstun == 0) {
+			shieldbroken = false;
 			fall();
 		}
 		if (checkCeilingCollision()) {
@@ -543,7 +547,7 @@ void Fighter::act() {
 			kx *= -1;
 			dx = kx;
 		}
-		if(custom_action(ACTION_SHIELD, PAD_HELD)) lcancel = 10;
+		if(custom_action(ACTION_SHIELD, PAD_NEWPRESS) && !shieldbroken) lcancel = 10;
 	}
 	else if (hitstun > 0) {
 		aerial = true;
@@ -566,6 +570,7 @@ void Fighter::act() {
 			if (ky > 0) ky = 0;
 		}
 		if (hitstun == 0) {
+			shieldbroken = false;
 			fall();	
 		}
 		dx = kx;
@@ -586,7 +591,7 @@ void Fighter::act() {
 			kx *= -1;
 			dx = kx;
 		}
-		if(custom_action(ACTION_SHIELD, PAD_HELD)) lcancel = 10;
+		if(custom_action(ACTION_SHIELD, PAD_NEWPRESS) && !shieldbroken) lcancel = 10;
 	}
 	else {
 		if (lasthitby != -1 && aerial == false) lasthitby = -1;
@@ -890,6 +895,7 @@ void Fighter::act() {
 				shieldstr = 64;
 				PA_FatPlaySfx("shieldbreak");
 				hitstun = 300;
+				shieldbroken = true;
 				stun();
 			}
 			PA_SetRotsetNoAngle(MAIN_SCREEN, SPRITENUM - 100, (int)(2048 - 24*shieldstr), (int)(2048 - 24*shieldstr));
@@ -1478,6 +1484,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 	CAPE = false;
 	ABSORB = false;
 	iswalking = false;
+	shieldbroken = false;
 	lasthitby = hitter;
 }
 Fighter* Fighter::checkHits(Fighter* other) {
