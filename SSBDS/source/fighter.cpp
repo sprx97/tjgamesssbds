@@ -435,7 +435,11 @@ void Fighter::actCPU() {
 		if (action == IDLE) {
 			int randn = PA_Rand() % 10; //0-9
 			double specialweight = cpu_specialweight();
-			if (randn < 5*specialweight) cpu_dospecial(); // up to 5/10
+			if (randn < 5*specialweight) { // up to 5/10
+				if (Cx > 0) setDirection(RIGHT);
+				if (Cx < 0) setDirection(LEFT);
+				cpu_dospecial();
+			}
 			else if (Cdistance < range) {
 				if (Cangle > -45 && Cangle < 45 && (int)PA_RandMax(100) > 100 - level*10 + 5) {
 					setDirection(RIGHT);
