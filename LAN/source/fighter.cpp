@@ -415,7 +415,8 @@ void Fighter::actCPU() {
 			//Otherwise, just keep shielding
 		}
 		if (action == RUN) {
-			if ((Cdistance < range) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();
+			if(aerial) fall();
+			else if ((Cdistance < range) || (dx < 0 && (Cangle < 90 && Cangle > -90)) || (dx > 0 && (Cangle > 90 || Cangle < -90))) slide();
 			else if (Cangle < -45 && Cangle > -135 && jumpcount == 0) {
 				if (Cx > 0) setDirection(RIGHT);
 				if (Cx < 0) setDirection(LEFT);
@@ -898,7 +899,8 @@ void Fighter::act() {
 			else if ((direction == RIGHT && Pad.Newpress.Right) || (direction == LEFT && Pad.Newpress.Left)) fthrow();
 		}
 		if (action == RUN || action == WALK) {
-			if (Pad.Released.Right || Pad.Released.Left || (Pad.Newpress.Up) || custom_action(ACTION_JUMP, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
+			if(aerial) fall();
+			else if (Pad.Released.Right || Pad.Released.Left || (Pad.Newpress.Up) || custom_action(ACTION_JUMP, PAD_NEWPRESS) || custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
 				tiltlag = 5;
 				action = TILTLAG;
 			}
