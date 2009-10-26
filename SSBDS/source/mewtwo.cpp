@@ -238,6 +238,7 @@ void Mewtwo::bneut() {
 		if (Pad.Held.Right) roll(1);
 		if (Pad.Held.Left) roll(-1);
 	}
+	if (isCPU) cpu_dospecial();
 }
 void Mewtwo::fthrow() {
 	if (action != FTHROW) {
@@ -335,6 +336,17 @@ void Mewtwo::dthrow() {
 	if (delay <= 0) idle();
 }
 void Mewtwo::jaywalk() {}
+double Mewtwo::cpu_specialweight() { return cpu_target_distance/100.0; }
+void Mewtwo::cpu_dospecial() {
+	if (action == BNEUT) {
+		if (shadowballcharge == 120) fireshadowball();
+		else if (cpu_target_distance < 20) fireshadowball();
+	}
+	else if (shadowballcharge < 120) {
+		if (cpu_target_distance > 30) bneut();
+	}
+	else fireshadowball();
+}
 Mewtwo::~Mewtwo() {
 	allatkbox.clear();
 	alldefbox.clear();

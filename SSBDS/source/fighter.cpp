@@ -152,6 +152,8 @@ int Fighter::cpu_getTarget() {
 			}
 		}
 	}
+	cpu_target = Cenemy;
+	cpu_target_distance = Cdistance;
 	return Cenemy;
 }
 void Fighter::cpu_obeyRules() {
@@ -433,7 +435,14 @@ void Fighter::actCPU() {
 			// or slide
 		}
 		if (action == IDLE) {
-			if (Cdistance < range) {
+			int randn = PA_Rand() % 10; //0-9
+			double specialweight = cpu_specialweight();
+			if (randn < 5*specialweight) { // up to 5/10
+				if (Cx > 0) setDirection(RIGHT);
+				if (Cx < 0) setDirection(LEFT);
+				cpu_dospecial();
+			}
+			else if (Cdistance < range) {
 				if (Cangle > -45 && Cangle < 45 && (int)PA_RandMax(100) > 100 - level*10 + 5) {
 					setDirection(RIGHT);
 					if ((int)PA_RandMax(100) > 75) smashright();
@@ -458,8 +467,12 @@ void Fighter::actCPU() {
 				if (Cx < 0) setDirection(LEFT);
 				jump();
 			}
-			else if (Cangle < 45 && Cangle > -45) run(1); //right
-			else if (Cangle > 135 || Cangle < -135) run(-1); //left
+			else if (Cangle < 45 && Cangle > -45) { //right
+				run(1);
+			}
+			else if (Cangle > 135 || Cangle < -135) { //left
+				run(-1);
+			}
 		}
 		if (action == CROUCH) {
 			// idle
@@ -983,6 +996,8 @@ void Fighter::actGround() {
 	}
 	else idle();
 } // acts on the ground based on key presses
+void Fighter::cpu_dospecial() {}
+double Fighter::cpu_specialweight() { return 0; }
 void Fighter::bside() {}
 void Fighter::bup() {}
 void Fighter::bdown() {}

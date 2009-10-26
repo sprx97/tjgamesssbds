@@ -68,6 +68,10 @@ void Kirby::playsound(int sndnum) {
 	if (sndnum == SMASHUP) PA_FatPlaySfx("kirbyusmash");
 }
 // actions
+double Kirby::cpu_specialweight() { return .1; }
+void Kirby::cpu_dospecial() {
+	bside();
+}
 void Kirby::bside() {
 	if (action != BSIDE) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 178, 186, 15, ANIM_ONESHOT);

@@ -15,6 +15,8 @@ class Mario: public Fighter {
 		void initSounds();
 		void initPalettes();
 		// actions
+		void cpu_dospecial();
+		double cpu_specialweight();
 		void bside();
 		void bup();
 		void bdown();
