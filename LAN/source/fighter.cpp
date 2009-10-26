@@ -1876,7 +1876,7 @@ bool Fighter::checkFloorCollision() {
 			} // if you land on the floor
 		} // checks for landing
 		else {
-			if(action == FTHROW || action == BTHROW || action == UTHROW || action == DTHROW) return true;
+			if(action == FTHROW || action == BTHROW || action == UTHROW || action == DTHROW || action == GRABBED) return true;
 			if (isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && (action == CROUCH || action == IDLE)) && !isCPU)) {
 				if (x + rightside + dx > currfloor.x && x + leftside + dx < currfloor.x + currfloor.length) {
 					if(currfloor.totalrise() == 0) {
