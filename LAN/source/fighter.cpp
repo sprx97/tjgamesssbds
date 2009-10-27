@@ -1469,9 +1469,21 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 		players[hitter] -> delay = 60/10 * 2;
 		players[hitter] -> freeze(10);
 		players[hitter] -> dx = 0;
-		if(direction == RIGHT) players[hitter] -> x += 32;
+		if(direction == LEFT) players[hitter] -> x += 32;
 		else players[hitter] -> x -= 32;
 		PA_StartSpriteAnimEx(MAIN_SCREEN, players[hitter] -> SPRITENUM, 143, 143, 1, ANIM_LOOP, -1);
+	}
+	else if(players[hitter] -> MYCHAR == IKE && (PA_GetSpriteAnimFrame(MAIN_SCREEN, players[hitter] -> SPRITENUM) == 139 || PA_GetSpriteAnimFrame(MYCHAR, players[hitter] -> SPRITENUM) == 140)) {
+		freeze(30);
+		action = STUN;
+		myledge = -1;
+		playsound(STUN);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, players[hitter] -> SPRITENUM, 143, 144, 10, ANIM_LOOP, -1);
+		players[hitter] -> action = ATTACK;
+		players[hitter] -> delay = 60/10 * 2;
+		players[hitter] -> freeze(30);
+		players[hitter] -> dx = 0;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, players[hitter] -> SPRITENUM, 139, 139, 1, ANIM_LOOP, -1);
 	}
 	else if (action != STUN && other.getKnockback().length != 0) stun();
 	PERMAFALL = false;
@@ -1599,8 +1611,6 @@ Fighter* Fighter::checkHits(Fighter* other) {
 			if (direction == LEFT) takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, other -> charnum, chargecount);
 			else takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, other -> charnum, chargecount);
 			other -> COUNTER = false;
-			other -> idle();
-			if(action == BSIDE && (MYCHAR == PIKACHU || MYCHAR == IKE)) idle();
 		}
 		else {
 			if (direction == LEFT) other -> takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, charnum, chargecount);

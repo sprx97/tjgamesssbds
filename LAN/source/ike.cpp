@@ -171,9 +171,9 @@ void Ike::bup() {
 }
 void Ike::bdown() {
 	if (action != BDOWN) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 139, 142, 10, ANIM_UPDOWN, 5);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 139, 142, 5, ANIM_UPDOWN, 5);
 		PA_FatPlaySfx("ikebdown");
-		delay = 60 / 10 * 5;
+		delay = 60 / 5 * 5;
 		setDirection();
 		dx = 0;
 		if (aerial) dy = -gravity / 2;
@@ -181,7 +181,7 @@ void Ike::bdown() {
 		action = BDOWN;
 		COUNTER = true;
 	}
-	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 142) {
+	else if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 141 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 142) {
 		COUNTER = false;
 	}
 	else if (aerial && checkFloorCollision()) dy = 0;
