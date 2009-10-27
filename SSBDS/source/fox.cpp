@@ -69,7 +69,7 @@ void Fox::playsound(int sndnum) {
 	if (sndnum == UTILT) PA_FatPlaySfx("foxutilt");
 }
 // actions
-double Fox::cpu_specialweight() { return .5; }
+double Fox::cpu_specialweight() { return .05; }
 void Fox::cpu_dospecial() {
 	bneut();
 }

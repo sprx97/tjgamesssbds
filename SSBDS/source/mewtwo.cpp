@@ -337,14 +337,14 @@ void Mewtwo::dthrow() {
 	if (delay <= 0) idle();
 }
 void Mewtwo::jaywalk() {}
-double Mewtwo::cpu_specialweight() { return cpu_target_distance/100.0; }
+double Mewtwo::cpu_specialweight() { return cpu_target_distance/150.0; }
 void Mewtwo::cpu_dospecial() {
 	if (action == BNEUT) {
 		if (shadowballcharge == 120) fireshadowball();
-		else if (cpu_target_distance < 20) fireshadowball();
+		else if (cpu_target_distance < 50) fireshadowball();
 	}
 	else if (shadowballcharge < 120) {
-		if (cpu_target_distance > 30) bneut();
+		if (cpu_target_distance > 70) bneut();
 	}
 	else fireshadowball();
 }

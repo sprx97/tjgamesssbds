@@ -67,7 +67,7 @@ void Pikachu::playsound(int sndnum) {
 	if (sndnum == JAB) PA_FatPlaySfx("pikachujab");
 }
 // actions
-double Pikachu::cpu_specialweight() { return .2; }
+double Pikachu::cpu_specialweight() { return .05; }
 void Pikachu::cpu_dospecial() {
 	bdown();
 }

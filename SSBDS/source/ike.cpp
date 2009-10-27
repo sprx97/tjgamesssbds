@@ -73,7 +73,7 @@ void Ike::playsound(int sndnum) {
 	if (sndnum == UTILT) PA_FatPlaySfx("ikeutilt");
 }
 // actions
-double Ike::cpu_specialweight() { return .1; }
+double Ike::cpu_specialweight() { return .01; }
 void Ike::cpu_dospecial() {
 	bneut();
 }

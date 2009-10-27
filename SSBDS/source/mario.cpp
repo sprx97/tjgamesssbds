@@ -66,7 +66,7 @@ void Mario::playsound(int sndnum) {
 	if (sndnum == SMASHUP) PA_FatPlaySfx("mariousmash");
 }
 // actions
-double Mario::cpu_specialweight() { return .5; }
+double Mario::cpu_specialweight() { return .07; }
 void Mario::cpu_dospecial() {
 	bneut();
 }
