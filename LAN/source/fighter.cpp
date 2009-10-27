@@ -1459,6 +1459,20 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 		playsound(STUN);
 		players[hitter] -> freeze(15);
 	}
+	else if(players[hitter] -> MYCHAR == IKE && PA_GetSpriteAnimFrame(MAIN_SCREEN, players[hitter] -> SPRITENUM) == 110) {
+		freeze(10);
+		action = STUN;
+		myledge = -1;
+		playsound(STUN);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, players[hitter] -> SPRITENUM, 143, 144, 10, ANIM_LOOP, -1);
+		players[hitter] -> action = ATTACK;
+		players[hitter] -> delay = 60/10 * 2;
+		players[hitter] -> freeze(10);
+		players[hitter] -> dx = 0;
+		if(direction == RIGHT) players[hitter] -> x += 32;
+		else players[hitter] -> x -= 32;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, players[hitter] -> SPRITENUM, 143, 143, 1, ANIM_LOOP, -1);
+	}
 	else if (action != STUN && other.getKnockback().length != 0) stun();
 	PERMAFALL = false;
 	
