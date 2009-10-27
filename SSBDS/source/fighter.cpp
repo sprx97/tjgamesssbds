@@ -1462,11 +1462,13 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 		effectwait = 15;
 	}
 
-	k = other.getKnockback();
-	hitstun = (int)((k.length*2 + percentage/4.0)/w1);
-	if(k.length == 0) hitstun = 0;
-	kx = (k.dx * mult * (1 + percentage/200.0))/w1;
-	ky = ((k.dy - gravity) * (1 + percentage/200.0))/w1;
+	if(other.getKnockback().length != 0) {
+		k = other.getKnockback();
+		hitstun = (int)((k.length*2 + percentage/4.0)/w1);
+		if(k.length == 0) hitstun = 0;
+		kx = (k.dx * mult * (1 + percentage/200.0))/w1;
+		ky = ((k.dy - gravity) * (1 + percentage/200.0))/w1;
+	}
 
 	if(players[hitter] -> MYCHAR == FOX && PA_GetSpriteAnimFrame(MAIN_SCREEN, players[hitter] -> SPRITENUM) == 114) {
 		hitstun = (int)(k.length*2);
