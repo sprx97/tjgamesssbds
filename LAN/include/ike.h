@@ -18,6 +18,7 @@ class Ike: public Fighter {
 		// actions
 		void cpu_dospecial();
 		double cpu_specialweight();
+		void erupt();
 		void bside();
 		void bup();
 		void bdown();

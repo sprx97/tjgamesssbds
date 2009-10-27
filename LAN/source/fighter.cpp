@@ -367,14 +367,17 @@ void Fighter::actCPU() {
 				if (Cx > 0) directionalInfluence(-DIval);
 				if (Cx < 0) directionalInfluence(DIval);
 				if (Cy > 0) {
-					if (jumpcount < jumpmax) doubleJump();
-					else {
-						bup();
-						if (Cx < 0) setDirection(RIGHT);
-						else if (Cx > 0) setDirection(LEFT);
+					if(!PERMAFALL) {
+						if (jumpcount < jumpmax) doubleJump();
+						else {
+							bup();
+							if (Cx < 0) setDirection(RIGHT);
+							else if (Cx > 0) setDirection(LEFT);
+						}
 					}
 				} //The ledge is above me
 			}
+			else if(PERMAFALL) {}
 			else if (Cdistance < range) {
 				if (Cangle > -45 && Cangle < 45 && (int)PA_RandMax(100) > 100 - level*10 + 5) {
 					if (direction == RIGHT) fair();
@@ -439,9 +442,9 @@ void Fighter::actCPU() {
 			// or slide
 		}
 		if (action == IDLE) {
-			int randn = PA_Rand() % 10; //0-9
+			int randn = PA_Rand() % 100; //0-99
 			double specialweight = cpu_specialweight();
-			if (randn < 5*specialweight) { // up to 5/10
+			if (randn < 50*specialweight) { // up to 50/100
 				if (Cx > 0) setDirection(RIGHT);
 				if (Cx < 0) setDirection(LEFT);
 				cpu_dospecial();
