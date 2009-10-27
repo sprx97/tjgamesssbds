@@ -6,6 +6,7 @@
 
 #define GLOBALGRAVITY 2.0
 
+#include <PA9.h>
 #include "hitbox.h"
 #include "knockback.h"
 #include "circle.h"
@@ -28,6 +29,7 @@ class Fighter {
 		//constructor
 		Fighter(int num, vector<Fighter*> *listplayers, Display *disp, string n, bool AI = false);
 		// variables
+		spriteanim tempanim;
 		double traction, airresistance, grabatkdamage, DIval;
 		double walkspeed;
 		double rollspeed;
@@ -44,6 +46,7 @@ class Fighter {
 		double acceleration;
 		int invincibility;
 		int ledgewait;
+		int freezelen;
 		int hangtime;
 		int handx, handy, hangx, hangy;
 		bool CAPE;
@@ -158,6 +161,7 @@ class Fighter {
 		void dair();
 		void nair();
 		void stun();
+		void freeze(int duration);
 		void slide();
 		void hang();
 		// Sound playing

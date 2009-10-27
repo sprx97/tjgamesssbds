@@ -40,6 +40,16 @@ void Sandbag::initPalettes() {
 	palettes.push_back("characters/sandbag");
 }
 void Sandbag::act() {
+	if(freezelen > 0) {
+		freezelen--;
+		invincibility--;
+		if(freezelen == 0) {
+			if(action == STUN) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[STUN], endframes[STUN], framespeeds[STUN], ANIM_LOOP, -1);
+			else spriteanims[MAIN_SCREEN][SPRITENUM] = tempanim;
+		}
+		else PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM), PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM), 1, ANIM_LOOP, -1);
+		return;
+	}
 	if (respawntimer > 0) {
 		return respawn();
 	}

@@ -13,6 +13,7 @@
 using std::vector;
 
 Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI) {
+	freezelen = 0;
 	invincibility = 0;
 	walkspeed = 1.0;
 	rollspeed = 2.0;
@@ -503,6 +504,15 @@ void Fighter::act() {
 		for (int n = 0; n < (int)allatkbox.size(); n++) {
 			allatkbox[n].enabled = true;
 		}
+	}
+	if(freezelen > 0) {
+		freezelen--;
+		if(freezelen == 0) {
+			if(action == STUN) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[STUN], endframes[STUN], framespeeds[STUN], ANIM_LOOP, -1);
+			else spriteanims[MAIN_SCREEN][SPRITENUM] = tempanim;
+		}
+		else PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM), PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM), 1, ANIM_LOOP, -1);
+		return;
 	}
 	if (isCPU) {
 		actCPU();
@@ -1399,6 +1409,11 @@ void Fighter::stun() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[STUN], endframes[STUN], framespeeds[STUN], ANIM_LOOP, -1);
 	playsound(STUN);
 }
+void Fighter::freeze(int duration) {
+	tempanim = spriteanims[MAIN_SCREEN][SPRITENUM];
+	freezelen = duration;
+	invincibility = duration;
+}
 void Fighter::slide() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SLIDE], endframes[SLIDE], framespeeds[SLIDE], ANIM_LOOP, -1);
 	action = SLIDE;
@@ -1434,7 +1449,14 @@ double Fighter::getDamagePercent() {
 	return percentage;
 }
 void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
-	if (action != STUN && other.getKnockback().length != 0) stun();
+	if(players[hitter] -> MYCHAR == PIKACHU && PA_GetSpriteAnimFrame(MAIN_SCREEN, players[hitter] -> SPRITENUM) == 64) {
+		freeze(15);
+		action = STUN;
+		myledge = -1;
+		playsound(STUN);
+		players[hitter] -> freeze(15);
+	}
+	else if (action != STUN && other.getKnockback().length != 0) stun();
 	PERMAFALL = false;
 	
 	int chargedamage = (int)((charge/225) * (.5*other.damage));
