@@ -73,9 +73,10 @@ void Ike::playsound(int sndnum) {
 	if (sndnum == UTILT) PA_FatPlaySfx("ikeutilt");
 }
 // actions
-double Ike::cpu_specialweight() { return .1; }
+double Ike::cpu_specialweight() { return .01; }
 void Ike::cpu_dospecial() {
-	bneut();
+	if (action != BNEUT) bneut();
+	else if (cpu_target_distance < 50 && eruptioncharge > 10) erupt();
 }
 void Ike::bside() {
 	if (action != BSIDE) {
@@ -189,6 +190,12 @@ void Ike::bdown() {
 		fall();
 	}
 }
+void Ike::erupt() {
+	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 100, 109, 10, ANIM_LOOP, -1);
+	PA_FatPlaySfx("ikebneut");
+	delay = 60 / 10 * 10;
+	eruptioncharge = 0;
+}
 void Ike::bneut() {
 	if (action != BNEUT) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 99, 99, 15, ANIM_LOOP, -1);
@@ -200,10 +207,8 @@ void Ike::bneut() {
 		action = BNEUT;
 		eruptioncharge = 0;
 	}
-	else if ((custom_action(ACTION_SPECIAL, PAD_RELEASED) && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99) || (eruptioncharge == 300 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99)) {
-		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 100, 109, 10, ANIM_LOOP, -1);
-		PA_FatPlaySfx("ikebneut");
-		delay = 60 / 10 * 10;
+	else if ((!isCPU && (custom_action(ACTION_SPECIAL, PAD_RELEASED) && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99)) || (eruptioncharge >= 300 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 99)) {
+		erupt();
 	}
 	else if (checkFloorCollision() && aerial) dy = 0;
 	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 109) {
@@ -219,6 +224,7 @@ void Ike::bneut() {
 		eruptioncharge++;
 		if (eruptioncharge > 300) eruptioncharge = 300;
 	}
+	if(isCPU) cpu_dospecial(); //give it a chance to think about erupting
 }
 void Ike::fthrow() {
 	if (action != FTHROW) {

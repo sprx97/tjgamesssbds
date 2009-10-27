@@ -439,9 +439,9 @@ void Fighter::actCPU() {
 			// or slide
 		}
 		if (action == IDLE) {
-			int randn = PA_Rand() % 10; //0-9
+			int randn = PA_Rand() % 100; //0-99
 			double specialweight = cpu_specialweight();
-			if (randn < 5*specialweight) { // up to 5/10
+			if (randn < 50*specialweight) { // up to 50/100
 				if (Cx > 0) setDirection(RIGHT);
 				if (Cx < 0) setDirection(LEFT);
 				cpu_dospecial();
