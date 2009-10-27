@@ -151,7 +151,8 @@ void Mewtwo::fireshadowball() {
 		int SHADOWBALL_SIZE = -1;
 		if (shadowballcharge >= 80) SHADOWBALL_SIZE = SHADOWBALL_LARGE;
 		else if (shadowballcharge >= 40) SHADOWBALL_SIZE = SHADOWBALL_MEDIUM;
-		else SHADOWBALL_SIZE = SHADOWBALL_SMALL;
+		else if (shadowballcharge > 0) SHADOWBALL_SIZE = SHADOWBALL_SMALL;
+		else return;
 		int directionmodifier = 1;
 		if (direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
