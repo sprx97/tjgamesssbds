@@ -1,9 +1,3 @@
-Next To Do:
-- Clashing hits on projectiles
-- "Random stage" button
-- Training mode (Separate section, not hidden)
-- improve charprevs (dblsize); red/blue/green/yellow
-
 Major Goals - Things that break the balance/memory of the game or new features that I want to add, probably before release:
 - Thunder platform physics
 - Convert all gfx to FAT
@@ -11,10 +5,8 @@ Major Goals - Things that break the balance/memory of the game or new features t
 - replay system
 - use 1 method to replace acting methods (Fighter::ftilt, Fighter::dtilt, etc)
 - Improve LAN (projectiles, effects, minimaps, pausing, matches, etc)
-- Improve Fox palettes
 - Improve options menu (make like other menus, not PA_Text)
 - Load more data from FAT (lighten memory load)
-- Mewtwo bdown functionality
 - remove extra frames from characters
 
 Minor Goals - Things that work fine but I'd like to improve:
