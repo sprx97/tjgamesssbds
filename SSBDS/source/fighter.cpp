@@ -347,7 +347,7 @@ void Fighter::actCPU() {
 			if (Cangle < 90 && Cangle > -90) directionalInfluence(DIval);
 			else if (Cangle > 90 || Cangle < -90) directionalInfluence(-DIval);
 		}
-		if (aerial && action != AIRATTACK && action != AIRLAG && action != JUMP && action != DOUBLEJUMP) {
+		if (aerial && action != AIRATTACK && action != AIRLAG && action != JUMP && action != DOUBLEJUMP && action != GRABBED) {
 			// act air
 			// Am I in danger?
 			if (x < stage->getFloors()[0].x || x > stage->getFloors()[0].x + stage->getFloors()[0].length) {
@@ -517,6 +517,7 @@ void Fighter::act() {
 		else PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM), PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM), 1, ANIM_LOOP, -1);
 		return;
 	}
+	if(action == GRABBED) return;
 	if (isCPU) {
 		actCPU();
 		return;
@@ -1039,6 +1040,10 @@ void Fighter::release(int dir) {
 	else dx = -2;
 }
 void Fighter::released(int dir) {
+	x = lastx;
+	y = lasty-1;
+	aerial = true;
+	dy = 32; // ensure landing on ground instead of continuing fall
 	action = RELEASED;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
 	delay = 8;
@@ -1048,6 +1053,8 @@ void Fighter::released(int dir) {
 void Fighter::grabbed(int otherx, int othery) {
 	action = GRABBED;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[GRABBED], endframes[GRABBED], framespeeds[GRABBED], ANIM_LOOP, -1);
+	lastx = x;
+	lasty = y;
 	x = otherx;
 	y = othery;
 	CAPE = false;
@@ -1060,6 +1067,7 @@ void Fighter::grabbed(int otherx, int othery) {
 	}
 	dx = 0;
 	dy = 0;
+	hitstun = 0;
 	playsound(GRABBED);
 }
 void Fighter::grab() {
@@ -1683,7 +1691,7 @@ void Fighter::smashAttack() {
 }
 void Fighter::move() {
 	if (action == HANG) return;
-	if (action == GRABBED) {}
+	else if (action == GRABBED) {}
 	else if (!aerial) {
 		if (!checkFloorCollision()) {
 			fall();
@@ -1910,7 +1918,7 @@ bool Fighter::checkLedgeCollision() {
 	return false;
 }
 bool Fighter::checkFloorCollision() {
-	vector<Floor> floors = stage->getFloors();
+ 	vector<Floor> floors = stage->getFloors();
 	for (uint8 n = 0; n < floors.size(); n++) {
 		Floor currfloor = floors[n];
 		double rise;
