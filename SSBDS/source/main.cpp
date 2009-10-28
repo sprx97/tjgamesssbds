@@ -937,7 +937,10 @@ void gameOver(bool nocontest = false) {
 }
 
 bool Pause() {
+	spriteanim tempsprites[2][128];
 	for (int n = 0; n < 128; n++) {
+		tempsprites[MAIN_SCREEN][n] = spriteanims[MAIN_SCREEN][n];
+		tempsprites[SUB_SCREEN][n] = spriteanims[SUB_SCREEN][n];
 		PA_SpriteAnimPause(MAIN_SCREEN, n, 1);
 		PA_SpriteAnimPause(SUB_SCREEN, n, 1);
 	}
@@ -945,7 +948,7 @@ bool Pause() {
 	PA_SetBrightness(MAIN_SCREEN, -12);
 	PA_SetBrightness(SUB_SCREEN, 0);
 	brightness = -12;
-	PA_WaitForVBL();
+	AS_MP3Pause();
 	while(true) {
 		PA_WaitForVBL();
 		if(Stylus.Newpress) {
@@ -973,8 +976,11 @@ bool Pause() {
 	PA_HideBg(SUB_SCREEN, 0);
 	for (int n = 0; n < 128; n++) {
 		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
-		PA_SpriteAnimPause(MAIN_SCREEN, n, 0);
+		PA_SpriteAnimPause(SUB_SCREEN, n, 0);
+		spriteanims[MAIN_SCREEN][n] = tempsprites[MAIN_SCREEN][n];
+		spriteanims[SUB_SCREEN][n] = tempsprites[SUB_SCREEN][n];
 	}
+	AS_MP3Unpause();
 	return false;
 } // pauses the game
 // Game modes/logic
