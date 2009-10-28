@@ -1975,7 +1975,6 @@ bool Fighter::checkFloorCollision() {
 				}
 			}
 			if((MYCHAR == FOX || MYCHAR == PIKACHU) && action == BSIDE) {
-				aerial = true;
 				return true;
 			}
 		} // checks for falling off
