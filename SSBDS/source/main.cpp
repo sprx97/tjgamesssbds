@@ -969,6 +969,7 @@ bool Pause() {
 					brightness = i;
 					PA_WaitForVBL();
 				}
+				AS_MP3Unpause();
 				return true;
 			}
 		}
