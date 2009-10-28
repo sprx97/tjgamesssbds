@@ -605,6 +605,14 @@ void Fighter::act() {
 			kx *= -1;
 			dx = kx;
 		}
+		if(dy > 1) {
+			if(jumpcount < jumpmax && (Pad.Newpress.Up || custom_action(ACTION_JUMP, PAD_NEWPRESS))) {
+				doubleJump();
+			}
+			else if(Pad.Held.Up && custom_action(ACTION_SPECIAL, PAD_NEWPRESS)) {
+				bup();
+			}
+		} // meteor cancel
 		if(custom_action(ACTION_SHIELD, PAD_NEWPRESS) && !shieldbroken) lcancel = 10;
 	}
 	else {
