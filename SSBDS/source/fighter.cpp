@@ -255,7 +255,7 @@ void Fighter::cpu_obeyRules() {
 			if (delay <= 0) idle();
 		}
 		if (action == BSIDE || action == BUP || action == BDOWN || action == BNEUT) {
-			if (delay <= 0) idle();
+			if (delay <= 0) fall();
 		}
 		if (action == AIRATTACK) {
 			if (checkFloorCollision()) {
@@ -1206,6 +1206,7 @@ void Fighter::permafall() {
 	fall();
 }
 void Fighter::idle() {
+	PA_SetSpriteVflip(MAIN_SCREEN, SPRITENUM, 0);
 	if (action != IDLE) PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[IDLE], endframes[IDLE], framespeeds[IDLE], ANIM_LOOP, -1);
 	dx = 0;
 	dy = 0;
