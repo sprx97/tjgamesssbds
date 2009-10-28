@@ -1475,6 +1475,13 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 		playsound(STUN);
 		players[hitter] -> freeze(15);
 	}
+	else if(players[hitter] -> MYCHAR == PIKACHU && PA_GetSpriteAnimFrame(MAIN_SCREEN, players[hitter] -> SPRITENUM) == 118) {
+		freeze(10);
+		action = STUN;
+		myledge = -1;
+		playsound(STUN);
+		players[hitter] -> freeze(15);
+	}
 	else if(players[hitter] -> MYCHAR == IKE && PA_GetSpriteAnimFrame(MAIN_SCREEN, players[hitter] -> SPRITENUM) == 110) {
 		freeze(10);
 		action = STUN;
