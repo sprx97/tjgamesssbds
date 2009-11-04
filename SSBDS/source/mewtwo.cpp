@@ -351,6 +351,7 @@ void Mewtwo::jabatk() {
 	else if(delay == 2 && custom_action(ACTION_BASIC, PAD_HELD)) {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
 		delay = 60 / framespeeds[JAB] * (endframes[JAB] - startframes[JAB] + 1);
+		for(int n = startframes[JAB]; n <= endframes[JAB]; n++) allatkbox[n].enabled = true;
 	}
 }
 double Mewtwo::cpu_specialweight() { return cpu_target_distance/150.0; }
