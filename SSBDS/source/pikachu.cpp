@@ -498,6 +498,26 @@ void Pikachu::dthrow() {
 	}
 }
 void Pikachu::jaywalk() {}
+void Pikachu::jabatk() {
+	if(action != JAB) {
+		action = JAB;
+		dx = 0;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
+		delay = 60 / framespeeds[JAB] * (endframes[JAB] - startframes[JAB] + 1);
+	}
+	else if(delay == 2 && jabagain) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
+		delay = 60 / framespeeds[JAB] * (endframes[JAB] - startframes[JAB] + 1);
+		jabagain = false;
+		for(int n = startframes[JAB]; n <= endframes[JAB]; n++) allatkbox[n].enabled = true;
+	}
+	else if(delay == 2) {
+		jabagain = false;
+		delay = 0;
+		idle();
+	}
+	if(custom_action(ACTION_BASIC, PAD_NEWPRESS)) jabagain = true;
+}
 Pikachu::~Pikachu() {
 	allatkbox.clear();
 	alldefbox.clear();

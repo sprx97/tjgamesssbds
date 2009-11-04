@@ -337,6 +337,22 @@ void Mewtwo::dthrow() {
 	if (delay <= 0) idle();
 }
 void Mewtwo::jaywalk() {}
+void Mewtwo::jabatk() {
+	if(action != JAB) {
+		action = JAB;
+		dx = 0;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
+		delay = 60 / framespeeds[JAB] * (endframes[JAB] - startframes[JAB] + 1);
+	}
+	else if(custom_action(ACTION_BASIC, PAD_RELEASED)) {
+		delay = 0;
+		idle();
+	}
+	else if(delay == 2 && custom_action(ACTION_BASIC, PAD_HELD)) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
+		delay = 60 / framespeeds[JAB] * (endframes[JAB] - startframes[JAB] + 1);
+	}
+}
 double Mewtwo::cpu_specialweight() { return cpu_target_distance/150.0; }
 void Mewtwo::cpu_dospecial() {
 	if (action == BNEUT) {

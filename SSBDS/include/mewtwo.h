@@ -33,6 +33,7 @@ class Mewtwo: public Fighter {
 		void uthrow();
 		void dthrow();
 		void jaywalk();
+		void jabatk();
 		void fireshadowball();
 		~Mewtwo();
 };

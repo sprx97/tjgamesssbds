@@ -34,6 +34,7 @@ class Fighter {
 		double walkspeed;
 		double rollspeed;
 		bool iswalking;
+		bool jabagain;
 		double jumpheight; ///< stores how high a fighter can jump off of the ground. Overwritten by subclasses
 		double doublejumpheight; ///< stores how high a fighter can jump from midair. Overwritten by subclasses
 		double w1;
@@ -164,6 +165,7 @@ class Fighter {
 		void freeze(int duration);
 		void slide();
 		void hang();
+		virtual void jabatk();
 		// Sound playing
 		virtual void initSounds();
 		virtual void playsound(int sndnum);

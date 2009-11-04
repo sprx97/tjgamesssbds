@@ -13,6 +13,7 @@
 using std::vector;
 
 Fighter::Fighter(int num, vector<Fighter*>* listplayers, Display *disp, string n, bool AI) {
+	jabagain = false;
 	freezelen = 0;
 	invincibility = 0;
 	walkspeed = 1.0;
@@ -632,7 +633,7 @@ void Fighter::act() {
 						else if (Pad.Held.Right) chargeright();
 						else if (Pad.Held.Up) chargeup();
 						else if (Pad.Held.Down) chargedown();
-						else jab();
+						else jabatk();
 						AB = true;
 					}
 				}
@@ -641,7 +642,7 @@ void Fighter::act() {
 						if (Pad.Held.Right || Pad.Held.Left) ftilt();
 						else if (Pad.Held.Up) utilt();
 						else if (Pad.Held.Down) dtilt();
-						else jab();
+						else jabatk();
 						AB = true;
 					}
 				}
@@ -680,13 +681,13 @@ void Fighter::act() {
 						else if (Pad.Held.Right) chargeright();
 						else if (Pad.Held.Up) chargeup();
 						else if (Pad.Held.Down) chargedown();
-						else jab();
+						else jabatk();
 					}
 					else if (custom_action(ACTION_BASIC, PAD_HELD)) {
 						if (Pad.Held.Right || Pad.Held.Left) ftilt();
 						else if (Pad.Held.Up) utilt();
 						else if (Pad.Held.Down) dtilt();
-						else jab();
+						else jabatk();
 					}
 					else if (custom_action(ACTION_SPECIAL, PAD_HELD)) {
 						if (Pad.Held.Right || Pad.Held.Left) bside();
@@ -852,10 +853,7 @@ void Fighter::act() {
 			}
 		}
 		if (action == JAB) {
-			if ((custom_action(ACTION_BASIC, PAD_RELEASED) && delay > 100) || delay <= 0) {
-				idle();
-				delay = 0;
-			}
+			jabatk();
 		}
 		if (action == ATTACK) {
 			if (delay <= 0) {
@@ -1756,7 +1754,7 @@ void Fighter::move() {
 	PA_SetSpriteXY(MAIN_SCREEN, SPRITENUM, (int)x, (int)y); // repositions the sprite
 } // moves the sprite
 void Fighter::jaywalk() {}
-void Fighter::setDirection(int rl) {
+void Fighter::jabatk() {}void Fighter::setDirection(int rl) {
 	if(action == HANG) return;
 	if (action == STUN) {
 		if (kx > 0) {

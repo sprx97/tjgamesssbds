@@ -390,6 +390,22 @@ void Kirby::jaywalk() {
 	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 82 && direction == RIGHT) x += 8;
 	if (PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 82 && direction == LEFT) x -= 8;
 }
+void Kirby:: jabatk() {
+	if(action != JAB) {
+		action = JAB;
+		dx = 0;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
+		delay = 60 / framespeeds[JAB] * (endframes[JAB] - startframes[JAB] + 1);
+	}
+	else if(custom_action(ACTION_BASIC, PAD_RELEASED)) {
+		delay = 0;
+		idle();
+	}
+	else if(delay == 2 && custom_action(ACTION_BASIC, PAD_HELD)) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
+		delay = 60 / framespeeds[JAB] * (endframes[JAB] - startframes[JAB] + 1);
+	}
+}
 Kirby::~Kirby() {
 	allatkbox.clear();
 	alldefbox.clear();

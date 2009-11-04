@@ -307,6 +307,30 @@ void Mario::dthrow() {
 	}
 }
 void Mario::jaywalk() {}
+void Mario::jabatk() {
+	if(action != JAB) {
+		action = JAB;
+		dx = 0;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
+		delay = 60 / framespeeds[JAB] * (endframes[JAB] - startframes[JAB] + 1);
+	}
+	else if(delay == 2 && jabagain > 0 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 37) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 38, 41, framespeeds[JAB], ANIM_LOOP, -1);
+		delay = 60 / framespeeds[JAB] * 4;
+		jabagain = false;
+	}
+	else if(delay == 2 && jabagain > 0 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 41) {
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 42, 46, framespeeds[JAB], ANIM_LOOP, -1);
+		delay = 60 / framespeeds[JAB] * 5;
+		jabagain = false;
+	}
+	else if(delay == 2) {
+		jabagain = false;
+		delay = 0;
+		idle();
+	}
+	if(custom_action(ACTION_BASIC, PAD_NEWPRESS)) jabagain = true;
+}
 Mario::~Mario() {
 	allatkbox.clear();
 	alldefbox.clear();

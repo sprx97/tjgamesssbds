@@ -23,6 +23,7 @@ class Pikachu: public Fighter {
 		void uthrow();
 		void dthrow();
 		void jaywalk();
+		void jabatk();
 		~Pikachu();
 	private:
 		int skullbashcharge;

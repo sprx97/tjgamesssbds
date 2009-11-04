@@ -26,6 +26,7 @@ class Mario: public Fighter {
 		void uthrow();
 		void dthrow();
 		void jaywalk();
+		void jabatk();
 		~Mario();
 	private:
 		int fluddcharge;

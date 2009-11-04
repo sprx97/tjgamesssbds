@@ -341,6 +341,27 @@ void Ike::jaywalk() {
 		y += 17;
 	}
 }
+void Ike::jabatk() {
+	if(action != JAB) {
+		action = JAB;
+		dx = 0;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[JAB], endframes[JAB], framespeeds[JAB], ANIM_LOOP, -1);
+		delay = 60 / framespeeds[JAB] * (endframes[JAB] - startframes[JAB] + 1);
+	}
+	else if(delay == 2 && jabagain && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 151) {
+		if(direction == RIGHT) dx = .5;
+		else dx = -.5;
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, 18, 20, 10, ANIM_LOOP, -1);
+		delay = 60 / 10 * 3;
+		jabagain = false;
+	}
+	else if(delay == 2) {
+		jabagain = false;
+		delay = 0;
+		idle();
+	}
+	if(custom_action(ACTION_BASIC, PAD_NEWPRESS)) jabagain = true;
+}
 Ike::~Ike() {
 	allatkbox.clear();
 	alldefbox.clear();

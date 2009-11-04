@@ -25,6 +25,7 @@ class Kirby: public Fighter {
 		void uthrow();
 		void dthrow();
 		void jaywalk();
+		void jabatk();
 		~Kirby();
 	private:
 		int rockcount; ///< How much longer the rock (Down-B) will last

@@ -32,6 +32,7 @@ class Fox: public Fighter {
 		void uthrow();
 		void dthrow();
 		void jaywalk();
+		void jabatk();
 		~Fox();
 };
 #endif
