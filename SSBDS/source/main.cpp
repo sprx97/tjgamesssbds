@@ -867,6 +867,8 @@ void displayResults(bool nocontest) {
 			AS_SetMP3Loop(true);
 			score.clear(); // clears the scoreboard
 			effects.clear(); // clears the effects
+			projectiles.clear();
+			for(int n = 0; n < effproj_used_size; n++) effproj_used[n] = false;
 			for (int n = 0; n < 128; n++) {
 				PA_DeleteSprite(MAIN_SCREEN, n);
 				PA_DeleteSprite(SUB_SCREEN, n);
