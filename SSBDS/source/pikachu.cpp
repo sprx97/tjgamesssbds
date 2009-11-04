@@ -291,10 +291,29 @@ void Pikachu::bup() {
 		firstdir = 0;
 	}
 	else if(PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 146 || PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 147) {
-		if(Pad.Held.Up) upcount++;
-		if(Pad.Held.Down) downcount++;
-		if(Pad.Held.Left) leftcount++;
-		if(Pad.Held.Right) rightcount++;
+		if(!isCPU) {
+			if(Pad.Held.Up) upcount++;
+			if(Pad.Held.Down) downcount++;
+			if(Pad.Held.Left) leftcount++;
+			if(Pad.Held.Right) rightcount++;
+		}
+		else {
+			Floor mainfloor = stage -> getFloors()[0];
+			int deltay = (int)(y - mainfloor.y);
+			int deltax = 0;
+			if(x > mainfloor.x + mainfloor.length) deltax = (int)(x - (mainfloor.x + mainfloor.length));
+			else if(x < mainfloor.x) deltax = (int)(mainfloor.x - x);
+			if(deltay > deltax) {
+				upcount = 10;
+				if(x > mainfloor.x + mainfloor.length) leftcount = deltax/deltay * 10;
+				else rightcount = deltax/deltay * 10;
+			}
+			else {
+				if(x > mainfloor.x + mainfloor.length) leftcount = 10;
+				else rightcount = 10;
+				upcount = deltay/deltax * 10;
+			}
+		}
 	}
 	else if(delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) == 148) {
 		permafall();
