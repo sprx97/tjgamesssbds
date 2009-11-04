@@ -1491,8 +1491,8 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 		players[hitter] -> delay = 60/10 * 2;
 		players[hitter] -> freeze(10);
 		players[hitter] -> dx = 0;
-		if(direction == LEFT) players[hitter] -> x += 32;
-		else players[hitter] -> x -= 32;
+		if(players[hitter] -> direction == RIGHT) players[hitter] -> x = -32 + x - leftside + players[hitter] -> rightside;
+		else players[hitter] -> x = 32 + x - rightside + players[hitter] -> leftside;
 		PA_StartSpriteAnimEx(MAIN_SCREEN, players[hitter] -> SPRITENUM, 143, 143, 1, ANIM_LOOP, -1);
 	}
 	else if(players[hitter] -> MYCHAR == IKE && (PA_GetSpriteAnimFrame(MAIN_SCREEN, players[hitter] -> SPRITENUM) == 139 || PA_GetSpriteAnimFrame(MYCHAR, players[hitter] -> SPRITENUM) == 140)) {
