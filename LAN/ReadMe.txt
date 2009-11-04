@@ -1,1 +1,0 @@
-This is the folder for the LAN ROM. The ROM in this folder will be loaded by the main ROM when entering multiplayer. This is done to minimize any problems with initializing/running Liblobby and in this way I can do both Liblobby and DSwifi by loading separate ROMS from the main one.
