@@ -1550,7 +1550,7 @@ void Fighter::takeDamage(Circle other, int mult, int hitter, int charge) {
 		else ky = 0;
 	} // shined
 
-	if(jumpcount = 0) jumpcount = 1;
+	if(jumpcount == 0) jumpcount = 1;
 	dx = dy = DI = fastfall = 0;
 	if(MYCHAR == IKE && bottomside == 64) {
 		bottomside = 47;
