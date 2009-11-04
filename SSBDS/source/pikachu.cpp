@@ -305,13 +305,13 @@ void Pikachu::bup() {
 			else if(x < mainfloor.x) deltax = (int)(mainfloor.x - x);
 			if(deltay > deltax) {
 				upcount = 10;
-				if(x > mainfloor.x + mainfloor.length) leftcount = deltax/deltay * 10;
-				else rightcount = deltax/deltay * 10;
+				if(x > mainfloor.x + mainfloor.length) leftcount = (int)((double)deltax/deltay * 10);
+				else rightcount = (int)((double)deltax/deltay * 10);
 			}
 			else {
 				if(x > mainfloor.x + mainfloor.length) leftcount = 10;
 				else rightcount = 10;
-				upcount = deltay/deltax * 10;
+				upcount = (int)((double)deltay/deltax * 10);
 			}
 		}
 	}
