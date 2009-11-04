@@ -206,7 +206,7 @@ void Mewtwo::bneut() {
 			int directionmodifier = 1;
 			if (direction == RIGHT) directionmodifier = -1;
 			Hitbox tempbox;
-			tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 240));
+			tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 25));
 			((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage, display));
 		}
 	}
