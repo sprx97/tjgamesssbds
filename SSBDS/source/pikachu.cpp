@@ -311,7 +311,7 @@ void Pikachu::bup() {
 			else {
 				if(x > mainfloor.x + mainfloor.length) leftcount = 10;
 				else rightcount = 10;
-				upcount = (int)((double)deltay/deltax * 10);
+				upcount = (int)((double)deltay/deltax * 10) + 1;
 			}
 		}
 	}

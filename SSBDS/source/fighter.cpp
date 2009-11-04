@@ -367,7 +367,7 @@ void Fighter::actCPU() {
 				Cy = y - ledges[minledge].y;
 				if (Cx > 0) directionalInfluence(-DIval);
 				if (Cx < 0) directionalInfluence(DIval);
-				if (Cy > 0) {
+				if (Cy > (int)PA_RandMax(25) + 25) {
 					if(!PERMAFALL) {
 						if (jumpcount < jumpmax) doubleJump();
 						else {
