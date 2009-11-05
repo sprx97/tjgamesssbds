@@ -207,8 +207,8 @@ void Fox::bneut() {
 		int directionmodifier = 1;
 		if (direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
-		tempbox.addCircle(createAtkbox(17, 32, 1, Knockback(0, 0, 0), 1));
-		tempbox.addCircle(createAtkbox(46, 32, 1, Knockback(0, 0, 0), 1));
+		tempbox.addCircle(createAtkbox(17, 32, 1, Knockback(0, 0, 0), 1, -1));
+		tempbox.addCircle(createAtkbox(46, 32, 1, Knockback(0, 0, 0), 1, -1));
 		Projectile p = Projectile(x, y, -10 * directionmodifier, 0, 200, FOXLASER, charnum, tempbox, stage, display);
 		((vector<Projectile>*)getProj())->push_back(p);
 	}

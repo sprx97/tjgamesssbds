@@ -128,7 +128,7 @@ void Mario::bdown() {
 		int directionmodifier = 1;
 		if (direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
-		tempbox.addCircle(createAtkbox(58, 32, 5, Knockback((-1*directionmodifier), -.5, 6), 60));
+		tempbox.addCircle(createAtkbox(58, 32, 5, Knockback((-1*directionmodifier), -.5, 6), 60, 5));
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y - 16, -5*directionmodifier, 0, 2*fluddcharge, FLUDDWATER, charnum, tempbox, stage, display));
 		fluddcharge = 0;
 	}
@@ -163,7 +163,7 @@ void Mario::bneut() {
 		int directionmodifier = 1;
 		if (direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
-		tempbox.addCircle(createAtkbox(32, 32, 6, Knockback(-.25*directionmodifier, 0, 6), 10));
+		tempbox.addCircle(createAtkbox(32, 32, 6, Knockback(-.25*directionmodifier, 0, 6), 10, 5));
 		Projectile p = Projectile(x, y, -2 * directionmodifier, 0, 120, FIREBALL, charnum, tempbox, stage, display);
 		((vector<Projectile>*)getProj())->push_back(p);
 	}

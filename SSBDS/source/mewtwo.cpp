@@ -170,7 +170,7 @@ void Mewtwo::fireshadowball() {
 			rad = 8;
 			kbmod = 3;
 		}
-		tempbox.addCircle(createAtkbox(32, 32, rad, Knockback(-3*directionmodifier / kbmod, -1.5 / kbmod, 8), 5 + (int)(shadowballcharge / 6)));
+		tempbox.addCircle(createAtkbox(32, 32, rad, Knockback(-3*directionmodifier / kbmod, -1.5 / kbmod, 8), 5 + (int)(shadowballcharge / 6), 8 - (int)(shadowballcharge/24)));
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_SIZE, charnum, tempbox, stage, display));
 		shadowballcharge = 0;
 		PA_FatPlaySfx("mewtwobneut");
@@ -206,7 +206,7 @@ void Mewtwo::bneut() {
 			int directionmodifier = 1;
 			if (direction == RIGHT) directionmodifier = -1;
 			Hitbox tempbox;
-			tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 25));
+			tempbox.addCircle(createAtkbox(32, 32, 14, Knockback(-3*directionmodifier, -1.5, 8), 25, 3));
 			((vector<Projectile>*)getProj())->push_back(Projectile(x, y, -3*directionmodifier, 0, 100, SHADOWBALL_LARGE, charnum, tempbox, stage, display));
 		}
 	}

@@ -343,30 +343,30 @@ void Pikachu::bdown() {
 	}
 	if(delay == 54) {
 		Hitbox tempbox1;
-		tempbox1.addCircle(createAtkbox(20, 32, 12, Knockback(-.5, -1.5, 7), 12));
-		tempbox1.addCircle(createAtkbox(44, 32, 12, Knockback(.5, -1.5, 7), 12));
+		tempbox1.addCircle(createAtkbox(20, 32, 12, Knockback(-.5, -1.5, 7), 12, -1));
+		tempbox1.addCircle(createAtkbox(44, 32, 12, Knockback(.5, -1.5, 7), 12, -1));
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-96, 0, 0, delay-36, THUNDER1, charnum, tempbox1, stage, display));	
 	}
 	if(delay == 52) {
 		Hitbox tempbox2;
 		for(int n = 4; n < 64; n+=8) {
-			tempbox2.addCircle(createAtkbox(28, n, 4, Knockback(-1, -.5, 6), 10));
-			tempbox2.addCircle(createAtkbox(36, n, 4, Knockback(1, -.5, 6), 10));
+			tempbox2.addCircle(createAtkbox(28, n, 4, Knockback(-1, -.5, 6), 10, -1));
+			tempbox2.addCircle(createAtkbox(36, n, 4, Knockback(1, -.5, 6), 10, -1));
 		}
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y-64, 0, 0, delay-34, THUNDER2, charnum, tempbox2, stage, display));		
 	}
 	if(delay == 50) {
 		Hitbox tempbox3;
 		for(int n = 4; n < 64; n+=8) {
-			tempbox3.addCircle(createAtkbox(28, n, 4, Knockback(-1, -.5, 6), 10));
-			tempbox3.addCircle(createAtkbox(36, n, 4, Knockback(1, -.5, 6), 10));
+			tempbox3.addCircle(createAtkbox(28, n, 4, Knockback(-1, -.5, 6), 10, -1));
+			tempbox3.addCircle(createAtkbox(36, n, 4, Knockback(1, -.5, 6), 10, -1));
 		}
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay-32, THUNDER3, charnum, tempbox3, stage, display));	
 	}
 	if(delay == 48) {
 		Hitbox tempbox4;
-		tempbox4.addCircle(createAtkbox(22, 48, 15, Knockback(-2, -1.25, 8), 15));
-		tempbox4.addCircle(createAtkbox(42, 48, 15, Knockback(2, -1.25, 8), 15));
+		tempbox4.addCircle(createAtkbox(22, 48, 15, Knockback(-2, -1.25, 8), 15, -1));
+		tempbox4.addCircle(createAtkbox(42, 48, 15, Knockback(2, -1.25, 8), 15, -1));
 		((vector<Projectile>*)getProj())->push_back(Projectile(x, y, 0, 0, delay-30, THUNDER4, charnum, tempbox4, stage, display));	
 	}
 	if(checkFloorCollision()) dx = 0;
@@ -388,7 +388,7 @@ void Pikachu::bneut() {
 		int directionmodifier = 1;
 		if (direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
-		tempbox.addCircle(createAtkbox(32, 58, 6, Knockback((-.25*directionmodifier), -.5, 6), 10));
+		tempbox.addCircle(createAtkbox(32, 58, 6, Knockback((-.25*directionmodifier), -.5, 6), 10, 5));
 		Projectile p = Projectile(x+4+8*-directionmodifier, y-16, -2*directionmodifier, GLOBALGRAVITY, 100, THUNDERSHOCK, charnum, tempbox, stage, display);
 		((vector<Projectile>*)getProj())->push_back(p);
 	}
