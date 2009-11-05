@@ -1968,7 +1968,6 @@ bool Fighter::checkFloorCollision() {
 				if (x + rightside + dx > currfloor.x && x + leftside + dx < currfloor.x + currfloor.length) {
 					if(currfloor.totalrise() == 0) {
 						if(y + bottomside == currfloor.y) {	
-							y = currfloor.y - bottomside;
 							return true;
 						} // stays on the ledge
 					}
