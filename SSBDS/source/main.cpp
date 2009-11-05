@@ -440,6 +440,57 @@ void stageSelect() {
 		PA_WaitForVBL();
 	}
 }
+
+int MAX_PLAYERS = 2;
+int selections[] = {-1, -1, -1, -1};
+int PAGEUP = MAX_CHAR + 5;
+int PAGEDOWN = MAX_CHAR + 4;
+int MAX_PAGE = (MAX_CHAR - 1) / 6;
+
+void initCursors() {
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/cursors");
+	PA_FatLoadSprite(0, "selection/cursors");
+	for (int n = 0; n < MAX_PLAYERS; n++) {
+		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, -64, 152);
+		subx[n] = (n+1) * 48 + 40;
+		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
+	} // only 2 players for now
+}
+void initArrows() {
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "selection/arrow");
+	PA_FatLoadSprite(2, "selection/arrow");
+	PA_CreateSprite(SUB_SCREEN, PAGEDOWN, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, -32, 160);
+	subx[PAGEDOWN] = -32;
+	PA_SetSpriteX(SUB_SCREEN, PAGEDOWN, -64);
+	PA_StartSpriteAnimEx(SUB_SCREEN, PAGEDOWN, 0, 0, 1, ANIM_LOOP, -1);
+	PA_SetSpriteHflip(SUB_SCREEN, PAGEDOWN, true);
+	PA_CreateSprite(SUB_SCREEN, PAGEUP, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, 224, 160);
+	subx[PAGEUP] = 224;
+	PA_SetSpriteX(SUB_SCREEN, PAGEUP, -64);
+	PA_StartSpriteAnimEx(SUB_SCREEN, PAGEUP, 0, 0, 1, ANIM_LOOP, -1);
+}
+void initSelectTiles() {
+	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "selection/charsel");
+	PA_FatLoadSprite(1, "selection/charsel");
+	for (int n = KIRBY; n <= 6; n++) {
+		PA_CreateSprite(SUB_SCREEN, 4 + n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n - 1) % 3)*80 + 16, ((n - 1) / 3)*72);
+		subx[4+n] = ((n - 1) % 3) * 80 + 16;
+		PA_SetSpriteX(SUB_SCREEN, 4 + n, -64);
+		PA_StartSpriteAnimEx(SUB_SCREEN, 4 + n, n, n, 1, ANIM_LOOP, -1);
+	}
+}
+void initPreviews() {
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 3, "selection/charprev");
+	PA_FatLoadSprite(3, "selection/charprev");
+	for (int n = 0; n < MAX_PLAYERS; n++) {
+		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[3], OBJ_SIZE_64X64, COLOR256, 3, 64*n, 128);
+		mainx[n] = 64 * n;
+		if(MAX_PLAYERS == 2) mainx[n] = 64*(n+1);
+		PA_SetSpriteX(MAIN_SCREEN, n, -64);
+		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
+	} // only 2 players for now
+}
+
 int checkselected(int page, int selectedcursor, int currentlyselected) {
 	char* names[] = {"kirby", "mewtwo", "mario", "ike", "fox", "pikachu"};
 	int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor) + 16;
@@ -463,55 +514,17 @@ int checkselected(int page, int selectedcursor, int currentlyselected) {
 	return -1;
 }
 bool characterSelect(bool train = false) {
-	int MAX_PLAYERS = 2; // 2-4
-
-	int PAGEUP = MAX_CHAR + 5;
-	int PAGEDOWN = MAX_CHAR + 4;
+	int page = 0;
+	int selectedcursor = -1;
 
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/cursors");
-	PA_FatLoadSprite(0, "selection/cursors");
-	for (int n = 0; n < MAX_PLAYERS; n++) {
-		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, n*48 + 40, 152);
-		subx[n] = n * 48 + 40;
-		if(MAX_PLAYERS == 2) subx[n] = (n+1)*48 + 40;
-		PA_SetSpriteX(SUB_SCREEN, n, -64);
-		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
-	} // only 2 players for now
-
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "selection/arrow");
-	PA_FatLoadSprite(2, "selection/arrow");
-	PA_CreateSprite(SUB_SCREEN, PAGEDOWN, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, -32, 160);
-	subx[PAGEDOWN] = -32;
-	PA_SetSpriteX(SUB_SCREEN, PAGEDOWN, -64);
-	PA_StartSpriteAnimEx(SUB_SCREEN, PAGEDOWN, 0, 0, 1, ANIM_LOOP, -1);
-	PA_SetSpriteHflip(SUB_SCREEN, PAGEDOWN, true);
-	PA_CreateSprite(SUB_SCREEN, PAGEUP, (void*)sprite_gfx[2], OBJ_SIZE_32X32, COLOR256, 2, 224, 160);
-	subx[PAGEUP] = 224;
-	PA_SetSpriteX(SUB_SCREEN, PAGEUP, -64);
-	PA_StartSpriteAnimEx(SUB_SCREEN, PAGEUP, 0, 0, 1, ANIM_LOOP, -1);
-
-	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "selection/charsel");
-	PA_FatLoadSprite(1, "selection/charsel");
-	for (int n = KIRBY; n <= 6; n++) {
-		PA_CreateSprite(SUB_SCREEN, 4 + n, (void*)sprite_gfx[1], OBJ_SIZE_64X64, COLOR256, 1, ((n - 1) % 3)*80 + 16, ((n - 1) / 3)*72);
-		subx[4+n] = ((n - 1) % 3) * 80 + 16;
-		PA_SetSpriteX(SUB_SCREEN, 4 + n, -64);
-		PA_StartSpriteAnimEx(SUB_SCREEN, 4 + n, n, n, 1, ANIM_LOOP, -1);
-	}
+	initCursors();
+	initArrows();
+	initSelectTiles();
+	initPreviews();
 	
-	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 3, "selection/charprev");
-	PA_FatLoadSprite(3, "selection/charprev");
-	for (int n = 0; n < MAX_PLAYERS; n++) {
-		PA_CreateSprite(MAIN_SCREEN, n, (void*)sprite_gfx[3], OBJ_SIZE_64X64, COLOR256, 3, 64*n, 128);
-		mainx[n] = 64 * n;
-		if(MAX_PLAYERS == 2) mainx[n] = 64*(n+1);
-		PA_SetSpriteX(MAIN_SCREEN, n, -64);
-		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
-	} // only 2 players for now
-
 	PA_FatLoadSfx("ffa", "menu/freeforall");
 	PA_FatLoadSfx("confirm", "menu/confirm");
 	PA_FatLoadSfx("no", "menu/no");
@@ -528,11 +541,6 @@ bool characterSelect(bool train = false) {
 	PA_FatPlaySfx("ffa");
 	// plays free for all sound byte
 
-	int selections[] = {-1, -1, -1, -1};
-
-	int page = 0;
-	int selectedcursor = -1;
-	int MAX_PAGE = (MAX_CHAR - 1) / 6;
 	while (true) {
 		if (Stylus.Newpress) {
 			for (int n = 0; n < MAX_PLAYERS; n++) {
