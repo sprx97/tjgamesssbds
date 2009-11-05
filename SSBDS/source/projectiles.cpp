@@ -172,29 +172,72 @@ Fighter* Projectile::checkHits(Fighter* other) {
 	}
 	if (other -> respawntimer > 0) return other;
 	if (other -> invincibility > 0) return other;
-	if (atkbox.hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
-		if (other -> CAPE || other -> COUNTER) {
+	if(atkbox.hits(other -> getAtkbox())) {
+		if(atkbox.getHitCircle(other -> getAtkbox()).priority < other -> getAtkbox().getHitCircle(atkbox).priority) {
+			if (dx < 0) other -> takeDamage(atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), 1, owner, 0);
+			else other -> takeDamage(atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, owner, 0);
+		}
+		else if(atkbox.getHitCircle(other -> getAtkbox()).priority == other -> getAtkbox().getHitCircle(atkbox).priority) {
+			removeProj(num); 
+		}
+		else {
+			removeProj(num);
+			return other; // they win priority
+		}
+	}
+	else if(atkbox.hits(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM)))) {
+		if(other -> MYCHAR == KIRBY && PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM) == 189) {
+			if(TYPE != THUNDER1 && TYPE != THUNDER2 && TYPE != THUNDER3 && TYPE != THUNDER4 && TYPE != IKESWORD) removeProj(num);
+			else atkbox.enabled = false;
+		}
+		else if (other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/
+		}
+		else if (other -> action == SHIELD) {
+			other -> shieldstr -= (int)((atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage));
+			if(TYPE != THUNDER1 && TYPE != THUNDER2 && TYPE != THUNDER3 && TYPE != THUNDER4 && TYPE != IKESWORD) removeProj(num);
+			else atkbox.enabled = false;
+			if(TYPE == THUNDER1 || TYPE == THUNDER2 || TYPE == THUNDER3 || TYPE == THUNDER4) {
+				vector<Projectile> projs = *((vector<Projectile>*)getProj());
+				for(int n = 0; n < (int)projs.size(); n++) {
+					if(projs[n].owner == owner && (projs[n].TYPE == THUNDER1 || projs[n].TYPE == THUNDER2 || projs[n].TYPE == THUNDER3 || projs[n].TYPE == THUNDER4)) projs[n].enabled = false;
+				}
+			}
+		}
+		else if(other -> COUNTER) {
+			if(TYPE != THUNDER1 && TYPE != THUNDER2 && TYPE != THUNDER3 && TYPE != THUNDER4 && TYPE != IKESWORD) removeProj(num);
+			else atkbox.enabled = false;
+			other -> COUNTER = false;
+			if(other -> MYCHAR == IKE && (PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM) == 139 || PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM) == 140)) {
+				PA_StartSpriteAnimEx(MAIN_SCREEN, other -> SPRITENUM, 143, 144, 10, ANIM_LOOP, -1);
+				other -> action = ATTACK;
+				other -> delay = 60/10 * 2;
+				other -> freeze(30);
+				other -> dx = 0;
+				PA_StartSpriteAnimEx(MAIN_SCREEN, other -> SPRITENUM, 139, 139, 1, ANIM_LOOP, -1);
+			}
+			if(TYPE == THUNDER1 || TYPE == THUNDER2 || TYPE == THUNDER3 || TYPE == THUNDER4) {
+				vector<Projectile> projs = *((vector<Projectile>*)getProj());
+				for(int n = 0; n < (int)projs.size(); n++) {
+					if(projs[n].owner == owner && (projs[n].TYPE == THUNDER1 || projs[n].TYPE == THUNDER2 || projs[n].TYPE == THUNDER3 || projs[n].TYPE == THUNDER4)) projs[n].enabled = false;
+				}
+			}
+		}
+		else if(other -> CAPE) {
 			dx *= -1;
-			owner = other->charnum;
+			owner = other -> charnum;
 			vector<Circle> temp = hit.getCircles();
 			hit.reset();
-			for (int n = 0; n < (int)temp.size(); n++) {
+			for(int n = 0; n < (int)temp.size();n++) {
 				hit.addCircle(Circle(temp[n].getX(), temp[n].getY(), temp[n].getRadius(), Knockback(temp[n].getKnockback().dx * -1, temp[n].getKnockback().dy, temp[n].getKnockback().length), temp[n].damage));
 			}
-			if (dx > 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 0);
-			if (dx < 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 1);
+			if(dx > 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 0);
+			if(dx < 0) PA_SetSpriteHflip(MAIN_SCREEN, num, 1);
 		}
 		else if (other -> ABSORB && (TYPE != IKESWORD)) {
 			other -> percentage -= atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage;
 			if(other -> percentage < 0) other -> percentage = 0;
 			if(TYPE != THUNDER1 && TYPE != THUNDER2 && TYPE != THUNDER3 && TYPE != THUNDER4) removeProj(num);
-		}
-		else if (other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/
-		}
-		else if (other -> action == SHIELD) {
-			other -> shieldstr -= (int)((atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage * (.5 * atkbox.getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage))/3);
-			if (TYPE != FINALCUTTER && TYPE != IKESWORD && TYPE != THUNDER1 && TYPE != THUNDER2 && TYPE != THUNDER3 && TYPE != THUNDER4) removeProj(num);
-			else enabled = false;
+			else atkbox.enabled = false;
 			if(TYPE == THUNDER1 || TYPE == THUNDER2 || TYPE == THUNDER3 || TYPE == THUNDER4) {
 				vector<Projectile> projs = *((vector<Projectile>*)getProj());
 				for(int n = 0; n < (int)projs.size(); n++) {

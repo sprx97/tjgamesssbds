@@ -134,7 +134,7 @@ void Ike::bup() {
 		int directionmodifier = 1;
 		if (direction == RIGHT) directionmodifier = -1;
 		Hitbox tempbox;
-		tempbox.addCircle(createAtkbox(32, 32, 15, Knockback(0, 0, 2), 3, -1));
+		tempbox.addCircle(createAtkbox(32, 32, 15, Knockback(0, 0, 2), 3, -2));
 		Projectile p = Projectile(x, y, -.1 * directionmodifier, -4, 30, IKESWORD, charnum, tempbox, stage, display);
 		((vector<Projectile>*)getProj())->push_back(p);
 	}

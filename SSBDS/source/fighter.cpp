@@ -1567,7 +1567,7 @@ Fighter* Fighter::checkHits(Fighter* other) {
 	if (other -> respawntimer > 0) return other;
 	if (other -> invincibility > 0) return other;
 	if(getAtkbox().hits(other -> getAtkbox())) {
-		if(getAtkbox().getHitCircle(other -> getAtkbox()).priority > other -> getAtkbox().getHitCircle(getAtkbox()).priority) {
+		if(getAtkbox().getHitCircle(other -> getAtkbox()).priority < other -> getAtkbox().getHitCircle(getAtkbox()).priority) {
 			if (action == HOLD || action == GRABATK) {}
 			else if (action == GRAB) {
 				if (direction == RIGHT) other -> grabbed((int)(x + handx), (int)y);
@@ -1575,12 +1575,6 @@ Fighter* Fighter::checkHits(Fighter* other) {
 				other -> grabbedby = this;
 				grabbedenemy = other;
 				hold();
-			}
-			else if (other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/
-			}
-			else if (other -> action == SHIELD) {
-				other -> shieldstr -= getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage + (int)((chargecount / 225) * (.5 * getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))).damage));
-				if(action == BSIDE && (MYCHAR == PIKACHU || MYCHAR == IKE)) idle();
 			}
 			else if (other -> COUNTER) {
 				if (direction == LEFT) takeDamage(getAtkbox().getHitCircle(other -> getDefbox(PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM))), -1, other -> charnum, chargecount);
@@ -1597,13 +1591,17 @@ Fighter* Fighter::checkHits(Fighter* other) {
 		} // I win priority
 		else if(getAtkbox().getHitCircle(other -> getAtkbox()).priority == other -> getAtkbox().getHitCircle(other -> getAtkbox()).priority) {
 			PA_FatPlaySfx("clash");
-			if(direction == RIGHT) dx = -2;
-			else dx = 2;
-			slide();
+			if(!aerial) {
+				if(direction == RIGHT) dx = -2;
+				else dx = 2;
+				slide();
+			}
 			if(other -> MYCHAR != KIRBY || PA_GetSpriteAnimFrame(MAIN_SCREEN, other->SPRITENUM) != 189) {
-				if(other -> direction == RIGHT) other -> dx = -2;
-				else other -> dx = 2;
-				other -> slide();
+				if(!(other -> aerial)) {
+					if(other -> direction == RIGHT) other -> dx = -2;
+					else other -> dx = 2;
+					other -> slide();
+				}
 			}
 		} // clashing hits
 		else return other; // they win priority in their checkHits()
@@ -1619,9 +1617,11 @@ Fighter* Fighter::checkHits(Fighter* other) {
 		}
 		else if(other -> MYCHAR == KIRBY && PA_GetSpriteAnimFrame(MAIN_SCREEN, other -> SPRITENUM) == 189) {
 			PA_FatPlaySfx("clash");
-			if(direction == RIGHT) dx = -2;
-			else dx = 2;
-			slide();
+			if(!aerial) {
+				if(direction == RIGHT) dx = -2;
+				else dx = 2;
+				slide();
+			}
 		} // Kirby's rock stops attacks!
 		else if (other -> action == AIRDODGE || other -> action == ROLL || other -> action == DODGE) { /*doesn't hit*/
 		}
