@@ -115,7 +115,7 @@ Floor Projectile::checkFloorCollision(int deltax, int deltay) {
 			return mystage -> getFloors()[n];
 		}
 	}
-	return Floor(0, 0, 0, false);
+	return Floor(0, 0, 0, 0, false);
 }
 Wall Projectile::checkWallCollision(int deltax, int deltay) {
 	for(int n = 0; n < (int)((mystage -> getWalls()).size()); n++) {
