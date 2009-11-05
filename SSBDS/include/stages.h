@@ -3,7 +3,7 @@
 
 #include "stage.h"
 
-extern const int FINALDESTINATION, POKEMONSTADIUM, CASTLESIEGE, CORNERIA;
+extern const int RANDOM_STAGE, FINALDESTINATION, POKEMONSTADIUM, CASTLESIEGE, CORNERIA, MAX_STAGE;
 // stage shortcuts just like character shortcuts
 
 class FinalDestination: public Stage {

@@ -409,32 +409,15 @@ void stageSelect() {
 	PA_FatLoadSprite(31, "selection/stageselleft");
 	PA_FatLoadSprite(30, "selection/stageselright");
 	
-	PA_CreateSprite(SUB_SCREEN, FINALDESTINATION, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 0, 0);
-	PA_CreateSprite(SUB_SCREEN, 64+FINALDESTINATION, (void*)sprite_gfx[30], OBJ_SIZE_64X64, COLOR256, 1, 64, 0);
-	subx[FINALDESTINATION] = 0;
-	subx[64+FINALDESTINATION] = 64;
-	PA_SetSpriteX(SUB_SCREEN, FINALDESTINATION, -64);
-	PA_SetSpriteX(SUB_SCREEN, 64+FINALDESTINATION, -64);
-	PA_StartSpriteAnimEx(SUB_SCREEN, FINALDESTINATION, FINALDESTINATION, FINALDESTINATION, 1, ANIM_LOOP, -1);
-	PA_StartSpriteAnimEx(SUB_SCREEN, 64+FINALDESTINATION, FINALDESTINATION, FINALDESTINATION, 1, ANIM_LOOP, -1);
-
-	PA_CreateSprite(SUB_SCREEN, POKEMONSTADIUM, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
-	PA_CreateSprite(SUB_SCREEN, 64+POKEMONSTADIUM, (void*)sprite_gfx[30], OBJ_SIZE_64X64, COLOR256, 1, 192, 0);
-	subx[POKEMONSTADIUM] = 128;
-	subx[64+POKEMONSTADIUM] = 192;
-	PA_SetSpriteX(SUB_SCREEN, POKEMONSTADIUM, -64);
-	PA_SetSpriteX(SUB_SCREEN, 64+POKEMONSTADIUM, -64);
-	PA_StartSpriteAnimEx(SUB_SCREEN, POKEMONSTADIUM, POKEMONSTADIUM, POKEMONSTADIUM, 1, ANIM_LOOP, -1);
-	PA_StartSpriteAnimEx(SUB_SCREEN, 64+POKEMONSTADIUM, POKEMONSTADIUM, POKEMONSTADIUM, 1, ANIM_LOOP, -1);
-
-//	PA_CreateSprite(SUB_SCREEN, CASTLESIEGE, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 128, 0);
-//	subx[CASTLESIEGE] = 128; PA_SetSpriteX(SUB_SCREEN, CASTLESIEGE, -64);
-//	PA_StartSpriteAnimEx(SUB_SCREEN, CASTLESIEGE, CASTLESIEGE, CASTLESIEGE, 1, ANIM_LOOP, -1);
-//	PA_CreateSprite(SUB_SCREEN, CORNERIA, (void*)sprite_gfx[31], OBJ_SIZE_64X64, COLOR256, 0, 192, 0);
-//	subx[CORNERIA] = 192; PA_SetSpriteX(SUB_SCREEN, CORNERIA, -64);
-//	PA_StartSpriteAnimEx(SUB_SCREEN, CORNERIA, CORNERIA, CORNERIA, 1, ANIM_LOOP, -1);
-	// loads sprites just like in characterSelect()
-
+	for(int n = 0; n < MAX_STAGE; n++) {
+		for(int m = 0; m <= 1; m ++) {
+			PA_CreateSprite(SUB_SCREEN, n + 64*m, (void*)sprite_gfx[31-m], OBJ_SIZE_64X64, COLOR256, m, 128*(n%2) + 64*m, 48*n);
+			subx[n + 64*m] = 128*(n%2) + 64*m;
+			PA_SetSpriteX(SUB_SCREEN, n + 64*m, -64);
+			PA_StartSpriteAnimEx(SUB_SCREEN, n + 64*m, n, n, 1, ANIM_LOOP, -1);
+		}
+	}
+	
 	PA_FatLoadSfx("confirm", "menu/confirm");
 
 	fadeIn();
@@ -448,7 +431,8 @@ void stageSelect() {
 					PA_ResetSpriteSysScreen(SUB_SCREEN); // resets sprites
 					PA_FatFreeSprite(31);
 					PA_FatFreeSprite(30);
-					selectedStage = n; // sets selected stage, just like in characterSelect()
+					if(n == RANDOM_STAGE) selectedStage = PA_RandMinMax(1, MAX_STAGE-1);
+					else selectedStage = n; // sets selected stage, just like in characterSelect()
 					return;
 				}
 			}
@@ -464,14 +448,14 @@ int checkselected(int page, int selectedcursor, int currentlyselected) {
 		if(PA_GetSpriteAnimFrame(SUB_SCREEN, n + 4) == 0) continue;
 		if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
 			if(6*page+n == currentlyselected) return 6*page+n;
-			if(6*page+n != RANDOM) PA_FatPlaySfx(names[6*page+n-1]);
+			if(6*page+n != RANDOM_CHAR) PA_FatPlaySfx(names[6*page+n-1]);
 			if(6*page+n == KIRBY) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 4, 5, ANIM_LOOP, -1);
 			else if(6*page+n == MEWTWO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 5, 10, 5, ANIM_LOOP, -1);
 			else if(6*page+n == MARIO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 11, 14, 5, ANIM_LOOP, -1);
 			else if(6*page+n == IKE) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 15, 21, 5, ANIM_LOOP, -1);
 			else if(6*page+n == FOX) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 22, 27, 5, ANIM_LOOP, -1);
 			else if(6*page+n == PIKACHU) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 28, 33, 5, ANIM_LOOP, -1);
-			else if(6*page+n == RANDOM) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 33, 60, ANIM_LOOP, -1);
+			else if(6*page+n == RANDOM_CHAR) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 33, 60, ANIM_LOOP, -1);
 			return 6*page+n;
 		}
 	}
@@ -685,7 +669,7 @@ bool characterSelect(bool train = false) {
 				for (int n = 0; n < MAX_PLAYERS; n++) {
 					bool isai = true;
 					if (n == 0) isai = false;
-					if(selections[n] == RANDOM) selections[n] = PA_RandMinMax(1, RANDOM-1); // a non-sandbag character
+					if(selections[n] == RANDOM_CHAR) selections[n] = PA_RandMinMax(1, MAX_CHAR-2); // a non-sandbag character
 					if (selections[n] == KIRBY) players.push_back(new Kirby(n + 1, &players, &display, isai));
 					else if (selections[n] == MEWTWO) players.push_back(new Mewtwo(n + 1, &players, &display, isai));
 					else if (selections[n] == MARIO) players.push_back(new Mario(n + 1, &players, &display, isai));
