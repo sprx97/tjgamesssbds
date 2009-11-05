@@ -24,6 +24,7 @@ void FinalDestination::Initialize() {
 	spawny.push_back(4);
 	spawny.push_back(4);
 	floors.push_back(Floor(64, 132, 384, 0, false));
+	floors.push_back(Floor(64+384, 132, 100, 100, false));
 	walls.push_back(Wall(96, 132, 116, "left"));
 	walls.push_back(Wall(416, 132, 116, "right"));
 	ceilings.push_back(Ceiling(64, 132, 384));
