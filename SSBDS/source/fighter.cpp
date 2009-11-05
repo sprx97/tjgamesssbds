@@ -1950,13 +1950,14 @@ bool Fighter::checkFloorCollision() {
 		Floor currfloor = floors[n];
 		double centerx = x + rightside/2.0;
 		double bottomy = y + bottomside;
+		double lastbottomy = lasty + bottomside;
 		double slope = currfloor.rise*1.0/currfloor.length;
 		double rise = (centerx-currfloor.x)*slope;
 		double lastrise = (lastx + rightside/2.0 -currfloor.x)*slope;
 		if (aerial) {
 			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && x + rightside + dx + DI > currfloor.x && x + leftside + dx + DI < currfloor.x + currfloor.length) {
 				if(!((MYCHAR == FOX || MYCHAR == MEWTWO || MYCHAR == PIKACHU) && action == BUP && currfloor.isPlatform())) {
-					if(y + bottomside <= (currfloor.y - rise) && y + bottomside + gravity + fastfall + dy + ymomentum > (currfloor.y - rise)) {
+					if(lastbottomy <= (currfloor.y - lastrise) && bottomy > (currfloor.y - rise)) {
 						aerial = false;
 						y = currfloor.y - bottomside - rise;
 						dy = DI = fastfall = ymomentum = 0;
