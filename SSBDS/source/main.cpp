@@ -446,7 +446,32 @@ int selections[] = {-1, -1, -1, -1};
 int PAGEUP = MAX_CHAR + 5;
 int PAGEDOWN = MAX_CHAR + 4;
 int MAX_PAGE = (MAX_CHAR - 1) / 6;
+int page = 0;
 
+
+
+int checkselected(int page, int selectedcursor, int currentlyselected, bool remaking = false) {
+	char* names[] = {"kirby", "mewtwo", "mario", "ike", "fox", "pikachu"};
+	int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor) + 16;
+	int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor) + 16;
+	for (int n = 1; n <= 6; n++) {
+		if(PA_GetSpriteAnimFrame(SUB_SCREEN, n + 4) == 0) continue;
+		if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
+			if(6*page+n == currentlyselected && !remaking) return 6*page+n;
+			if(6*page+n != RANDOM_CHAR && !remaking) PA_FatPlaySfx(names[6*page+n-1]);
+			if(6*page+n == KIRBY) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 4, 5, ANIM_LOOP, -1);
+			else if(6*page+n == MEWTWO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 5, 10, 5, ANIM_LOOP, -1);
+			else if(6*page+n == MARIO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 11, 14, 5, ANIM_LOOP, -1);
+			else if(6*page+n == IKE) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 15, 21, 5, ANIM_LOOP, -1);
+			else if(6*page+n == FOX) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 22, 27, 5, ANIM_LOOP, -1);
+			else if(6*page+n == PIKACHU) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 28, 33, 5, ANIM_LOOP, -1);
+			else if(6*page+n == RANDOM_CHAR) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 33, 60, ANIM_LOOP, -1);
+			return 6*page+n;
+		}
+	}
+	PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
+	return -1;
+}
 void initCursors() {
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/cursors");
 	PA_FatLoadSprite(0, "selection/cursors");
@@ -455,6 +480,20 @@ void initCursors() {
 		subx[n] = (n+1) * 48 + 40;
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
+	for(int n = 0; n < MAX_PLAYERS; n++) {
+		bool set = false;
+		for(int m = 1; m <= 6; m++) {
+			if(selections[n] == 6*page+m) {
+				subx[n] = 16+subx[m+4];
+				PA_SetSpriteY(SUB_SCREEN, n, 16+PA_GetSpriteY(SUB_SCREEN, m+4));
+				set = true;
+			}
+		}
+		if(!set && selections[n] != -1) subx[n] = -64;
+	}
+	for(int n = 0; n < MAX_PLAYERS; n++) {
+		checkselected(page, n, selections[n], true);
+	}
 }
 void initArrows() {
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 2, "selection/arrow");
@@ -490,40 +529,17 @@ void initPreviews() {
 		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
 }
-
-int checkselected(int page, int selectedcursor, int currentlyselected) {
-	char* names[] = {"kirby", "mewtwo", "mario", "ike", "fox", "pikachu"};
-	int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor) + 16;
-	int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor) + 16;
-	for (int n = 1; n <= 6; n++) {
-		if(PA_GetSpriteAnimFrame(SUB_SCREEN, n + 4) == 0) continue;
-		if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
-			if(6*page+n == currentlyselected) return 6*page+n;
-			if(6*page+n != RANDOM_CHAR) PA_FatPlaySfx(names[6*page+n-1]);
-			if(6*page+n == KIRBY) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 4, 5, ANIM_LOOP, -1);
-			else if(6*page+n == MEWTWO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 5, 10, 5, ANIM_LOOP, -1);
-			else if(6*page+n == MARIO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 11, 14, 5, ANIM_LOOP, -1);
-			else if(6*page+n == IKE) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 15, 21, 5, ANIM_LOOP, -1);
-			else if(6*page+n == FOX) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 22, 27, 5, ANIM_LOOP, -1);
-			else if(6*page+n == PIKACHU) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 28, 33, 5, ANIM_LOOP, -1);
-			else if(6*page+n == RANDOM_CHAR) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 33, 60, ANIM_LOOP, -1);
-			return 6*page+n;
-		}
-	}
-	PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
-	return -1;
-}
 bool characterSelect(bool train = false) {
-	int page = 0;
+	page = 0;
 	int selectedcursor = -1;
 
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
-	initCursors();
 	initArrows();
 	initSelectTiles();
 	initPreviews();
+	initCursors();
 	
 	PA_FatLoadSfx("ffa", "menu/freeforall");
 	PA_FatLoadSfx("confirm", "menu/confirm");
@@ -677,13 +693,14 @@ bool characterSelect(bool train = false) {
 				for (int n = 0; n < MAX_PLAYERS; n++) {
 					bool isai = true;
 					if (n == 0) isai = false;
-					if(selections[n] == RANDOM_CHAR) selections[n] = PA_RandMinMax(1, MAX_CHAR-2); // a non-sandbag character
-					if (selections[n] == KIRBY) players.push_back(new Kirby(n + 1, &players, &display, isai));
-					else if (selections[n] == MEWTWO) players.push_back(new Mewtwo(n + 1, &players, &display, isai));
-					else if (selections[n] == MARIO) players.push_back(new Mario(n + 1, &players, &display, isai));
-					else if (selections[n] == IKE) players.push_back(new Ike(n + 1, &players, &display, isai));
-					else if (selections[n] == FOX) players.push_back(new Fox(n + 1, &players, &display, isai));
-					else if (selections[n] == PIKACHU) players.push_back(new Pikachu(n+1, &players, &display, isai));
+					int temp = selections[n];
+					if(temp == RANDOM_CHAR) temp = PA_RandMinMax(1, MAX_CHAR-2); // a non-sandbag character
+					if (temp == KIRBY) players.push_back(new Kirby(n + 1, &players, &display, isai));
+					else if (temp == MEWTWO) players.push_back(new Mewtwo(n + 1, &players, &display, isai));
+					else if (temp == MARIO) players.push_back(new Mario(n + 1, &players, &display, isai));
+					else if (temp == IKE) players.push_back(new Ike(n + 1, &players, &display, isai));
+					else if (temp == FOX) players.push_back(new Fox(n + 1, &players, &display, isai));
+					else if (temp == PIKACHU) players.push_back(new Pikachu(n+1, &players, &display, isai));
 				}
 				if (selections[1] == -1 && selections[2] == -1 && selections[3] == -1) {
 					players.push_back(new Sandbag(2, &players, &display, true));
