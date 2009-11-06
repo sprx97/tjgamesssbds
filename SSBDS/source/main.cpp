@@ -448,24 +448,25 @@ int PAGEDOWN = MAX_CHAR + 4;
 int MAX_PAGE = (MAX_CHAR - 1) / 6;
 int page = 0;
 
-
-
-int checkselected(int page, int selectedcursor, int currentlyselected, bool remaking = false) {
+void setPreviewAnimation(int selectedcursor, int n) {
+	if(n == KIRBY) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 4, 5, ANIM_LOOP, -1);
+	else if(n == MEWTWO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 5, 10, 5, ANIM_LOOP, -1);
+	else if(n == MARIO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 11, 14, 5, ANIM_LOOP, -1);
+	else if(n == IKE) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 15, 21, 5, ANIM_LOOP, -1);
+	else if(n == FOX) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 22, 27, 5, ANIM_LOOP, -1);
+	else if(n == PIKACHU) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 28, 33, 5, ANIM_LOOP, -1);
+	else if(n == RANDOM_CHAR) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 33, 60, ANIM_LOOP, -1);
+}
+int checkselected(int page, int selectedcursor, int currentlyselected) {
 	char* names[] = {"kirby", "mewtwo", "mario", "ike", "fox", "pikachu"};
 	int cx = PA_GetSpriteX(SUB_SCREEN, selectedcursor) + 16;
 	int cy = PA_GetSpriteY(SUB_SCREEN, selectedcursor) + 16;
 	for (int n = 1; n <= 6; n++) {
 		if(PA_GetSpriteAnimFrame(SUB_SCREEN, n + 4) == 0) continue;
 		if (cx > PA_GetSpriteX(SUB_SCREEN, n + 4) && cx < PA_GetSpriteX(SUB_SCREEN, n + 4) + 64 && cy > PA_GetSpriteY(SUB_SCREEN, n + 4) && cy < PA_GetSpriteY(SUB_SCREEN, n + 4) + 64) {
-			if(6*page+n == currentlyselected && !remaking) return 6*page+n;
-			if(6*page+n != RANDOM_CHAR && !remaking) PA_FatPlaySfx(names[6*page+n-1]);
-			if(6*page+n == KIRBY) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 4, 5, ANIM_LOOP, -1);
-			else if(6*page+n == MEWTWO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 5, 10, 5, ANIM_LOOP, -1);
-			else if(6*page+n == MARIO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 11, 14, 5, ANIM_LOOP, -1);
-			else if(6*page+n == IKE) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 15, 21, 5, ANIM_LOOP, -1);
-			else if(6*page+n == FOX) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 22, 27, 5, ANIM_LOOP, -1);
-			else if(6*page+n == PIKACHU) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 28, 33, 5, ANIM_LOOP, -1);
-			else if(6*page+n == RANDOM_CHAR) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 33, 60, ANIM_LOOP, -1);
+			if(6*page+n == currentlyselected) return 6*page+n;
+			if(6*page+n != RANDOM_CHAR) PA_FatPlaySfx(names[6*page+n-1]);
+			setPreviewAnimation(selectedcursor, 6*page+n);
 			return 6*page+n;
 		}
 	}
@@ -492,7 +493,7 @@ void initCursors() {
 		if(!set && selections[n] != -1) subx[n] = -64;
 	}
 	for(int n = 0; n < MAX_PLAYERS; n++) {
-		checkselected(page, n, selections[n], true);
+		setPreviewAnimation(n, selections[n]);
 	}
 }
 void initArrows() {
@@ -526,7 +527,8 @@ void initPreviews() {
 		mainx[n] = 64 * n;
 		if(MAX_PLAYERS == 2) mainx[n] = 64*(n+1);
 		PA_SetSpriteX(MAIN_SCREEN, n, -64);
-		PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
+		if(selections[n] == -1) PA_StartSpriteAnimEx(MAIN_SCREEN, n, 0, 0, 1, ANIM_LOOP, -1);
+		else PA_StartSpriteAnimEx(MAIN_SCREEN, n, selections[n], selections[n], 1, ANIM_LOOP, -1);
 	} // only 2 players for now
 }
 bool characterSelect(bool train = false) {
@@ -977,6 +979,8 @@ bool Pause() {
 				for(int i = -12; i >= -31; i--) {
 					PA_SetBrightness(MAIN_SCREEN, i);
 					PA_SetBrightness(SUB_SCREEN, i);
+					AS_SetMP3Volume((i + 16)*8);
+					for (int n = 0; n < 16; n++) AS_SetSoundVolume(n, (i + 16)*8);
 					brightness = i;
 					PA_WaitForVBL();
 				}
