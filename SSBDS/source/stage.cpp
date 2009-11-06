@@ -10,30 +10,14 @@ Ledge::Ledge(int xpos, int ypos, string dir) {
 } // creates a new ledge
 
 //floor methods:
-Floor::Floor(int xpos, int ypos, int l, bool plat) {
+Floor::Floor(int xpos, int ypos, int l, int r, bool plat) {
 	x = xpos;
 	y = ypos;
 	length = l;
+	rise = r;
 	isplatform = plat;
 } // creates a new floor
-bool Floor::isPlatform() {
-	return isplatform;
-} // returns isplatform
-double Floor::totalrise() {
-	double total = 0;
-	for (int n = 0; n < (int)slopes.size(); n++) {
-		total += slopes[n];
-	}
-	return total;
-} // counts the total rise of the stage from start to finish
-double Floor::getrise(int distance) {
-	double total = 0;
-	for (int n = x; n < distance; n++) {
-		if(n > x+length) break;
-		total += slopes[n-x];
-	}
-	return total;
-} // the rise up to distance distance
+bool Floor::isPlatform() { return isplatform; } // returns isplatform
 
 //ceiling methods:
 Ceiling::Ceiling(int xpos, int ypos, int l) {

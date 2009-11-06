@@ -17,12 +17,10 @@ class Floor {
 	public:
 		int x, y; // x and y of far left of stage
 		int length; ///< total run of the floor
+		int rise; ///<how far up the stage slants
 		bool isplatform; ///< is this a platform or not?
-		vector<double> slopes; ///< sloping of the stage for each x position
-		Floor(int xpos, int ypos, int l, bool plat);
+		Floor(int xpos, int ypos, int l, int r, bool plat);
 		bool isPlatform(); ///< returns isplatform
-		double totalrise(); ///< counts the total rise of the stage from start to finish
-		double getrise(int distance); ///< the rise up to distance distance
 };
 /// a ceiling on the stage
 class Ceiling {
