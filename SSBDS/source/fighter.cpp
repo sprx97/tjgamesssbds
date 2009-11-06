@@ -1963,6 +1963,7 @@ bool Fighter::checkFloorCollision() {
 						dy = DI = fastfall = ymomentum = 0;
 						airdodgecount = 0;
 						jumpcount = 0;
+						if(action == FALL) idle();
 						return true;
 					}
 				} // ignores platforms during BUPs
