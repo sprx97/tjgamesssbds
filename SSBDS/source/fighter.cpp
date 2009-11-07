@@ -1950,7 +1950,6 @@ bool Fighter::checkFloorCollision() {
 		Floor currfloor = floors[n];
 		double centerx = x + rightside/2.0;
 		double bottomy = y + bottomside;
-//		double lastcenterx = lastx + rightside/2.0;
 		double lastbottomy = lasty + bottomside;
 		double slope = currfloor.rise*1.0/currfloor.length;
 		double rise = (centerx-currfloor.x)*slope;
@@ -1984,8 +1983,7 @@ bool Fighter::checkFloorCollision() {
 							double lnrise = (centerx - floors[currfloor.leftneighbor].x) * lnslope;
 							y = floors[currfloor.leftneighbor].y - bottomside - lnrise;
 							return true;
-						}
-						// check connection to the left
+						} // check connection to the left
 					}
 					else if(centerx + dx > currfloor.x + currfloor.length) {
 						if(currfloor.rightneighbor != -1) {
@@ -1993,8 +1991,7 @@ bool Fighter::checkFloorCollision() {
 							double rnrise = (centerx - floors[currfloor.rightneighbor].x) * rnslope;
 							y = floors[currfloor.rightneighbor].y - bottomside - rnrise;
 							return true;
-						}
-						// check connection to the right
+						} // check connection to the right
 					}
 				}
 			}
