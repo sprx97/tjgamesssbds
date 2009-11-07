@@ -100,7 +100,13 @@ void CastleSiege::Initialize() {
 	spawny.push_back(88);
 	spawny.push_back(88);
 	spawny.push_back(88);
-	floors.push_back(Floor(40, 216, 410, 0, false));
+	floors.push_back(Floor(40, 216, 161, 0, false));
+	floors.push_back(Floor(202, 216, 98, 25, false));
+	floors[0].rightneighbor = 1;
+	floors[1].leftneighbor = 0;
+	floors[1].rightneighbor = 2;
+	floors.push_back(Floor(300, 191, 150, 0, false));
+	floors[2].leftneighbor = 1;
 	//for (int n = 40; n < 202; n++) {
 	//	floors[0].slopes.push_back(0);
 	//}
