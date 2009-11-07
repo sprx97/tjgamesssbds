@@ -1950,12 +1950,13 @@ bool Fighter::checkFloorCollision() {
 		Floor currfloor = floors[n];
 		double centerx = x + rightside/2.0;
 		double bottomy = y + bottomside;
+		double lastcenterx = lastx + rightside/2.0;
 		double lastbottomy = lasty + bottomside;
 		double slope = currfloor.rise*1.0/currfloor.length;
 		double rise = (centerx-currfloor.x)*slope;
 		double lastrise = (lastx + rightside/2.0 -currfloor.x)*slope;
 		if (aerial) {
-			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && x + rightside + dx + DI > currfloor.x && x + leftside + dx + DI < currfloor.x + currfloor.length) {
+			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && centerx + dx + DI > currfloor.x && centerx + dx + DI < currfloor.x + currfloor.length) {
 				if(!((MYCHAR == FOX || MYCHAR == MEWTWO || MYCHAR == PIKACHU) && action == BUP && currfloor.isPlatform())) {
 					if(lastbottomy <= (currfloor.y - lastrise) && bottomy > (currfloor.y - rise)) {
 						aerial = false;
@@ -1972,10 +1973,24 @@ bool Fighter::checkFloorCollision() {
 		else {
 			if(action == FTHROW || action == BTHROW || action == UTHROW || action == DTHROW || action == GRABBED) return true;
 			if (isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && (action == CROUCH || action == IDLE)) && !isCPU)) {
-				if (x + rightside + dx > currfloor.x && x + leftside + dx < currfloor.x + currfloor.length) {
+				if (centerx + dx >= currfloor.x && centerx + dx <= currfloor.x + currfloor.length) {
 					if(y + bottomside == currfloor.y - lastrise) {
 						y = currfloor.y - bottomside - rise;
 						return true;
+					}
+				}
+				else if (lastcenterx >= currfloor.x && lastcenterx <= currfloor.x + currfloor.length) {
+					//Search for new floor to walk on
+					for (uint8 newfloornum = 0; n < floors.size(); n++) {
+						Floor newfloor = floors[newfloornum];
+						if (centerx + dx >= newfloor.x && centerx + dx <= newfloor.x + newfloor.length) {
+							double newlastrise = (lastx + rightside/2.0 -newfloor.x)*newfloor.rise*1.0/newfloor.length;
+							double newrise = (x + rightside/2.0 -newfloor.x)*newfloor.rise*1.0/newfloor.length;
+							if (abs(bottomy - (newfloor.y - newlastrise)) < 5) {
+								y = newfloor.y - bottomside - newrise;
+								return true;
+							}
+						}
 					}
 				}
 			}
