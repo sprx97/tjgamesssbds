@@ -1,2 +1,2 @@
 #!/bin/sh
-wine ${EFSDIR}/efs $@
+wine ${EFSDIR}/efs.exe $@
