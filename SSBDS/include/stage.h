@@ -21,6 +21,8 @@ class Floor {
 		bool isplatform; ///< is this a platform or not?
 		Floor(int xpos, int ypos, int l, int r, bool plat);
 		bool isPlatform(); ///< returns isplatform
+		Floor* rightneighbor;
+		Floor* leftneighbor;
 };
 /// a ceiling on the stage
 class Ceiling {

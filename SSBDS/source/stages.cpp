@@ -26,6 +26,10 @@ void FinalDestination::Initialize() {
 	floors.push_back(Floor(64-100, 132 -100, 100, -100, false));
 	floors.push_back(Floor(64, 132, 384, 0, false));
 	floors.push_back(Floor(64+384, 132, 100, 100, false));
+	floors[0].rightneighbor = &floors[1];
+	floors[1].leftneighbor = &floors[0];
+	floors[1].rightneighbor = &floors[2];
+	floors[2].leftneighbor = &floors[1];
 	walls.push_back(Wall(96, 132, 116, "left"));
 	walls.push_back(Wall(416, 132, 116, "right"));
 	ceilings.push_back(Ceiling(64, 132, 384));

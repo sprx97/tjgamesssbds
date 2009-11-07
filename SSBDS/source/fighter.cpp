@@ -1950,7 +1950,7 @@ bool Fighter::checkFloorCollision() {
 		Floor currfloor = floors[n];
 		double centerx = x + rightside/2.0;
 		double bottomy = y + bottomside;
-		double lastcenterx = lastx + rightside/2.0;
+//		double lastcenterx = lastx + rightside/2.0;
 		double lastbottomy = lasty + bottomside;
 		double slope = currfloor.rise*1.0/currfloor.length;
 		double rise = (centerx-currfloor.x)*slope;
@@ -1973,24 +1973,30 @@ bool Fighter::checkFloorCollision() {
 		else {
 			if(action == FTHROW || action == BTHROW || action == UTHROW || action == DTHROW || action == GRABBED) return true;
 			if (isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && (action == CROUCH || action == IDLE)) && !isCPU)) {
-				if (centerx + dx >= currfloor.x && centerx + dx <= currfloor.x + currfloor.length) {
-					if(y + bottomside == currfloor.y - lastrise) {
+				if(y + bottomside == currfloor.y - lastrise) {
+					if (centerx + dx >= currfloor.x && centerx + dx <= currfloor.x + currfloor.length) {
 						y = currfloor.y - bottomside - rise;
 						return true;
 					}
-				}
-				else if (lastcenterx >= currfloor.x && lastcenterx <= currfloor.x + currfloor.length) {
-					//Search for new floor to walk on
-					for (uint8 newfloornum = 0; n < floors.size(); n++) {
-						Floor newfloor = floors[newfloornum];
-						if (centerx + dx >= newfloor.x && centerx + dx <= newfloor.x + newfloor.length) {
-							double newlastrise = (lastx + rightside/2.0 -newfloor.x)*newfloor.rise*1.0/newfloor.length;
-							double newrise = (x + rightside/2.0 -newfloor.x)*newfloor.rise*1.0/newfloor.length;
-							if (abs(bottomy - (newfloor.y - newlastrise)) < 5) {
-								y = newfloor.y - bottomside - newrise;
-								return true;
-							}
+					else if(centerx + dx < currfloor.x) {
+						if(currfloor.leftneighbor != NULL) {
+							double lnslope = currfloor.leftneighbor -> rise * 1.0 / currfloor.leftneighbor -> length;
+							double lnrise = (centerx - currfloor.leftneighbor -> x) * lnslope;
+							PA_OutputText(SUB_SCREEN, 0, 10, "%f", lnrise);
+							y = currfloor.leftneighbor -> y - bottomside - lnrise;
+							return true;
 						}
+						// check connection to the left
+					}
+					else if(centerx + dx > currfloor.x + currfloor.length) {
+						if(currfloor.rightneighbor != NULL) {
+							double rnslope = currfloor.rightneighbor -> rise * 1.0 / currfloor.rightneighbor -> length;
+							double rnrise = (centerx - currfloor.rightneighbor -> x) * rnslope;
+							PA_OutputText(SUB_SCREEN, 0, 10, "%f", rnrise);
+							y = currfloor.rightneighbor -> y - bottomside - rnrise;
+							return true;
+						}
+						// check connection to the right
 					}
 				}
 			}
