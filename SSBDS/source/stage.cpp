@@ -16,8 +16,8 @@ Floor::Floor(int xpos, int ypos, int l, int r, bool plat) {
 	length = l;
 	rise = r;
 	isplatform = plat;
-	leftneighbor = NULL;
-	rightneighbor = NULL;
+	leftneighbor = -1;
+	rightneighbor = -1;
 } // creates a new floor
 bool Floor::isPlatform() { return isplatform; } // returns isplatform
 

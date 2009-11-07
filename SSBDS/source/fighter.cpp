@@ -1979,21 +1979,19 @@ bool Fighter::checkFloorCollision() {
 						return true;
 					}
 					else if(centerx + dx < currfloor.x) {
-						if(currfloor.leftneighbor != NULL) {
-							double lnslope = currfloor.leftneighbor -> rise * 1.0 / currfloor.leftneighbor -> length;
-							double lnrise = (centerx - currfloor.leftneighbor -> x) * lnslope;
-							PA_OutputText(SUB_SCREEN, 0, 10, "%f", lnrise);
-							y = currfloor.leftneighbor -> y - bottomside - lnrise;
+						if(currfloor.leftneighbor != -1) {
+							double lnslope = floors[currfloor.leftneighbor].rise * 1.0 / floors[currfloor.leftneighbor].length;
+							double lnrise = (centerx - floors[currfloor.leftneighbor].x) * lnslope;
+							y = floors[currfloor.leftneighbor].y - bottomside - lnrise;
 							return true;
 						}
 						// check connection to the left
 					}
 					else if(centerx + dx > currfloor.x + currfloor.length) {
-						if(currfloor.rightneighbor != NULL) {
-							double rnslope = currfloor.rightneighbor -> rise * 1.0 / currfloor.rightneighbor -> length;
-							double rnrise = (centerx - currfloor.rightneighbor -> x) * rnslope;
-							PA_OutputText(SUB_SCREEN, 0, 10, "%f", rnrise);
-							y = currfloor.rightneighbor -> y - bottomside - rnrise;
+						if(currfloor.rightneighbor != -1) {
+							double rnslope = floors[currfloor.rightneighbor].rise * 1.0 / floors[currfloor.rightneighbor].length;
+							double rnrise = (centerx - floors[currfloor.rightneighbor].x) * rnslope;
+							y = floors[currfloor.rightneighbor].y - bottomside - rnrise;
 							return true;
 						}
 						// check connection to the right
