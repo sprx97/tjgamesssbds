@@ -132,8 +132,20 @@ void Corneria::Initialize() {
 	spawny.push_back(2);
 	spawny.push_back(2);
 	spawny.push_back(2);
-	floors.push_back(Floor(106, 130, 34, 0, false));
-	floors.push_back(Floor(30, 74, 338, 0, false));
+	//floors.push_back(Floor(30, 74, 338, 0, false));
+	floors.push_back(Floor(30, 74, 60, 15, false));
+	floors[0].rightneighbor = 1;
+	floors.push_back(Floor(90, 59, 124, -12, false));
+	floors[1].leftneighbor = 0;
+	floors[1].rightneighbor = 2;
+	floors.push_back(Floor(214, 71, 46, 10, false));
+	floors[2].leftneighbor = 1;
+	floors[2].rightneighbor = 3;
+	floors.push_back(Floor(260, 61, 35, 30, false));
+	floors[3].leftneighbor = 2;
+	floors[3].rightneighbor = 4;
+	floors.push_back(Floor(295, 31, 74, 30, false));
+	floors[4].leftneighbor = 3;
 	//for (int n = 30; n < 90; n++) {
 	//	floors[1].slopes.push_back(-.25);
 	//}
@@ -150,6 +162,13 @@ void Corneria::Initialize() {
 	//	floors[1].slopes.push_back(-.4);
 	//}
 	//floors.push_back(Floor(362, 85, 122, 0, false));
+	// floors.push_back(Floor(362, 85, 46, 0, false));
+	// floors[5].rightneighbor = 6;
+	// floors.push_back(Floor(408, 85, 33, 7, false));
+	// floors[6].leftneighbor = 5;
+	// floors[6].rightneighbor = 7;
+	// floors.push_back(Floor(441, 78, 44, -17, false));
+	// floors[7].leftneighbor = 6;
 	//for (int n = 362; n < 408; n++) {
 	//	floors[2].slopes.push_back(0);
 	//}
