@@ -1955,7 +1955,7 @@ bool Fighter::checkFloorCollision() {
 		double rise = (centerx-currfloor.x)*slope;
 		double lastrise = (lastx + rightside/2.0 -currfloor.x)*slope;
 		if (aerial) {
-			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && centerx + dx + DI > currfloor.x && centerx + dx + DI < currfloor.x + currfloor.length) {
+			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && centerx > currfloor.x && centerx < currfloor.x + currfloor.length) {
 				if(!((MYCHAR == FOX || MYCHAR == MEWTWO || MYCHAR == PIKACHU) && action == BUP && currfloor.isPlatform())) {
 					if(lastbottomy <= (currfloor.y - lastrise) && bottomy > (currfloor.y - rise)) {
 						aerial = false;
@@ -1973,11 +1973,11 @@ bool Fighter::checkFloorCollision() {
 			if(action == FTHROW || action == BTHROW || action == UTHROW || action == DTHROW || action == GRABBED) return true;
 			if (isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && (action == CROUCH || action == IDLE)) && !isCPU)) {
 				if(y + bottomside == currfloor.y - lastrise) {
-					if (centerx + dx >= currfloor.x && centerx + dx <= currfloor.x + currfloor.length) {
+					if (centerx >= currfloor.x && centerx <= currfloor.x + currfloor.length) {
 						y = currfloor.y - bottomside - rise;
 						return true;
 					}
-					else if(centerx + dx < currfloor.x) {
+					else if(centerx < currfloor.x) {
 						if(currfloor.leftneighbor != -1) {
 							double lnslope = floors[currfloor.leftneighbor].rise * 1.0 / floors[currfloor.leftneighbor].length;
 							double lnrise = (centerx - floors[currfloor.leftneighbor].x) * lnslope;
@@ -1985,7 +1985,7 @@ bool Fighter::checkFloorCollision() {
 							return true;
 						} // check connection to the left
 					}
-					else if(centerx + dx > currfloor.x + currfloor.length) {
+					else if(centerx > currfloor.x + currfloor.length) {
 						if(currfloor.rightneighbor != -1) {
 							double rnslope = floors[currfloor.rightneighbor].rise * 1.0 / floors[currfloor.rightneighbor].length;
 							double rnrise = (centerx - floors[currfloor.rightneighbor].x) * rnslope;
