@@ -23,13 +23,7 @@ void FinalDestination::Initialize() {
 	spawny.push_back(4);
 	spawny.push_back(4);
 	spawny.push_back(4);
-	floors.push_back(Floor(64-100, 132 -100, 100, -100, false));
 	floors.push_back(Floor(64, 132, 384, 0, false));
-	floors.push_back(Floor(64+384, 132, 100, 100, false));
-	floors[0].rightneighbor = 1;
-	floors[1].leftneighbor = 0;
-	floors[1].rightneighbor = 2;
-	floors[2].leftneighbor = 1;
 	walls.push_back(Wall(96, 132, 116, "left"));
 	walls.push_back(Wall(416, 132, 116, "right"));
 	ceilings.push_back(Ceiling(64, 132, 384));
@@ -107,16 +101,6 @@ void CastleSiege::Initialize() {
 	floors[1].rightneighbor = 2;
 	floors.push_back(Floor(300, 191, 150, 0, false));
 	floors[2].leftneighbor = 1;
-	//for (int n = 40; n < 202; n++) {
-	//	floors[0].slopes.push_back(0);
-	//}
-	//for (int n = 202; n < 300; n++) {
-	//	floors[0].slopes.push_back(-.25);
-	//}
-	//for (int n = 300; n < 451; n++) {
-	//	floors[0].slopes.push_back(0);
-	//}
-	// this floor is sloped
 	floors.push_back(Floor(84, 160, 110, 0, true));
 	floors.push_back(Floor(302, 142, 104, 0, true));
 	walls.push_back(Wall(48, 222, 100, "left"));
