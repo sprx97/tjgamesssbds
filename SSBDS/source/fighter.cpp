@@ -1972,7 +1972,7 @@ bool Fighter::checkFloorCollision() {
 		else {
 			if(action == FTHROW || action == BTHROW || action == UTHROW || action == DTHROW || action == GRABBED) return true;
 			if (isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && (action == CROUCH || action == IDLE)) && !isCPU)) {
-				if(y + bottomside == currfloor.y - lastrise) {
+				if((int)(y + bottomside) == (int)(currfloor.y - lastrise)) {
 					if (centerx >= currfloor.x && centerx <= currfloor.x + currfloor.length) {
 						y = currfloor.y - bottomside - rise;
 						return true;
