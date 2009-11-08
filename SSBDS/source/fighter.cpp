@@ -1956,7 +1956,7 @@ bool Fighter::checkFloorCollision() {
 		double rise = (centerx-currfloor.x)*slope;
 		double lastrise = (lastx + rightside/2.0 -currfloor.x)*slope;
 		if (aerial) {
-			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU))) && centerx > currfloor.x && centerx < currfloor.x + currfloor.length) {
+			if ((isCPU || (!(Pad.Held.Down && currfloor.isPlatform() && !isCPU && action == FALL))) && centerx > currfloor.x && centerx < currfloor.x + currfloor.length) {
 				if(!((MYCHAR == FOX || MYCHAR == MEWTWO || MYCHAR == PIKACHU) && action == BUP && currfloor.isPlatform())) {
 					if(lastbottomy <= (currfloor.y - lastrise) && bottomy > (currfloor.y - rise)) {
 						aerial = false;
