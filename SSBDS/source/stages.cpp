@@ -128,10 +128,10 @@ void Corneria::Initialize() {
 	spawnx.push_back(288);
 	spawnx.push_back(96);
 	spawnx.push_back(224);
-	spawny.push_back(2);
-	spawny.push_back(2);
-	spawny.push_back(2);
-	spawny.push_back(2);
+	spawny.push_back(-30);
+	spawny.push_back(-30);
+	spawny.push_back(-30);
+	spawny.push_back(-30);
 	floors.push_back(Floor(30, 74, 60, 15, false));
 	floors[0].rightneighbor = 1;
 	floors.push_back(Floor(90, 59, 124, -12, false));
