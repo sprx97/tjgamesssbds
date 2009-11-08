@@ -1,6 +1,6 @@
 #include "stages.h"
 #include "stage.h"
-const int RANDOM_STAGE = 0, FINALDESTINATION = 1, POKEMONSTADIUM = 2, CASTLESIEGE = 3, CORNERIA = 4, MAX_STAGE = 3;
+const int RANDOM_STAGE = 0, FINALDESTINATION = 1, POKEMONSTADIUM = 2, CASTLESIEGE = 3, CORNERIA = 4, MAX_STAGE = 5;
 // stage shortcuts just like character shortcuts
 
 FinalDestination::~FinalDestination() {}

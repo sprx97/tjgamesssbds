@@ -411,7 +411,7 @@ void stageSelect() {
 	
 	for(int n = 0; n < MAX_STAGE; n++) {
 		for(int m = 0; m <= 1; m ++) {
-			PA_CreateSprite(SUB_SCREEN, n + 64*m, (void*)sprite_gfx[31-m], OBJ_SIZE_64X64, COLOR256, m, 128*(n%2) + 64*m, 48*n);
+			PA_CreateSprite(SUB_SCREEN, n + 64*m, (void*)sprite_gfx[31-m], OBJ_SIZE_64X64, COLOR256, m, 128*(n%2) + 64*m, 32*n);
 			subx[n + 64*m] = 128*(n%2) + 64*m;
 			PA_SetSpriteX(SUB_SCREEN, n + 64*m, -64);
 			PA_StartSpriteAnimEx(SUB_SCREEN, n + 64*m, n, n, 1, ANIM_LOOP, -1);
