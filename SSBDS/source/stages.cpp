@@ -162,13 +162,13 @@ void Corneria::Initialize() {
 	//	floors[1].slopes.push_back(-.4);
 	//}
 	//floors.push_back(Floor(362, 85, 122, 0, false));
-	// floors.push_back(Floor(362, 85, 46, 0, false));
-	// floors[5].rightneighbor = 6;
-	// floors.push_back(Floor(408, 85, 33, 7, false));
-	// floors[6].leftneighbor = 5;
-	// floors[6].rightneighbor = 7;
-	// floors.push_back(Floor(441, 78, 44, -17, false));
-	// floors[7].leftneighbor = 6;
+	floors.push_back(Floor(362, 85, 46, 0, false));
+	floors[5].rightneighbor = 6;
+	floors.push_back(Floor(408, 85, 33, 7, false));
+	floors[6].leftneighbor = 5;
+	floors[6].rightneighbor = 7;
+	floors.push_back(Floor(441, 78, 44, -17, false));
+	floors[7].leftneighbor = 6;
 	//for (int n = 362; n < 408; n++) {
 	//	floors[2].slopes.push_back(0);
 	//}
