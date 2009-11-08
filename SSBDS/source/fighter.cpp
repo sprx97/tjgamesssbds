@@ -1951,6 +1951,7 @@ bool Fighter::checkFloorCollision() {
 		double centerx = x + rightside/2.0;
 		double bottomy = y + bottomside;
 		double lastbottomy = lasty + bottomside;
+		double lastcenterx = lastx + rightside/2.0;
 		double slope = currfloor.rise*1.0/currfloor.length;
 		double rise = (centerx-currfloor.x)*slope;
 		double lastrise = (lastx + rightside/2.0 -currfloor.x)*slope;
@@ -1978,20 +1979,24 @@ bool Fighter::checkFloorCollision() {
 						return true;
 					}
 					else if(centerx < currfloor.x) {
-						if(currfloor.leftneighbor != -1) {
-							double lnslope = floors[currfloor.leftneighbor].rise * 1.0 / floors[currfloor.leftneighbor].length;
-							double lnrise = (centerx - floors[currfloor.leftneighbor].x) * lnslope;
-							y = floors[currfloor.leftneighbor].y - bottomside - lnrise;
-							return true;
-						} // check connection to the left
+						if (lastcenterx >= currfloor.x) {
+							if(currfloor.leftneighbor != -1) {
+								double lnslope = floors[currfloor.leftneighbor].rise * 1.0 / floors[currfloor.leftneighbor].length;
+								double lnrise = (centerx - floors[currfloor.leftneighbor].x) * lnslope;
+								y = floors[currfloor.leftneighbor].y - bottomside - lnrise;
+								return true;
+							} // check connection to the left
+						}
 					}
 					else if(centerx > currfloor.x + currfloor.length) {
-						if(currfloor.rightneighbor != -1) {
-							double rnslope = floors[currfloor.rightneighbor].rise * 1.0 / floors[currfloor.rightneighbor].length;
-							double rnrise = (centerx - floors[currfloor.rightneighbor].x) * rnslope;
-							y = floors[currfloor.rightneighbor].y - bottomside - rnrise;
-							return true;
-						} // check connection to the right
+						if (lastcenterx <= currfloor.x + currfloor.length) {
+							if(currfloor.rightneighbor != -1) {
+								double rnslope = floors[currfloor.rightneighbor].rise * 1.0 / floors[currfloor.rightneighbor].length;
+								double rnrise = (centerx - floors[currfloor.rightneighbor].x) * rnslope;
+								y = floors[currfloor.rightneighbor].y - bottomside - rnrise;
+								return true;
+							} // check connection to the right
+						}
 					}
 				}
 			}
