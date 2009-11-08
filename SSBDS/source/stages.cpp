@@ -132,7 +132,6 @@ void Corneria::Initialize() {
 	spawny.push_back(2);
 	spawny.push_back(2);
 	spawny.push_back(2);
-	//floors.push_back(Floor(30, 74, 338, 0, false));
 	floors.push_back(Floor(30, 74, 60, 15, false));
 	floors[0].rightneighbor = 1;
 	floors.push_back(Floor(90, 59, 124, -12, false));
@@ -146,39 +145,13 @@ void Corneria::Initialize() {
 	floors[3].rightneighbor = 4;
 	floors.push_back(Floor(295, 31, 74, 30, false));
 	floors[4].leftneighbor = 3;
-	//for (int n = 30; n < 90; n++) {
-	//	floors[1].slopes.push_back(-.25);
-	//}
-	//for (int n = 90; n < 214; n++) {
-	//	floors[1].slopes.push_back(.10);
-	//}
-	//for (int n = 214; n < 260; n++) {
-	//	floors[1].slopes.push_back(-.21);
-	//}
-	//for (int n = 260; n < 295; n++) {
-	//	floors[1].slopes.push_back(-.8);
-	//}
-	//for (int n = 295; n < 369; n++) {
-	//	floors[1].slopes.push_back(-.4);
-	//}
-	//floors.push_back(Floor(362, 85, 122, 0, false));
-	// floors.push_back(Floor(362, 85, 46, 0, false));
-	// floors[5].rightneighbor = 6;
-	// floors.push_back(Floor(408, 85, 33, 7, false));
-	// floors[6].leftneighbor = 5;
-	// floors[6].rightneighbor = 7;
-	// floors.push_back(Floor(441, 78, 44, -17, false));
-	// floors[7].leftneighbor = 6;
-	//for (int n = 362; n < 408; n++) {
-	//	floors[2].slopes.push_back(0);
-	//}
-	//for (int n = 408; n < 441; n++) {
-	//	floors[2].slopes.push_back(-.2);
-	//}
-	//for (int n = 441; n < 485; n++) {
-	//	floors[2].slopes.push_back(.38);
-	//}
-	// 2 floors are sloped
+	floors.push_back(Floor(362, 85, 46, 0, false));
+	floors[5].rightneighbor = 6;
+	floors.push_back(Floor(408, 85, 33, 7, false));
+	floors[6].leftneighbor = 5;
+	floors[6].rightneighbor = 7;
+	floors.push_back(Floor(441, 78, 44, -17, false));
+	floors[7].leftneighbor = 6;
 	songnames.push_back("Main Theme");
 	songnames.push_back("Fortuna");
 	songartists.push_back("Star Fox");
