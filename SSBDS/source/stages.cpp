@@ -152,6 +152,9 @@ void Corneria::Initialize() {
 	floors[6].rightneighbor = 7;
 	floors.push_back(Floor(441, 78, 44, -17, false));
 	floors[7].leftneighbor = 6;
+	ledges.push_back(Ledge(30, 74, "left"));
+	ledges.push_back(Ledge(369, 1, "right"));
+	ledges.push_back(Ledge(485, 95, "right"));
 	songnames.push_back("Main Theme");
 	songnames.push_back("Fortuna");
 	songartists.push_back("Star Fox");
