@@ -15,6 +15,10 @@ void FinalDestination::Initialize() {
 	leftdeath = -192;
 	rightdeath = 704;
 	bottomdeath = 256;
+	minhorizscroll = -128;
+	maxhorizscroll = 384;
+	minvertscroll = -192;
+	maxvertscroll = 64;
 	spawnx.push_back(160);
 	spawnx.push_back(288);
 	spawnx.push_back(96);
@@ -50,6 +54,10 @@ void PokemonStadium::Initialize() {
 	bottomdeath = 256;
 	leftdeath = -192;
 	rightdeath = 704;
+	minhorizscroll = -128;
+	maxhorizscroll = 384;
+	minvertscroll = -192;
+	maxvertscroll = 64;
 	spawnx.push_back(160);
 	spawnx.push_back(288);
 	spawnx.push_back(96);
@@ -86,8 +94,12 @@ void CastleSiege::Initialize() {
 	height = 384;
 	topdeath = -320;
 	bottomdeath = 384;
-	leftdeath = -192;
-	rightdeath = 704;
+	leftdeath = -128;
+	rightdeath = 576;
+	minhorizscroll = -64;
+	maxhorizscroll = 256;
+	minvertscroll = -192;
+	maxvertscroll = 64;
 	spawnx.push_back(160);
 	spawnx.push_back(288);
 	spawnx.push_back(96);
@@ -132,6 +144,10 @@ void Corneria::Initialize() {
 	bottomdeath = 256;
 	leftdeath = -192;
 	rightdeath = 704;
+	minhorizscroll = -128;
+	maxhorizscroll = 384;
+	minvertscroll = -192;
+	maxvertscroll = 64;
 	spawnx.push_back(160);
 	spawnx.push_back(288);
 	spawnx.push_back(96);

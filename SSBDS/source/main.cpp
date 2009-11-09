@@ -57,6 +57,8 @@ int sdcost = 1;
 vector<Fighter*> players;
 // stores all fighters for playing a match
 
+Stage stage;
+
 vector<Projectile> projectiles;
 // stores all projectiles
 
@@ -297,33 +299,31 @@ void fadeIn() {
 
 int selectedStage = -1; //the stage currently selected
 
-Stage setStage(int selStage) {
-	Stage picked; // the stage which is chosen
+void setStage(int selStage) {
 	if (selStage == FINALDESTINATION) {
 		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/backgrounds/finaldestination.gif");
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, finaldestination);
-		picked = FinalDestination();
+		stage = FinalDestination();
 	} // loads final destination if it was chosen
 	if (selStage == POKEMONSTADIUM) {
 		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/backgrounds/pokemonstadium.gif");
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, pokemonstadium);
-		picked = PokemonStadium();
+		stage = PokemonStadium();
 	} // loads pokemon stadium if it was chosen
 	if (selStage == CASTLESIEGE) {
 		// background
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, castlesiege);
-		picked = CastleSiege();
+		stage = CastleSiege();
 	} // loads castle siege if it was chosen
 	if (selStage == CORNERIA) {
 		// background
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, corneria);
-		picked = Corneria();
+		stage = Corneria();
 	} // loads corneria if it was chosen
 	for (int n = 0; n < (int)players.size(); n++) {
-		players[n] -> setStage(&picked);
+		players[n] -> setStage(&stage);
 	} // sets the stage of the players to the picked stage
 	PA_HideBg(MAIN_SCREEN, 0);
-	return picked; // returns the picked stage
 } // displays the stage on the main screen
 
 //Controls saving and loading:
@@ -754,10 +754,10 @@ void scrollScreen() {
 	scrollx = scrollx - 128 + 32;
 	scrolly = scrolly - 96 + 32;
 	// centers the camera on the sprites and screen
-	if (scrollx < -128) scrollx = -128;
-	if (scrolly < -192) scrolly = -192;
-	if (scrollx > 512 - 256 + 128) scrollx = 512 - 256 + 128;
-	if (scrolly > 256 - 192) scrolly = 256 - 192;
+	if (scrollx < stage.minhorizscroll) scrollx = stage.minhorizscroll;
+	if (scrolly < stage.minvertscroll) scrolly = stage.minvertscroll;
+	if (scrollx > stage.maxhorizscroll) scrollx = stage.maxhorizscroll;
+	if (scrolly > stage.maxvertscroll) scrolly = stage.maxvertscroll;
 	// wraps scrolling around
 	PA_LargeScrollX(MAIN_SCREEN, 0, 256 + (int)scrollx);
 	PA_LargeScrollY(MAIN_SCREEN, 0, 256 + (int)scrolly);
@@ -1050,7 +1050,7 @@ bool match(int param) {
 	PA_SetSpriteDblsize(MAIN_SCREEN, 18, 1);
 	if(gamemode != GAMEMODE_TRAINING) mainx[18] = 112;
 
-	Stage stage = setStage(selectedStage);
+	setStage(selectedStage);
 	// sets the stage to the stage chosen in stageSelect
 	initMinimap(selectedStage); // inits minimap
 	PA_InitText(SUB_SCREEN, 1); // inits test on sub screen (displays percentages)

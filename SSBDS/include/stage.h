@@ -48,6 +48,7 @@ class Stage {
 		// variables
 		int width, height; // width and height of the image of the stage
 		int leftdeath, rightdeath, topdeath, bottomdeath;
+		int minhorizscroll, minvertscroll, maxhorizscroll, maxvertscroll;
 		// where a person dies of the edges of the stage
 		string name; ///< name of the stage
 		vector<Floor> floors; ///< floors of the stage
