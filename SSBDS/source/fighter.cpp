@@ -1904,6 +1904,7 @@ bool Fighter::checkLedgeCollision() {
 			if (currledge.direction == "right") {
 				if (ledgenotinuse(n) && ledgewait <= 0 && x + leftside > currledge.x - 20 && x + leftside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
 					aerial = false;
+					PERMAFALL = false;
 					dx = DI = dy = fastfall = ymomentum = 0;
 					airdodgecount = jumpcount = 0;
 					x = currledge.x - hangx;
@@ -1917,6 +1918,7 @@ bool Fighter::checkLedgeCollision() {
 			else {
 				if (ledgenotinuse(n) && ledgewait <= 0 && x + rightside > currledge.x - 20 && x + rightside < currledge.x + 20 && y > currledge.y - 20 && y < currledge.y + 20) {
 					aerial = false;
+					PERMAFALL = false;
 					dx = DI = dy = fastfall = ymomentum = 0;
 					airdodgecount = jumpcount = 0;
 					x = currledge.x + hangx - 64;

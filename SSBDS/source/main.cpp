@@ -311,7 +311,7 @@ void setStage(int selStage) {
 		stage = PokemonStadium();
 	} // loads pokemon stadium if it was chosen
 	if (selStage == CASTLESIEGE) {
-		// background
+		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/backgrounds/castlesiege.gif");
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, castlesiege);
 		stage = CastleSiege();
 	} // loads castle siege if it was chosen

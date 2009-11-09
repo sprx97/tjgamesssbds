@@ -29,10 +29,10 @@ extern PAGfx_struct pokemonstadium; // background pointer
 extern const unsigned short pokemonstadium_Pal[215] __attribute__ ((aligned (4))) ;
 
 extern const int castlesiege_Info[3]; // BgMode, Width, Height
-extern const unsigned int castlesiege_Map[8192] __attribute__ ((aligned (4))) ;
-extern const unsigned char castlesiege_Tiles[92480] __attribute__ ((aligned (4))) ;
+extern const unsigned int castlesiege_Map[8192] __attribute__ ((aligned (4))) ;  // Pal : castlesiege_Pal
+extern const unsigned char castlesiege_Tiles[95104] __attribute__ ((aligned (4))) ;  // Pal : castlesiege_Pal
 extern PAGfx_struct castlesiege; // background pointer
-extern const unsigned short castlesiege_Pal[201] __attribute__ ((aligned (4))) ;
+extern const unsigned short castlesiege_Pal[197] __attribute__ ((aligned (4))) ;
 
 extern const int corneria_Info[3]; // BgMode, Width, Height
 extern const unsigned short corneria_Map[8192] __attribute__ ((aligned (4))) ;
