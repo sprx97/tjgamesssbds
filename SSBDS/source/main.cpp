@@ -1,4 +1,4 @@
-	// Game designed by TJgames of TJHSST
+// Game designed by TJgames of TJHSST
 // Head Developer(s): Jeremy Vercillo, Daniel Johnson
 // 6/08 - ???
 

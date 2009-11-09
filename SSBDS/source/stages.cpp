@@ -61,8 +61,8 @@ void PokemonStadium::Initialize() {
 	floors.push_back(Floor(42, 154, 428, 0, false));
 	floors.push_back(Floor(128, 110, 62, 0, true));
 	floors.push_back(Floor(324, 110, 62, 0, true));
-	walls.push_back(Wall(50, 154, 102, "left"));
-	walls.push_back(Wall(462, 154, 102, "right"));
+	walls.push_back(Wall(43, 154, 102, "left"));
+	walls.push_back(Wall(469, 154, 102, "right"));
 	ceilings.push_back(Ceiling(42, 216, 428));
 	ledges.push_back(Ledge(42, 154, "left"));
 	ledges.push_back(Ledge(470, 154, "right"));
@@ -105,8 +105,14 @@ void CastleSiege::Initialize() {
 	floors[2].leftneighbor = 1;
 	floors.push_back(Floor(84, 160, 110, 0, true));
 	floors.push_back(Floor(302, 142, 104, 0, true));
-	walls.push_back(Wall(48, 222, 100, "left"));
-	walls.push_back(Wall(442, 222, 100, "right"));
+	ledges.push_back(Ledge(40, 216, "left"));
+	ledges.push_back(Ledge(450, 191, "right"));
+	walls.push_back(Wall(41, 216, 40, "left"));
+	walls.push_back(Wall(449, 191, 40, "right"));
+	ceilings.push_back(Ceiling(40, 256, 100));
+	ceilings.push_back(Ceiling(349, 231, 100));
+	walls.push_back(Wall(55, 256, 200, "left"));
+	walls.push_back(Wall(435, 231, 200, "right"));
 	songnames.push_back("Ike's Theme");
 	songnames.push_back("Victory is Near");
 	songartists.push_back("Fire Emblem 10: Radiant Dawn");
