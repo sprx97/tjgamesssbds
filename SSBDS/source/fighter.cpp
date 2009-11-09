@@ -2012,14 +2012,14 @@ bool Fighter::checkWallCollision() {
 	for (uint8 n = 0; n < walls.size(); n++) {
 		Wall currwall = walls[n];
 		if (currwall.direction == "left") {
-			if (x + rightside <= currwall.x && x + rightside + DI + dx > currwall.x && y + bottomside > currwall.y + topside && y < currwall.y + currwall.length) {
+			if (x + rightside <= currwall.x && x + rightside + DI + dx > currwall.x && y + bottomside > currwall.y && y + topside < currwall.y + currwall.length) {
 				x = currwall.x - rightside;
 				dx = DI = 0;
 				return true;
 			}
 		}
 		else {
-			if (x + leftside >= currwall.x && x + leftside + DI + dx < currwall.x && y + bottomside > currwall.y + topside && y < currwall.y + currwall.length) {
+			if (x + leftside >= currwall.x && x + leftside + DI + dx < currwall.x && y + bottomside > currwall.y && y + topside < currwall.y + currwall.length) {
 				x = currwall.x - leftside;
 				dx = DI = 0;
 				return true;

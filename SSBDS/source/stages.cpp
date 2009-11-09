@@ -26,6 +26,8 @@ void FinalDestination::Initialize() {
 	floors.push_back(Floor(64, 132, 384, 0, false));
 	walls.push_back(Wall(96, 132, 116, "left"));
 	walls.push_back(Wall(416, 132, 116, "right"));
+	walls.push_back(Wall(65, 132, 1, "left"));
+	walls.push_back(Wall(447, 132, 1, "right"));
 	ceilings.push_back(Ceiling(64, 132, 384));
 	ledges.push_back(Ledge(64, 132, "left"));
 	ledges.push_back(Ledge(448, 132, "right"));
