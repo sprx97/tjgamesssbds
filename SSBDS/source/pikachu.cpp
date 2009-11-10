@@ -60,7 +60,6 @@ void Pikachu::initPalettes() {
 	palettes.push_back("characters/pikachugreen");
 }
 void Pikachu::playsound(int sndnum) {
-	if (sndnum == JUMP) PA_FatPlaySfx("pikachubup");
 	if (sndnum == DOUBLEJUMP) PA_FatPlaySfx("pikachubup");
 	if (sndnum == SMASHDOWN) PA_FatPlaySfx("pikachudsmash");
 	if (sndnum == NAIR) PA_FatPlaySfx("pikachunair");
