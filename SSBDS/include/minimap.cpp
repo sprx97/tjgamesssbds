@@ -9,12 +9,9 @@ void initMinimap(int selStage) {
 	else if (selStage == POKEMONSTADIUM) {
 		PA_FatEasyBgLoad(SUB_SCREEN, 2, "minimaps/pokemonstadiumminimap");
 	}
-//	else if(selStage == CORNERIA) {
-//		PA_FatEasyBgLoad(SUB_SCREEN, 2, corneria);
-//	}
-//	else if(selStage == CASTLESIEGE) {
-//		PA_FatEasyBgLoad(SUB_SCREEN, 2, castleseige);
-//	}
+	else if(selStage == CASTLESIEGE) {
+		PA_FatEasyBgLoad(SUB_SCREEN, 2, "minimaps/castlesiegeminimap");
+	}
 	PA_HideBg(SUB_SCREEN, 2);
 
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "minimap/charminis");
