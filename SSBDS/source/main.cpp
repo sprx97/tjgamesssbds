@@ -417,6 +417,8 @@ void stageSelect() {
 			PA_StartSpriteAnimEx(SUB_SCREEN, n + 64*m, n, n, 1, ANIM_LOOP, -1);
 		}
 	}
+
+	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
 	
 	PA_FatLoadSfx("confirm", "menu/confirm");
 
