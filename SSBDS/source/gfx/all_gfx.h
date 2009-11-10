@@ -35,10 +35,10 @@ extern PAGfx_struct castlesiege; // background pointer
 extern const unsigned short castlesiege_Pal[197] __attribute__ ((aligned (4))) ;
 
 extern const int corneria_Info[3]; // BgMode, Width, Height
-extern const unsigned short corneria_Map[8192] __attribute__ ((aligned (4))) ;
-extern const unsigned char corneria_Tiles[35328] __attribute__ ((aligned (4))) ;
+extern const unsigned short corneria_Map[8192] __attribute__ ((aligned (4))) ;  // Pal : corneria_Pal
+extern const unsigned char corneria_Tiles[39104] __attribute__ ((aligned (4))) ;  // Pal : corneria_Pal
 extern PAGfx_struct corneria; // background pointer
-extern const unsigned short corneria_Pal[166] __attribute__ ((aligned (4))) ;
+extern const unsigned short corneria_Pal[53] __attribute__ ((aligned (4))) ;
 
 #endif
 
