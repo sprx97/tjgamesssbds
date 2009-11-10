@@ -8,7 +8,6 @@
 
 //PALib:
 #include <PA9.h> // DS functions that we use come from here
-#include "nds_loader_arm9.h" // loading externa ROMs
 
 //C++ Library Functions:
 #include <math.h> // math!
@@ -1582,6 +1581,14 @@ void extras() {
 	return;
 } // extras menu, only credits for now
 
+void multiplayer() {
+	PA_InitWifi();
+	PA_ConnectWifiWFC();
+
+	Wifi_DisconnectAP();
+	Wifi_DisableWifi();
+}
+
 // (Even more) pre-game menus
 void initMainMenu() {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/menu.gif");
@@ -1630,7 +1637,7 @@ void mainMenu() {
 			else if (x > 82 && x < 205 && y > 70 && y < 99) {
 				PA_FatPlaySfx("confirm");
 				fadeOut();
-				runNdsFile("fat:/LAN.nds");
+				multiplayer();
 				initMainMenu();
 			}
 			else if (x > 60 && x < 183 && y > 104 && y < 131) {
