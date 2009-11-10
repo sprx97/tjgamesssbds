@@ -12,6 +12,9 @@ void initMinimap(int selStage) {
 	else if(selStage == CASTLESIEGE) {
 		PA_FatEasyBgLoad(SUB_SCREEN, 2, "minimaps/castlesiegeminimap");
 	}
+	else if(selStage == CORNERIA) {
+		PA_FatEasyBgLoad(SUB_SCREEN, 2, "minimaps/corneriaminimap");
+	}
 	PA_HideBg(SUB_SCREEN, 2);
 
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "minimap/charminis");
