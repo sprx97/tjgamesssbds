@@ -315,7 +315,7 @@ void setStage(int selStage) {
 		stage = CastleSiege();
 	} // loads castle siege if it was chosen
 	if (selStage == CORNERIA) {
-//		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/backgrounds/corneria.gif");
+		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/backgrounds/corneria.gif");
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, corneria);
 		stage = Corneria();
 	} // loads corneria if it was chosen
