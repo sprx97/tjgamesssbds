@@ -1595,23 +1595,39 @@ void multiplayer() {
 	else PA_OutputText(MAIN_SCREEN, 0, line++, "WFC Connection Failed");
 
 	int sock;
+	int num = -1;
+	char data[256];
 	if(Wifi_AssocStatus() == ASSOCSTATUS_ASSOCIATED) {
 		u32 addr = Wifi_GetIP();
 		PA_OutputText(MAIN_SCREEN, 0, line++, "Your IP is %d.%d.%d.%d", addr & 0xff, (addr >> 8) & 0xff, (addr >> 16) & 0xff, (addr >> 24) & 0xff);
 		PA_OutputText(MAIN_SCREEN, 0, line++, "Press Start to host");
 		PA_OutputText(MAIN_SCREEN, 0, line++, "Press Select to join");
 		while(!Pad.Newpress.Start && !Pad.Newpress.Select) {
+			PA_WaitForVBL();
 			if(Pad.Newpress.Start) {
 				PA_InitServer(&sock, 80, PA_NORMAL_TCP, 10);
 				accept(sock, NULL, NULL);
+				num = 0; // host
 			}
 			else if(Pad.Newpress.Select) {
 				PA_InitSocket(&sock, "www.google.com", 80, PA_NORMAL_TCP);
+				num = 1; // client
 			}
-			PA_WaitForVBL();
 		}
+
 		PA_OutputText(MAIN_SCREEN, 0, line++, "Press B to return to Main Menu");
+		PA_OutputText(MAIN_SCREEN, 0, line++, "Host press A to poke client");
 		while(!Pad.Newpress.B) {
+			if(num == 0) {
+				if(Pad.Newpress.A) {
+					strcpy(data, "POKE!");
+					send(sock, data, 256, 0);
+				}
+			}
+			else {
+				recv(sock, data, 256, 0);
+				PA_OutputText(MAIN_SCREEN, 0, line, "%s", data);
+			}
 			PA_WaitForVBL();
 		}
 	}
