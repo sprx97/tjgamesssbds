@@ -1584,60 +1584,42 @@ void extras() {
 void multiplayer() {
 	PA_InitText(MAIN_SCREEN, 0);
 	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);
+	int line = 0;
 
 	fadeIn();
 
-	int line = 0;
 	PA_InitWifi();
-	PA_OutputText(MAIN_SCREEN, 0, line++, "Wifi Init Successful"); PA_WaitForVBL();
-	if(PA_ConnectWifiWFC()) { PA_OutputText(MAIN_SCREEN, 0, line++, "WFC Connection Successful"); PA_WaitForVBL(); }
-	else { PA_OutputText(MAIN_SCREEN, 0, line++, "WFC Connection Failed"); PA_WaitForVBL(); }
+	PA_OutputText(MAIN_SCREEN, 0, line++, "Wifi Init Successful");
+	
+	if(PA_ConnectWifiWFC()) PA_OutputText(MAIN_SCREEN, 0, line++, "WFC Connection Successful");
+	else PA_OutputText(MAIN_SCREEN, 0, line++, "WFC Connection Failed");
 
-/*	Wifi_ScanMode();
-
-	int numap = 0;
-
-	while(numap == 0) {
-		numap = Wifi_GetNumAP();
-		PA_OutputText(MAIN_SCREEN, 0, line, "                                      ");
-		switch(Wifi_AssocStatus()) {
-			case ASSOCSTATUS_DISCONNECTED:
-				PA_OutputText(MAIN_SCREEN, 0, line, "ASSOCSTATUS_DISCONNECTED");
-				break;
-			case ASSOCSTATUS_SEARCHING:
-				PA_OutputText(MAIN_SCREEN, 0, line, "ASSOCSTATUS_SEARCHING");
-				break;
-			case ASSOCSTATUS_AUTHENTICATING:
-				PA_OutputText(MAIN_SCREEN, 0, line, "ASSOCSTATUS_AUTHENTICATING");
-				break;
-			case ASSOCSTATUS_ASSOCIATING:
-				PA_OutputText(MAIN_SCREEN, 0, line, "ASSOCSTATUS_ASSOCIATING");
-				break;
-			case ASSOCSTATUS_ACQUIRINGDHCP:
-				PA_OutputText(MAIN_SCREEN, 0, line, "ASSOCSTATUS_ACQUIRINGDHCP");
-				break;
-			case ASSOCSTATUS_ASSOCIATED:
-				PA_OutputText(MAIN_SCREEN, 0, line, "ASSOCSTATUS_ASSOCIATED");
-				break;
-			case ASSOCSTATUS_CANNOTCONNECT:
-				PA_OutputText(MAIN_SCREEN, 0, line, "ASSOCSTATUS_CANNOTCONNECT");
-				break;
+	int sock;
+	if(Wifi_AssocStatus() == ASSOCSTATUS_ASSOCIATED) {
+		u32 addr = Wifi_GetIP();
+		PA_OutputText(MAIN_SCREEN, 0, line++, "Your IP is %d.%d.%d.%d", addr & 0xff, (addr >> 8) & 0xff, (addr >> 16) & 0xff, (addr >> 24) & 0xff);
+		PA_OutputText(MAIN_SCREEN, 0, line++, "Press Start to host");
+		PA_OutputText(MAIN_SCREEN, 0, line++, "Press Select to join");
+		while(!Pad.Newpress.Start && !Pad.Newpress.Select) {
+			if(Pad.Newpress.Start) {
+				PA_InitServer(&sock, 80, PA_NORMAL_TCP, 10);
+				accept(sock, NULL, NULL);
+			}
+			else if(Pad.Newpress.Select) {
+				PA_InitSocket(&sock, "www.google.com", 80, PA_NORMAL_TCP);
+			}
+			PA_WaitForVBL();
 		}
-		PA_WaitForVBL();
+		PA_OutputText(MAIN_SCREEN, 0, line++, "Press B to return to Main Menu");
+		while(!Pad.Newpress.B) {
+			PA_WaitForVBL();
+		}
 	}
-	line++;
+	else {
+		PA_OutputText(MAIN_SCREEN, 0, line++, "Press B to Return to Main Menu");
+		while(!Pad.Newpress.B) PA_WaitForVBL();
+	}
 	
-	PA_OutputText(MAIN_SCREEN, 0, line++, "%d Access Points Found", numap);
-	Wifi_AccessPoint ap;
-	for(int n = 0; n < numap; n++) {
-		if(Wifi_GetAPData(n, &ap) == WIFI_RETURN_OK) PA_OutputText(MAIN_SCREEN, 1, line, "Connected to AP %d", n);
-		else PA_OutputText(MAIN_SCREEN, 1, line, "Couldn't connect to AP %d", n);
-		line++;
-	}*/
-	
-	PA_OutputText(MAIN_SCREEN, 0, line++, "Press B to Return to Main Menu"); PA_WaitForVBL();
-	
-	while(!Pad.Newpress.B) PA_WaitForVBL();
 	
 	Wifi_DisconnectAP(); 
 	Wifi_DisableWifi();
