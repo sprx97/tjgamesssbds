@@ -315,7 +315,7 @@ void setStage(int selStage) {
 		stage = CastleSiege();
 	} // loads castle siege if it was chosen
 	if (selStage == CORNERIA) {
-		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/backgrounds/corneria.gif");
+//		openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/backgrounds/corneria.gif");
 		PA_LoadPAGfxLargeBg(MAIN_SCREEN, 0, corneria);
 		stage = Corneria();
 	} // loads corneria if it was chosen
@@ -1582,9 +1582,51 @@ void extras() {
 } // extras menu, only credits for now
 
 void multiplayer() {
-	PA_InitWifi();
-	PA_ConnectWifiWFC();
+	PA_InitText(MAIN_SCREEN, 0);
+	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31);
 
+	int line = 0;
+	PA_OutputText(MAIN_SCREEN, 0, line++, "Starting Multiplayer");
+	PA_InitWifi();
+	PA_OutputText(MAIN_SCREEN, 0, line++, "Wifi Init Successful");
+	PA_WaitForVBL();
+	Wifi_ScanMode();
+	PA_OutputText(MAIN_SCREEN, 0, line++, "Press B to Return to Main Menu");
+
+	while(!Pad.Newpress.B) {
+		PA_OutputText(MAIN_SCREEN, 0, line, "%d Access Points Found", Wifi_GetNumAP());
+		PA_OutputText(MAIN_SCREEN, 0, line+1, "                                      ", Wifi_AssocStatus());
+		switch(Wifi_AssocStatus()) {
+			case ASSOCSTATUS_DISCONNECTED:
+				PA_OutputText(MAIN_SCREEN, 0, line+1, "ASSOCSTATUS_DISCONNECTED");
+				break;			
+			case ASSOCSTATUS_SEARCHING:
+				PA_OutputText(MAIN_SCREEN, 0, line+1, "ASSOCSTATUS_SEARCHING");
+				break;			
+			case ASSOCSTATUS_AUTHENTICATING:
+				PA_OutputText(MAIN_SCREEN, 0, line+1, "ASSOCSTATUS_AUTHENTICATING");
+				break;			
+			case ASSOCSTATUS_ASSOCIATING:
+				PA_OutputText(MAIN_SCREEN, 0, line+1, "ASSOCSTATUS_ASSOCIATING");
+				break;			
+			case ASSOCSTATUS_ACQUIRINGDHCP:
+				PA_OutputText(MAIN_SCREEN, 0, line+1, "ASSOCSTATUS_ACQUIRINGDHCP");
+				break;			
+			case ASSOCSTATUS_ASSOCIATED:
+				PA_OutputText(MAIN_SCREEN, 0, line+1, "ASSOCSTATUS_ASSOCIATED");
+				break;			
+			case ASSOCSTATUS_CANNOTCONNECT:
+				PA_OutputText(MAIN_SCREEN, 0, line+1, "ASSOCSTATUS_CANNOTCONNECT");
+				break;
+		}
+		PA_WaitForVBL();
+	}
+	line+=2;
+
+//	PA_ConnectWifiWFC()
+
+	PA_OutputText(MAIN_SCREEN, 0, line++, "Disabling Wifi");
+	
 	Wifi_DisconnectAP();
 	Wifi_DisableWifi();
 }
