@@ -1599,7 +1599,11 @@ void multiplayer() {
 	char data[256];
 	if(Wifi_AssocStatus() == ASSOCSTATUS_ASSOCIATED) {
 		u32 addr = Wifi_GetIP();
-		PA_OutputText(MAIN_SCREEN, 0, line++, "Your IP is %d.%d.%d.%d", addr & 0xff, (addr >> 8) & 0xff, (addr >> 16) & 0xff, (addr >> 24) & 0xff);
+		PA_OutputText(MAIN_SCREEN, 0, line++, "Your local IP: %d.%d.%d.%d", addr & 0xff, (addr >> 8) & 0xff, (addr >> 16) & 0xff, (addr >> 24) & 0xff);
+		char *buffer = (char*)malloc(256*256);
+		PA_GetHTTP(buffer,"http://dynupdate.no-ip.com/ip.php");
+		PA_OutputText(MAIN_SCREEN, 0, line++, "Your global IP: %s", buffer);
+		
 		PA_OutputText(MAIN_SCREEN, 0, line++, "Press Start to host");
 		PA_OutputText(MAIN_SCREEN, 0, line++, "Press Select to join");
 		while(!Pad.Newpress.Start && !Pad.Newpress.Select) {
