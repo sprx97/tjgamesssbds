@@ -1622,16 +1622,16 @@ void multiplayer() {
 		PA_OutputText(MAIN_SCREEN, 0, line++, "Press B to return to Main Menu");
 		PA_OutputText(MAIN_SCREEN, 0, line++, "Host press A to poke client");
 		while(!Pad.Newpress.B) {
-			if(num == 0) {
+			if(num == 1) {
 				if(Pad.Newpress.A) {
 					strcpy(data, "POKE!");
 					send(sock, data, 256, 0);
 				}
-			}
+			} // client sends a poke
 			else {
 				recv(sock, data, 256, 0);
 				PA_OutputText(MAIN_SCREEN, 0, line, "%s", data);
-			}
+			} // host receives a poke
 			PA_WaitForVBL();
 		}
 	}
