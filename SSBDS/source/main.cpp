@@ -1614,7 +1614,7 @@ void multiplayer() {
 				num = 0; // host
 			}
 			else if(Pad.Newpress.Select) {
-				PA_InitSocket(&sock, "www.google.com", 80, PA_NORMAL_TCP);
+				PA_InitSocket(&sock, "192.168.0.192", 50007, PA_NORMAL_TCP); // my laptop
 				num = 1; // client
 			}
 		}
