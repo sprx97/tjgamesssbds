@@ -7,4 +7,6 @@ conn, addr = s.accept()
 print 'Connected by', addr
 while 1:
 	data = conn.recv(256)
+	if not data: break
 	print 'Received', data
+s.close()
