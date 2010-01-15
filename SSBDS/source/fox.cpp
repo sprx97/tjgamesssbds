@@ -188,9 +188,13 @@ void Fox::bdown() {
 		else dy = 0;
 		setDirection();
 	}
+	else if (delay == 1 && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) >= startframes[CROUCH] && PA_GetSpriteAnimFrame(MAIN_SCREEN, SPRITENUM) <= endframes[CROUCH]) {
+		fall();
+	}
 	if (custom_action(ACTION_SPECIAL, PAD_RELEASED)) {
 		CAPE = false;
-		fall();
+		PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[CROUCH], endframes[CROUCH], framespeeds[CROUCH], ANIM_LOOP, -1);
+		delay = 10;
 	}
 }
 void Fox::bneut() {
