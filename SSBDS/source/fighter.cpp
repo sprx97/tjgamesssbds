@@ -222,7 +222,10 @@ void Fighter::cpu_obeyRules() {
 			landinglag--;
 			if (landinglag == 0) idle();
 		}
-		if (action == DODGE && delay <= 0) shield();
+		if (action == DODGE && delay <= 0) {
+			delay = 10;
+			land(); // hackish
+		}
 		if (action == AIRDODGE && delay <= 0) permafall();
 		if (action == ROLL && delay <= 0) {
 			dx = 0;
@@ -234,8 +237,9 @@ void Fighter::cpu_obeyRules() {
 				direction = LEFT;
 				PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 			}
-			shield();
-		}//done rolling
+			delay = 10;
+			land(); // hackish, but it works fine
+		} //done rolling
 		if (action == RELEASED || action == RELEASE) {
 			if (delay <= 0) idle();
 		}
@@ -822,7 +826,10 @@ void Fighter::act() {
 				fall();
 			}
 		}
-		if (action == DODGE && delay <= 0) shield();
+		if (action == DODGE && delay <= 0) {
+			delay = 10;
+			land();
+		}
 		if (action == AIRDODGE && delay <= 0) fall();
 		if (action == ROLL && delay <= 0) {
 			dx = 0;
@@ -834,7 +841,8 @@ void Fighter::act() {
 				direction = LEFT;
 				PA_SetSpriteHflip(MAIN_SCREEN, SPRITENUM, 1);
 			}
-			shield();
+			delay = 10;
+			land(); // hackish but works
 		}
 		if (action == RELEASE || action == RELEASED) {
 			if (delay <= 0) idle();
