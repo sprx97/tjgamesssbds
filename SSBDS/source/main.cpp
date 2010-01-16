@@ -716,7 +716,7 @@ bool characterSelect(bool train = false) {
 			} // move back on the cursors of people who are selected on the new page
 		}
 		if (Pad.Newpress.Start || Pad.Newpress.A) {
-			if (selections[0] != -1) {
+			if ((selections[0] != -1 && mode == MODE_TRAINING) || (selections[0] != -1 && (selections[1] != -1 || selections[2] != -1 || selections[3] != -1) && mode == MODE_VS)) {
 				PA_FatPlaySfx("confirm");
 				fadeOut();
 				PA_ResetSpriteSys();
