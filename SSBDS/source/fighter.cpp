@@ -802,7 +802,7 @@ void Fighter::act() {
 			else if(Pad.Newpress.Right && direction == RIGHT) {
 				y = y+hangy-bottomside;
 				myledge = -1;
-				x = x + hangx - leftside;
+				x = x + 64 - hangx - leftside;
 				idle();
 			}
 			else if(Pad.Newpress.Right && direction == LEFT) {
@@ -1148,7 +1148,7 @@ void Fighter::rollUp() {
 			roll(LEFT);
 		}
 		else {
-			x = x + hangx - leftside;
+			x = x + 64 - hangx - leftside;
 			roll(RIGHT);
 		}
 	}
@@ -1158,7 +1158,7 @@ void Fighter::attackUp() {
 		myledge = -1;
 		y = y + hangy - bottomside;
 		if (direction == LEFT) x = x + hangx - rightside;
-		else x = x + hangx - leftside;
+		else x = x + 64 - hangx - leftside;
 		ftilt();
 	}
 }
