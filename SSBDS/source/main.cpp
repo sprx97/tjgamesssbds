@@ -495,8 +495,8 @@ void initModes() {
 	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 5, "selection/modesright");
 	PA_FatLoadSprite(4, "selection/modesleft");
 	PA_FatLoadSprite(5, "selection/modesright");
-	PA_CreateSprite(MAIN_SCREEN, MAX_PLAYERS, (void*)sprite_gfx[4], OBJ_SIZE_64X32, COLOR256, 4, -64, 0);
-	PA_CreateSprite(MAIN_SCREEN, MAX_PLAYERS+1, (void*)sprite_gfx[5], OBJ_SIZE_64X32, COLOR256, 5, -64, 0);
+	PA_CreateSprite(MAIN_SCREEN, MAX_PLAYERS, (void*)sprite_gfx[4], OBJ_SIZE_64X32, COLOR256, 4, -64, 8);
+	PA_CreateSprite(MAIN_SCREEN, MAX_PLAYERS+1, (void*)sprite_gfx[5], OBJ_SIZE_64X32, COLOR256, 5, -64, 8);
 	mainx[MAX_PLAYERS] = 64;
 	mainx[MAX_PLAYERS+1] = 128;
 	PA_StartSpriteAnimEx(MAIN_SCREEN, MAX_PLAYERS, mode, mode, 1, ANIM_LOOP, -1);
