@@ -53,6 +53,12 @@ int stocklimit = 3;
 int sdcost = 1;
 // game settings
 
+#define MODE_VS 0
+#define MODE_TRAINING 1 // different from GAMEMODE_TRAINING
+#define MODE_TEAM 2 // not used, but still there
+#define MODE_MAX 1
+int mode = MODE_VS;
+
 vector<Fighter*> players;
 // stores all fighters for playing a match
 
@@ -450,7 +456,8 @@ int MAX_PAGE = (MAX_CHAR - 1) / 6;
 int page = 0;
 
 void setPreviewAnimation(int selectedcursor, int n) {
-	if(n == KIRBY) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 4, 5, ANIM_LOOP, -1);
+	if(n == -1) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 5, ANIM_LOOP, -1);
+	else if(n == KIRBY) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 1, 4, 5, ANIM_LOOP, -1);
 	else if(n == MEWTWO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 5, 10, 5, ANIM_LOOP, -1);
 	else if(n == MARIO) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 11, 14, 5, ANIM_LOOP, -1);
 	else if(n == IKE) PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 15, 21, 5, ANIM_LOOP, -1);
@@ -474,12 +481,25 @@ int checkselected(int page, int selectedcursor, int currentlyselected) {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, selectedcursor, 0, 0, 1, ANIM_LOOP, -1);
 	return -1;
 }
+void initModes() {
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 4, "selection/modesleft");
+	PA_FatEasyLoadSpritePal(MAIN_SCREEN, 5, "selection/modesright");
+	PA_FatLoadSprite(4, "selection/modesleft");
+	PA_FatLoadSprite(5, "selection/modesright");
+	PA_CreateSprite(MAIN_SCREEN, MAX_PLAYERS, (void*)sprite_gfx[4], OBJ_SIZE_64X32, COLOR256, 4, -64, 0);
+	PA_CreateSprite(MAIN_SCREEN, MAX_PLAYERS+1, (void*)sprite_gfx[5], OBJ_SIZE_64X32, COLOR256, 5, -64, 0);
+	mainx[MAX_PLAYERS] = 64;
+	mainx[MAX_PLAYERS+1] = 128;
+	PA_StartSpriteAnimEx(MAIN_SCREEN, MAX_PLAYERS, mode, mode, 1, ANIM_LOOP, -1);
+	PA_StartSpriteAnimEx(MAIN_SCREEN, MAX_PLAYERS+1, mode, mode, 1, ANIM_LOOP, -1);
+}
 void initCursors() {
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/cursors");
 	PA_FatLoadSprite(0, "selection/cursors");
 	for (int n = 0; n < MAX_PLAYERS; n++) {
 		PA_CreateSprite(SUB_SCREEN, n, (void*)sprite_gfx[0], OBJ_SIZE_32X32, COLOR256, 0, -64, 152);
-		subx[n] = (n+1) * 48 + 40;
+		if(mode != MODE_TRAINING) subx[n] = (n+1) * 48 + 40;
+		else subx[n] = -32;
 		PA_StartSpriteAnimEx(SUB_SCREEN, n, n, n, 1, ANIM_LOOP, -1);
 	} // only 2 players for now
 	for(int n = 0; n < MAX_PLAYERS; n++) {
@@ -539,6 +559,7 @@ bool characterSelect(bool train = false) {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
+	initModes();
 	initArrows();
 	initSelectTiles();
 	initPreviews();
@@ -720,6 +741,24 @@ bool characterSelect(bool train = false) {
 			PA_ResetSpriteSys();
 			PA_FatFreeSprBuffers();
 			return false;
+		}
+		if (Pad.Newpress.Select) {
+			mode++;
+			if(mode > MODE_MAX) mode = 0;
+			PA_StartSpriteAnimEx(MAIN_SCREEN, MAX_PLAYERS, mode, mode, 1, ANIM_LOOP, -1);
+			PA_StartSpriteAnimEx(MAIN_SCREEN, MAX_PLAYERS+1, mode, mode, 1, ANIM_LOOP, -1);
+			if(mode == MODE_VS) {
+				for(int n = 1; n < MAX_PLAYERS; n++) {
+					PA_SetSpriteXY(SUB_SCREEN, n, (n+1) * 48 + 40, 152);
+				} // adds all cursors back to screen
+			}
+			else if(mode == MODE_TRAINING) {
+				for(int n = 1; n < MAX_PLAYERS; n++) {
+					PA_SetSpriteXY(SUB_SCREEN, n, -32, -32);
+					selections[n] = -1;
+					setPreviewAnimation(n, selections[n]);
+				}
+			} // hides all non p1 cursors
 		}
 		PA_WaitForVBL();
 	}
