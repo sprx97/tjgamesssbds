@@ -1712,6 +1712,7 @@ void Fighter::smashAttack() {
 	if (touchy > 128 && touchx > 96 && touchx < 160) smashdown();
 }
 void Fighter::move() {
+	if (aerial && action == IDLE) fall(); // catches glitches, but shouldn't be necessessary
 	if (action == HANG) return;
 	else if (action == GRABBED) {}
 	else if (!aerial) {
