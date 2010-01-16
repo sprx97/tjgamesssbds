@@ -1584,7 +1584,7 @@ void extras() {
 		PA_WaitForVBL();
 		PA_WaitForVBL();
 	} // slowly brightens the screen to normal
-	for (int n = 2; n <= 12; n++) {
+	for (int n = 2; n <= 13; n++) {
 		for (int m = 0; m < 300; m++) {
 			if(Stylus.Newpress) break;
 			PA_WaitForVBL();
