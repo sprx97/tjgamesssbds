@@ -935,8 +935,8 @@ void Fighter::act() {
 		else if (shieldstr < 64) shieldstr += .1;
 		if (action == GRAB) {
 			if (delay <= 0) {
-				if (custom_action(ACTION_SHIELD, PAD_HELD)) shield();
-				else idle();
+				delay = 30;
+				land();
 			}
 		}
 		if (action == GRABATK) {
