@@ -402,7 +402,7 @@ void saveControls() {
 
 //Menu screens:
 // selecting char/stage
-void stageSelect() {
+bool stageSelect() {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
@@ -426,6 +426,7 @@ void stageSelect() {
 	AS_MP3StreamPlay("SSBDS_Files/music/select.mp3");
 	
 	PA_FatLoadSfx("confirm", "menu/confirm");
+	PA_FatLoadSfx("no", "menu/no");
 
 	fadeIn();
 
@@ -440,9 +441,17 @@ void stageSelect() {
 					PA_FatFreeSprite(30);
 					if(n == RANDOM_STAGE) selectedStage = PA_RandMinMax(1, MAX_STAGE-1);
 					else selectedStage = n; // sets selected stage, just like in characterSelect()
-					return;
+					return true;
 				}
 			}
+		}
+		if (Pad.Newpress.B) {
+			PA_FatPlaySfx("no");
+			fadeOut();
+			PA_ResetSpriteSysScreen(SUB_SCREEN);
+			PA_FatFreeSprite(31);
+			PA_FatFreeSprite(30);
+			return false;
 		}
 		PA_WaitForVBL();
 	}
@@ -1041,11 +1050,14 @@ bool Pause() {
 } // pauses the game
 // Game modes/logic
 bool match(int param) {
-	if (!characterSelect()) return false; // select characters; return to main if canceled
-	for (int n = 0; n < (int)players.size(); n++) {
-		players[n] -> players = players;
+	bool finished = false;
+	while(!finished) {
+		if (!characterSelect()) return false; // select characters; return to main if canceled
+		for (int n = 0; n < (int)players.size(); n++) {
+			players[n] -> players = players;
+		}
+		finished = stageSelect(); // select stage
 	}
-	stageSelect(); // select stage
 	
 	int time = 0;
 	int stock = 0;
