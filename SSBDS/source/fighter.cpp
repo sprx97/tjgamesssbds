@@ -1255,8 +1255,8 @@ void Fighter::run(int d) {
 void Fighter::shorthop() {
 	PA_StartSpriteAnimEx(MAIN_SCREEN, SPRITENUM, startframes[SHORTHOP], endframes[SHORTHOP], framespeeds[SHORTHOP], ANIM_LOOP, -1);
 	delay = 60 / framespeeds[SHORTHOP] * (endframes[SHORTHOP] - startframes[SHORTHOP] + 1);
-	double jumpspeed = jumpheight/delay;
-	dy = -jumpspeed / 2;
+	double jumpspeed = shorthopheight/delay;
+	dy = -jumpspeed;
 	fastfall = 0;
 	action = JUMP;
 	aerial = true;

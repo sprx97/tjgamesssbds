@@ -35,6 +35,7 @@ class Fighter {
 		double rollspeed;
 		bool iswalking;
 		bool jabagain;
+		double shorthopheight;
 		double jumpheight; ///< stores how high a fighter can jump off of the ground. Overwritten by subclasses
 		double doublejumpheight; ///< stores how high a fighter can jump from midair. Overwritten by subclasses
 		double w1;

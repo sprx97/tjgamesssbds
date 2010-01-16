@@ -10,6 +10,7 @@ using std:: vector;
 Pikachu::Pikachu(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "pikachu", AI) {
 	w1 = 0.904;
 	w2 = 0.40;
+	shorthopheight = 70;
 	jumpheight = 140;
 	doublejumpheight = 115;
 	shieldstr = 64;

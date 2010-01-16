@@ -10,6 +10,7 @@ using std::vector;
 Ike::Ike(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "ike", AI) {
 	w1 = 1.035;
 	w2 = 0.28;
+	shorthopheight = 50;
 	jumpheight = 100;
 	doublejumpheight = 90;
 	shieldstr = 64;

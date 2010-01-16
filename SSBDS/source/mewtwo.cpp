@@ -10,6 +10,7 @@ using std::vector;
 Mewtwo::Mewtwo(int num, vector<Fighter*> *listplayers, Display *disp, bool AI) : Fighter(num, listplayers, disp, "mewtwo", AI) {
 	w1 = 1.01; // same as lucario for now
 	w2 = -0.4; // same as lucario for now
+	shorthopheight = 70;
 	jumpheight = 140;
 	doublejumpheight = 112;
 	shieldstr = 64;
