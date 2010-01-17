@@ -406,9 +406,6 @@ bool stageSelect() {
 	openGif(SUB_SCREEN, "/SSBDS_Files/gifs/default.gif");
 	openGif(MAIN_SCREEN, "/SSBDS_Files/gifs/default.gif");
 
-	PA_InitText(MAIN_SCREEN, 0); // inits text on main screen
-	PA_SetTextCol(MAIN_SCREEN, 31, 31, 31); // text color = white
-
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 0, "selection/stageselleft");
 	PA_FatEasyLoadSpritePal(SUB_SCREEN, 1, "selection/stageselright");
 	PA_FatLoadSprite(31, "selection/stageselleft");
