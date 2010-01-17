@@ -800,9 +800,18 @@ void Fighter::act() {
 				fall();
 			}
 			else if(Pad.Newpress.Right && direction == RIGHT) {
-				y = y+hangy-bottomside;
 				myledge = -1;
-				x = x + 64 - hangx - leftside;
+				x = x + 80 - hangx - leftside;
+				vector<Floor> floors = stage->getFloors();
+				for (uint8 n = 0; n < floors.size(); n++) {
+					Floor currfloor = floors[n];
+					double centerx = x + rightside/2.0;
+					double slope = currfloor.rise*1.0/currfloor.length;
+					double rise = (centerx-currfloor.x)*slope;
+					if(centerx > currfloor.x && centerx < currfloor.x + currfloor.length) {
+						y = currfloor.y - bottomside - rise;
+					}
+				}
 				idle();
 			}
 			else if(Pad.Newpress.Right && direction == LEFT) {
@@ -1142,13 +1151,26 @@ void Fighter::tech() {
 void Fighter::rollUp() {
 	if (action == HANG) {
 		myledge = -1;
-		y = y + hangy - bottomside;
 		if (direction == LEFT) {
 			x = x + hangx - rightside;
+		}
+		else {
+			x = x + 80 - hangx - leftside;
+		}
+		vector<Floor> floors = stage->getFloors();
+		for (uint8 n = 0; n < floors.size(); n++) {
+			Floor currfloor = floors[n];
+			double centerx = x + rightside/2.0;
+			double slope = currfloor.rise*1.0/currfloor.length;
+			double rise = (centerx-currfloor.x)*slope;
+			if(centerx > currfloor.x && centerx < currfloor.x + currfloor.length) {
+				y = currfloor.y - bottomside - rise;
+			}
+		}
+		if(direction == LEFT) {
 			roll(LEFT);
 		}
 		else {
-			x = x + 64 - hangx - leftside;
 			roll(RIGHT);
 		}
 	}
@@ -1156,9 +1178,18 @@ void Fighter::rollUp() {
 void Fighter::attackUp() {
 	if (action == HANG) {
 		myledge = -1;
-		y = y + hangy - bottomside;
 		if (direction == LEFT) x = x + hangx - rightside;
-		else x = x + 64 - hangx - leftside;
+		else x = x + 80 - hangx - leftside;
+		vector<Floor> floors = stage->getFloors();
+		for (uint8 n = 0; n < floors.size(); n++) {
+			Floor currfloor = floors[n];
+			double centerx = x + rightside/2.0;
+			double slope = currfloor.rise*1.0/currfloor.length;
+			double rise = (centerx-currfloor.x)*slope;
+			if(centerx > currfloor.x && centerx < currfloor.x + currfloor.length) {
+				y = currfloor.y - bottomside - rise;
+			}
+		}
 		ftilt();
 	}
 }
