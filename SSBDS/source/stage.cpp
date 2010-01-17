@@ -29,11 +29,12 @@ Ceiling::Ceiling(int xpos, int ypos, int l) {
 } // creates a new ceiling
 
 //wall methods:
-Wall::Wall(int xpos, int ypos, int l, string d) {
+Wall::Wall(int xpos, int ypos, int l, int r, string d) {
 	x = xpos;
 	y = ypos;
 	length = l;
 	direction = d;
+	run = r;
 } // creates a new wall
 
 

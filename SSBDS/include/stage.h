@@ -36,8 +36,9 @@ class Wall {
 	public:
 		int x, y; // x and y position of the wall
 		int length; ///< how long the wall is
+		int run; ///< total run of wall
 		string direction; ///< what direction it is facing
-		Wall(int xpos, int ypos, int l, string d); ///< creates a new wall
+		Wall(int xpos, int ypos, int l, int r, string d); ///< creates a new wall
 };
 
 /// A collection of Floors, Walls, Ceilings, and Ledges along with some miscelaneous data make up a Stage

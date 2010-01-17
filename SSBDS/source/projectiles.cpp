@@ -130,7 +130,7 @@ Wall Projectile::checkWallCollision(int deltax, int deltay) {
 			}		
 		}
 	}
-	return Wall(0, 0, 0, "");
+	return Wall(0, 0, 0, 0, "");
 }
 Ceiling Projectile::checkCeilingCollision(int deltax, int deltay) {
 	for(int n = 0; n < (int)((mystage -> getCeilings()).size()); n++) {
