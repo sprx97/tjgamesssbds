@@ -1943,7 +1943,7 @@ bool Fighter::checkLedgeCollision() {
 	return false;
 }
 int Fighter::onFloor() {
-	double centerx = x + (rightside+leftside)/2.0;
+	double centerx = x + rightside/2.0;
 	double bottomy = y + bottomside;
 	vector<Floor> floors = stage->getFloors();
 	for(uint8 n = 0; n < floors.size(); n++) {
@@ -1959,10 +1959,10 @@ bool Fighter::checkFloorCollision() {
  	vector<Floor> floors = stage->getFloors();
 	for (uint8 n = 0; n < floors.size(); n++) {
 		Floor currfloor = floors[n];
-		double centerx = x + (rightside+leftside)/2.0;
+		double centerx = x + rightside/2.0;
 		double bottomy = y + bottomside;
 		double lastbottomy = lasty + bottomside;
-		double lastcenterx = lastx + (rightside+leftside)/2.0;
+		double lastcenterx = lastx + rightside/2.0;
 		double slope = currfloor.rise*1.0/currfloor.length;
 		double rise = (centerx-currfloor.x)*slope;
 		double lastrise = (lastx + rightside/2.0 -currfloor.x)*slope;
