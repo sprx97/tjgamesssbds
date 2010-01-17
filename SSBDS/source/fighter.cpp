@@ -2022,16 +2022,20 @@ bool Fighter::checkWallCollision() {
 	vector<Wall> walls = stage->getWalls();
 	for (uint8 n = 0; n < walls.size(); n++) {
 		Wall currwall = walls[n];
+		double centery = y + (bottomside+topside)/2.0;
+		double slope = 0.0;
+		if(currwall.run != 0) slope = currwall.run*1.0/currwall.length;
+		double run = (centery-currwall.y)*slope;
 		if (currwall.direction == "left") {
-			if (x + rightside <= currwall.x && x + rightside + DI + dx > currwall.x && y + bottomside > currwall.y && y + topside < currwall.y + currwall.length) {
-				x = currwall.x - rightside;
+			if (x + rightside <= currwall.x + run && x + rightside + DI + dx > currwall.x + run && y + bottomside > currwall.y && y + topside < currwall.y + currwall.length) {
+				x = currwall.x + run - rightside;
 				dx = DI = 0;
 				return true;
 			}
 		}
 		else {
-			if (x + leftside >= currwall.x && x + leftside + DI + dx < currwall.x && y + bottomside > currwall.y && y + topside < currwall.y + currwall.length) {
-				x = currwall.x - leftside;
+			if (x + leftside >= currwall.x + run && x + leftside + DI + dx < currwall.x + run && y + bottomside > currwall.y && y + topside < currwall.y + currwall.length) {
+				x = currwall.x + run - leftside;
 				dx = DI = 0;
 				return true;
 			}
